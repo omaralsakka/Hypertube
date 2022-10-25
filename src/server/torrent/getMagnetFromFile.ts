@@ -1,8 +1,9 @@
 import fs from 'fs';
 import crypto from 'crypto';
 import bencode from 'bencode';
+import { downloadTorrent } from './downloadTorrent';
 
-export const createMagnet = (filepath: string): String => {
+export const createMagnet = (filepath: string): string => {
 	const torrentData = bencode.decode(fs.readFileSync(filepath));
 
 	const infoHash: string = crypto.createHash('sha1').update(bencode.encode(torrentData.info)).digest('hex');
@@ -20,4 +21,4 @@ export const createMagnet = (filepath: string): String => {
 
 /* some sort of ERROR handling might be have to implemented to prevent crashing or returning invalid magnet-link URL */
 
-console.log(createMagnet('test.torrent'));
+downloadTorrent(createMagnet('test.torrent')); // this is only for testing. It will be removed later.
