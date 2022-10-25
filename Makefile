@@ -39,10 +39,10 @@ install-production:
 	docker-compose run --rm app "npm install --omit=dev"
 
 goto-app:
-	docker-compose exec app sh
+	docker-compose exec app /bin/bash
 
 goto-db:
-	docker-compose exec db sh
+	docker-compose exec db /bin/bash
 
 logs:
 	docker-compose logs -f
