@@ -2,7 +2,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import bencode from 'bencode';
 
-export const createMagnet = (filepath: string) => {
+export const createMagnet = (filepath: string): String => {
 	const torrentData = bencode.decode(fs.readFileSync(filepath));
 
 	const infoHash: string = crypto.createHash('sha1').update(bencode.encode(torrentData.info)).digest('hex');
