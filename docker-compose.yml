@@ -1,28 +1,30 @@
-version: "3.9"
+version: '3.9'
 services:
   app:
     container_name: 'hypertube_app'
     image: node
     volumes:
-      - "./:/app"
-    working_dir: "/app"
-    entrypoint: "/bin/bash -c"
+      - './:/app'
+    working_dir: '/app'
+    entrypoint: '/bin/bash -c'
     command:
-      - "npm run dev"
+      - 'npm run dev'
     ports:
-      - "3000:3000"
+      - '3000:3000'
   db:
     container_name: 'hypertube_db'
     image: postgres
     restart: always
+    ports:
+      - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
     secrets:
       - db_password
     environment:
-        POSTGRES_USER: root
-        POSTGRES_DB: hypertube
-        POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_USER: root
+      POSTGRES_DB: hypertube
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
 
   adminer:
     image: adminer
@@ -31,17 +33,16 @@ services:
       - 8080:8080
 secrets:
   db_password:
-      file: ./config/secrets/db_password.secret
+    file: ./config/secrets/db_password.secret
   server_token:
-      file: ./config/secrets/server_token.secret
+    file: ./config/secrets/server_token.secret
   refresh_token:
-      file: ./config/secrets/refresh_token.secret
+    file: ./config/secrets/refresh_token.secret
   email_password:
-      file: ./config/secrets/email_password.secret
+    file: ./config/secrets/email_password.secret
 volumes:
   db-data:
-      name: hypertube-data
-
+    name: hypertube-data
 # Create secrets with:
 # printf "%s" "$(openssl rand -base64 20)" > db_password.secret
 # printf "%s" "$(openssl rand -base64 10)" > server_token.secret
