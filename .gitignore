@@ -32,9 +32,15 @@ yarn-error.log*
 # local env files
 .env
 .env*.local
+.env
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+
+#package files
+package-lock.json
+
+/config/secrets
