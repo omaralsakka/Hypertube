@@ -42,3 +42,5 @@ yarn-error.log*
 
 #package files
 package-lock.json
+
+/config/secrets
