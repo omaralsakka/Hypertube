@@ -19,6 +19,7 @@
 		"@trpc/next": "10.0.0-proxy-beta.17",
 		"@trpc/react": "10.0.0-proxy-beta.17",
 		"@trpc/server": "10.0.0-proxy-beta.17",
+		"@types/react-redux": "^7.1.24",
 		"bootstrap": "^5.2.2",
 		"i18next": "^22.0.2",
 		"i18next-browser-languagedetector": "^6.1.8",

@@ -32,6 +32,7 @@ yarn-error.log*
 # local env files
 # .env
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -41,3 +42,5 @@ yarn-error.log*
 
 #package files
 package-lock.json
+
+/config/secrets
