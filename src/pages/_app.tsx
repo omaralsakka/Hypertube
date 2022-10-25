@@ -7,13 +7,20 @@ import type { AppType } from 'next/app';
 import { trpc } from '../utils/trpc';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { Provider } from 'react-redux';
+import store from '../store/store';
+import LanguageProvider from '../LanguageProvider';
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
 	pageProps: { session, ...pageProps },
 }) => {
 	return (
 		<SessionProvider session={session}>
-			<Component {...pageProps} />
+			<Provider store={store}>
+				<LanguageProvider>
+					<Component {...pageProps} />
+				</LanguageProvider>
+			</Provider>
 		</SessionProvider>
 	);
 };
