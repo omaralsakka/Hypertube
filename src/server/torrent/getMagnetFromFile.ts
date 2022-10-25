@@ -18,4 +18,6 @@ export const createMagnet = (filepath: string): String => {
 	return uri;
 };
 
+/* some sort of ERROR handling might be have to implemented to prevent crashing or returning invalid magnet-link URL */
+
 console.log(createMagnet('test.torrent'));
