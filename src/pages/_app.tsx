@@ -8,12 +8,15 @@ import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import type { AppType } from 'next/app';
 import { trpc } from '../utils/trpc';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+// NOTE: keep this commented out for now!
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Provider } from 'react-redux';
 import store from '../store/store';
 import LanguageProvider from '../LanguageProvider';
 import Head from 'next/head';
+import Layout from '../components/layout';
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
@@ -31,7 +34,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 			</Head>
 			<Provider store={store}>
 				<LanguageProvider>
-					<Component {...pageProps} />
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
 				</LanguageProvider>
 			</Provider>
 		</SessionProvider>

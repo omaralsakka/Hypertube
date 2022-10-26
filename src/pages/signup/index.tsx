@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -11,20 +11,42 @@ import {
 	MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
+import UseField from '../../components/usefield';
+import Link from 'next/link';
 
 const Signup = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
+	const [disabledButton, setDisabledButton] = useState(true);
+	const [consent, setConsent] = useState(false);
+	const userName = UseField('text');
+	const userEmail = UseField('email');
+	const userPassword = UseField('password');
+	useEffect(() => {
+		if (consent) {
+			if (
+				userName.value.length &&
+				userEmail.value.length &&
+				userPassword.value.length
+			) {
+				setDisabledButton(false);
+			} else {
+				setDisabledButton(true);
+			}
+		} else {
+			setDisabledButton(true);
+		}
+	}, [consent, userName.value, userEmail.value, userPassword.value]);
 
 	return (
 		<MDBContainer className="p-5">
-			<MDBContainer className="w-75">
+			<MDBContainer className="w-100">
 				<MDBCard
-					className="text-black m-5 shadow-lg border-0"
+					className="text-black m-5 shadow-lg border-0 p-3 bg-0 bg-transparent glass-background"
 					style={{ borderRadius: '25px' }}
 				>
 					<MDBCardBody>
-						<MDBRow>
+						<MDBRow style={{ minHeight: '50vh' }}>
 							<MDBCol
 								md="10"
 								lg="6"
@@ -39,19 +61,24 @@ const Signup = () => {
 									<MDBInput
 										label="Your Name"
 										id="form1"
-										type="text"
 										className="w-100"
+										{...userName}
 									/>
 								</div>
 
 								<div className="d-flex flex-row align-items-center mb-4">
 									<MDBIcon fas icon="envelope me-3" size="lg" />
-									<MDBInput label="Your Email" id="form2" type="email" />
+									<MDBInput label="Your Email" id="form2" {...userEmail} />
 								</div>
 
 								<div className="d-flex flex-row align-items-center mb-4">
 									<MDBIcon fas icon="lock me-3" size="lg" />
-									<MDBInput label="Password" id="form3" type={passType} />
+									<MDBInput
+										label="Password"
+										id="form3"
+										{...userPassword}
+										type={passType}
+									/>
 								</div>
 
 								<div className="mb-4">
@@ -72,16 +99,26 @@ const Signup = () => {
 										value=""
 										id="flexCheckDefault"
 										label="Agree to our terms and conditions"
+										onClick={() =>
+											consent ? setConsent(false) : setConsent(true)
+										}
 									/>
 								</div>
-
-								<button
-									type="button"
-									className="btn btn-outline-danger btn-rounded btn-lg"
-									data-mdb-ripple-color="dark"
-								>
-									Register
-								</button>
+								<div className="mb-4" style={{ minHeight: '5vh' }}>
+									<button
+										type="button"
+										className="btn btn-outline-danger btn-rounded btn-lg"
+										data-mdb-ripple-color="dark"
+										disabled={disabledButton}
+									>
+										Register
+									</button>
+								</div>
+								<div>
+									<p className="text-muted">
+										Have an account? <Link href="/login">login</Link>
+									</p>
+								</div>
 							</MDBCol>
 							<MDBCol
 								md="10"

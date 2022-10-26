@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -8,23 +8,35 @@ import {
 	MDBCardImage,
 	MDBInput,
 	MDBIcon,
-	MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
+import UseField from '../../components/usefield';
+import Link from 'next/link';
 
 const Login = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
+	const [disabledButton, setDisabledButton] = useState(true);
+	const userEmail = UseField('email');
+	const userPassword = UseField('password');
+
+	useEffect(() => {
+		if (userEmail.value.length && userPassword.value.length) {
+			setDisabledButton(false);
+		} else {
+			setDisabledButton(true);
+		}
+	}, [userEmail.value, userPassword.value]);
 
 	return (
 		<MDBContainer className="p-5">
-			<MDBContainer className="w-75">
+			<MDBContainer className="w-100">
 				<MDBCard
-					className="text-black m-5 shadow-lg border-0"
+					className="text-black m-5 shadow-lg border-0 p-3 bg-0 bg-transparent glass-background"
 					style={{ borderRadius: '25px' }}
 				>
 					<MDBCardBody>
-						<MDBRow>
+						<MDBRow style={{ minHeight: '50vh' }}>
 							<MDBCol
 								md="10"
 								lg="6"
@@ -36,12 +48,17 @@ const Login = () => {
 
 								<div className="d-flex flex-row align-items-center mb-4">
 									<MDBIcon fas icon="envelope me-3" size="lg" />
-									<MDBInput label="Your Email" id="form2" type="email" />
+									<MDBInput label="Your Email" id="form2" {...userEmail} />
 								</div>
 
 								<div className="d-flex flex-row align-items-center mb-4">
 									<MDBIcon fas icon="lock me-3" size="lg" />
-									<MDBInput label="Password" id="form3" type={passType} />
+									<MDBInput
+										label="Password"
+										id="form3"
+										{...userPassword}
+										type={passType}
+									/>
 								</div>
 
 								<div className="mb-4">
@@ -56,22 +73,21 @@ const Login = () => {
 									/>
 								</div>
 
-								<div className="mb-4">
-									<MDBCheckbox
-										name="flexCheck"
-										value=""
-										id="flexCheckDefault"
-										label="Agree to our terms and conditions"
-									/>
+								<div className="mb-4" style={{ minHeight: '5vh' }}>
+									<button
+										type="button"
+										className="btn btn-outline-danger btn-rounded btn-lg"
+										data-mdb-ripple-color="dark"
+										disabled={disabledButton}
+									>
+										Login
+									</button>
 								</div>
-
-								<button
-									type="button"
-									className="btn btn-outline-danger btn-rounded btn-lg"
-									data-mdb-ripple-color="dark"
-								>
-									Register
-								</button>
+								<div>
+									<p className="text-muted">
+										New to Hypertube? <Link href="/signup">signup</Link>
+									</p>
+								</div>
 							</MDBCol>
 							<MDBCol
 								md="10"
