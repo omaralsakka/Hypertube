@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -10,9 +10,9 @@ import {
 	MDBIcon,
 } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
-import UseField from '../../components/usefield';
+// import UseField from '../../components/usefield';
 import Link from 'next/link';
-import { useForm, SubmitHandler, watch } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
@@ -26,8 +26,8 @@ const Login = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
 	const [disabledButton, setDisabledButton] = useState(true);
-	const userEmail = UseField('email');
-	const userPassword = UseField('password');
+	// const userEmail = UseField('email');
+	// const userPassword = UseField('password');
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -65,27 +65,40 @@ const Login = () => {
 									Login
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3" controlId="formBasicEmail">
+									<Form.Group
+										className="mb-3 d-flex flex-column align-items-center justify-content-center"
+										controlId="formBasicEmail"
+									>
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
-											<Form.Control
-												type="email"
-												{...register('email')}
-												// {...userEmail}
-												aria-invalid={errors.email ? 'true' : 'false'}
-											/>
+											<span className="has-float-label">
+												<Form.Control
+													id="loginEmail"
+													type="email"
+													placeholder=" "
+													{...register('email')}
+													// {...userEmail}
+													aria-invalid={errors.email ? 'true' : 'false'}
+												/>
+												<label htmlFor="loginEmail">Email</label>
+											</span>
 										</div>
 										{errors.email?.message && (
 											<p>{errors.email?.message as string}</p>
 										)}
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="lock me-3" size="lg" />
-											<Form.Control
-												type={passType}
-												{...register('password')}
-												aria-invalid={errors.password ? 'true' : 'false'}
-												// {...userPassword}
-											/>
+											<span className="has-float-label">
+												<Form.Control
+													id="loginPassword"
+													type={passType}
+													placeholder=" "
+													{...register('password')}
+													aria-invalid={errors.password ? 'true' : 'false'}
+													// {...userPassword}
+												/>
+												<label htmlFor="loginPassword">Password</label>
+											</span>
 										</div>
 										{errors.password?.message && (
 											<p>{errors.password?.message as string}</p>

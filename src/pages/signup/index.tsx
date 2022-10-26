@@ -83,23 +83,47 @@ const Signup = () => {
 									Sign up
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3" controlId="register">
+									<Form.Group
+										className="mb-3 d-flex flex-column align-items-center justify-content-center"
+										controlId="register"
+									>
 										<div className="d-flex flex-row align-items-center mb-4 ">
 											<MDBIcon fas icon="user me-3" size="lg" />
-											<Form.Control {...register('userName')} />
+											<span className="has-float-label">
+												<Form.Control
+													id="signupName"
+													type="text"
+													placeholder=" "
+													{...register('userName')}
+												/>
+												<label htmlFor="signupName">Name</label>
+											</span>
 										</div>
 
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
-											<Form.Control {...register('userEmail')} />
+											<span className="has-float-label">
+												<Form.Control
+													id="signupEmail"
+													type="email"
+													placeholder=" "
+													{...register('userEmail')}
+												/>
+												<label htmlFor="signupEmail">Email</label>
+											</span>
 										</div>
 
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="lock me-3" size="lg" />
-											<Form.Control
-												type={passType}
-												{...register('userPassword')}
-											/>
+											<span className="has-float-label">
+												<Form.Control
+													id="signupPassword"
+													type={passType}
+													placeholder=" "
+													{...register('userPassword')}
+												/>
+												<label htmlFor="signupPassword">Password</label>
+											</span>
 										</div>
 
 										<div className="mb-4">
