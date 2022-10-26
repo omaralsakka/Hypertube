@@ -12,7 +12,7 @@ import {
 import { FormCheck } from 'react-bootstrap';
 import UseField from '../../components/usefield';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, watch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
@@ -37,21 +37,16 @@ const Login = () => {
 	});
 
 	const {
+		watch,
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
+		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
-
-	useEffect(() => {
-		if (userEmail.value.length && userPassword.value.length) {
-			setDisabledButton(false);
-		} else {
-			setDisabledButton(false); // true
-		}
-	}, [userEmail.value, userPassword.value]);
-
+	console.log(watch());
+	console.log(isDirty && isValid);
 	return (
 		<MDBContainer className="p-5">
 			<MDBContainer className="w-100">
@@ -77,24 +72,24 @@ const Login = () => {
 												type="email"
 												{...register('email')}
 												// {...userEmail}
+												aria-invalid={errors.email ? 'true' : 'false'}
 											/>
-											{errors.email?.message && (
-												<p>{errors.email?.message as string}</p>
-											)}
 										</div>
-
+										{errors.email?.message && (
+											<p>{errors.email?.message as string}</p>
+										)}
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="lock me-3" size="lg" />
 											<Form.Control
 												type={passType}
 												{...register('password')}
+												aria-invalid={errors.password ? 'true' : 'false'}
 												// {...userPassword}
 											/>
-											{errors.password?.message && (
-												<p>{errors.password?.message as string}</p>
-											)}
 										</div>
-
+										{errors.password?.message && (
+											<p>{errors.password?.message as string}</p>
+										)}
 										<div className="mb-4">
 											<FormCheck
 												type="checkbox"
@@ -112,7 +107,7 @@ const Login = () => {
 												type="submit"
 												className="btn btn-outline-danger btn-rounded btn-lg"
 												data-mdb-ripple-color="dark"
-												// disabled={disabledButton}
+												disabled={!isValid || !isDirty}
 											>
 												Login
 											</button>
