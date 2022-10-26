@@ -1,7 +1,9 @@
 import './i18nextConf';
 import type { NextPage } from 'next';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
