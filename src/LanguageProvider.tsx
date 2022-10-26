@@ -1,15 +1,19 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Store } from './store/types';
+import { LanguageState, UserState } from './store/types';
 import LangContext, { langs } from './langContext';
 
-const LanguageProvider = ({ children }: { children: ReactNode }) => {
-	const userStateLanguage = useSelector((state: Store) => state.Language);
+interface ReducersSelector {
+	languageReducer: string;
+	userReducer: string;
+}
 
+const LanguageProvider = ({ children }: { children: ReactNode }) => {
+	const languageReducer = useSelector(
+		(state: ReducersSelector) => state.languageReducer
+	);
 	return (
-		<LangContext.Provider
-			value={langs[userStateLanguage as keyof typeof langs]}
-		>
+		<LangContext.Provider value={langs[languageReducer as keyof typeof langs]}>
 			{children}
 		</LangContext.Provider>
 	);
