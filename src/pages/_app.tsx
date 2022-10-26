@@ -31,6 +31,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
 					href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
 					rel="stylesheet"
 				/>
+				<link
+					rel="stylesheet"
+					href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"
+				/>
 			</Head>
 			<Provider store={store}>
 				<LanguageProvider>

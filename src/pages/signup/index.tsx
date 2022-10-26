@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -6,7 +6,6 @@ import {
 	MDBCard,
 	MDBCardBody,
 	MDBCardImage,
-	MDBInput,
 	MDBIcon,
 	MDBCheckbox,
 } from 'mdb-react-ui-kit';
@@ -28,11 +27,11 @@ type Inputs = {
 const Signup = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-	const [disabledButton, setDisabledButton] = useState(true);
+	// const [disabledButton, setDisabledButton] = useState(true);
 	const [consent, setConsent] = useState(false);
-	const userName = UseField('text');
-	const userEmail = UseField('email');
-	const userPassword = UseField('password');
+	// const userName = UseField('text');
+	// const userEmail = UseField('email');
+	// const userPassword = UseField('password');
 
 	const schema = z.object({
 		userName: z.string().min(1, { message: 'Required' }),
@@ -98,23 +97,47 @@ const Signup = () => {
 									Sign up
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3" controlId="register">
+									<Form.Group
+										className="mb-3 d-flex flex-column align-items-center justify-content-center"
+										controlId="register"
+									>
 										<div className="d-flex flex-row align-items-center mb-4 ">
 											<MDBIcon fas icon="user me-3" size="lg" />
-											<Form.Control {...register('userName')} />
+											<span className="has-float-label">
+												<Form.Control
+													id="signupName"
+													type="text"
+													placeholder=" "
+													{...register('userName')}
+												/>
+												<label htmlFor="signupName">Name</label>
+											</span>
 										</div>
 
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
-											<Form.Control {...register('userEmail')} />
+											<span className="has-float-label">
+												<Form.Control
+													id="signupEmail"
+													type="email"
+													placeholder=" "
+													{...register('userEmail')}
+												/>
+												<label htmlFor="signupEmail">Email</label>
+											</span>
 										</div>
 
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="lock me-3" size="lg" />
-											<Form.Control
-												type={passType}
-												{...register('userPassword')}
-											/>
+											<span className="has-float-label">
+												<Form.Control
+													id="signupPassword"
+													type={passType}
+													placeholder=" "
+													{...register('userPassword')}
+												/>
+												<label htmlFor="signupPassword">Password</label>
+											</span>
 										</div>
 
 										<div className="mb-4">
