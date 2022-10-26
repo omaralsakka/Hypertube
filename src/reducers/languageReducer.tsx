@@ -1,28 +1,31 @@
-import { SET_LANGUAGE } from '../store/actions';
+const TestReducer = () => {};
 
-const initialState = {
-	useLanguage: '',
-};
+export default TestReducer;
+// import { SET_LANGUAGE } from '../store/actions';
 
-const languageReducer = (
-	state = initialState,
-	action: { type: any; payload: any }
-) => {
-	const { type, payload } = action;
-	switch (type) {
-		case SET_LANGUAGE:
-			return {
-				...state,
-				useLanguage: payload,
-			};
-	}
-};
+// const initialState = {
+// 	useLanguage: '',
+// };
 
-export const setLanguageAction = (selectedLanguage: string) => {
-	return {
-		type: SET_LANGUAGE,
-		payload: selectedLanguage,
-	};
-};
+// const languageReducer = (
+// 	state = initialState,
+// 	action: { type: any; payload: any }
+// ) => {
+// 	const { type, payload } = action;
+// 	switch (type) {
+// 		case SET_LANGUAGE:
+// 			return {
+// 				...state,
+// 				useLanguage: payload,
+// 			};
+// 	}
+// };
 
-export default languageReducer;
+// export const setLanguageAction = (selectedLanguage: string) => {
+// 	return {
+// 		type: SET_LANGUAGE,
+// 		payload: selectedLanguage,
+// 	};
+// };
+
+// export default languageReducer;
