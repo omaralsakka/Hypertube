@@ -20,7 +20,10 @@ const Register: NextPage = () => {
 
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
-		email: z.string().min(1, { message: 'Required' }),
+		email: z
+			.string()
+			.email()
+			.min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
 	});
 

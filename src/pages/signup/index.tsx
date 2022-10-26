@@ -165,7 +165,7 @@ const Signup = () => {
 										</div>
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
-												type="button"
+												type="submit"
 												className="btn btn-outline-danger btn-rounded btn-lg"
 												data-mdb-ripple-color="dark"
 												disabled={!isValid || !isDirty || mutation.isLoading}
@@ -176,6 +176,7 @@ const Signup = () => {
 									</Form.Group>
 								</Form>
 								{mutation.isError && <p>{mutation.error.message}</p>}
+								{mutation.isSuccess && <p>User created</p>}
 								<div>
 									<p className="text-muted">
 										Have an account? <Link href="/login">login</Link>

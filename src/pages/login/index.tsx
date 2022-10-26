@@ -15,6 +15,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
+import { signIn, getSession } from "next-auth/react";
+import { providers } from "../api/auth/[...nextauth]"
 
 type Inputs = {
 	email: string;
