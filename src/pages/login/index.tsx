@@ -70,60 +70,59 @@ const Login = () => {
 									Login
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<div className="d-flex flex-row align-items-center mb-4">
-										<MDBIcon fas icon="envelope me-3" size="lg" />
-										<MDBInput
-											label="Your Email"
-											id="form2"
-											{...register('email')}
-											// {...userEmail}
-										/>
-										{errors.email?.message && (
-											<p>{errors.email?.message as string}</p>
-										)}
-									</div>
+									<Form.Group className="mb-3" controlId="formBasicEmail">
+										<div className="d-flex flex-row align-items-center mb-4">
+											<MDBIcon fas icon="envelope me-3" size="lg" />
+											<Form.Control
+												type="email"
+												{...register('email')}
+												// {...userEmail}
+											/>
+											{errors.email?.message && (
+												<p>{errors.email?.message as string}</p>
+											)}
+										</div>
 
-									<div className="d-flex flex-row align-items-center mb-4">
-										<MDBIcon fas icon="lock me-3" size="lg" />
-										<MDBInput
-											label="Password"
-											id="form3"
-											{...register('password')}
-											// {...userPassword}
-											type={passType}
-										/>
-										{errors.password?.message && (
-											<p>{errors.password?.message as string}</p>
-										)}
-									</div>
+										<div className="d-flex flex-row align-items-center mb-4">
+											<MDBIcon fas icon="lock me-3" size="lg" />
+											<Form.Control
+												type={passType}
+												{...register('password')}
+												// {...userPassword}
+											/>
+											{errors.password?.message && (
+												<p>{errors.password?.message as string}</p>
+											)}
+										</div>
 
-									<div className="mb-4">
-										<FormCheck
-											type="checkbox"
-											label="show password"
-											onClick={() =>
-												passType === 'password'
-													? setPassType('text')
-													: setPassType('password')
-											}
-										/>
-									</div>
+										<div className="mb-4">
+											<FormCheck
+												type="checkbox"
+												label="show password"
+												onClick={() =>
+													passType === 'password'
+														? setPassType('text')
+														: setPassType('password')
+												}
+											/>
+										</div>
 
-									<div className="mb-4" style={{ minHeight: '5vh' }}>
-										<button
-											type="submit"
-											className="btn btn-outline-danger btn-rounded btn-lg"
-											data-mdb-ripple-color="dark"
-											// disabled={disabledButton}
-										>
-											Login
-										</button>
-									</div>
-									<div>
-										<p className="text-muted">
-											New to Hypertube? <Link href="/signup">signup</Link>
-										</p>
-									</div>
+										<div className="mb-4" style={{ minHeight: '5vh' }}>
+											<button
+												type="submit"
+												className="btn btn-outline-danger btn-rounded btn-lg"
+												data-mdb-ripple-color="dark"
+												// disabled={disabledButton}
+											>
+												Login
+											</button>
+										</div>
+										<div>
+											<p className="text-muted">
+												New to Hypertube? <Link href="/signup">signup</Link>
+											</p>
+										</div>
+									</Form.Group>
 								</Form>
 							</MDBCol>
 							<MDBCol
