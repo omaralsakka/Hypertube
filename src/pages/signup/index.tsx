@@ -13,6 +13,16 @@ import {
 import { FormCheck } from 'react-bootstrap';
 import UseField from '../../components/usefield';
 import Link from 'next/link';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import Form from 'react-bootstrap/Form';
+
+type Inputs = {
+	userName: string;
+	userEmail: string;
+	userPassword: string;
+};
 
 const Signup = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
@@ -22,21 +32,38 @@ const Signup = () => {
 	const userName = UseField('text');
 	const userEmail = UseField('email');
 	const userPassword = UseField('password');
-	useEffect(() => {
-		if (consent) {
-			if (
-				userName.value.length &&
-				userEmail.value.length &&
-				userPassword.value.length
-			) {
-				setDisabledButton(false);
-			} else {
-				setDisabledButton(true);
-			}
-		} else {
-			setDisabledButton(true);
-		}
-	}, [consent, userName.value, userEmail.value, userPassword.value]);
+
+	const schema = z.object({
+		userName: z.string().min(1, { message: 'Required' }),
+		userPassword: z.string().min(1, { message: 'Required' }),
+		userEmail: z.string().min(1, { message: 'Required' }),
+	});
+	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const {
+		watch,
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting, isDirty, isValid },
+	} = useForm<Inputs>({
+		mode: 'onChange',
+		resolver: zodResolver(schema),
+	});
+
+	// useEffect(() => {
+	// 	if (consent) {
+	// 		if (
+	// 			userName.value.length &&
+	// 			userEmail.value.length &&
+	// 			userPassword.value.length
+	// 		) {
+	// 			setDisabledButton(false);
+	// 		} else {
+	// 			setDisabledButton(true);
+	// 		}
+	// 	} else {
+	// 		setDisabledButton(true);
+	// 	}
+	// }, [consent, userName.value, userEmail.value, userPassword.value]);
 
 	return (
 		<MDBContainer className="p-5">
@@ -55,65 +82,62 @@ const Signup = () => {
 								<p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
 									Sign up
 								</p>
+								<Form onSubmit={handleSubmit(onSubmit)}>
+									<Form.Group className="mb-3" controlId="register">
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<MDBIcon fas icon="user me-3" size="lg" />
+											<Form.Control {...register('userName')} />
+										</div>
 
-								<div className="d-flex flex-row align-items-center mb-4 ">
-									<MDBIcon fas icon="user me-3" size="lg" />
-									<MDBInput
-										label="Your Name"
-										id="form1"
-										className="w-100"
-										{...userName}
-									/>
-								</div>
+										<div className="d-flex flex-row align-items-center mb-4">
+											<MDBIcon fas icon="envelope me-3" size="lg" />
+											<Form.Control {...register('userEmail')} />
+										</div>
 
-								<div className="d-flex flex-row align-items-center mb-4">
-									<MDBIcon fas icon="envelope me-3" size="lg" />
-									<MDBInput label="Your Email" id="form2" {...userEmail} />
-								</div>
+										<div className="d-flex flex-row align-items-center mb-4">
+											<MDBIcon fas icon="lock me-3" size="lg" />
+											<Form.Control
+												type={passType}
+												{...register('userPassword')}
+											/>
+										</div>
 
-								<div className="d-flex flex-row align-items-center mb-4">
-									<MDBIcon fas icon="lock me-3" size="lg" />
-									<MDBInput
-										label="Password"
-										id="form3"
-										{...userPassword}
-										type={passType}
-									/>
-								</div>
+										<div className="mb-4">
+											<FormCheck
+												type="checkbox"
+												label="show password"
+												onClick={() =>
+													passType === 'password'
+														? setPassType('text')
+														: setPassType('password')
+												}
+											/>
+										</div>
 
-								<div className="mb-4">
-									<FormCheck
-										type="checkbox"
-										label="show password"
-										onClick={() =>
-											passType === 'password'
-												? setPassType('text')
-												: setPassType('password')
-										}
-									/>
-								</div>
+										<div className="mb-4">
+											<MDBCheckbox
+												name="flexCheck"
+												value=""
+												id="flexCheckDefault"
+												label="Agree to our terms and conditions"
+												onClick={() =>
+													consent ? setConsent(false) : setConsent(true)
+												}
+											/>
+										</div>
+										<div className="mb-4" style={{ minHeight: '5vh' }}>
+											<button
+												type="button"
+												className="btn btn-outline-danger btn-rounded btn-lg"
+												data-mdb-ripple-color="dark"
+												disabled={!isValid || !isDirty}
+											>
+												Register
+											</button>
+										</div>
+									</Form.Group>
+								</Form>
 
-								<div className="mb-4">
-									<MDBCheckbox
-										name="flexCheck"
-										value=""
-										id="flexCheckDefault"
-										label="Agree to our terms and conditions"
-										onClick={() =>
-											consent ? setConsent(false) : setConsent(true)
-										}
-									/>
-								</div>
-								<div className="mb-4" style={{ minHeight: '5vh' }}>
-									<button
-										type="button"
-										className="btn btn-outline-danger btn-rounded btn-lg"
-										data-mdb-ripple-color="dark"
-										disabled={disabledButton}
-									>
-										Register
-									</button>
-								</div>
 								<div>
 									<p className="text-muted">
 										Have an account? <Link href="/login">login</Link>
