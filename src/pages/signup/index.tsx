@@ -17,6 +17,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
+import { trpc } from '../../utils/trpc';
 
 type Inputs = {
 	userName: string;
@@ -38,7 +39,7 @@ const Signup = () => {
 		userPassword: z.string().min(1, { message: 'Required' }),
 		userEmail: z.string().min(1, { message: 'Required' }),
 	});
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
 	const {
 		watch,
 		register,
@@ -49,6 +50,20 @@ const Signup = () => {
 		resolver: zodResolver(schema),
 	});
 
+	const mutation = trpc.user.create.useMutation();
+
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		try {
+			console.log(data);
+			mutation.mutate({
+				name: data.userName,
+				email: data.userEmail,
+				password: data.userPassword,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 	// useEffect(() => {
 	// 	if (consent) {
 	// 		if (
@@ -130,14 +145,14 @@ const Signup = () => {
 												type="button"
 												className="btn btn-outline-danger btn-rounded btn-lg"
 												data-mdb-ripple-color="dark"
-												disabled={!isValid || !isDirty}
+												disabled={!isValid || !isDirty || mutation.isLoading}
 											>
 												Register
 											</button>
 										</div>
 									</Form.Group>
 								</Form>
-
+								{mutation.isError && <p>{mutation.error.message}</p>}
 								<div>
 									<p className="text-muted">
 										Have an account? <Link href="/login">login</Link>

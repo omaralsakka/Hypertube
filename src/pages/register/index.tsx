@@ -25,7 +25,7 @@ const Register: NextPage = () => {
 	});
 
 	const mutation = trpc.user.create.useMutation();
-	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
 			console.log(data);
 			const response = mutation.mutate({
