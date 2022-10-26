@@ -6,7 +6,6 @@ import {
 	MDBCard,
 	MDBCardBody,
 	MDBCardImage,
-	MDBInput,
 	MDBIcon,
 } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';

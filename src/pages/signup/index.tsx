@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -6,7 +6,6 @@ import {
 	MDBCard,
 	MDBCardBody,
 	MDBCardImage,
-	MDBInput,
 	MDBIcon,
 	MDBCheckbox,
 } from 'mdb-react-ui-kit';
@@ -27,11 +26,11 @@ type Inputs = {
 const Signup = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-	const [disabledButton, setDisabledButton] = useState(true);
+	// const [disabledButton, setDisabledButton] = useState(true);
 	const [consent, setConsent] = useState(false);
-	const userName = UseField('text');
-	const userEmail = UseField('email');
-	const userPassword = UseField('password');
+	// const userName = UseField('text');
+	// const userEmail = UseField('email');
+	// const userPassword = UseField('password');
 
 	const schema = z.object({
 		userName: z.string().min(1, { message: 'Required' }),
