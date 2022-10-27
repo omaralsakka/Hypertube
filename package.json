@@ -25,6 +25,7 @@
 		"bencode": "^2.0.3",
 		"bootstrap": "^5.2.2",
 		"bootstrap-float-label": "^3.0.1",
+		"fluent-ffmpeg": "^2.1.2",
 		"i18next": "^22.0.2",
 		"i18next-browser-languagedetector": "^6.1.8",
 		"i18next-http-backend": "^1.4.4",
@@ -43,6 +44,7 @@
 		"zod": "^3.18.0"
 	},
 	"devDependencies": {
+		"@types/fluent-ffmpeg": "^2.1.20",
 		"@types/node": "18.0.0",
 		"@types/react": "18.0.14",
 		"@types/react-dom": "18.0.5",

@@ -41,10 +41,9 @@ export const downloadTorrent = (magnetLink: string) => {
 		console.log('Piece downloaded!');
 	});
 	
-	/* engine.on('idle', () => {
+	engine.on('idle', () => {
 		engine.destroy(() => {
 			console.log('All connections to peers destroyed.');
 		})
-	}) */
-
+	})
 };
