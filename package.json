@@ -17,6 +17,7 @@
     "@trpc/next": "10.0.0-proxy-beta.17",
     "@trpc/react": "10.0.0-proxy-beta.17",
     "@trpc/server": "10.0.0-proxy-beta.17",
+    "axios": "^1.1.3",
     "crypto": "^1.0.1",
     "i18next": "^22.0.2",
     "i18next-browser-languagedetector": "^6.1.8",
