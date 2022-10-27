@@ -1,3 +1,5 @@
+import * as z from "zod";
+
 export type Movie = {
 	background_image: string;
 	background_image_original: string;
@@ -28,3 +30,10 @@ export type Movie = {
 };
 
 export type Movies = [Movie];
+
+export const loginSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(4).max(12),
+  });
+  
+  export type ILogin = z.infer<typeof loginSchema>;

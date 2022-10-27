@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -15,27 +15,38 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
-import { signIn, getSession, getProviders, ClientSafeProvider } from "next-auth/react";
+import {
+	signIn,
+	getSession,
+	getProviders,
+	ClientSafeProvider,
+	LiteralUnion,
+} from 'next-auth/react';
+import { BuiltInProviderType, Provider } from 'next-auth/providers';
+import { InferGetServerSidePropsType } from 'next';
+import { ILogin } from '../../types/appTypes';
 
 type Inputs = {
 	email: string;
 	password: string;
 };
 
-const Login = () => {
+const Login = ({
+	providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
 	const [disabledButton, setDisabledButton] = useState(true);
 	// const userEmail = UseField('email');
 	// const userPassword = UseField('password');
-	
+
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
 	});
-
+	
 	const {
 		watch,
 		register,
@@ -45,8 +56,7 @@ const Login = () => {
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
-	console.log(watch());
-	console.log(isDirty && isValid);
+
 	return (
 		<MDBContainer className="p-5">
 			<MDBContainer className="w-100">
@@ -114,9 +124,6 @@ const Login = () => {
 												}
 											/>
 										</div>
-										{/* Providers */}
-
-										<Providers />
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
 												type="submit"
@@ -150,22 +157,14 @@ const Login = () => {
 	);
 };
 
-const Providers = () => {
-	const [providers, setProviders] = useState<ClientSafeProvider[]>([])
-	useEffect(() => {
-		const getProviderList = async() => {
-			const providers = await getProviders()
-			setProviders(providers)
-		}
-		getProviderList()
-	}, [])
-	return(
-		<div>
-			{providers && providers.map((provider) => {
-				<div>{provider.name}</div>
-			})}
-		</div>
-	)
+export async function getServerSideProps() {
+	const providers = await getProviders();
+
+	return {
+		props: {
+			providers,
+		},
+	};
 }
 
 export default Login;

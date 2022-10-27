@@ -4,8 +4,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import 'i18next';
 import '../styles/globals.css';
-import { SessionProvider } from 'next-auth/react';
-import type { Session } from 'next-auth';
 import type { AppType } from 'next/app';
 import { trpc } from '../utils/trpc';
 
@@ -17,13 +15,15 @@ import store from '../store/store';
 import LanguageProvider from '../LanguageProvider';
 import Head from 'next/head';
 import Layout from '../components/layout';
+import { UserProvider } from '@auth0/nextjs-auth0';
 
-const MyApp: AppType<{ session: Session | null }> = ({
+const MyApp: AppType = ({
 	Component,
-	pageProps: { session, ...pageProps },
+	pageProps: { ...pageProps },
 }) => {
 	return (
-		<SessionProvider session={session}>
+		// <SessionProvider session={session}>
+		<>
 			<Head>
 				<title>Hypertube</title>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -38,12 +38,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
 			</Head>
 			<Provider store={store}>
 				<LanguageProvider>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
+					<UserProvider>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</UserProvider>
 				</LanguageProvider>
 			</Provider>
-		</SessionProvider>
+		</>
+		// </SessionProvider>
 	);
 };
 

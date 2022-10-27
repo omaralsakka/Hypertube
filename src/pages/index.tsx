@@ -4,6 +4,7 @@ import { langs } from '../langContext';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../store/actions';
+import { useUser } from '@auth0/nextjs-auth0';
 
 const Home: NextPage = () => {
 	const [lang, setLang] = useState(langs.en);
@@ -48,10 +49,36 @@ const Home: NextPage = () => {
 						<br />
 						{lang.text}
 					</p>
+					<Login />
+					<Logout />
+					<Profile />
 				</div>
 			</div>
 		</div>
 	);
 };
 
+export const Login = () => {
+	return <a href="/api/auth/login">Login</a>;
+};
+
+export const Logout = () => {
+	return <a href="/api/auth/logout">Logout</a>;
+};
+export const Profile = () => {
+	const { user, error, isLoading } = useUser();
+
+	if (isLoading) return <div>Loading...</div>;
+	if (error) return <div>{error.message}</div>;
+
+	return (
+		user && (
+			<div>
+				<img src={user.picture || ''} alt={user.name || ''} />
+				<h2>{user.name}</h2>
+				<p>{user.email}</p>
+			</div>
+		) || null
+	);
+};
 export default Home;

@@ -2,27 +2,26 @@ import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { hash } from 'argon2';
 
 export const userRouter = router({
 	create: publicProcedure
 		.input(z.object({ name: z.string().min(1), email: z.string().email(), password: z.string().min(1).max(5) }))
 		.mutation(async ({ input, ctx }) => {
 			console.log(input);
-			
 			// Check if exists
 			const checkUser = await ctx.prisma.user.findUnique({
 				where: {
 					email: input.email,
 				},
 			});
-			console.log('checkUser', checkUser);
 			if (checkUser)
 				throw new TRPCError({
 					code: 'BAD_REQUEST',
 					message: 'User already exists',
 					cause: input.email,
 				});
-
+			const hashedPassword = await hash(input.password)
 			// Create new user if not exists
 			const newUser = await ctx.prisma.user.upsert({
 				where: {
@@ -32,7 +31,7 @@ export const userRouter = router({
 				create: {
 					name: input.name,
 					email: input.email,
-					password: input.password,
+					password: hashedPassword,
 				} as Prisma.UserCreateInput,
 			});
 			console.log(newUser);
@@ -40,7 +39,19 @@ export const userRouter = router({
 				message: 'User created successfully',
 			};
 		}),
-	get: publicProcedure.query(({ ctx }) => {
-		return ctx.prisma.example.findMany();
-	}),
+	// history: publicProcedure
+	// .input(z.object({ id: z.string()}))
+	// .query(({ input, ctx }) => {
+	// 	const user = ctx.prisma.history.findMany({where: { email: input.email}});
+	// 	if (!user)
+	// 		throw new TRPCError({
+	// 			code: 'BAD_REQUEST',
+	// 			message: 'No user found',
+	// 			cause: input.email,
+	// 		});
+	// 	return { 
+	// 		name: user.name,
+	// 		image: user.image
+	// 	}
+	// }),
 });

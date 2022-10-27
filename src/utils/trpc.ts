@@ -37,3 +37,4 @@ export const trpc = createTRPCNext<AppRouter>({
  * @example type HelloOutput = AppRouterTypes['example']['hello']['output']
  **/
 export type AppRouterTypes = GetInferenceHelpers<AppRouter>;
+
