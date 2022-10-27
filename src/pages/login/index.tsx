@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -15,8 +15,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
-import { signIn, getSession } from "next-auth/react";
-import { providers } from "../api/auth/[...nextauth]"
+import { signIn, getSession, getProviders, ClientSafeProvider } from "next-auth/react";
 
 type Inputs = {
 	email: string;
@@ -29,7 +28,7 @@ const Login = () => {
 	const [disabledButton, setDisabledButton] = useState(true);
 	// const userEmail = UseField('email');
 	// const userPassword = UseField('password');
-
+	
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
 	const schema = z.object({
@@ -115,7 +114,9 @@ const Login = () => {
 												}
 											/>
 										</div>
+										{/* Providers */}
 
+										<Providers />
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
 												type="submit"
@@ -148,5 +149,23 @@ const Login = () => {
 		</MDBContainer>
 	);
 };
+
+const Providers = () => {
+	const [providers, setProviders] = useState<ClientSafeProvider[]>([])
+	useEffect(() => {
+		const getProviderList = async() => {
+			const providers = await getProviders()
+			setProviders(providers)
+		}
+		getProviderList()
+	}, [])
+	return(
+		<div>
+			{providers && providers.map((provider) => {
+				<div>{provider.name}</div>
+			})}
+		</div>
+	)
+}
 
 export default Login;
