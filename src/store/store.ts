@@ -45,7 +45,7 @@ const userReducer = (
 	}
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
 	languageReducer,
 	userReducer,
 });

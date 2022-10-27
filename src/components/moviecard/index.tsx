@@ -5,7 +5,6 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
 	if (!movie) {
 		return <></>;
 	}
-	console.log(movie);
 	return (
 		<>
 			<Card

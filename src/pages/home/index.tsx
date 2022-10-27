@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Card, Row, Col } from 'react-bootstrap';
-import NavigationBar from '../../components/navbar';
+import { Container } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
 import { Movies } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
@@ -17,10 +16,9 @@ const Home = () => {
 	useEffect(() => {
 		getMovies().then((resp) => setMovies(resp));
 	}, []);
-	console.log(movies);
+
 	return (
 		<>
-			<NavigationBar />
 			<Container className="mb-4">
 				<SearchNavBar />
 			</Container>

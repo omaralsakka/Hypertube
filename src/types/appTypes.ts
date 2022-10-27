@@ -1,3 +1,5 @@
+import { rootReducer } from '../store/store';
+
 export type Movie = {
 	background_image: string;
 	background_image_original: string;
@@ -28,3 +30,5 @@ export type Movie = {
 };
 
 export type Movies = [Movie];
+
+export type RootReducer = ReturnType<typeof rootReducer>;
