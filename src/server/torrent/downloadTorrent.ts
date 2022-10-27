@@ -3,8 +3,6 @@ import torrentStream from 'torrent-stream';
 
 export const downloadTorrent = (magnetLink: string) => {
 
-	console.log(magnetLink);
-
 	const torrentStreamOptions: {} = { // this will have to be specified later, testing purpose
 		trackers: [
 			'udp://open.demonii.com:1337/announce',
@@ -30,12 +28,23 @@ export const downloadTorrent = (magnetLink: string) => {
 		console.log('These are the files : ', engine.files);
 		engine.files.forEach((file: TorrentStream.TorrentFile) => {
 			console.log('filename : ', file.name);
-			file.select();
+			if (file.name.endsWith('.mp4') || file.name.endsWith('.mkv') || file.name.endsWith('.webm')) {
+				file.select();
+			  } else {
+				file.deselect();
+			}
+			// at some point we might want to save the path of the file to database
 		});
 	});
 
 	engine.on('download', () => {
 		console.log('Piece downloaded!');
 	});
+	
+	/* engine.on('idle', () => {
+		engine.destroy(() => {
+			console.log('All connections to peers destroyed.');
+		})
+	}) */
 
 };
