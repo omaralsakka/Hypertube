@@ -6,6 +6,9 @@ import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
 
+import Row from 'react-bootstrap/Row';
+import FilterControls from '../../components/filtercontrols';
+
 const Home = () => {
 	const [movies, setMoviesState] = useState<Movies>();
 	const dispatch = useDispatch();
@@ -27,6 +30,10 @@ const Home = () => {
 			<Container className="mb-4">
 				<SearchNavBar />
 			</Container>
+			<Container>
+				<FilterControls />
+			</Container>
+
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
 					movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
