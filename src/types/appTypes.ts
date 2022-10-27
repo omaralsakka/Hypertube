@@ -1,3 +1,5 @@
+import { rootReducer } from '../store/store';
+
 import * as z from "zod";
 
 export type Movie = {
@@ -29,7 +31,9 @@ export type Movie = {
 	yt_trailer_code: string;
 };
 
-export type Movies = [Movie];
+export type Movies = Movie[] | [];
+
+export type RootReducer = ReturnType<typeof rootReducer>;
 
 export const loginSchema = z.object({
 	email: z.string().email(),
