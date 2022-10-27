@@ -3,9 +3,12 @@ import { Container } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
 import { Movies } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
+import { useDispatch } from 'react-redux';
+import { setMovies } from '../../store/actions';
 
 const Home = () => {
-	const [movies, setMovies] = useState<Movies>();
+	const [movies, setMoviesState] = useState<Movies>();
+	const dispatch = useDispatch();
 	const getMovies = async () => {
 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
 		const {
@@ -14,9 +17,11 @@ const Home = () => {
 		return movies;
 	};
 	useEffect(() => {
-		getMovies().then((resp) => setMovies(resp));
+		getMovies().then((resp) => {
+			setMoviesState(resp);
+			dispatch(setMovies(resp));
+		});
 	}, []);
-
 	return (
 		<>
 			<Container className="mb-4">

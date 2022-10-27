@@ -17,6 +17,11 @@ body {
 	background-repeat: no-repeat;
 }
 
+.videoThumbnail {
+	max-width: 100%;
+	height: auto;
+}
+
 .glass-background {
 	background: #ffffff33;
 	border-radius: 10px;

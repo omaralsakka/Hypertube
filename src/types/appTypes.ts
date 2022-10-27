@@ -29,6 +29,6 @@ export type Movie = {
 	yt_trailer_code: string;
 };
 
-export type Movies = [Movie];
+export type Movies = Movie[] | [];
 
 export type RootReducer = ReturnType<typeof rootReducer>;
