@@ -25,16 +25,13 @@ export const downloadTorrent = (magnetLink: string) => {
 		console.log('Engine is ready!');
 		console.log('This is the url passed: ', magnetLink);
 	})
-
+	
 	engine.on('torrent', () => {
-
 		console.log('These are the files : ', engine.files);
-
 		engine.files.forEach((file: TorrentStream.TorrentFile) => {
 			console.log('filename : ', file.name);
-			file.select;
+			file.select();
 		});
-
 	});
 
 	engine.on('download', () => {

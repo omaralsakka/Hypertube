@@ -13,12 +13,12 @@ export const getListMovies = (searchValue: string) => {
 	axios.get(`https://yts.torrentbay.to/api/v2/list_movies.json?query_term=${searchValue}`)
 	.then(res => { 
 		if(res.data.data.movie_count > 0) {
-			//console.log(res.data.data.movies);
+			console.log(res.data.data.movies);
 			movieTitle = res.data.data.movies[0].title_long;
 			infoHash = res.data.data.movies[0].torrents.reduce((curr: { size_bytes: number; }, prev: { size_bytes: number; }) => prev.size_bytes < curr.size_bytes ? prev : curr);
 			infoHash = infoHash.hash;
 			uri = encodeURI(`magnet:?xt=urn:btih:${infoHash}` + `&dn=${movieTitle}`);
-			//downloadTorrent(uri)
+			downloadTorrent(uri)
 		} else {
 			console.log('No movies found');
 		}
@@ -27,4 +27,4 @@ export const getListMovies = (searchValue: string) => {
 	});
 };
 
-getListMovies('avengers infinity war');
+getListMovies('spiderman: homecoming');
