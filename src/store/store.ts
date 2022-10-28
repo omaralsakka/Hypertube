@@ -1,17 +1,22 @@
 import {
 	LanguageActionType,
+	MoviesActionType,
 	SET_LANGUAGE,
 	SET_USER,
+	SET_MOVIES,
 	UserActionType,
 } from './actions';
 import { LanguageState, UserState } from './types';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { Movies } from '../types/appTypes';
 
 const initialUserState: UserState = {
 	userEmail: 'test@test.com',
 	userName: 'Test Name',
 	userId: '1test',
 };
+
+const initialMoviesState: Movies = [];
 
 const languageReducer = (
 	state: LanguageState = { Language: 'en' },
@@ -45,9 +50,22 @@ const userReducer = (
 	}
 };
 
-const rootReducer = combineReducers({
+const moviesReducer = (
+	state: Movies = initialMoviesState,
+	action: MoviesActionType
+): Movies => {
+	switch (action.type) {
+		case SET_MOVIES:
+			return action.payload;
+		default:
+			return state;
+	}
+};
+
+export const rootReducer = combineReducers({
 	languageReducer,
 	userReducer,
+	moviesReducer,
 });
 
 const store = configureStore({
