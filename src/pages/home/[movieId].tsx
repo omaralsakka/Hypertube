@@ -1,6 +1,14 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Container, Image, Card, Row, Col } from 'react-bootstrap';
+import {
+	Container,
+	Image,
+	Card,
+	Row,
+	Col,
+	Collapse,
+	Button,
+} from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
 import { useState } from 'react';
@@ -29,6 +37,22 @@ const MoviePage = () => {
 		minWidth: '5vw',
 	};
 
+	const movieRate = (rating: string | undefined) => {
+		switch (rating) {
+			case 'G':
+				return 'All ages';
+			case 'PG 12':
+				return '12+';
+			case 'PG 13':
+				return '13+';
+			case 'R':
+				return '16+';
+			case 'NC-17':
+				return '18+';
+			default:
+				return '16+';
+		}
+	};
 	useEffect(() => {
 		i++;
 		if (i >= 2 && !moviesReducer.length) {
@@ -78,11 +102,13 @@ const MoviePage = () => {
 											</Card.Title>
 											<Container className="d-flex flex-wrap justify-content-center">
 												{suggestedMovies?.map((movie) => (
-													<MovieCard
-														key={movie.id}
-														movie={movie}
-														style={suggestedMovieStyle}
-													/>
+													<div className="fadeInAnimated">
+														<MovieCard
+															key={movie.id}
+															movie={movie}
+															style={suggestedMovieStyle}
+														/>
+													</div>
 												))}
 											</Container>
 										</Container>
@@ -93,6 +119,38 @@ const MoviePage = () => {
 								<Card.Title className="display-6 mt-3 ">
 									<strong>{movieData?.Title}</strong>
 								</Card.Title>
+								<Container className="mt-2" fluid>
+									<Row className="mb-3">
+										<Col>
+											<Card.Title className="mb-4 fs-5 d-flex align-items-center p-0">
+												{movieData?.Year}
+												<span className="mx-3 border b-1 p-2 rounded border-dark fs-6">
+													{movieRate(movieData?.Rated)}
+												</span>
+											</Card.Title>
+											<Card.Title className="mb-4">
+												{movieData?.Runtime}
+											</Card.Title>
+											<Card.Title className="fs-3">Plot</Card.Title>
+											{movieData?.Plot}
+											<br />
+										</Col>
+										<Col>
+											<Card.Title>
+												<span>Actors:</span>{' '}
+												<strong>{movieData?.Actors}</strong>
+											</Card.Title>
+											<Card.Title>
+												<span>Director:</span>{' '}
+												<strong>{movieData?.Director}</strong>
+											</Card.Title>{' '}
+											<Card.Title>
+												<span>Category:</span>{' '}
+												<strong>{movieData?.Genre}</strong>
+											</Card.Title>
+										</Col>
+									</Row>
+								</Container>
 							</Container>
 						</Card.Body>
 					</Card>
