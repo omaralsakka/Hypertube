@@ -4,10 +4,12 @@ import ffmpeg from 'fluent-ffmpeg';
 import fs from "fs";
 
 export const createStream = (req: NextApiRequest, res: NextApiResponse, moviePath: string) => {
+	console.log("in the stream api endpoint");
 	const router = useRouter();
 	const range = req.headers.range
 	const imdbCode = router.query.imdbCode;
-
+	console.log('range : ', range);
+	console.log('imdb code : ', imdbCode)
 	if (!range) {
 		res.status(400).send('Requires Range header');
 	} else {

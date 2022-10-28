@@ -29,10 +29,11 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string) => n
 			console.log('filename : ', file.name);
 			if (file.name.endsWith('.mp4') || file.name.endsWith('.mkv') || file.name.endsWith('.webm')) {
 				file.select();
+				// here i would want to save the path of the movie into the database
+				// and the file name as well because it might be needed to give the full path in the streaming function
 			  } else {
 				file.deselect();
 			}
-			// at some point we might want to save the path of the file to database
 		});
 	});
 
