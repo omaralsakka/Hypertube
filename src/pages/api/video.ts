@@ -35,12 +35,18 @@ const startStream = (req: NextApiRequest, res: NextApiResponse, moviePath: strin
 		const start = Number(range.replace(/\D/g, ""));
 		const end = Math.min(start + CHUNK_SIZE, videoSize - 1); // 
 		const contentLength = end - start + 1;
-		const headers = {
-			"Content-Range": `bytes ${start}-${end}/${videoSize}`,
-			"Accept-Ranges": "bytes",
-			"Content-Length": contentLength,
-			"Content-Type": "video/mp4",
-		}
+		const headers = isMp4
+			? {
+			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+			'Accept-Ranges': 'bytes',
+			'Content-Length': contentLength,
+			'Content-Type': 'video/mp4',
+			}
+			: {
+			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+			'Accept-Ranges': 'bytes',
+			'Content-Type': 'video/webm',
+			};
 		res.writeHead(206, headers);
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
@@ -55,14 +61,16 @@ const startStream = (req: NextApiRequest, res: NextApiResponse, moviePath: strin
 }
 
 export default async function streamVideo(req: NextApiRequest, res: NextApiResponse) {
-	const data = req.body;
-	const id: number = data.id;
-	const imdbCode: string = data.imdbCode;
-	const movieTitle: string = data.titleLong;
-	const torrents: torrentDataInter[] = data.torrents;
-	const uri: string = createMagnetLink(torrents, movieTitle);
-	const moviePath: string = `../../server/torrent/movies/${movieTitle}`; // THIS IS WRONG have to fix when player gets ready
-	await downloadTorrent(uri); // maybe pass imdb code here as well for the path of downloaded file.
-	startStream(req, res, moviePath);
+	if(req.method === 'POST') {
+		const data = req.body;
+		const id: number = data.id;
+		const imdbCode: string = data.imdbCode;
+		const movieTitle: string = data.titleLong;
+		const torrents: torrentDataInter[] = data.torrents;
+		const uri: string = createMagnetLink(torrents, movieTitle);
+		const moviePath: string = `../../movies/${imdbCode}`; // THIS IS WRONG have to fix when player gets ready
+		await downloadTorrent(uri, imdbCode); // maybe pass imdb code here as well for the path of downloaded file.
+		startStream(req, res, moviePath);
+	}
 	// res.status(200).json({ name: 'John Doe' })
 }

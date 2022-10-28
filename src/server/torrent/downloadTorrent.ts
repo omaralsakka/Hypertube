@@ -1,6 +1,6 @@
 import torrentStream from 'torrent-stream';
 
-export const downloadTorrent = async (magnetLink: string) => new Promise((resolve) => {
+export const downloadTorrent = async (magnetLink: string, imdbCode: string) => new Promise((resolve) => {
 
 	const torrentStreamOptions: {} = { // this will have to be specified later, testing purpose
 		trackers: [
@@ -13,7 +13,7 @@ export const downloadTorrent = async (magnetLink: string) => new Promise((resolv
 			'udp://p4p.arenabg.com:1337',
 			'udp://tracker.leechers-paradise.org:6969',
 		],
-		path: './movies'
+		path: `./movies/${imdbCode}`
 	};
 
 	const engine: TorrentStream.TorrentEngine = torrentStream(magnetLink, torrentStreamOptions);
@@ -42,6 +42,7 @@ export const downloadTorrent = async (magnetLink: string) => new Promise((resolv
 	});
 	
 	engine.on('idle', () => {
+		// set the movie as downloaded into database or somewhere
 		engine.destroy(() => {
 			console.log('All connections to peers destroyed.');
 		})
