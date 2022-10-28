@@ -5,8 +5,6 @@ import { Movies } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
-
-import Row from 'react-bootstrap/Row';
 import FilterControls from '../../components/filtercontrols';
 
 const Home = () => {
