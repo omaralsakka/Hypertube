@@ -1,4 +1,4 @@
-import { router, publicProcedure, protectedProcedure } from '../trpc';
+import { router, publicProcedure } from '../trpc';
 import * as z from 'zod';
 import { hash, verify } from 'argon2';
 import { TRPCError } from '@trpc/server';
@@ -8,12 +8,12 @@ export const authRouter = router({
 		return ctx.session;
 	}),
 	authCredentials: publicProcedure
-		// .input(
-		// 	z.object({
-		// 		email: z.string().email(),
-		// 		password: z.string().min(4).max(12),
-		// 	})
-		// )
+		.input(
+			z.object({
+				email: z.string().email(),
+				password: z.string().min(4).max(12),
+			})
+		)
 		.query(async ({ input, ctx }) => {
 			const user = await ctx.prisma.user.findFirst({
 				where: { email: input.email },

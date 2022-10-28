@@ -22,9 +22,7 @@ import {
 	ClientSafeProvider,
 	LiteralUnion,
 } from 'next-auth/react';
-import { BuiltInProviderType, Provider } from 'next-auth/providers';
 import { InferGetServerSidePropsType } from 'next';
-import { ILogin } from '../../types/appTypes';
 
 type Inputs = {
 	email: string;
