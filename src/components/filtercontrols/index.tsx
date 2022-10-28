@@ -24,7 +24,7 @@ type Inputs = {
 	quality: string;
 };
 
-const FilterControls = ({ movie }: { movie: Movie }) => {
+const FilterControls = () => {
 	const [genres, setGenres] = useState([
 		'Action',
 		'Comedy',
