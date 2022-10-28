@@ -54,15 +54,15 @@ const startStream = (req: NextApiRequest, res: NextApiResponse, moviePath: strin
 	}
 }
 
-export default function streamVideo(req: NextApiRequest, res: NextApiResponse) {
+export default async function streamVideo(req: NextApiRequest, res: NextApiResponse) {
 	const data = req.body;
 	const id: number = data.id;
 	const imdbCode: string = data.imdbCode;
 	const movieTitle: string = data.titleLong;
 	const torrents: torrentDataInter[] = data.torrents;
 	const uri: string = createMagnetLink(torrents, movieTitle);
-	const moviePath: string = `../../server/torrent/movies/${movieTitle}`; // this might be wrong
-	downloadTorrent(uri);
+	const moviePath: string = `../../server/torrent/movies/${movieTitle}`; // THIS IS WRONG have to fix when player gets ready
+	await downloadTorrent(uri); // maybe pass imdb code here as well for the path of downloaded file.
 	startStream(req, res, moviePath);
 	// res.status(200).json({ name: 'John Doe' })
 }

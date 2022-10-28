@@ -1,7 +1,6 @@
 import torrentStream from 'torrent-stream';
 
-
-export const downloadTorrent = (magnetLink: string) => {
+export const downloadTorrent = async (magnetLink: string) => new Promise((resolve) => {
 
 	const torrentStreamOptions: {} = { // this will have to be specified later, testing purpose
 		trackers: [
@@ -39,11 +38,12 @@ export const downloadTorrent = (magnetLink: string) => {
 
 	engine.on('download', () => {
 		console.log('Piece downloaded!');
+		resolve('');
 	});
 	
 	engine.on('idle', () => {
 		engine.destroy(() => {
 			console.log('All connections to peers destroyed.');
 		})
-	})
-};
+	});
+});
