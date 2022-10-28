@@ -5,13 +5,12 @@ import { Movies } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
-import Link from 'next/link';
-import Row from 'react-bootstrap/Row';
 import FilterControls from '../../components/filtercontrols';
 
 const Home = () => {
 	const [movies, setMoviesState] = useState<Movies>();
 	const dispatch = useDispatch();
+	const homeMovieStyle = { maxWidth: '100vw', minWidth: '20vw' };
 	const getMovies = async () => {
 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
 		const {
@@ -37,9 +36,7 @@ const Home = () => {
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
 					movies.map((movie) => (
-						<Link href={'/home/' + movie?.id}>
-							<MovieCard key={movie.id} movie={movie} />
-						</Link>
+						<MovieCard key={movie.id} movie={movie} style={homeMovieStyle} />
 					))}
 			</Container>
 		</>

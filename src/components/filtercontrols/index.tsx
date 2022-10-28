@@ -52,12 +52,7 @@ const FilterControls = ({ movie }: { movie: Movie }) => {
 
 	return (
 		<>
-			<Accordion
-				defaultActiveKey="0"
-				style={{
-					maxWidth: '300px',
-				}}
-			>
+			<Accordion defaultActiveKey="0">
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>Filters</Accordion.Header>
 					<Accordion.Body>
