@@ -15,6 +15,7 @@ body {
 	background-image: url('../../public/blob-scene-3.svg');
 	background-size: cover;
 	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 .videoThumbnail {
@@ -38,15 +39,6 @@ a {
 * {
 	box-sizing: border-box;
 }
-
-/* .hrDiv {
-	border: 0;
-	clear: both;
-	display: block;
-	width: 96%;
-	background-color: rgba(0, 0, 0, 0.1);
-	height: 1px;
-} */
 
 .movieCard {
 	transition: 0.3s;

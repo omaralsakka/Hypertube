@@ -2,7 +2,7 @@ import { Card, Container } from 'react-bootstrap';
 import { Movie } from '../../types/appTypes';
 import Link from 'next/link';
 
-const MovieCard = ({ movie }: { movie: Movie }) => {
+const MovieCard = ({ movie, style }: { movie: Movie; style: {} }) => {
 	if (!movie) {
 		return <></>;
 	}
@@ -11,8 +11,8 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
 			<Link href={`/home/${movie.id}`}>
 				<a>
 					<Card
-						className="m-3 movieCard bg-transparent"
-						style={{ maxWidth: '100vw', minWidth: '20vw' }}
+						className="m-3 movieCard bg-transparent overflow-hidden"
+						style={style}
 					>
 						<Card.Img
 							src={movie.medium_cover_image}
@@ -24,7 +24,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
 						/>
 
 						<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
-							<Container fluid className="movieCard-Body mt-auto p-3">
+							<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
 								<Card.Title className="mb-3">{movie.title}</Card.Title>
 								<Card.Text>
 									Genre:{' '}

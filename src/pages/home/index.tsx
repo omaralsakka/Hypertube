@@ -12,6 +12,7 @@ import FilterControls from '../../components/filtercontrols';
 const Home = () => {
 	const [movies, setMoviesState] = useState<Movies>();
 	const dispatch = useDispatch();
+	const homeMovieStyle = { maxWidth: '100vw', minWidth: '20vw' };
 	const getMovies = async () => {
 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
 		const {
@@ -36,7 +37,9 @@ const Home = () => {
 
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
-					movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+					movies.map((movie) => (
+						<MovieCard key={movie.id} movie={movie} style={homeMovieStyle} />
+					))}
 			</Container>
 		</>
 	);
