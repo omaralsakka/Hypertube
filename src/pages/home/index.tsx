@@ -5,7 +5,7 @@ import { Movies } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
-
+import Link from 'next/link';
 import Row from 'react-bootstrap/Row';
 import FilterControls from '../../components/filtercontrols';
 
@@ -36,7 +36,11 @@ const Home = () => {
 
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
-					movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+					movies.map((movie) => (
+						<Link href={'/home/' + movie?.id}>
+							<MovieCard key={movie.id} movie={movie} />
+						</Link>
+					))}
 			</Container>
 		</>
 	);
