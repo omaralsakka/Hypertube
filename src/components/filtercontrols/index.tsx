@@ -70,7 +70,7 @@ const FilterControls = ({ movie }: { movie: Movie }) => {
 										defaultValue={new Date().getFullYear() - 10}
 										{...register('fromYear')}
 									>
-										{years.map((year) => (
+										{years.map((year: number) => (
 											<option key={year}>{year}</option>
 										))}
 									</Form.Select>
@@ -80,7 +80,7 @@ const FilterControls = ({ movie }: { movie: Movie }) => {
 										defaultValue={2021}
 										{...register('toYear')}
 									>
-										{years.map((year) => (
+										{years.map((year: number) => (
 											<option key={year}>{year}</option>
 										))}
 									</Form.Select>
@@ -140,7 +140,7 @@ const FilterControls = ({ movie }: { movie: Movie }) => {
 										defaultValue={7}
 										{...register('imdbRating')}
 									>
-										{ratings.map((rating) => (
+										{ratings.map((rating: number) => (
 											<option key={rating}>{rating}</option>
 										))}
 									</Form.Select>

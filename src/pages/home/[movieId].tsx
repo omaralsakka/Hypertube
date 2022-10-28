@@ -59,19 +59,20 @@ const MoviePage = () => {
 							fluid
 						>
 							<Container className="overflow-hidden p-0">
-								{!isLoading && (
-									<Button
-										variant="primary"
-										hidden={isLoading}
-										onClick={!isLoading ? handleClick : null}
-										style={{
-											minWidth: '1280px',
-											minHeight: '720px',
-										}}
-									>
-										<FaPlay />
+								<>
+									{!isLoading && (
+										<Button
+											variant="primary"
+											hidden={isLoading}
+											onClick={() => (!isLoading ? handleClick : null)}
+											style={{
+												minWidth: '1280px',
+												minHeight: '720px',
+											}}
+										>
+											<FaPlay />
 
-										{/* <Image
+											{/* <Image
 											className="w-100"
 											style={{
 												objectFit: 'cover',
@@ -80,29 +81,30 @@ const MoviePage = () => {
 											}}
 											src={movie.background_image_original}
 										/> */}
-									</Button>
-								)}
-								{
-									isLoading && console.log(movie)
-									// <ReactPlayer
-									// 	url={props.url}
-									// 	controls={true}
-									// 	config={{
-									// 		file: {
-									// 			tracks: props.subtitles || [],
-									// 			attributes: {
-									// 				controlsList: 'nodownload',
-									// 			},
-									// 		},
-									// 	}}
-									// 	className={classes.reactPlayer}
-									// 	playing={false}
-									// 	width="100%"
-									// 	height="100%"
-									// 	onStart={props.onStart}
-									// 	light={props.thumbnail}
-									// />
-								}
+										</Button>
+									)}
+									{
+										isLoading && console.log(movie)
+										// <ReactPlayer
+										// 	url={props.url}
+										// 	controls={true}
+										// 	config={{
+										// 		file: {
+										// 			tracks: props.subtitles || [],
+										// 			attributes: {
+										// 				controlsList: 'nodownload',
+										// 			},
+										// 		},
+										// 	}}
+										// 	className={classes.reactPlayer}
+										// 	playing={false}
+										// 	width="100%"
+										// 	height="100%"
+										// 	onStart={props.onStart}
+										// 	light={props.thumbnail}
+										// />
+									}
+								</>
 							</Container>
 						</Container>
 					</Container>
