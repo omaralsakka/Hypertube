@@ -98,13 +98,12 @@ const MoviePage = () => {
 									<Col className="p-3">
 										<Container className="d-flex flex-column justify-content-center align-items-center w-75">
 											<Card.Title className="fs-2 mb-5 text-dark">
-												<strong>Suggested movies</strong>
+												Suggested movies
 											</Card.Title>
 											<Container className="d-flex flex-wrap justify-content-center">
 												{suggestedMovies?.map((movie) => (
-													<div className="fadeInAnimated">
+													<div key={movie.id} className="fadeInAnimated">
 														<MovieCard
-															key={movie.id}
 															movie={movie}
 															style={suggestedMovieStyle}
 														/>
