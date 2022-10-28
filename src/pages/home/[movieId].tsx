@@ -123,7 +123,7 @@ const MoviePage = () => {
 										<Col>
 											<Card.Title className="mb-4 fs-5 d-flex align-items-center p-0">
 												{movieData?.Year}
-												<span className="mx-3 border b-1 p-2 rounded border-dark fs-6">
+												<span className="mx-3 border b-1 p-1 rounded border-dark fs-6">
 													{movieRate(movieData?.Rated)}
 												</span>
 											</Card.Title>
