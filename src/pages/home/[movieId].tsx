@@ -44,7 +44,7 @@ const MoviePage = () => {
 		if (moviesReducer.length) {
 			setMovie(moviesReducer.find((movie) => String(movie.id) === movieId));
 		}
-	}, [moviesReducer]);
+	}, [moviesReducer, movieId]);
 
 	useEffect(() => {
 		if (movie?.id) {
