@@ -8,8 +8,6 @@ import {
 	MDBCardImage,
 	MDBIcon,
 } from 'mdb-react-ui-kit';
-import { FormCheck } from 'react-bootstrap';
-// import UseField from '../../components/usefield';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,8 +23,7 @@ const forgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('username');
 	const [disabledButton, setDisabledButton] = useState(true);
-	// const userEmail = UseField('email');
-	// const userusername = UseField('username');
+
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -44,8 +41,6 @@ const forgotPassword = () => {
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
-	console.log(watch());
-	console.log(isDirty && isValid);
 	return (
 		<MDBContainer className="p-5">
 			<MDBContainer className="w-100">
@@ -65,9 +60,7 @@ const forgotPassword = () => {
 								</p>
 										<Form onSubmit={handleSubmit(onSubmit)}>
 									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"
-										controlId="formBasicEmail"
-									>
+										className="mb-3 d-flex flex-column align-items-center justify-content-center"									>
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
 											<span className="has-float-label">
@@ -76,7 +69,6 @@ const forgotPassword = () => {
 													type="email"
 													placeholder=" "
 													{...register('email')}
-													// {...userEmail}
 													aria-invalid={errors.email ? 'true' : 'false'}
 												/>
 												<label htmlFor="loginEmail">Email</label>
@@ -86,7 +78,7 @@ const forgotPassword = () => {
 											<p>{errors.email?.message as string}</p>
 										)}
 										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="lock me-3" size="lg" />
+											<MDBIcon fas icon="user me-3" size="lg" />
 											<span className="has-float-label">
 												<Form.Control
 													id="loginUsername"
@@ -96,23 +88,13 @@ const forgotPassword = () => {
 													aria-invalid={errors.username ? 'true' : 'false'}
 													// {...userusername}
 												/>
-												<label htmlFor="loginUsername">username</label>
+												<label htmlFor="loginUsername">Username</label>
 											</span>
 										</div>
 										{errors.username?.message && (
 											<p>{errors.username?.message as string}</p>
 										)}
-										<div className="mb-4">
-											<FormCheck
-												type="checkbox"
-												label="show username"
-												onClick={() =>
-													passType === 'username'
-														? setPassType('text')
-														: setPassType('username')
-												}
-											/>
-										</div>
+
 
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
