@@ -34,9 +34,7 @@ const Home = () => {
 			<Container className="mb-4">
 				<SearchNavBar />
 			</Container>
-			<Container>
-				<FilterControls />
-			</Container>
+			<Container>{/* <FilterControls /> */}</Container>
 
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&

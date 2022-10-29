@@ -13,7 +13,10 @@ const NavigationBar = () => {
 	console.log();
 	return (
 		<>
-			<Navbar className="shadow-0 px-3 mx-auto">
+			<Navbar
+				className="shadow-0 px-3 mx-auto animate-in"
+				style={{ animationDelay: '800ms' }}
+			>
 				<Container className="d-flex align-items-center" fluid>
 					<Navbar.Brand href="/home">
 						<Image
@@ -28,6 +31,7 @@ const NavigationBar = () => {
 							<Nav.Link className="mx-3" href="/home">
 								Home
 							</Nav.Link>
+
 							<Nav.Link className="mx-3" href="/settings">
 								Settings
 							</Nav.Link>
