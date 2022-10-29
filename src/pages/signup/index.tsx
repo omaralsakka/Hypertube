@@ -21,6 +21,8 @@ type Inputs = {
 	userName: string;
 	userEmail: string;
 	userPassword: string;
+	firstName: string;
+	lastName: string;
 };
 
 const Signup = () => {
@@ -36,6 +38,8 @@ const Signup = () => {
 		userName: z.string().min(1, { message: 'Required' }),
 		userPassword: z.string().min(1, { message: 'Required' }),
 		userEmail: z.string().min(1, { message: 'Required' }),
+		firstName: z.string().min(1, { message: 'Required' }),
+		lastName: z.string().min(1, { message: 'Required' }),
 	});
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 	const {
@@ -95,7 +99,33 @@ const Signup = () => {
 													placeholder=" "
 													{...register('userName')}
 												/>
-												<label htmlFor="signupName">Name</label>
+												<label htmlFor="signupName">Username</label>
+											</span>
+										</div>
+
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<MDBIcon fas icon="user me-3" size="lg" />
+											<span className="has-float-label">
+												<Form.Control
+													id="firstName"
+													type="text"
+													placeholder=" "
+													{...register('firstName')}
+												/>
+												<label htmlFor="firstName">First name</label>
+											</span>
+										</div>
+
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<MDBIcon fas icon="user me-3" size="lg" />
+											<span className="has-float-label">
+												<Form.Control
+													id="lastName"
+													type="text"
+													placeholder=" "
+													{...register('lastName')}
+												/>
+												<label htmlFor="lastName">Last name</label>
 											</span>
 										</div>
 
