@@ -1,10 +1,19 @@
-import { Container, Navbar, Image, Nav } from 'react-bootstrap';
+import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
+import { MdLogout } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import { RootReducer } from '../../types/appTypes';
 
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
+	const userInStore = useSelector((state: RootReducer) => state.userReducer);
+
+	const handleSignout = () => {
+		console.log('signout user');
+	};
+	console.log();
 	return (
 		<>
-			<Navbar>
+			<Navbar className="shadow-0 px-3 mx-auto">
 				<Container className="d-flex align-items-center" fluid>
 					<Navbar.Brand href="/home">
 						<Image
@@ -13,14 +22,27 @@ const NavigationBar = () => {
 							className="d-inline-block align-top"
 						/>
 					</Navbar.Brand>
-					<Nav className="me-auto">
-						<Nav.Link className="mx-3" href="/home">
-							Home
-						</Nav.Link>
-						<Nav.Link className="mx-3" href="/settings">
-							Settings
-						</Nav.Link>
-					</Nav>
+					<Navbar.Toggle aria-controls="basic-navbar-nav" />
+					<Navbar.Collapse id="basic-navbar-nav">
+						<Nav className="me-auto d-flex align-items-center w-100">
+							<Nav.Link className="mx-3" href="/home">
+								Home
+							</Nav.Link>
+							<Nav.Link className="mx-3" href="/settings">
+								Settings
+							</Nav.Link>
+							<Nav.Item className="ms-md-auto me-3 d-none d-md-block">
+								<Navbar.Text className="fs-5">
+									{userInStore?.userName}
+								</Navbar.Text>
+							</Nav.Item>
+							<Nav.Item className="d-none d-md-block">
+								<Button onClick={handleSignout} size="sm" variant="warning">
+									<MdLogout className="fs-5" />
+								</Button>
+							</Nav.Item>
+						</Nav>
+					</Navbar.Collapse>
 				</Container>
 			</Navbar>
 		</>

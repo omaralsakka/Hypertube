@@ -28,7 +28,6 @@ const MoviePage = () => {
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [openDescription, setOpenDescription] = useState(false);
-
 	let i = 0;
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',

@@ -29,7 +29,6 @@ const Home = () => {
 		});
 	}, []);
 
-	console.log(movies);
 	return (
 		<>
 			<Container className="mb-4">
