@@ -38,6 +38,8 @@ const Signup = () => {
 		userEmail: z.string().min(1, { message: 'Required' }),
 	});
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
+	console.log('this is schema: ', schema);
 	const {
 		watch,
 		register,

@@ -118,6 +118,7 @@ const MoviePage = () => {
 														<MovieCard
 															movie={movie}
 															style={suggestedMovieStyle}
+															viewType="small"
 														/>
 													</div>
 												))}
