@@ -33,10 +33,13 @@ const ProfilePage = () => {
 		return <></>;
 	} else {
 		return (
-			<>
-
-				<UserCard user={user} />
-			</>
+			<Container>
+				<Row className="justify-content-md-center">
+					<Col md={4}>
+						<UserCard user={user} />
+					</Col>
+				</Row>
+			</Container>
 		);
 	}
 };
