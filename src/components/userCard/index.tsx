@@ -2,15 +2,7 @@ import { Card } from 'react-bootstrap';
 import { User } from '../../types/appTypes';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-const UserCard = ({
-	user,
-	style,
-	viewType,
-}: {
-	user: User;
-	style: {};
-	viewType: string;
-}) => {
+const UserCard = ({ user }: { user: User }) => {
 	if (!user) {
 		return <></>;
 	}
@@ -29,7 +21,7 @@ const UserCard = ({
 					>
 						<Card
 							className="m-3 movieCard bg-transparent overflow-hidden"
-							style={style}
+							// style={style}
 						>
 							<Card.Img
 								src={user.image}
@@ -40,6 +32,11 @@ const UserCard = ({
 								}}
 							/>
 						</Card>
+						{user.id}
+						{user.firstname}
+						{user.lastname}
+						{user.email}
+						{user.image}
 					</motion.div>
 				</a>
 			</Link>
