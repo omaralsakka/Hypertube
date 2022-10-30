@@ -19,7 +19,8 @@ const PhotoUpload = () => {
 
 
 	return (
-		<>
+		<>			<Card style={{maxWidth:"300px", maxHeight:"300px"}}>
+			<Card.Header>
 	<Form.Group controlId="formFile" className="mb-3">
 		<Form.Label>Avatar</Form.Label>
 		<Form.Control type="file" onChange={(event: React.ChangeEvent) => {
@@ -30,15 +31,18 @@ const PhotoUpload = () => {
     }
 		} />
 
+
 	</Form.Group>
+	</Card.Header>
 
 {photo && (
-						<Card>
+
 							 <Card.Img variant="top" alt="profilepic"  src={photo} />
-					</Card>
 
 
 )}
+					</Card>
+
 		</>
 	);
 };

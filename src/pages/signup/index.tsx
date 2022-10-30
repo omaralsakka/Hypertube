@@ -201,7 +201,7 @@ const Signup = () => {
 							<MDBCol
 								md="10"
 								lg="6"
-								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
+								className="order-1 order-lg-2 d-flex"
 							>
 								{/* <MDBCardImage src={LogoPng} className="w-75" /> */}
 								<PhotoUpload/>
