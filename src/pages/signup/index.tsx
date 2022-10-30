@@ -16,6 +16,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
+import PhotoUpload from '../../components/photoupload';
 
 type Inputs = {
 	userName: string;
@@ -202,7 +203,8 @@ const Signup = () => {
 								lg="6"
 								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
 							>
-								<MDBCardImage src={LogoPng} className="w-75" />
+								{/* <MDBCardImage src={LogoPng} className="w-75" /> */}
+								<PhotoUpload/>
 							</MDBCol>
 						</MDBRow>
 					</MDBCardBody>
