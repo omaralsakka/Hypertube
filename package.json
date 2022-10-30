@@ -7,7 +7,8 @@
 		"dev": "next dev",
 		"postinstall": "prisma generate",
 		"lint": "next lint",
-		"start": "next start"
+		"start": "next start",
+		"prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.2.0",
@@ -26,16 +27,17 @@
 		"bootstrap-float-label": "^3.0.1",
 		"framer-motion": "^7.6.2",
 		"i": "^0.3.7",
-		"bootstrap-icons": "^1.9.1",
 		"i18next": "^22.0.2",
 		"i18next-browser-languagedetector": "^6.1.8",
 		"i18next-http-backend": "^1.4.4",
 		"i18next-xhr-backend": "^3.2.2",
 		"lodash": "^4.17.21",
 		"mdb-react-ui-kit": "^4.2.0",
+		"mdb-ui-kit": "^5.0.0",
 		"next": "12.3.1",
 		"next-auth": "^4.12.3",
 		"npm": "^8.19.2",
+		"prettier": "^2.7.1",
 		"react": "18.2.0",
 		"react-bootstrap": "^2.5.0",
 		"react-dom": "18.2.0",
