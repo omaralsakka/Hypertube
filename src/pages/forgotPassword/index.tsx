@@ -8,8 +8,6 @@ import {
 	MDBCardImage,
 	MDBIcon,
 } from 'mdb-react-ui-kit';
-import { FormCheck } from 'react-bootstrap';
-// import UseField from '../../components/usefield';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,21 +16,20 @@ import Form from 'react-bootstrap/Form';
 
 type Inputs = {
 	email: string;
-	password: string;
+	username: string;
 };
 
-const Login = () => {
+const forgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
-	const [passType, setPassType] = useState('password');
+	const [passType, setPassType] = useState('username');
 	const [disabledButton, setDisabledButton] = useState(true);
-	// const userEmail = UseField('email');
-	// const userPassword = UseField('password');
+
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
-		password: z.string().min(1, { message: 'Required' }),
+		username: z.string().min(1, { message: 'Required' }),
 	});
 
 	const {
@@ -44,8 +41,6 @@ const Login = () => {
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
-	// console.log(watch());
-	// console.log(isDirty && isValid);
 	return (
 		<MDBContainer className="p-5">
 			<MDBContainer className="w-100">
@@ -61,10 +56,11 @@ const Login = () => {
 								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3"
 							>
 								<p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-									Login
+									Request password
 								</p>
-								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
+										<Form onSubmit={handleSubmit(onSubmit)}>
+									<Form.Group
+										className="mb-3 d-flex flex-column align-items-center justify-content-center"									>
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
 											<span className="has-float-label">
@@ -73,7 +69,6 @@ const Login = () => {
 													type="email"
 													placeholder=" "
 													{...register('email')}
-													// {...userEmail}
 													aria-invalid={errors.email ? 'true' : 'false'}
 												/>
 												<label htmlFor="loginEmail">Email</label>
@@ -83,33 +78,23 @@ const Login = () => {
 											<p>{errors.email?.message as string}</p>
 										)}
 										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="lock me-3" size="lg" />
+											<MDBIcon fas icon="user me-3" size="lg" />
 											<span className="has-float-label">
 												<Form.Control
-													id="loginPassword"
+													id="loginUsername"
 													type={passType}
 													placeholder=" "
-													{...register('password')}
-													aria-invalid={errors.password ? 'true' : 'false'}
-													// {...userPassword}
+													{...register('username')}
+													aria-invalid={errors.username ? 'true' : 'false'}
+													// {...userusername}
 												/>
-												<label htmlFor="loginPassword">Password</label>
+												<label htmlFor="loginUsername">Username</label>
 											</span>
 										</div>
-										{errors.password?.message && (
-											<p>{errors.password?.message as string}</p>
+										{errors.username?.message && (
+											<p>{errors.username?.message as string}</p>
 										)}
-										<div className="mb-4">
-											<FormCheck
-												type="checkbox"
-												label="show password"
-												onClick={() =>
-													passType === 'password'
-														? setPassType('text')
-														: setPassType('password')
-												}
-											/>
-										</div>
+
 
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
@@ -118,8 +103,7 @@ const Login = () => {
 												data-mdb-ripple-color="dark"
 												disabled={!isValid || !isDirty}
 											>
-												Login
-											</button>
+												Submit											</button>
 										</div>
 										<div>
 											<p className="text-muted">
@@ -144,4 +128,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default forgotPassword;

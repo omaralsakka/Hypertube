@@ -7,7 +7,8 @@
 		"dev": "next dev",
 		"postinstall": "prisma generate",
 		"lint": "next lint",
-		"start": "next start"
+		"start": "next start",
+		"prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.2.0",
@@ -35,9 +36,11 @@
 		"i18next-xhr-backend": "^3.2.2",
 		"lodash": "^4.17.21",
 		"mdb-react-ui-kit": "^4.2.0",
+		"mdb-ui-kit": "^5.0.0",
 		"next": "12.3.1",
 		"next-auth": "^4.12.3",
 		"npm": "^8.19.2",
+		"prettier": "^2.7.1",
 		"react": "18.2.0",
 		"react-bootstrap": "^2.5.0",
 		"react-dom": "18.2.0",
@@ -46,6 +49,7 @@
 		"react-icons": "^4.6.0",
 		"react-player": "^2.11.0",
 		"react-redux": "^8.0.4",
+		"react-toastify": "^9.0.8",
 		"superjson": "1.9.1",
 		"torrent-stream": "^1.2.1",
 		"zod": "^3.18.0"

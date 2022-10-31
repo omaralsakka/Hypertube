@@ -1,5 +1,12 @@
 import { rootReducer } from '../store/store';
-
+export type User = {
+	id: number;
+	username: string;
+	firstname: string;
+	lastname: string;
+	email: string;
+	image: string;
+};
 export type Movie = {
 	background_image: string;
 	background_image_original: string;

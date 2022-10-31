@@ -1,4 +1,4 @@
-import './i18nextConf';
+import '../components/i18nextConf';
 import type { NextPage } from 'next';
 import { langs } from '../langContext';
 import { useEffect, useState } from 'react';

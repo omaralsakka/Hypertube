@@ -2,7 +2,8 @@ import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
 import NavigationBar from '../navbar';
-
+import Footer from '../footer';
+import { ToastContainer } from 'react-toastify';
 type PageLayout = {
 	children: React.ReactNode;
 };
@@ -14,8 +15,11 @@ const Layout = ({ children }: PageLayout) => {
 		return (
 			<>
 				<Container className="app blobs-background">
+					<ToastContainer />
+
 					<NavigationBar />
 					<main>{children}</main>
+					<Footer />
 				</Container>
 			</>
 		);
