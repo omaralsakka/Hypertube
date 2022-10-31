@@ -19,7 +19,7 @@ const Layout = ({ children }: PageLayout) => {
 
 					<NavigationBar />
 					<main>{children}</main>
-					<Footer />
+					{/* <Footer /> */}
 				</Container>
 			</>
 		);

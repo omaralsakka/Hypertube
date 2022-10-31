@@ -74,3 +74,11 @@ export type Comment = {
 	date: string;
 	comment: string;
 };
+
+export type Inputs = {
+	userName: string;
+	userEmail: string;
+	userPassword: string;
+	firstName: string;
+	lastName: string;
+};

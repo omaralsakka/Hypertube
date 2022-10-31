@@ -19,23 +19,12 @@ import Form from 'react-bootstrap/Form';
 import PhotoUpload from '../../components/photoupload';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-type Inputs = {
-	userName: string;
-	userEmail: string;
-	userPassword: string;
-	firstName: string;
-	lastName: string;
-};
+import { Inputs } from '../../types/appTypes';
 
 const Signup = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-	// const [disabledButton, setDisabledButton] = useState(true);
 	const [consent, setConsent] = useState(false);
-	// const userName = UseField('text');
-	// const userEmail = UseField('email');
-	// const userPassword = UseField('password');
 
 	const schema = z.object({
 		userName: z.string().min(1, { message: 'Required' }),
@@ -61,22 +50,6 @@ const Signup = () => {
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
-
-	// useEffect(() => {
-	// 	if (consent) {
-	// 		if (
-	// 			userName.value.length &&
-	// 			userEmail.value.length &&
-	// 			userPassword.value.length
-	// 		) {
-	// 			setDisabledButton(false);
-	// 		} else {
-	// 			setDisabledButton(true);
-	// 		}
-	// 	} else {
-	// 		setDisabledButton(true);
-	// 	}
-	// }, [consent, userName.value, userEmail.value, userPassword.value]);
 
 	return (
 		<MDBContainer className="p-5">
@@ -204,9 +177,13 @@ const Signup = () => {
 									</p>
 								</div>
 							</MDBCol>
-							<MDBCol md="10" lg="6" className="order-1 order-lg-2 d-flex">
-								{/* <MDBCardImage src={LogoPng} className="w-75" /> */}
-								<PhotoUpload />
+							<MDBCol
+								md="10"
+								lg="6"
+								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
+							>
+								<MDBCardImage src={LogoPng} className="w-75" />
+								{/* <PhotoUpload /> */}
 							</MDBCol>
 						</MDBRow>
 					</MDBCardBody>
