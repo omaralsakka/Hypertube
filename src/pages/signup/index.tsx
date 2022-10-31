@@ -17,6 +17,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
 import PhotoUpload from '../../components/photoupload';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type Inputs = {
 	userName: string;
@@ -42,9 +44,14 @@ const Signup = () => {
 		firstName: z.string().min(1, { message: 'Required' }),
 		lastName: z.string().min(1, { message: 'Required' }),
 	});
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
-	console.log('this is schema: ', schema);
+	const notifyDefault = () => toast.success('Activation email sent');
+
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		notifyDefault();
+		console.log(data);
+	};
+
 	const {
 		watch,
 		register,
@@ -89,10 +96,7 @@ const Signup = () => {
 									Sign up
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"
-										controlId="register"
-									>
+									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
 										<div className="d-flex flex-row align-items-center mb-4 ">
 											<MDBIcon fas icon="user me-3" size="lg" />
 											<span className="has-float-label">
@@ -183,7 +187,7 @@ const Signup = () => {
 										</div>
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
-												type="button"
+												type="submit"
 												className="btn btn-outline-danger btn-rounded btn-lg"
 												data-mdb-ripple-color="dark"
 												disabled={!isValid || !isDirty}
@@ -200,13 +204,9 @@ const Signup = () => {
 									</p>
 								</div>
 							</MDBCol>
-							<MDBCol
-								md="10"
-								lg="6"
-								className="order-1 order-lg-2 d-flex"
-							>
+							<MDBCol md="10" lg="6" className="order-1 order-lg-2 d-flex">
 								{/* <MDBCardImage src={LogoPng} className="w-75" /> */}
-								<PhotoUpload/>
+								<PhotoUpload />
 							</MDBCol>
 						</MDBRow>
 					</MDBCardBody>
