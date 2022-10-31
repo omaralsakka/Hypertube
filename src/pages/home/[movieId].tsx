@@ -1,14 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import {
-	Container,
-	Image,
-	Card,
-	Row,
-	Col,
-	Collapse,
-	Button,
-} from 'react-bootstrap';
+import { Container, Card, Row, Col, Collapse, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
 import { useState } from 'react';
@@ -17,6 +9,7 @@ import MovieCard from '../../components/moviecard';
 import { movieRate, getOmdb } from '../../utils/helperFunctions';
 import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import CommentsSection from '../../components/commentsSection';
 
 const MoviePage = () => {
 	const router = useRouter();
@@ -29,6 +22,75 @@ const MoviePage = () => {
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [openDescription, setOpenDescription] = useState(false);
+	// this is forced comments to display for now till we got real backend comments
+	const [comments, setComments] = useState([
+		{
+			id: '10',
+			userName: 'test1',
+			date: '20.10.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '11',
+			userName: 'test442',
+			date: '20.11.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '12',
+			userName: 'test96',
+			date: '20.12.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '13',
+			userName: 'test86',
+			date: '20.01.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '15',
+			userName: 'test5',
+			date: '20.02.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '16',
+			userName: 'test4',
+			date: '20.03.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '17',
+			userName: 'test3',
+			date: '20.04.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '18',
+			userName: 'test2',
+			date: '20.05.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '19',
+			userName: 'test10',
+			date: '20.06.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '20',
+			userName: 'test12',
+			date: '25.10.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '23',
+			userName: 'test13',
+			date: '12.10.2022',
+			comment: 'This movie is cool!!',
+		},
+	]);
 	let i = 0;
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
@@ -65,7 +127,6 @@ const MoviePage = () => {
 		});
 	};
 
-	console.log(movieData);
 	if (!movie?.id) {
 		return <></>;
 	} else {
@@ -209,8 +270,11 @@ const MoviePage = () => {
 												</Col>
 											</Row>
 										</Collapse>
+										<hr />
 										<Row>
-											<Col></Col>
+											<Col>
+												<CommentsSection comments={comments} />
+											</Col>
 										</Row>
 									</Container>
 								</Container>

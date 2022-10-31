@@ -60,3 +60,10 @@ export type MovieData = {
 export type Movies = Movie[] | [];
 
 export type RootReducer = ReturnType<typeof rootReducer>;
+
+export type Comment = {
+	id: string;
+	userName: string;
+	date: string;
+	comment: string;
+};
