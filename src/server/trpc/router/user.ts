@@ -6,7 +6,7 @@ import { hash } from 'argon2';
 
 export const userRouter = router({
 	create: publicProcedure
-		.input(z.object({ name: z.string().min(1), email: z.string().email(), password: z.string().min(1).max(5) }))
+		.input(z.object({ name: z.string().min(1), email: z.string().email(), password: z.string().min(1).max(32) }))
 		.mutation(async ({ input, ctx }) => {
 			console.log(input);
 			// Check if exists
@@ -39,7 +39,7 @@ export const userRouter = router({
 				message: 'User created successfully',
 			};
 		}),
-		update: publicProcedure
+	update: publicProcedure
 		.input(z.object({ email: z.string().email(), password: z.string().min(1).max(30), name: z.string().min(1).max(30)}))
 		.mutation(async ({ input, ctx }) => {
 			console.log(input);
