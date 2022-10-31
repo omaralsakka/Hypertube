@@ -64,10 +64,7 @@ const Login = () => {
 									Login
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"
-										controlId="formBasicEmail"
-									>
+									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
 											<span className="has-float-label">
