@@ -2,6 +2,7 @@
 import { router } from "../trpc";
 import { exampleRouter } from "./example";
 import { authRouter } from "./auth";
+import { videoRouter } from "./deletethisaftertesting";
 
 export const appRouter = router({
   example: exampleRouter,

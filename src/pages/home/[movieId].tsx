@@ -119,14 +119,12 @@ const MoviePage = () => {
 		setLoading(true);
 		streamMovie();
 	};
-
 	const streamMovie = () => {
 		const response = fetch('/api/video/', {
 			method: 'POST',
 			body: JSON.stringify(movie),
 		});
 	};
-
 	if (!movie?.id) {
 		return <></>;
 	} else {
