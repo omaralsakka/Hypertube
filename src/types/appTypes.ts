@@ -31,6 +31,34 @@ export type Movie = {
 	yt_trailer_code: string;
 };
 
+export type MovieData = {
+	Title: string;
+	Year: string;
+	Rated: string;
+	Released: string;
+	Runtime: string;
+	Genre: string;
+	Director: string;
+	Writer: string;
+	Actors: string;
+	Plot: string;
+	Language: string;
+	Country: string;
+	Awards: string;
+	Poster: string;
+	Ratings: [];
+	Metascore: string;
+	imdbRating: string;
+	imdbVotes: string;
+	imdbID: string;
+	Type: string;
+	DVD: string;
+	BoxOffice: string;
+	Production: string;
+	Website: string;
+	Response: string;
+};
+
 export type Movies = Movie[] | [];
 
 export type RootReducer = ReturnType<typeof rootReducer>;
