@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -17,12 +17,10 @@ import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
 import {
 	signIn,
-	getSession,
 	getProviders,
-	ClientSafeProvider,
-	LiteralUnion,
 } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
+
 
 type Inputs = {
 	email: string;
@@ -35,16 +33,19 @@ const Login = ({
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
 	const [disabledButton, setDisabledButton] = useState(true);
-	// const userEmail = UseField('email');
-	// const userPassword = UseField('password');
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const onSubmit: SubmitHandler<Inputs> = async(data, event) => {
+		event?.preventDefault();
+        console.log(data)
+        const user = await signIn('credentials', {email: data.email, password: data.password, callbackUrl: 'http://localhost:3000/home'})
+		console.log(user)
+    };
 
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
 	});
-	
+
 	const {
 		watch,
 		register,
@@ -73,10 +74,7 @@ const Login = ({
 									Login
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"
-										controlId="formBasicEmail"
-									>
+									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
 											<span className="has-float-label">
@@ -122,6 +120,7 @@ const Login = ({
 												}
 											/>
 										</div>
+
 										<div className="mb-4" style={{ minHeight: '5vh' }}>
 											<button
 												type="submit"
@@ -139,6 +138,14 @@ const Login = ({
 										</div>
 									</Form.Group>
 								</Form>
+								{providers && Object.values(providers).map((provider) => (
+									provider.name !== 'Credentials' ?
+									<div key={provider.name}>
+										<button onClick={() => signIn(provider.id, { callbackUrl: 'http://localhost:3000/home' })}>
+											Sign in with {provider.name}
+										</button>
+									</div> : null
+								))}
 							</MDBCol>
 							<MDBCol
 								md="10"

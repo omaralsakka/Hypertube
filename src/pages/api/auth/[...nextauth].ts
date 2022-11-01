@@ -1,4 +1,4 @@
-import NextAuth, { Session, User, type NextAuthOptions } from 'next-auth';
+import NextAuth, { type NextAuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import FortyTwoProvider from 'next-auth/providers/42-school';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -7,7 +7,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../server/db/client';
 import { verify } from 'argon2';
-import { JWT } from 'next-auth/jwt';
 
 export const authOptions: NextAuthOptions = {
 	// Include user.id on session
@@ -81,7 +80,7 @@ export const authOptions: NextAuthOptions = {
 		// ...add more providers here
 	],
 	pages: {
-		signIn: '/signin',
+		signIn: '/login',
 	},
 	session: {
 		// Must be set to jwt for sessions to work properly with credentials provider

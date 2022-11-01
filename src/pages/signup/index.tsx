@@ -10,7 +10,6 @@ import {
 	MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
-import UseField from '../../components/usefield';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -63,22 +62,7 @@ const Signup = () => {
 			console.log(err);
 		}
 	};
-	// useEffect(() => {
-	// 	if (consent) {
-	// 		if (
-	// 			userName.value.length &&
-	// 			userEmail.value.length &&
-	// 			userPassword.value.length
-	// 		) {
-	// 			setDisabledButton(false);
-	// 		} else {
-	// 			setDisabledButton(true);
-	// 		}
-	// 	} else {
-	// 		setDisabledButton(true);
-	// 	}
-	// }, [consent, userName.value, userEmail.value, userPassword.value]);
-
+	
 	return (
 		<MDBContainer className="p-5">
 			<MDBContainer className="w-100">
