@@ -16,12 +16,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
 import { trpc } from '../../utils/trpc';
-
-type Inputs = {
-	userName: string;
-	userEmail: string;
-	userPassword: string;
-};
 import PhotoUpload from '../../components/photoupload';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,11 +35,6 @@ const Signup = () => {
 	});
 
 	const notifyDefault = () => toast.success('Activation email sent');
-
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		notifyDefault();
-		console.log(data);
-	};
 
 	const {
 		watch,

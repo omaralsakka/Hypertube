@@ -3,7 +3,7 @@ import { router } from "../trpc";
 import { exampleRouter } from "./example";
 import { authRouter } from "./auth";
 import { userRouter } from "./user";
-import { videoRouter } from "./deletethisaftertesting";
+// import { videoRouter } from "./deletethisaftertesting";
 
 export const appRouter = router({
   example: exampleRouter,
