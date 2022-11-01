@@ -2,6 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import ffmpeg from 'fluent-ffmpeg';
 import fs from "fs";
 
+export const config = {
+	api: {
+		responseLimit: '20mb',
+	  },
+  }
+
 export default function createStream(req: NextApiRequest, res: NextApiResponse){
 	const regexPath = /path=(.*)/;
 	let moviePath: any = req.url?.match(regexPath); // fix typescript
@@ -17,7 +23,7 @@ export default function createStream(req: NextApiRequest, res: NextApiResponse){
 		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`; // this might be wrong
 		const isMp4 = videoPath.endsWith('mp4');
 		const videoSize = fs.statSync(`${videoPath}`).size;
-		const CHUNK_SIZE = 10 ** 6;
+		const CHUNK_SIZE = 20e+6;
 		let start = Number(range.replace(/\D/g, ""));
 		if (start > videoSize - 1) {
 			notLoaded = true;
