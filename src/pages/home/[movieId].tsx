@@ -292,7 +292,6 @@ const MoviePage = () => {
 						<video id="videoPlayer" width="50%" controls>
 								<source src={`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}`} type="video/mp4" />
 						</video>
-						
 						:
 						<></>
 					}

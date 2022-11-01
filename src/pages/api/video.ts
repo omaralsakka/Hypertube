@@ -42,6 +42,10 @@ export default async function streamVideo(req: NextApiRequest, res: NextApiRespo
 		} else {
 			console.log('Movie has been already downloaded') // this does not necessarely meen that the whole movie has been 
 															// downloaded. Have to add this check to table.
+															// we could pass the size of the partially downloaded file
+															// to the download function above and compare it there
+															// with the file size to be downloaded and if the dont match
+															// continue downloading 
 		}
 		if(movieInfo !== false)
 			res.status(200).json({ message: 'Movie downloading!', data: movieInfo});

@@ -1,9 +1,11 @@
 import torrentStream from 'torrent-stream';
 import { prisma } from '../../server/db/client';
+import fs from "fs";
 
 export const downloadTorrent = async (magnetLink: string, imdbCode: string) => new Promise((resolve) => {
 	
 	let newMovie: {} | undefined;
+	let filePath: string;
 	
 	const torrentStreamOptions: {} = { // this will have to be specified later, testing purpose
 		trackers: [
@@ -24,17 +26,18 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string) => n
 	engine.on('ready', () => {
 		console.log('Engine is ready! This is the url passed: ', magnetLink);
 	})
-	
 	engine.on('torrent', () => {
 		engine.files.forEach(async (file: TorrentStream.TorrentFile) => {
 			if (file.name.endsWith('.mp4') || file.name.endsWith('.mkv') || file.name.endsWith('.webm')) {
-				file.select(); // !!!! UNCOMMENT TO DOWNLOAD THE MOVIE
+				file.select();
 				newMovie = await prisma.movies.create({
 					data: {
 						imdb_code: imdbCode,
 						movie_path: file.path,
+						size: file.length,
 					},
 				});
+				filePath = file.path;
 			  } else {
 				file.deselect();
 			}
@@ -43,7 +46,12 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string) => n
 
 	engine.on('download', () => {
 		console.log('Piece downloaded!');
-		resolve(newMovie); // maybe could resolve after a couple pieces not right away the first one
+		if (fs.existsSync(`./movies/${imdbCode}/${filePath}`)) {
+			if(fs.statSync(`./movies/${imdbCode}/${filePath}`).size / (1024 * 1024) > 100) {
+				console.log('RESOLVED RESOLVED RESOLVED RESOLVED')
+				resolve(newMovie);
+			}
+		}
 	});
 	
 	engine.on('idle', () => {

@@ -3,24 +3,27 @@ import ffmpeg from 'fluent-ffmpeg';
 import fs from "fs";
 
 export default function createStream(req: NextApiRequest, res: NextApiResponse){
-
 	const regexPath = /path=(.*)/;
 	let moviePath: any = req.url?.match(regexPath); // fix typescript
 	moviePath = moviePath[1]?.split('%20').join(' ');
 	const regexImdb = /imdbCode=(.*?)&/;
 	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
 	const range = req.headers.range
-	if (!range) { // this whole if check might have to be removed and the 'no range' issue will be dealt in a different manor.
-		res.status(416).send('Requires Range header');
+	let notLoaded = false;
+	if (!range) {
+		res.status(404).send('Requires Range header');
 	} else {
 		console.log('this is range : ', range);
 		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`; // this might be wrong
 		const isMp4 = videoPath.endsWith('mp4');
 		const videoSize = fs.statSync(`${videoPath}`).size;
-		console.log('THIS IS BIDEO SIZE',videoSize);
-		const CHUNK_SIZE = 10 ** 6; 
-		const start = Number(range.replace(/\D/g, ""));
-		const end = Math.min(start + CHUNK_SIZE, videoSize - 1); // 
+		const CHUNK_SIZE = 10 ** 6;
+		let start = Number(range.replace(/\D/g, ""));
+		if (start > videoSize - 1) {
+			notLoaded = true;
+			start = 0;
+		}
+		const end = isMp4 ? Math.min(start + CHUNK_SIZE, videoSize - 1) : videoSize - 1;
 		const contentLength = end - start + 1;
 		const headers = isMp4
 			? {
@@ -34,7 +37,11 @@ export default function createStream(req: NextApiRequest, res: NextApiResponse){
 			'Accept-Ranges': 'bytes',
 			'Content-Type': 'video/webm',
 			};
-		res.writeHead(206, headers);
+		if (notLoaded) {
+			res.writeHead(416, headers);
+		} else {
+			res.writeHead(206, headers);
+		}
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
 			videoStream.pipe(res);
@@ -46,3 +53,4 @@ export default function createStream(req: NextApiRequest, res: NextApiResponse){
 		}
 	}
 }
+// /api/stream?imdbCode=tt18082758&path=The%20Takeover%20(2022)%20[720p]%20[WEBRip]%20[YTS.MX]/The.Takeover.2022.720p.WEBRip.x264.AAC-[YTS.MX].mp4&size=852279233
