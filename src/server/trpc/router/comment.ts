@@ -42,15 +42,14 @@ export const commentRouter = router({
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
-			const newMovie: any = await ctx.prisma.comment.create({
+			const newComment: any = await ctx.prisma.comment.create({
 				data: {
 					imdb_code: input.imdb_code,
 					comment_text: input.comment_text,
 					userId: input.user_id,
 				},
 			});
-			console.log(newMovie);
+			//console.log(newComment);
 			return {
 				message: 'Comment inserted into table successfully',
 			};
