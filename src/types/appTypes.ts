@@ -82,3 +82,7 @@ export type Inputs = {
 	firstName: string;
 	lastName: string;
 };
+
+export type PageLayout = {
+	children: React.ReactNode;
+};

@@ -4,9 +4,7 @@ import { RootReducer } from '../../types/appTypes';
 import NavigationBar from '../navbar';
 import Footer from '../footer';
 import { ToastContainer } from 'react-toastify';
-type PageLayout = {
-	children: React.ReactNode;
-};
+import { PageLayout } from '../../types/appTypes';
 
 const Layout = ({ children }: PageLayout) => {
 	const loggedUser = useSelector((state: RootReducer) => state.userReducer);
@@ -14,13 +12,13 @@ const Layout = ({ children }: PageLayout) => {
 	if (loggedUser.userEmail) {
 		return (
 			<>
-				<Container className="app blobs-background">
+				<div className="app blobs-background">
 					<ToastContainer />
 
 					<NavigationBar />
 					<main>{children}</main>
 					{/* <Footer /> */}
-				</Container>
+				</div>
 			</>
 		);
 	}

@@ -9,6 +9,7 @@ import { Inputs } from '../../types/appTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MDBIcon } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
+import PhotoUpload from '../../components/photoupload';
 
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
@@ -43,13 +44,16 @@ const Settings = () => {
 			<Container className="d-flex justify-content-center p-3">
 				<Card className="w-50 glass-background">
 					<Card.Body className="d-flex flex-column">
-						<div className="avatar-settings mx-auto mb-4">
-							<img
-								src="user-test-img.jpg"
-								alt="user profile image"
-								className="avatar-img rounded-circle"
-							/>
-						</div>
+						{/* <div className="avatar-settings mx-auto mb-4"> */}
+						<PhotoUpload />
+						{/* <> */}
+						{/* <img
+										src="user-test-img.jpg"
+										alt="user profile image"
+										className="avatar-img rounded-circle"
+									/> */}
+						{/* </> */}
+						{/* </div> */}
 						<Container className="text-center fs-3 mb-4">
 							{userInStore?.userName}
 						</Container>

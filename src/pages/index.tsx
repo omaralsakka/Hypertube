@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<div className="App">
+		<div className="app">
 			<div className="main">
 				{selectedLanguage}
 				<div className="language-select">
