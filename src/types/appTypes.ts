@@ -72,6 +72,7 @@ export type RootReducer = ReturnType<typeof rootReducer>;
 
 export type Comment = {
 	id: string;
+	userId: string;
 	userName: string;
 	date: string;
 	comment: string;

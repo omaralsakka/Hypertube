@@ -10,7 +10,6 @@ const NavigationBar = () => {
 	const handleSignout = () => {
 		console.log('signout user');
 	};
-	console.log();
 	return (
 		<>
 			<Navbar

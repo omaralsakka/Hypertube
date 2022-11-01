@@ -5,7 +5,10 @@ import { MDBIcon } from 'mdb-react-ui-kit';
 import { useState } from 'react';
 import { User } from '../../types/appTypes';
 import UserCard from '../../components/userCard';
+
 const ProfilePage = () => {
+	const router = useRouter();
+	const userId = router.query.movieId;
 	const [user, setUser] = useState<User>({
 		id: 1,
 		username: 'donkey',
