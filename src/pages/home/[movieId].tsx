@@ -96,7 +96,7 @@ const MoviePage = () => {
 
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
-		width: '180px',
+		width: '200px',
 		minWidth: '5vw',
 	};
 
@@ -182,7 +182,7 @@ const MoviePage = () => {
 												<Card.Title className="fs-2 mb-4 text-dark">
 													Suggested movies
 												</Card.Title>
-												<Container className="d-flex flex-wrap justify-content-center">
+												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
