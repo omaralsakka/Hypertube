@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth';
+import NextAuth, { Session, User, type NextAuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import FortyTwoProvider from 'next-auth/providers/42-school';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -7,17 +7,29 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../server/db/client';
 import { verify } from 'argon2';
+import { JWT } from 'next-auth/jwt';
 
 export const authOptions: NextAuthOptions = {
 	// Include user.id on session
-	callbacks: {
-		session({ session, user }) {
-			if (session.user) {
-				session.user.id = user.id;
-			}
-			return session;
-		},
-	},
+	// callbacks: {
+	// 	async jwt({token,account}) {
+	// 		if (account) {
+	// 			token.accessToken = account.access_token
+	// 		  }
+	// 		  return token
+	// 	},
+	// 	async session({session, user, token}) {
+	// 		console.log('User in session callback', user)
+	// 		if (user) {
+	// 			session.user = user
+	// 		}
+	// 		if (session.user && token) {
+	// 			session.user.id = token.id as string;
+	// 		}
+	// 		console.log('Session in callback', session)
+	// 		return session;
+	// 	},
+	// },
 	// Configure one or more authentication providers
 	adapter: PrismaAdapter(prisma),
 	providers: [
@@ -28,11 +40,8 @@ export const authOptions: NextAuthOptions = {
 			// You can specify whatever fields you are expecting to be submitted.
 			// e.g. domain, username, password, 2FA token, etc.
 			// You can pass any HTML attribute to the <input> tag through the object.
-			credentials: {
-				email: { label: 'email', type: 'email', placeholder: 'email' },
-				password: { label: 'Password', type: 'password' },
-			},
-			async authorize(credentials) {
+			credentials: {},
+			async authorize(credentials: any) {
 				// You need to provide your own logic here that takes the credentials
 				// submitted and returns either a object representing a user or value
 				// that is false/null if the credentials are invalid.
@@ -44,7 +53,8 @@ export const authOptions: NextAuthOptions = {
 				const user = await prisma.user.findFirst({
 					where: { email: credentials.email },
 				});
-				if (!user || !user.password || !user.id) return null;
+				console.log('user from db', user);
+				if (!user || !user.password || user.id.length < 1) return null;
 				// Check password validity
 				const validPassword = await verify(user.password, credentials.password);
 				if (!validPassword) return null;
@@ -71,19 +81,13 @@ export const authOptions: NextAuthOptions = {
 		// ...add more providers here
 	],
 	pages: {
-		signIn: '/auth/signin',
+		signIn: '/signin',
 	},
-	theme: {
-		colorScheme: 'auto', // "auto" | "dark" | "light"
-		brandColor: '#FF0000', // Hex color code
-		logo: 'http://localhost:3000/logo-hypertube/logo-color.png', // Absolute URL to image
-		buttonText: '#FF0000', // Hex color code
-	},
-  session: {
-    // Must be set to jwt for sessions to work properly with credentials provider
+	session: {
+		// Must be set to jwt for sessions to work properly with credentials provider
 		strategy: 'jwt',
 	},
-  debug: true
+	debug: true,
 };
 
 export default NextAuth(authOptions);
