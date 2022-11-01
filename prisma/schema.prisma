@@ -48,16 +48,15 @@ model Session {
 }
 
 model User {
-  id                Int @id @unique @default(autoincrement())
+  id            Int       @id @unique @default(autoincrement())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Comment       Comment[]
 }
-
-
 
 model VerificationToken {
   identifier String
@@ -69,10 +68,11 @@ model VerificationToken {
 
 // / 
 model Comment {
-  id                Int @id @unique @default(autoincrement())
-  imdb_code Int
-  comment_text          String?
-  created_at DateTime @default(now())
+  id           Int      @id @unique @default(autoincrement())
+  imdb_code    Int
+  comment_text String?
+  created_at   DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   userId Int
-  //user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

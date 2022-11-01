@@ -8,6 +8,18 @@ export const commentRouter = router({
 		.query(async ({ input, ctx }) => {
 			const comments: any = await ctx.prisma.comment.findMany({
 				where: { imdb_code: input.imdb_code },
+				select: {
+					id: true,
+					imdb_code: true,
+					comment_text: true,
+					created_at: true,
+					user: {
+						select: {
+							name: true,
+							image: true,
+						},
+					},
+				},
 			});
 
 			console.log(comments);
