@@ -6,7 +6,6 @@ import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
 import FilterControls from '../../components/filtercontrols';
-import { signOut, useSession } from 'next-auth/react';
 
 const Home = () => {
 	const [movies, setMoviesState] = useState<Movies>();
@@ -29,7 +28,6 @@ const Home = () => {
 			dispatch(setMovies(resp));
 		});
 	}, []);
-	const { data: session, status } = useSession();
 
 	return (
 		<>
@@ -37,15 +35,6 @@ const Home = () => {
 				<SearchNavBar />
 			</Container>
 			<Container>{/* <FilterControls /> */}</Container>
-
-			{status === 'authenticated' ? (<div>
-				<p>Signed in as {session.user?.email}</p>
-				<button onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}>Sign out</button>
-			</div>
-			) : (
-				<a href="/auth/signin">Sign in</a>
-			)}
-
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
 					movies.map((movie) => (

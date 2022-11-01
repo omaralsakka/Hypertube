@@ -1,3 +1,4 @@
+import { signOut } from 'next-auth/react';
 import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
 import { MdLogout } from 'react-icons/md';
 import { useSelector } from 'react-redux';
@@ -6,10 +7,7 @@ import { RootReducer } from '../../types/appTypes';
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
-
-	const handleSignout = () => {
-		console.log('signout user');
-	};
+	
 	return (
 		<>
 			<Navbar
@@ -40,7 +38,7 @@ const NavigationBar = () => {
 								</Navbar.Text>
 							</Nav.Item>
 							<Nav.Item className="d-none d-md-block">
-								<Button onClick={handleSignout} size="sm" variant="warning">
+								<Button onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })} size="sm" variant="warning">
 									<MdLogout className="fs-5" />
 								</Button>
 							</Nav.Item>
