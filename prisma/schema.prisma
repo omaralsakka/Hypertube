@@ -34,6 +34,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
+  created_at        Int?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -49,8 +50,9 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  name          String
+  email         String   @unique
+  password      String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]

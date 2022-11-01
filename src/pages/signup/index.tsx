@@ -10,12 +10,12 @@ import {
 	MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
-import UseField from '../../components/usefield';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
+import { trpc } from '../../utils/trpc';
 import PhotoUpload from '../../components/photoupload';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,11 +36,6 @@ const Signup = () => {
 
 	const notifyDefault = () => toast.success('Activation email sent');
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		notifyDefault();
-		console.log(data);
-	};
-
 	const {
 		watch,
 		register,
@@ -51,6 +46,21 @@ const Signup = () => {
 		resolver: zodResolver(schema),
 	});
 
+	const mutation = trpc.user.create.useMutation();
+
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		try {
+			console.log(data);
+			mutation.mutate({
+				name: data.userName,
+				email: data.userEmail,
+				password: data.userPassword,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	
 	return (
 		<MDBContainer className="p-5">
 			<MDBContainer className="w-100">
@@ -163,14 +173,15 @@ const Signup = () => {
 												type="submit"
 												className="btn btn-outline-danger btn-rounded btn-lg"
 												data-mdb-ripple-color="dark"
-												disabled={!isValid || !isDirty}
+												disabled={!isValid || !isDirty || mutation.isLoading}
 											>
 												Register
 											</button>
 										</div>
 									</Form.Group>
 								</Form>
-
+								{mutation.isError && <p>{mutation.error.message}</p>}
+								{mutation.isSuccess && <p>User created</p>}
 								<div>
 									<p className="text-muted">
 										Have an account? <Link href="/login">login</Link>

@@ -17,7 +17,6 @@ import store from '../store/store';
 import LanguageProvider from '../LanguageProvider';
 import Head from 'next/head';
 import Layout from '../components/layout';
-import { ToastContainer } from 'react-toastify';
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
