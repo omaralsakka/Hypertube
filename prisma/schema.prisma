@@ -23,7 +23,7 @@ model Example {
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
-  userId            String
+  userId            Int
   type              String
   provider          String
   providerAccountId String
@@ -42,13 +42,13 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
+  userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id                Int @id @unique @default(autoincrement())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -67,11 +67,12 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
+// / 
 model Comment {
-  imdb_code     String?
+  id                Int @id @unique @default(autoincrement())
+  imdb_code Int
   comment_text          String?
-  user  String?
-  creation_date String?
-  
+  created_at DateTime @default(now())
+  userId Int
+  //user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
