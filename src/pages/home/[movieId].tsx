@@ -11,6 +11,7 @@ import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import CommentsSection from '../../components/commentsSection';
 import MovieInfo from '../../components/movieInfo';
+import { getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
 	const router = useRouter();
@@ -112,7 +113,9 @@ const MoviePage = () => {
 	useEffect(() => {
 		if (movie?.id) {
 			getOmdb(movie).then((resp) => setMovieData(resp));
-			setSuggestedMovies(moviesReducer.slice(0, 6));
+			getSuggestedMovies(movie.id).then(
+				(resp) => resp && setSuggestedMovies(resp)
+			);
 		}
 	}, [movie]);
 
@@ -126,6 +129,7 @@ const MoviePage = () => {
 			body: JSON.stringify(movie),
 		});
 	};
+
 	if (!movie?.id) {
 		return <></>;
 	} else {

@@ -1,24 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import {
-	Container,
-	Image,
-	Card,
-	Row,
-	Col,
-	Collapse,
-	Button,
-} from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootReducer } from '../../types/appTypes';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import { MDBIcon } from 'mdb-react-ui-kit';
 import { useState } from 'react';
 import { User } from '../../types/appTypes';
 import UserCard from '../../components/userCard';
 const ProfilePage = () => {
-	// const router = useRouter();
-	// const userReducer: User = useSelector(
-	// 	(state: RootReducer) => state.userReducer
-	// );
 	const [user, setUser] = useState<User>({
 		id: 1,
 		username: 'donkey',
@@ -33,12 +20,28 @@ const ProfilePage = () => {
 		return <></>;
 	} else {
 		return (
-			<Container>
-				<Row className="justify-content-md-center">
-					<Col md={4}>
-						<UserCard user={user} />
-					</Col>
-				</Row>
+			<Container className="d-flex justify-content-center p-3">
+				<Card className="w-50 glass-background">
+					<Card.Body className="d-flex flex-column">
+						<div className="avatar-settings mx-auto mb-4">
+							<img
+								src="https://theviraler.com/wp-content/uploads/2019/09/pretty-cute-girls-24-2.jpg"
+								alt="user profile image"
+								className="avatar-img rounded-circle"
+							/>
+						</div>
+						<Container className="text-center fs-3 mb-4">
+							{user.username}
+						</Container>
+						<Container className="d-flex justify-content-center">
+							<div className="d-flex flex-row align-items-center mb-4 ">
+								<div className="me-3">
+									{user.firstname} {user.lastname}
+								</div>
+							</div>
+						</Container>
+					</Card.Body>
+				</Card>
 			</Container>
 		);
 	}
