@@ -1,7 +1,12 @@
 import { rootReducer } from '../store/store';
-
-import * as z from "zod";
-
+export type User = {
+	id: number;
+	username: string;
+	firstname: string;
+	lastname: string;
+	email: string;
+	image: string;
+};
 export type Movie = {
 	background_image: string;
 	background_image_original: string;
@@ -59,13 +64,28 @@ export type MovieData = {
 	Response: string;
 };
 
+export type MovieId = string | string[] | undefined;
+
 export type Movies = Movie[] | [];
 
 export type RootReducer = ReturnType<typeof rootReducer>;
 
-export const loginSchema = z.object({
-	email: z.string().email(),
-	password: z.string().min(4).max(12),
-  });
-  
-  export type ILogin = z.infer<typeof loginSchema>;
+export type Comment = {
+	id: string;
+	userId: string;
+	userName: string;
+	date: string;
+	comment: string;
+};
+
+export type Inputs = {
+	userName: string;
+	userEmail: string;
+	userPassword: string;
+	firstName: string;
+	lastName: string;
+};
+
+export type PageLayout = {
+	children: React.ReactNode;
+};

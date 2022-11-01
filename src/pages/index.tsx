@@ -1,4 +1,4 @@
-import './i18nextConf';
+import '../components/i18nextConf';
 import type { NextPage } from 'next';
 import { langs } from '../langContext';
 import { useEffect, useState } from 'react';
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<div className="App">
+		<div className="app">
 			<div className="main">
 				{selectedLanguage}
 				<div className="language-select">

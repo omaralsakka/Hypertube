@@ -22,21 +22,30 @@ type Inputs = {
 	userEmail: string;
 	userPassword: string;
 };
+import PhotoUpload from '../../components/photoupload';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Inputs } from '../../types/appTypes';
 
 const Signup = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-	// const [disabledButton, setDisabledButton] = useState(true);
 	const [consent, setConsent] = useState(false);
-	// const userName = UseField('text');
-	// const userEmail = UseField('email');
-	// const userPassword = UseField('password');
 
 	const schema = z.object({
 		userName: z.string().min(1, { message: 'Required' }),
 		userPassword: z.string().min(1, { message: 'Required' }),
 		userEmail: z.string().min(1, { message: 'Required' }),
+		firstName: z.string().min(1, { message: 'Required' }),
+		lastName: z.string().min(1, { message: 'Required' }),
 	});
+
+	const notifyDefault = () => toast.success('Activation email sent');
+
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		notifyDefault();
+		console.log(data);
+	};
 
 	const {
 		watch,
@@ -81,10 +90,7 @@ const Signup = () => {
 									Sign up
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"
-										controlId="register"
-									>
+									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
 										<div className="d-flex flex-row align-items-center mb-4 ">
 											<MDBIcon fas icon="user me-3" size="lg" />
 											<span className="has-float-label">
@@ -94,7 +100,33 @@ const Signup = () => {
 													placeholder=" "
 													{...register('userName')}
 												/>
-												<label htmlFor="signupName">Name</label>
+												<label htmlFor="signupName">Username</label>
+											</span>
+										</div>
+
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<MDBIcon fas icon="user me-3" size="lg" />
+											<span className="has-float-label">
+												<Form.Control
+													id="firstName"
+													type="text"
+													placeholder=" "
+													{...register('firstName')}
+												/>
+												<label htmlFor="firstName">First name</label>
+											</span>
+										</div>
+
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<MDBIcon fas icon="user me-3" size="lg" />
+											<span className="has-float-label">
+												<Form.Control
+													id="lastName"
+													type="text"
+													placeholder=" "
+													{...register('lastName')}
+												/>
+												<label htmlFor="lastName">Last name</label>
 											</span>
 										</div>
 
@@ -173,6 +205,7 @@ const Signup = () => {
 								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
 							>
 								<MDBCardImage src={LogoPng} className="w-75" />
+								{/* <PhotoUpload /> */}
 							</MDBCol>
 						</MDBRow>
 					</MDBCardBody>

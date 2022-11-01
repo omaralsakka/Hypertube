@@ -4,6 +4,7 @@ export const langs = {
 	fi: { ad: 'olemme Hive', text: 'tervetuloa hypertubeen' },
 };
 
+
 const LangContext = React.createContext(langs.en);
 
 export default LangContext;

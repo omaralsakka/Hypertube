@@ -1,55 +1,127 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import {
-	Container,
-	Image,
-	Card,
-	Row,
-	Col,
-	Collapse,
-	Button,
-} from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootReducer } from '../../types/appTypes';
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { Movies, Movie, MovieData } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
-import { movieRate, getOmdb } from '../../utils/helperFunctions';
+import { getOmdb } from '../../utils/helperFunctions';
 import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import CommentsSection from '../../components/commentsSection';
+import MovieInfo from '../../components/movieInfo';
+import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
 	const router = useRouter();
-	const moviesReducer: Movies = useSelector(
-		(state: RootReducer) => state.moviesReducer
-	);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
 	const [isLoading, setLoading] = useState(false);
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
-	const [openDescription, setOpenDescription] = useState(false);
-	let i = 0;
+	// this is forced comments to display for now till we got real backend comments
+	const [comments, setComments] = useState([
+		{
+			id: '10',
+			userId: '10',
+			userName: 'test1',
+			date: '20.10.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '11',
+			userId: '11',
+			userName: 'test442',
+			date: '20.11.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '12',
+			userId: '12',
+			userName: 'test96',
+			date: '20.12.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '13',
+			userId: '13',
+			userName: 'test86',
+			date: '20.01.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '15',
+			userId: '15',
+			userName: 'test5',
+			date: '20.02.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '16',
+			userId: '16',
+			userName: 'test4',
+			date: '20.03.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '17',
+			userId: '17',
+			userName: 'test3',
+			date: '20.04.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '18',
+			userId: '18',
+			userName: 'test2',
+			date: '20.05.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '19',
+			userId: '19',
+			userName: 'test10',
+			date: '20.06.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '20',
+			userId: '20',
+			userName: 'test12',
+			date: '25.10.2022',
+			comment: 'This movie is cool!!',
+		},
+		{
+			id: '23',
+			userId: '23',
+			userName: 'test13',
+			date: '12.10.2022',
+			comment: 'This movie is cool!!',
+		},
+	]);
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
-		width: '180px',
+		width: '200px',
 		minWidth: '5vw',
 	};
 
 	useEffect(() => {
-		i++;
-		if (i >= 2 && !moviesReducer.length) {
-			window.location.replace('/home');
+		if (movieId?.length) {
+			getMovie(movieId).then((resp) => {
+				if (!resp.id) {
+					window.location.replace('/home');
+				} else {
+					setMovie(resp);
+				}
+			});
 		}
-		if (moviesReducer.length) {
-			setMovie(moviesReducer.find((movie) => String(movie.id) === movieId));
-		}
-	}, [moviesReducer, movieId]);
+	}, [movieId]);
 
 	useEffect(() => {
 		if (movie?.id) {
 			getOmdb(movie).then((resp) => setMovieData(resp));
-			setSuggestedMovies(moviesReducer.slice(0, 6));
+			getSuggestedMovies(movie.id).then(
+				(resp) => resp && setSuggestedMovies(resp)
+			);
 		}
 	}, [movie]);
 
@@ -57,7 +129,6 @@ const MoviePage = () => {
 		setLoading(true);
 		streamMovie();
 	};
-
 	const streamMovie = () => {
 		const response = fetch('/api/video/', {
 			method: 'POST',
@@ -65,7 +136,6 @@ const MoviePage = () => {
 		});
 	};
 
-	console.log(movieData);
 	if (!movie?.id) {
 		return <></>;
 	} else {
@@ -118,7 +188,7 @@ const MoviePage = () => {
 												<Card.Title className="fs-2 mb-4 text-dark">
 													Suggested movies
 												</Card.Title>
-												<Container className="d-flex flex-wrap justify-content-center">
+												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
@@ -138,79 +208,12 @@ const MoviePage = () => {
 										<strong>{movieData?.Title}</strong>
 									</Card.Title>
 									<Container className="mt-2 mb-3" fluid>
-										<Row className="mb-3">
-											<Col>
-												<Card.Title className="mb-4 fs-5 d-flex align-items-center p-0">
-													{movieData?.Year}
-													<span className="mx-3 border b-1 p-1 rounded border-dark fs-6">
-														{movieRate(movieData?.Rated)}
-													</span>
-													<span>{movieData?.Runtime}</span>
-												</Card.Title>
-											</Col>
-										</Row>
-										<Container className="ms-0 mb-3" fluid>
-											<Button
-												variant="warning"
-												onClick={() => setOpenDescription(!openDescription)}
-												aria-controls="description-section"
-												aria-expanded={openDescription}
-											>
-												Read more
-											</Button>
-										</Container>
-										<Collapse in={openDescription}>
-											<Row id="description-section">
-												<Col>
-													<Row className="mb-3">
-														<Card.Title className="fs-3">Plot</Card.Title>
-														<Card.Text style={{ color: '#333' }}>
-															{movieData?.Plot}
-														</Card.Text>
-													</Row>
-													<Row>
-														<div className="d-flex align-items-center mb-1">
-															<Card.Title className="m-0 p-0">Imdb:</Card.Title>
-															<Card.Text className="fs-5 ms-1">
-																{movieData?.imdbRating}
-															</Card.Text>
-														</div>
-														<div className="d-flex align-items-center ">
-															<Card.Title className="m-0 p-0">
-																Country:
-															</Card.Title>
-															<Card.Text className="fs-5 ms-1">
-																{movieData?.Country}
-															</Card.Text>
-														</div>
-													</Row>
-												</Col>
-												<Col>
-													<Row className="mb-3">
-														<Card.Title>
-															<span>Actors:</span>{' '}
-															<strong>{movieData?.Actors}</strong>
-														</Card.Title>
-														<Card.Title>
-															<span>Director:</span>{' '}
-															<strong>{movieData?.Director}</strong>
-														</Card.Title>{' '}
-													</Row>
-													<Row>
-														<Card.Title>
-															<span>Category:</span>{' '}
-															<strong>{movieData?.Genre}</strong>
-														</Card.Title>{' '}
-														<Card.Title>
-															<span>Language:</span>{' '}
-															<strong>{movieData?.Language}</strong>
-														</Card.Title>
-													</Row>
-												</Col>
-											</Row>
-										</Collapse>
+										<MovieInfo movieData={movieData} />
+										<hr />
 										<Row>
-											<Col></Col>
+											<Col>
+												<CommentsSection comments={comments} />
+											</Col>
 										</Row>
 									</Container>
 								</Container>
