@@ -41,7 +41,7 @@ const CommentsSection = ({ comments }: { comments: Comment[] }) => {
 			</Row>
 			<Container fluid>
 				{comments.map((comment) => (
-					<CommentRow comment={comment} />
+					<CommentRow key={comment.id} comment={comment} />
 				))}
 			</Container>
 		</>

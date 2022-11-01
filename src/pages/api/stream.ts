@@ -1,21 +1,23 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { useRouter } from 'next/router';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from "fs";
 
-export const createStream = (req: NextApiRequest, res: NextApiResponse, moviePath: string) => {
-	console.log("in the stream api endpoint");
-	const router = useRouter();
+export default function createStream(req: NextApiRequest, res: NextApiResponse){
+
+	const regexPath = /path=(.*)/;
+	let moviePath: any = req.url?.match(regexPath); // fix typescript
+	moviePath = moviePath[1]?.split('%20').join(' ');
+	const regexImdb = /imdbCode=(.*?)&/;
+	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
 	const range = req.headers.range
-	const imdbCode = router.query.imdbCode;
-	console.log('range : ', range);
-	console.log('imdb code : ', imdbCode)
-	if (!range) {
-		res.status(400).send('Requires Range header');
+	if (!range) { // this whole if check might have to be removed and the 'no range' issue will be dealt in a different manor.
+		res.status(416).send('Requires Range header');
 	} else {
-		const videoPath = `../../movies/${imdbCode}`; // this might be wrong
+		console.log('this is range : ', range);
+		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`; // this might be wrong
 		const isMp4 = videoPath.endsWith('mp4');
 		const videoSize = fs.statSync(`${videoPath}`).size;
+		console.log('THIS IS BIDEO SIZE',videoSize);
 		const CHUNK_SIZE = 10 ** 6; 
 		const start = Number(range.replace(/\D/g, ""));
 		const end = Math.min(start + CHUNK_SIZE, videoSize - 1); // 
