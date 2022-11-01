@@ -64,6 +64,8 @@ export type MovieData = {
 	Response: string;
 };
 
+export type MovieId = string | string[] | undefined;
+
 export type Movies = Movie[] | [];
 
 export type RootReducer = ReturnType<typeof rootReducer>;

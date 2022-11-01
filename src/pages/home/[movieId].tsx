@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Container, Card, Row, Col, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootReducer } from '../../types/appTypes';
 import { useState } from 'react';
 import { Movies, Movie, MovieData } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
@@ -11,13 +9,10 @@ import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import CommentsSection from '../../components/commentsSection';
 import MovieInfo from '../../components/movieInfo';
-import { getSuggestedMovies } from '../../services/ytsServices';
+import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
 	const router = useRouter();
-	const moviesReducer: Movies = useSelector(
-		(state: RootReducer) => state.moviesReducer
-	);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
 	const [isLoading, setLoading] = useState(false);
@@ -92,8 +87,6 @@ const MoviePage = () => {
 			comment: 'This movie is cool!!',
 		},
 	]);
-	let i = 0;
-
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
 		width: '200px',
@@ -101,14 +94,16 @@ const MoviePage = () => {
 	};
 
 	useEffect(() => {
-		i++;
-		if (i >= 2 && !moviesReducer.length) {
-			window.location.replace('/home');
+		if (movieId?.length) {
+			getMovie(movieId).then((resp) => {
+				if (!resp.id) {
+					window.location.replace('/home');
+				} else {
+					setMovie(resp);
+				}
+			});
 		}
-		if (moviesReducer.length) {
-			setMovie(moviesReducer.find((movie) => String(movie.id) === movieId));
-		}
-	}, [moviesReducer, movieId]);
+	}, [movieId]);
 
 	useEffect(() => {
 		if (movie?.id) {
