@@ -13,7 +13,6 @@ import { FormCheck } from 'react-bootstrap';
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
-	const [consent, setConsent] = useState(false);
 
 	const schema = z.object({
 		userName: z.string().min(1, { message: 'Required' }),
@@ -41,7 +40,7 @@ const Settings = () => {
 	});
 	return (
 		<>
-			<Container className="d-flex justify-content-center">
+			<Container className="d-flex justify-content-center p-3">
 				<Card className="w-50 glass-background">
 					<Card.Body className="d-flex flex-column">
 						<div className="avatar-settings mx-auto mb-4">
@@ -59,74 +58,70 @@ const Settings = () => {
 								<Form.Group className="mb-3 d-flex flex-column">
 									<div className="d-flex flex-row align-items-center mb-4 ">
 										<MDBIcon fas icon="user me-3" size="lg" />
-										<span className="has-float-label me-3">
+										<div className="me-3">
 											<Form.Control
 												id="signupName"
+												className="border-bottom comment-form bg-transparent"
+												placeholder="username"
 												type="text"
-												placeholder=" "
 												{...register('userName')}
-											/>
-											<label htmlFor="signupName">Username</label>
-										</span>
+											></Form.Control>
+										</div>
 										<Form.Text>Change username</Form.Text>
 									</div>
-
 									<div className="d-flex flex-row align-items-center mb-4 ">
 										<MDBIcon fas icon="user me-3" size="lg" />
-										<span className="has-float-label me-3">
+										<div className="me-3">
 											<Form.Control
 												id="firstName"
+												className="border-bottom comment-form bg-transparent"
+												placeholder="first name"
 												type="text"
-												placeholder=" "
 												{...register('firstName')}
-											/>
-											<label htmlFor="firstName">First name</label>
-										</span>
-										<Form.Text>Change last name</Form.Text>
+											></Form.Control>
+										</div>
+										<Form.Text>Change first name</Form.Text>
 									</div>
-
 									<div className="d-flex flex-row align-items-center mb-4 ">
 										<MDBIcon fas icon="user me-3" size="lg" />
-										<span className="has-float-label me-3">
+										<div className="me-3">
 											<Form.Control
 												id="lastName"
+												className="border-bottom comment-form bg-transparent"
+												placeholder="last name"
 												type="text"
-												placeholder=" "
 												{...register('lastName')}
-											/>
-											<label htmlFor="lastName">Last name</label>
-										</span>
+											></Form.Control>
+										</div>
 										<Form.Text>Change last name</Form.Text>
 									</div>
-
-									<div className="d-flex flex-row align-items-center mb-4">
+									<div className="d-flex flex-row align-items-center mb-4 ">
 										<MDBIcon fas icon="envelope me-3" size="lg" />
-										<span className="has-float-label me-3">
+										<div className="me-3">
 											<Form.Control
 												id="signupEmail"
+												className="border-bottom comment-form bg-transparent"
+												placeholder="email"
 												type="email"
-												placeholder=" "
 												{...register('userEmail')}
-											/>
-											<label htmlFor="signupEmail">Email</label>
-										</span>
+											></Form.Control>
+										</div>
 										<Form.Text>Change email</Form.Text>
 									</div>
-
-									<div className="d-flex flex-row align-items-center mb-4">
+									<div className="d-flex flex-row align-items-center mb-4 ">
 										<MDBIcon fas icon="lock me-3" size="lg" />
-										<span className="has-float-label me-3">
+
+										<div className="me-3">
 											<Form.Control
+												placeholder="password"
+												className="border-bottom comment-form bg-transparent"
 												id="signupPassword"
 												type={passType}
-												placeholder=" "
 												{...register('userPassword')}
 											/>
-											<label htmlFor="signupPassword">Password</label>
-										</span>
+										</div>
 										<Form.Text>Change password</Form.Text>
 									</div>
-
 									<div className="mb-4">
 										<FormCheck
 											type="checkbox"
@@ -138,7 +133,6 @@ const Settings = () => {
 											}
 										/>
 									</div>
-
 									<div
 										className="mb-4 d-flex align-items-center justify-content-center"
 										style={{ minHeight: '5vh' }}
