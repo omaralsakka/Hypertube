@@ -4,6 +4,12 @@ create-app:
 create-db:
 	docker-compose up -d --force-recreate db
 
+prisma-push:
+		docker-compose run --rm app "npx prisma db push && npm i"
+
+prisma-format:
+		docker-compose run --rm app "npx prisma format"
+
 create: create-app create-db
 
 up:
