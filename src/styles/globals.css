@@ -150,3 +150,9 @@ input[type='file'] {
 	padding: 6px 12px;
 	cursor: pointer;
 }
+
+.vl {
+	border-left: 1px solid #606060;
+	margin: 0;
+	height: 6vh;
+}

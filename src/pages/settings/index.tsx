@@ -41,7 +41,7 @@ const Settings = () => {
 	});
 	return (
 		<>
-			<Container className="d-flex justify-content-center p-3">
+			<Container className="d-flex justify-content-center p-3 mb-4">
 				<Card className="w-50 glass-background">
 					<Card.Body className="d-flex flex-column">
 						<PhotoUpload />

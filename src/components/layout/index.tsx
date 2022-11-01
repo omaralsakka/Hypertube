@@ -17,15 +17,18 @@ const Layout = ({ children }: PageLayout) => {
 
 					<NavigationBar />
 					<main>{children}</main>
-					{/* <Footer /> */}
+					<Footer />
 				</div>
 			</>
 		);
 	}
 	return (
-		<Container className="app blobs-background">
-			<main>{children}</main>
-		</Container>
+		<>
+			<div className="app blobs-background">
+				<main>{children}</main>
+				<Footer />
+			</div>
+		</>
 	);
 };
 export default Layout;
