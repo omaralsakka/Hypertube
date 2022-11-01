@@ -4,12 +4,14 @@ import { TRPCError } from '@trpc/server';
 
 export const commentRouter = router({
 	getMovieComments: publicProcedure
-		.input(z.object({ imdb_code: z.string() }))
+		.input(z.object({ imdb_code: z.number() }))
 		.query(async ({ input, ctx }) => {
-			const comments: any = await ctx.prisma.comment.fidMany({
+			const comments: any = await ctx.prisma.comment.findMany({
 				where: { imdb_code: input.imdb_code },
 			});
+
 			console.log(comments);
+
 			if (!comments)
 				throw new TRPCError({
 					code: 'BAD_REQUEST',
@@ -24,8 +26,9 @@ export const commentRouter = router({
 	createComment: publicProcedure
 		.input(
 			z.object({
-				imdb_code: z.string().min(1),
+				imdb_code: z.number().min(1),
 				comment_text: z.string().min(1),
+				user_id: z.number().min(1),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
@@ -34,7 +37,7 @@ export const commentRouter = router({
 				data: {
 					imdb_code: input.imdb_code,
 					comment_text: input.comment_text,
-					user_id,
+					userId: input.user_id,
 				},
 			});
 			console.log(newMovie);
@@ -45,6 +48,15 @@ export const commentRouter = router({
 });
 
 /*
+
+    // then match the ratings with posts
+    const mappedRatings = posts.map( (post, idx) => {
+        return {
+            ...post,
+            userRating: averages[idx]._avg.rating
+        }
+    })
+
 CREATE TABLE IF NOT EXISTS `camagru`.`comment` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `creation_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
