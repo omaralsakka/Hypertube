@@ -22,8 +22,6 @@ export const commentRouter = router({
 				},
 			});
 
-			console.log(comments);
-
 			if (!comments)
 				throw new TRPCError({
 					code: 'BAD_REQUEST',
