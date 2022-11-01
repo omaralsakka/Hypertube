@@ -51,82 +51,94 @@ const Settings = () => {
 						<Container className="d-flex justify-content-center">
 							<Form onSubmit={handleSubmit(onSubmit)}>
 								<Form.Group className="mb-3 d-flex flex-column">
-									<div className="d-flex flex-row align-items-center mb-4 ">
-										<MDBIcon fas icon="user me-3" size="lg" />
-										<div className="me-3">
-											<Form.Control
-												id="signupName"
-												className="border-bottom comment-form bg-transparent"
-												placeholder="username"
-												type="text"
-												{...register('userName')}
-											></Form.Control>
+									<div className="mb-3">
+										<div className="mb-3">
+											<Card.Title>
+												{' '}
+												<MDBIcon fas icon="user me-3" size="lg" />
+												Personal Info
+											</Card.Title>
 										</div>
-										<Form.Text>Change username</Form.Text>
-									</div>
-									<div className="d-flex flex-row align-items-center mb-4 ">
-										<MDBIcon fas icon="user me-3" size="lg" />
-										<div className="me-3">
-											<Form.Control
-												id="firstName"
-												className="border-bottom comment-form bg-transparent"
-												placeholder="first name"
-												type="text"
-												{...register('firstName')}
-											></Form.Control>
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<div className="me-3">
+												<Form.Control
+													id="firstName"
+													className="border-bottom comment-form bg-transparent"
+													placeholder="first name"
+													type="text"
+													{...register('firstName')}
+												></Form.Control>
+											</div>
+											<Form.Text>Change first name</Form.Text>
 										</div>
-										<Form.Text>Change first name</Form.Text>
-									</div>
-									<div className="d-flex flex-row align-items-center mb-4 ">
-										<MDBIcon fas icon="user me-3" size="lg" />
-										<div className="me-3">
-											<Form.Control
-												id="lastName"
-												className="border-bottom comment-form bg-transparent"
-												placeholder="last name"
-												type="text"
-												{...register('lastName')}
-											></Form.Control>
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<div className="me-3">
+												<Form.Control
+													id="lastName"
+													className="border-bottom comment-form bg-transparent"
+													placeholder="last name"
+													type="text"
+													{...register('lastName')}
+												></Form.Control>
+											</div>
+											<Form.Text>Change last name</Form.Text>
 										</div>
-										<Form.Text>Change last name</Form.Text>
 									</div>
-									<div className="d-flex flex-row align-items-center mb-4 ">
-										<MDBIcon fas icon="envelope me-3" size="lg" />
-										<div className="me-3">
-											<Form.Control
-												id="signupEmail"
-												className="border-bottom comment-form bg-transparent"
-												placeholder="email"
-												type="email"
-												{...register('userEmail')}
-											></Form.Control>
+									<div>
+										<div className="mb-3">
+											<Card.Title>
+												{' '}
+												<MDBIcon fas icon="user me-3" size="lg" />
+												Account info
+											</Card.Title>
 										</div>
-										<Form.Text>Change email</Form.Text>
-									</div>
-									<div className="d-flex flex-row align-items-center mb-4 ">
-										<MDBIcon fas icon="lock me-3" size="lg" />
-
-										<div className="me-3">
-											<Form.Control
-												placeholder="password"
-												className="border-bottom comment-form bg-transparent"
-												id="signupPassword"
-												type={passType}
-												{...register('userPassword')}
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<div className="me-3">
+												<Form.Control
+													id="signupName"
+													className="border-bottom comment-form bg-transparent"
+													placeholder="username"
+													type="text"
+													{...register('userName')}
+												></Form.Control>
+											</div>
+											<Form.Text>Change username</Form.Text>
+										</div>
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<div className="me-3">
+												<Form.Control
+													id="signupEmail"
+													className="border-bottom comment-form bg-transparent"
+													placeholder="email"
+													type="email"
+													{...register('userEmail')}
+												></Form.Control>
+											</div>
+											<Form.Text>Change email</Form.Text>
+										</div>
+										<div className="d-flex flex-row align-items-center mb-4 ">
+											<div className="me-3">
+												<Form.Control
+													placeholder="password"
+													className="border-bottom comment-form bg-transparent"
+													id="signupPassword"
+													type={passType}
+													{...register('userPassword')}
+												/>
+											</div>
+											<Form.Text>Change password</Form.Text>
+										</div>
+										<div className="mb-4">
+											<FormCheck
+												type="checkbox"
+												label="show password"
+												onClick={() =>
+													passType === 'password'
+														? setPassType('text')
+														: setPassType('password')
+												}
 											/>
 										</div>
-										<Form.Text>Change password</Form.Text>
-									</div>
-									<div className="mb-4">
-										<FormCheck
-											type="checkbox"
-											label="show password"
-											onClick={() =>
-												passType === 'password'
-													? setPassType('text')
-													: setPassType('password')
-											}
-										/>
 									</div>
 									<div
 										className="mb-4 d-flex align-items-center justify-content-center"
