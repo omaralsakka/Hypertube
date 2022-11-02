@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { downloadTorrent } from "../../server/torrent/downloadTorrent";
+import { prisma } from '../../server/db/client';
+
 interface torrentDataInter { 
 	url: string,
 	hash: string,
@@ -21,19 +23,34 @@ const createMagnetLink = (torrents: torrentDataInter[], movieTitle: string): str
 }
 
 export default async function streamVideo(req: NextApiRequest, res: NextApiResponse) {
-	console.log('in api endpoint')
+	console.log('in api/video endpoint')
+
+	let movieInfo: any = false;
+
 	if(req.method === 'POST') {
-		// here a check for if the movie has been already downloaded, if so skip the downloading :D
-		const data = JSON.parse(req.body);
+		const data = req.body;
 		const id: number = data.id;
 		const imdbCode: string = data.imdb_code;
 		const movieTitle: string = data.title_long;
 		const torrents: torrentDataInter[] = data.torrents;
 		const uri: string = createMagnetLink(torrents, movieTitle);
-		await downloadTorrent(uri, imdbCode); // maybe pass imdb code here as well for the path of downloaded file.
-		// if there is a issue when starting to view the movie it might have something to do with that it hasnt started downloading yet
-		// before clicking play because i removed now the createStream from here.
-		res.status(200).json({ message: 'Movie downloading'});
+		const isMovieDownloaded = await prisma.movies.findFirst({
+			where: { imdb_code: imdbCode },
+		});
+		if(isMovieDownloaded === null){
+			movieInfo = await downloadTorrent(uri, imdbCode);
+		} else {
+			console.log('Movie has been already downloaded') // this does not necessarely meen that the whole movie has been 
+															// downloaded. Have to add this check to table.
+															// we could pass the size of the partially downloaded file
+															// to the download function above and compare it there
+															// with the file size to be downloaded and if the dont match
+															// continue downloading 
+		}
+		if(movieInfo !== false)
+			res.status(200).json({ message: 'Movie downloading!', data: movieInfo});
+		else
+			res.status(200).json({ message: 'Preparing movie for streaming!', data: isMovieDownloaded});
 	} else {
 		res.status(404).json({ message: 'Type of request invalid, please do a POST request'});
 	}

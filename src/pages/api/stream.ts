@@ -1,25 +1,42 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { useRouter } from 'next/router';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from "fs";
 
-export const createStream = (req: NextApiRequest, res: NextApiResponse, moviePath: string) => {
-	console.log("in the stream api endpoint");
-	const router = useRouter();
+export const config = {
+	api: {
+		responseLimit: '20mb',
+	  },
+}
+		// THIS WHOLE FILE HAS TO BE TYPESCRIPTED PROPERLY !! //
+export default function createStream(req: NextApiRequest, res: NextApiResponse){
+
+	const regexPath = /path=(.*)&/;
+	const regexImdb = /imdbCode=(.*?)&/;
+	const regexSize = /size=(.*)/;
+	let moviePath: any = req.url?.match(regexPath); // fix typescript
+	moviePath = moviePath[1]?.split('%20').join(' ');
+	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
+	const fullSize: any = req.url?.match(regexSize); // fix typescript
 	const range = req.headers.range
-	const imdbCode = router.query.imdbCode;
-	console.log('range : ', range);
-	console.log('imdb code : ', imdbCode)
+	let notLoaded = false;
+
 	if (!range) {
-		res.status(400).send('Requires Range header');
+		res.status(404).send('Requires Range header');
 	} else {
-		const videoPath = `../../movies/${imdbCode}`; // this might be wrong
+		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
 		const isMp4 = videoPath.endsWith('mp4');
-		const videoSize = fs.statSync(`${videoPath}`).size;
-		const CHUNK_SIZE = 10 ** 6; 
-		const start = Number(range.replace(/\D/g, ""));
-		const end = Math.min(start + CHUNK_SIZE, videoSize - 1); // 
+		const videoSize = Number(fullSize[1])
+		const CHUNK_SIZE = 20e+6;
+		let start = Number(range.replace(/\D/g, ""));
+
+		if (start > videoSize - 1) { // this might be useless after changes so propably will take away
+			notLoaded = true;
+			start = 0;
+		}
+
+		const end = isMp4 ? Math.min(start + CHUNK_SIZE, videoSize - 1) : videoSize - 1;
 		const contentLength = end - start + 1;
+
 		const headers = isMp4
 			? {
 			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
@@ -32,7 +49,13 @@ export const createStream = (req: NextApiRequest, res: NextApiResponse, moviePat
 			'Accept-Ranges': 'bytes',
 			'Content-Type': 'video/webm',
 			};
-		res.writeHead(206, headers);
+
+		if (notLoaded) {
+			res.writeHead(416, headers);
+		} else {
+			res.writeHead(206, headers);
+		}
+
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
 			videoStream.pipe(res);
