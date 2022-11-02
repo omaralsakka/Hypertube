@@ -1,19 +1,13 @@
-import { useState } from 'react';
-import {
-	MDBContainer,
-	MDBRow,
-	MDBCol,
-	MDBCard,
-	MDBCardBody,
-	MDBCardImage,
-	MDBIcon,
-} from 'mdb-react-ui-kit';
+import { MouseEvent, useState } from 'react';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import Form from 'react-bootstrap/Form';
-
+import { Container, Card, Form, Button } from 'react-bootstrap';
+import { MdAlternateEmail } from 'react-icons/md';
+import { flexColCenter } from '../../styles/styleVariables';
 type Inputs = {
 	email: string;
 	username: string;
@@ -21,110 +15,98 @@ type Inputs = {
 
 const forgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
-	const [passType, setPassType] = useState('username');
-	const [disabledButton, setDisabledButton] = useState(true);
-
-
+	const [emailSent, setEmailSent] = useState(false);
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
-		username: z.string().min(1, { message: 'Required' }),
 	});
-
+	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		const email = getValues('email');
+		const user = await signIn('email', {
+			email: email,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+		setEmailSent(true);
+	};
 	const {
 		watch,
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
 	return (
-		<MDBContainer className="p-5">
-			<MDBContainer className="w-100">
-				<MDBCard
-					className="text-black m-5 shadow-lg border-0 p-3 bg-0 bg-transparent glass-background"
-					style={{ borderRadius: '25px' }}
-				>
-					<MDBCardBody>
-						<MDBRow style={{ minHeight: '50vh' }}>
-							<MDBCol
-								md="10"
-								lg="6"
-								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3"
-							>
-								<p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-									Request password
-								</p>
-										<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"									>
-										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="envelope me-3" size="lg" />
-											<span className="has-float-label">
-												<Form.Control
-													id="loginEmail"
-													type="email"
-													placeholder=" "
-													{...register('email')}
-													aria-invalid={errors.email ? 'true' : 'false'}
-												/>
-												<label htmlFor="loginEmail">Email</label>
-											</span>
-										</div>
-										{errors.email?.message && (
-											<p>{errors.email?.message as string}</p>
-										)}
-										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="user me-3" size="lg" />
-											<span className="has-float-label">
-												<Form.Control
-													id="loginUsername"
-													type={passType}
-													placeholder=" "
-													{...register('username')}
-													aria-invalid={errors.username ? 'true' : 'false'}
-													// {...userusername}
-												/>
-												<label htmlFor="loginUsername">Username</label>
-											</span>
-										</div>
-										{errors.username?.message && (
-											<p>{errors.username?.message as string}</p>
-										)}
-
-
-										<div className="mb-4" style={{ minHeight: '5vh' }}>
-											<button
-												type="submit"
-												className="btn btn-outline-danger btn-rounded btn-lg"
-												data-mdb-ripple-color="dark"
-												disabled={!isValid || !isDirty}
-											>
-												Submit											</button>
-										</div>
-										<div>
-											<p className="text-muted">
-												New to Hypertube? <Link href="/signup">signup</Link>
-											</p>
-										</div>
-									</Form.Group>
-								</Form>
-							</MDBCol>
-							<MDBCol
-								md="10"
-								lg="6"
-								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
-							>
-								<MDBCardImage src={LogoPng} className="w-75" />
-							</MDBCol>
-						</MDBRow>
-					</MDBCardBody>
-				</MDBCard>
-			</MDBContainer>
-		</MDBContainer>
+		<>
+			<Container className="d-flex justify-content-center p-3 mb-4">
+				<Card className="w-75 glass-background">
+					<Card.Body>
+						{emailSent ? (
+							<div className={`${flexColCenter} w-75 m-auto`}>
+								<Card.Title className="display-6 text-dark mb-5">
+									<strong>Email sent</strong>
+								</Card.Title>
+								<Card.Title className="mb-5 w-50 text-center">
+									We have sent you an email with the login link, please check
+									your email.
+								</Card.Title>
+							</div>
+						) : (
+							<div className={`${flexColCenter} w-75 m-auto`}>
+								<Card.Title className="display-6 text-dark mb-5">
+									<strong>Forgot password</strong>
+								</Card.Title>
+								<Card.Title className="mb-5 w-50 text-center">
+									Enter your email address below and we'll send you a link to
+									login with.
+								</Card.Title>
+								<Container className="d-flex justify-content-center">
+									<Form onSubmit={handleSubmit(onSubmit)}>
+										<Form.Group className={`${flexColCenter} mb-3`}>
+											<Container className="mb-4">
+												<div className="d-flex align-items-center mb-4 ">
+													<MdAlternateEmail className="me-2 fs-4" />
+													<div className="me-3">
+														<Form.Control
+															id="loginEmail"
+															className="border-bottom comment-form bg-transparent"
+															placeholder="Email"
+															type="email"
+															{...register('email')}
+														></Form.Control>
+													</div>
+												</div>
+											</Container>
+											<div style={{ minHeight: '5vh' }}>
+												<Button
+													type="submit"
+													variant="outline-warning"
+													size="lg"
+													onClick={onEmailSubmit}
+													disabled={!isValid || !isDirty}
+												>
+													Submit
+												</Button>
+											</div>
+										</Form.Group>
+									</Form>
+								</Container>
+								<div>
+									<p className="text-muted">
+										Would you like a new account?{' '}
+										<Link href="/signup">Sign up</Link>
+									</p>
+								</div>
+							</div>
+						)}
+					</Card.Body>
+				</Card>
+			</Container>
+		</>
 	);
 };
 
