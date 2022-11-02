@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import CommentsSection from '../../components/commentsSection';
 import axios from 'axios';
 
-const streamMovie = (movie:Movie | undefined) => {
+const streamMovie = (movie:Movie | undefined) => { // THIS CHANGE IS IMPORTANT
 	const response = fetch('/api/video/', {
 		method: 'POST',
 		body: JSON.stringify(movie),
@@ -32,7 +32,7 @@ const MoviePage = () => {
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [openDescription, setOpenDescription] = useState(false);
-	const [movieInfo, setMovieInfo] = useState({imdb_code: '', movie_path: ''});
+	const [movieInfo, setMovieInfo] = useState({imdb_code: '', movie_path: '', size: 0}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
 	const [comments, setComments] = useState([
 		{
@@ -126,7 +126,7 @@ const MoviePage = () => {
 		}
 	}, [movie]);
 
-	const handleClick = () => {
+	const handleClick = () => { // THESE CHANGES ARE IMPORTANT
 		axios.post('/api/video/', movie).then((resp) => {
 			setMovieInfo(resp.data.data);
 			setLoading(true);
@@ -288,9 +288,9 @@ const MoviePage = () => {
 						</Card>
 					</Container>
 					{
-						isLoading ?
+						isLoading ? // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING 
 						<video id="videoPlayer" width="50%" controls>
-								<source src={`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}`} type="video/mp4" />
+								<source src={`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`} type="video/mp4" />
 						</video>
 						:
 						<></>

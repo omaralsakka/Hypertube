@@ -6,31 +6,37 @@ export const config = {
 	api: {
 		responseLimit: '20mb',
 	  },
-  }
-
+}
+		// THIS WHOLE FILE HAS TO BE TYPESCRIPTED PROPERLY !! //
 export default function createStream(req: NextApiRequest, res: NextApiResponse){
-	const regexPath = /path=(.*)/;
+
+	const regexPath = /path=(.*)&/;
+	const regexImdb = /imdbCode=(.*?)&/;
+	const regexSize = /size=(.*)/;
 	let moviePath: any = req.url?.match(regexPath); // fix typescript
 	moviePath = moviePath[1]?.split('%20').join(' ');
-	const regexImdb = /imdbCode=(.*?)&/;
 	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
+	const fullSize: any = req.url?.match(regexSize); // fix typescript
 	const range = req.headers.range
 	let notLoaded = false;
+
 	if (!range) {
 		res.status(404).send('Requires Range header');
 	} else {
-		console.log('this is range : ', range);
-		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`; // this might be wrong
+		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
 		const isMp4 = videoPath.endsWith('mp4');
-		const videoSize = fs.statSync(`${videoPath}`).size;
+		const videoSize = Number(fullSize[1])
 		const CHUNK_SIZE = 20e+6;
 		let start = Number(range.replace(/\D/g, ""));
-		if (start > videoSize - 1) {
+
+		if (start > videoSize - 1) { // this might be useless after changes so propably will take away
 			notLoaded = true;
 			start = 0;
 		}
+
 		const end = isMp4 ? Math.min(start + CHUNK_SIZE, videoSize - 1) : videoSize - 1;
 		const contentLength = end - start + 1;
+
 		const headers = isMp4
 			? {
 			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
@@ -43,11 +49,13 @@ export default function createStream(req: NextApiRequest, res: NextApiResponse){
 			'Accept-Ranges': 'bytes',
 			'Content-Type': 'video/webm',
 			};
+
 		if (notLoaded) {
 			res.writeHead(416, headers);
 		} else {
 			res.writeHead(206, headers);
 		}
+
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
 			videoStream.pipe(res);
@@ -59,4 +67,3 @@ export default function createStream(req: NextApiRequest, res: NextApiResponse){
 		}
 	}
 }
-// /api/stream?imdbCode=tt18082758&path=The%20Takeover%20(2022)%20[720p]%20[WEBRip]%20[YTS.MX]/The.Takeover.2022.720p.WEBRip.x264.AAC-[YTS.MX].mp4&size=852279233

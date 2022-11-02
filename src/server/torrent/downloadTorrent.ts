@@ -3,11 +3,11 @@ import { prisma } from '../../server/db/client';
 import fs from "fs";
 
 export const downloadTorrent = async (magnetLink: string, imdbCode: string) => new Promise((resolve) => {
-	
+
 	let newMovie: {} | undefined;
 	let filePath: string;
-	
-	const torrentStreamOptions: {} = { // this will have to be specified later, testing purpose
+
+	const torrentStreamOptions: {} = {
 		trackers: [
 			'udp://open.demonii.com:1337/announce',
 			'udp://tracker.openbittorrent.com:80',
@@ -47,7 +47,7 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string) => n
 	engine.on('download', () => {
 		console.log('Piece downloaded!');
 		if (fs.existsSync(`./movies/${imdbCode}/${filePath}`)) {
-			if(fs.statSync(`./movies/${imdbCode}/${filePath}`).size / (1024 * 1024) > 100) {
+			if(fs.statSync(`./movies/${imdbCode}/${filePath}`).size / (1024 * 1024) > 50) {
 				console.log('RESOLVED RESOLVED RESOLVED RESOLVED')
 				resolve(newMovie);
 			}
@@ -61,7 +61,3 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string) => n
 		})
 	});
 });
-
-// The fs.existsSync() method is used to synchronously check if a file already exists in the given path or not
-// It returns a boolean value which indicates the presence of a file.
-// parameters : path: It holds the path of the file that has to be checked. It can be a String, Buffer or URL
