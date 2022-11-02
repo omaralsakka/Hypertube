@@ -47,7 +47,7 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string) => n
 	engine.on('download', () => {
 		console.log('Piece downloaded!');
 		if (fs.existsSync(`./movies/${imdbCode}/${filePath}`)) {
-			if(fs.statSync(`./movies/${imdbCode}/${filePath}`).size / (1024 * 1024) > 50) {
+			if(fs.statSync(`./movies/${imdbCode}/${filePath}`).size / (1024 * 1024) > 25) {
 				console.log('RESOLVED RESOLVED RESOLVED RESOLVED')
 				resolve(newMovie);
 			}
