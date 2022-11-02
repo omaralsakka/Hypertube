@@ -7,7 +7,7 @@ import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
 import { signIn, getProviders } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
-import { Container, Card, Form, Row, Col, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsGithub } from 'react-icons/bs';

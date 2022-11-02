@@ -26,8 +26,9 @@ import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 const MoviePage = () => {
 	const router = useRouter();
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
-		imdb_code: 46321,
+		imdb_code: parseInt(router.query.movieId as string),
 	});
+
 	useEffect(() => {
 		// setComments(data.comments as any);
 		if (data) {
