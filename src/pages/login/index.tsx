@@ -74,7 +74,7 @@ const Login = ({
 									<strong>Login</strong>
 								</Card.Title>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
+									<Form.Group className="d-flex flex-column align-items-center justify-content-center">
 										<Container>
 											<div className="d-flex flex-row align-items-center mb-4 ">
 												<MdAlternateEmail className="me-2 fs-4" />
@@ -132,7 +132,7 @@ const Login = ({
 										</div>
 									</Form.Group>
 								</Form>
-								<Container className="d-flex flex-column align-items-center justify-content-center mb-3 border-bottom p-3">
+								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
 									<div className="d-flex">
 										{providers &&
 											Object.values(providers).map((provider) =>
@@ -175,6 +175,11 @@ const Login = ({
 											<AiOutlineMail />
 										</Button>
 									</div>
+								</Container>
+								<Container className="p-3 text-center">
+									<Link href="/forgot-password">
+										<a>Forgot password?</a>
+									</Link>
 								</Container>
 								<div>
 									<p className="text-muted">
