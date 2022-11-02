@@ -33,7 +33,7 @@ clean:
 
 clean-modules:
 	rm -rf .next
-	rm -rf /node_modules
+	rm -rf node_modules
 
 build:
 	docker-compose run --rm app "npm run build"

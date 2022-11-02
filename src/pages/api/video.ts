@@ -40,7 +40,7 @@ export default async function streamVideo(req: NextApiRequest, res: NextApiRespo
 		if(isMovieDownloaded === null){
 			movieInfo = await downloadTorrent(uri, imdbCode);
 		} else {
-			console.log('Movie has been already downloaded') // this does not necessarely meen that the whole movie has been 
+			console.log('Movie has been already downloaded') // this does not necessarely mean that the whole movie has been 
 															// downloaded. Have to add this check to table.
 															// we could pass the size of the partially downloaded file
 															// to the download function above and compare it there

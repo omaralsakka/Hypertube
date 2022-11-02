@@ -24,6 +24,7 @@ const streamMovie = (movie: Movie | undefined) => {
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
+
 	const router = useRouter();
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: parseInt(router.query.movieId as string),
@@ -55,7 +56,7 @@ const MoviePage = () => {
 		width: '200px',
 		minWidth: '5vw',
 	};
-	const url = `/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`;
+
 	useEffect(() => {
 		if (movieId?.length) {
 			getMovie(movieId).then((resp) => {
@@ -90,6 +91,13 @@ const MoviePage = () => {
 			setLoading(true);
 		});
 	};
+	
+	useEffect(() => {
+        const timeout = setTimeout(() => {
+            setMovieUrl(`/api/stream?            imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
+        }, 500);
+        return () => clearTimeout(timeout);
+    }, [movieInfo])
 
 	if (!movie?.id) {
 		return <></>;
@@ -249,9 +257,9 @@ const MoviePage = () => {
 					</Container>
 					{isLoading ? ( // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING
 						<ReactPlayer
-							url={`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`}
+							url={movieUrl}
 							controls={true}
-							playing={false}
+							playing={true}
 							width="75%"
 							height="75%"
 						/>
