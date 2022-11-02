@@ -30,6 +30,7 @@ const MoviePage = () => {
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [openDescription, setOpenDescription] = useState(false);
+	const [movieUrl, setMovieUrl] = useState('');
 	const [movieInfo, setMovieInfo] = useState({
 		imdb_code: '',
 		movie_path: '',
@@ -141,7 +142,13 @@ const MoviePage = () => {
 			);
 		}
 	}, [movie]);
-
+	useEffect(() => {
+		if (movieInfo.imdb_code.length) {
+			setMovieUrl(
+				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
+			);
+		}
+	}, [isLoading]);
 	const handleClick = () => {
 		// THESE CHANGES ARE IMPORTANT
 		axios.post('/api/video/', movie).then((resp) => {
