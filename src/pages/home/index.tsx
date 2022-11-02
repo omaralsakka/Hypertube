@@ -6,6 +6,7 @@ import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
 import FilterControls from '../../components/filtercontrols';
+import { useSession } from "next-auth/react"
 
 const Home = () => {
 	const [movies, setMoviesState] = useState<Movies>();
@@ -35,7 +36,7 @@ const Home = () => {
 			}
 		});
 	}, []);
-
+	const { data: session, status } = useSession()
 	return (
 		<>
 			<Container className="mb-4">
