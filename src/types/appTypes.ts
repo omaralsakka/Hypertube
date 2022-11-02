@@ -79,11 +79,9 @@ export type Comment = {
 };
 
 export type Inputs = {
-	userName: string;
-	userEmail: string;
-	userPassword: string;
-	firstName: string;
-	lastName: string;
+	name: string;
+	email: string;
+	password: string;
 };
 
 export type PageLayout = {

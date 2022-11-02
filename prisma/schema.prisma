@@ -77,3 +77,10 @@ model Comment {
   created_at   DateTime @default(now())
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Movies {
+  id            String    @id @default(cuid())
+  imdb_code 	String
+  movie_path 	String
+  size			Int
+}
