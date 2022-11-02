@@ -39,7 +39,7 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 							<Link href={`/profile/${comment.userId}`}>
 								<img
 									style={{ cursor: 'pointer' }}
-									src="/user-test-img.jpg"
+									src={comment.user.image}
 									className="avatar-img rounded-circle"
 								/>
 							</Link>
@@ -49,11 +49,13 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 								<Link href={`/profile/${comment.userId}`}>
 									<p className="mb-0 me-2">
 										<strong style={{ cursor: 'pointer' }}>
-											{/*  {comment.user.name} */}
+											{comment.user.name}
 										</strong>{' '}
 									</p>
 								</Link>
-								{/* <span className="text-muted">{comment.created_at}</span> */}
+								<span className="text-muted">
+									{comment.created_at.toDateString()}
+								</span>
 							</div>
 							<div>
 								<p className="mb-0">{comment.comment_text}</p>

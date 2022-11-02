@@ -21,7 +21,9 @@ const Comments = () => {
 	};
 
 	useEffect(() => {
-		console.log(data.comments);
+		if (data) {
+			console.log(data.comments[0].user.image);
+		}
 	}, [data]);
 
 	return (
