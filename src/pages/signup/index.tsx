@@ -19,11 +19,9 @@ const Signup = () => {
 	const [consent, setConsent] = useState(false);
 
 	const schema = z.object({
-		userName: z.string().min(1, { message: 'Required' }),
-		userPassword: z.string().min(1, { message: 'Required' }),
-		userEmail: z.string().min(1, { message: 'Required' }),
-		firstName: z.string().min(1, { message: 'Required' }),
-		lastName: z.string().min(1, { message: 'Required' }),
+		name: z.string().min(1, { message: 'Required' }),
+		password: z.string().min(1, { message: 'Required' }),
+		email: z.string().min(1, { message: 'Required' }),
 	});
 
 	const notifyDefault = () => toast.success('Activation email sent');
@@ -44,9 +42,9 @@ const Signup = () => {
 		try {
 			console.log(data);
 			mutation.mutate({
-				name: data.userName,
-				email: data.userEmail,
-				password: data.userPassword,
+				name: data.name,
+				email: data.email,
+				password: data.password,
 			});
 		} catch (err) {
 			console.log(err);
@@ -79,7 +77,7 @@ const Signup = () => {
 														className="border-bottom comment-form bg-transparent"
 														placeholder="Name"
 														type="text"
-														{...register('firstName')}
+														{...register('name')}
 													></Form.Control>
 												</div>
 											</div>
@@ -91,7 +89,7 @@ const Signup = () => {
 														className="border-bottom comment-form bg-transparent"
 														placeholder="Email"
 														type="email"
-														{...register('userEmail')}
+														{...register('email')}
 													></Form.Control>
 												</div>
 											</div>
@@ -103,7 +101,7 @@ const Signup = () => {
 														className="border-bottom comment-form bg-transparent"
 														id="signupPassword"
 														type={passType}
-														{...register('userPassword')}
+														{...register('password')}
 													/>
 												</div>
 											</div>
