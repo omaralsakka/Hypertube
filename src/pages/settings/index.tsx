@@ -11,6 +11,7 @@ import { MDBIcon } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
 import PhotoUpload from '../../components/photoupload';
 import { MdOutlinePersonalVideo } from 'react-icons/md';
+import { HiUser } from 'react-icons/hi';
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
@@ -54,7 +55,7 @@ const Settings = () => {
 									<div className="mb-3">
 										<div className="mb-3">
 											<Card.Title>
-												<MDBIcon fas icon="user me-2" />
+												<HiUser className="me-2" />
 												Personal Info
 											</Card.Title>
 										</div>

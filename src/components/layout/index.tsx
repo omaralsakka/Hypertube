@@ -17,8 +17,8 @@ const Layout = ({ children }: PageLayout) => {
 
 					<NavigationBar />
 					<main>{children}</main>
-					<Footer />
 				</div>
+				<Footer />
 			</>
 		);
 	}
@@ -26,8 +26,8 @@ const Layout = ({ children }: PageLayout) => {
 		<>
 			<div className="app blobs-background">
 				<main>{children}</main>
-				<Footer />
 			</div>
+			<Footer />
 		</>
 	);
 };
