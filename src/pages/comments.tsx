@@ -4,7 +4,7 @@ var cuid = require('cuid');
 
 const Comments = () => {
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
-		imdb_code: 1,
+		imdb_code: 46321,
 	});
 	const mutation = trpc.comment.createComment.useMutation();
 	const addComment = () => {
@@ -21,8 +21,8 @@ const Comments = () => {
 	};
 
 	useEffect(() => {
-		console.log(data);
-	}, []);
+		console.log(data.comments);
+	}, [data]);
 
 	return (
 		<>

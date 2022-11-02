@@ -7,97 +7,30 @@ import MovieCard from '../../components/moviecard';
 import { getOmdb } from '../../utils/helperFunctions';
 import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { trpc } from '../../utils/trpc';
 import CommentsSection from '../../components/commentsSection';
 import MovieInfo from '../../components/movieInfo';
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
 	const router = useRouter();
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: 46321,
+	});
+	useEffect(() => {
+		// setComments(data.comments as any);
+		if (data) {
+			console.log(data.comments);
+			setComments(data.comments as any);
+		}
+	}, [data]);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
 	const [isLoading, setLoading] = useState(false);
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	// this is forced comments to display for now till we got real backend comments
-	const [comments, setComments] = useState([
-		{
-			id: '10',
-			userId: '10',
-			userName: 'test1',
-			date: '20.10.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '11',
-			userId: '11',
-			userName: 'test442',
-			date: '20.11.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '12',
-			userId: '12',
-			userName: 'test96',
-			date: '20.12.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '13',
-			userId: '13',
-			userName: 'test86',
-			date: '20.01.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '15',
-			userId: '15',
-			userName: 'test5',
-			date: '20.02.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '16',
-			userId: '16',
-			userName: 'test4',
-			date: '20.03.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '17',
-			userId: '17',
-			userName: 'test3',
-			date: '20.04.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '18',
-			userId: '18',
-			userName: 'test2',
-			date: '20.05.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '19',
-			userId: '19',
-			userName: 'test10',
-			date: '20.06.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '20',
-			userId: '20',
-			userName: 'test12',
-			date: '25.10.2022',
-			comment: 'This movie is cool!!',
-		},
-		{
-			id: '23',
-			userId: '23',
-			userName: 'test13',
-			date: '12.10.2022',
-			comment: 'This movie is cool!!',
-		},
-	]);
+	const [comments, setComments] = useState([]);
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
 		width: '200px',
@@ -210,11 +143,13 @@ const MoviePage = () => {
 									<Container className="mt-2 mb-3" fluid>
 										<MovieInfo movieData={movieData} />
 										<hr />
-										<Row>
-											<Col>
-												<CommentsSection comments={comments} />
-											</Col>
-										</Row>
+										{comments && (
+											<Row>
+												<Col>
+													<CommentsSection comments={comments} />
+												</Col>
+											</Row>
+										)}
 									</Container>
 								</Container>
 							</Card.Body>
