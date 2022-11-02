@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Inputs } from '../../types/appTypes';
 import { Container, Card, Form, Row, Col } from 'react-bootstrap';
-import { MdOutlinePersonalVideo } from 'react-icons/md';
+import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { HiUser } from 'react-icons/hi';
 
@@ -82,7 +82,7 @@ const Signup = () => {
 												</div>
 											</div>
 											<div className="d-flex flex-row align-items-center mb-4 ">
-												<MdOutlinePersonalVideo className="me-2 fs-4" />
+												<MdAlternateEmail className="me-2 fs-4" />
 												<div className="me-3">
 													<Form.Control
 														id="signupEmail"
