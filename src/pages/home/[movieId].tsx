@@ -289,9 +289,13 @@ const MoviePage = () => {
 					</Container>
 					{
 						isLoading ? // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING 
-						<video id="videoPlayer" width="50%" controls>
-								<source src={`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`} type="video/mp4" />
-						</video>
+						<ReactPlayer
+							url={`http://localhost:3000/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`}
+							controls={true}
+							playing={false}
+							width="75%"
+							height="75%"
+						/>
 						:
 						<></>
 					}

@@ -43,4 +43,7 @@ yarn-error.log*
 #package files
 package-lock.json
 
+#movie files
+/movies/*
+
 /config/secrets
