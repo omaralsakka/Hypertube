@@ -25,7 +25,7 @@ const forgotPassword = () => {
 		const email = getValues('email');
 		const user = await signIn('email', {
 			email: email,
-			callbackUrl: 'http://localhost:3000/home',
+			callbackUrl: 'http://localhost:3000/change-password',
 		});
 		console.log(user);
 		setEmailSent(true);
