@@ -7,21 +7,20 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { Inputs } from '../../types/appTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MDBIcon } from 'mdb-react-ui-kit';
 import { FormCheck } from 'react-bootstrap';
 import PhotoUpload from '../../components/photoupload';
-import { MdOutlinePersonalVideo } from 'react-icons/md';
+import { MdAlternateEmail } from 'react-icons/md';
 import { HiUser } from 'react-icons/hi';
+import { RiLockPasswordFill } from 'react-icons/ri';
+
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
 
 	const schema = z.object({
-		userName: z.string().min(1, { message: 'Required' }),
-		userPassword: z.string().min(1, { message: 'Required' }),
-		userEmail: z.string().min(1, { message: 'Required' }),
-		firstName: z.string().min(1, { message: 'Required' }),
-		lastName: z.string().min(1, { message: 'Required' }),
+		name: z.string().min(1, { message: 'Required' }),
+		password: z.string().min(1, { message: 'Required' }),
+		email: z.string().min(1, { message: 'Required' }),
 	});
 
 	const notifyDefault = () => toast.success('Activation email sent');
@@ -52,77 +51,45 @@ const Settings = () => {
 						<Container className="d-flex justify-content-center">
 							<Form onSubmit={handleSubmit(onSubmit)}>
 								<Form.Group className="mb-3 d-flex flex-column">
-									<div className="mb-3">
-										<div className="mb-3">
-											<Card.Title>
-												<HiUser className="me-2" />
-												Personal Info
-											</Card.Title>
-										</div>
-										<div className="d-flex flex-row align-items-center mb-4 ">
-											<div className="me-3">
+									<div>
+										<div className="d-flex align-items-center mb-4 ">
+											<div className="d-flex align-items-center me-4">
+												<HiUser className="me-2 fs-4" />
 												<Form.Control
-													id="firstName"
+													id="name"
 													className="border-bottom comment-form bg-transparent"
-													placeholder="first name"
+													placeholder="Test name"
 													type="text"
-													{...register('firstName')}
+													{...register('name')}
 												></Form.Control>
 											</div>
-											<Form.Text>Change first name</Form.Text>
-										</div>
-										<div className="d-flex flex-row align-items-center mb-4 ">
-											<div className="me-3">
-												<Form.Control
-													id="lastName"
-													className="border-bottom comment-form bg-transparent"
-													placeholder="last name"
-													type="text"
-													{...register('lastName')}
-												></Form.Control>
-											</div>
-											<Form.Text>Change last name</Form.Text>
+											<Form.Text>Change name</Form.Text>
 										</div>
 									</div>
 									<div>
-										<div className="mb-3">
-											<Card.Title>
-												<MdOutlinePersonalVideo className="me-2" />
-												Account info
-											</Card.Title>
-										</div>
-										<div className="d-flex flex-row align-items-center mb-4 ">
-											<div className="me-3">
-												<Form.Control
-													id="signupName"
-													className="border-bottom comment-form bg-transparent"
-													placeholder="username"
-													type="text"
-													{...register('userName')}
-												></Form.Control>
-											</div>
-											<Form.Text>Change username</Form.Text>
-										</div>
-										<div className="d-flex flex-row align-items-center mb-4 ">
-											<div className="me-3">
+										<div className="d-flex align-items-center mb-4">
+											<div className="d-flex align-items-center me-4">
+												<MdAlternateEmail className="me-2 fs-4" />
 												<Form.Control
 													id="signupEmail"
 													className="border-bottom comment-form bg-transparent"
-													placeholder="email"
+													placeholder="user current email"
 													type="email"
-													{...register('userEmail')}
+													{...register('email')}
 												></Form.Control>
 											</div>
 											<Form.Text>Change email</Form.Text>
 										</div>
-										<div className="d-flex flex-row align-items-center mb-4 ">
-											<div className="me-3">
+										<div className="d-flex align-items-center mb-4 ">
+											<div className="d-flex align-items-center me-4">
+												<RiLockPasswordFill className="me-2 fs-4" />
+
 												<Form.Control
 													placeholder="password"
 													className="border-bottom comment-form bg-transparent"
 													id="signupPassword"
 													type={passType}
-													{...register('userPassword')}
+													{...register('password')}
 												/>
 											</div>
 											<Form.Text>Change password</Form.Text>
