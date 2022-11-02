@@ -102,22 +102,11 @@ const MoviePage = () => {
 			comment: 'This movie is cool!!',
 		},
 	]);
-	let i = 0;
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
 		width: '180px',
 		minWidth: '5vw',
 	};
-
-	useEffect(() => {
-		i++;
-		if (i >= 2 && !moviesReducer.length) {
-			window.location.replace('/home');
-		}
-		if (moviesReducer.length) {
-			setMovie(moviesReducer.find((movie) => String(movie.id) === movieId));
-		}
-	}, [moviesReducer, movieId]);
 
 	useEffect(() => {
 		if (movie?.id) {
