@@ -35,7 +35,6 @@ const Home = () => {
 				<SearchNavBar />
 			</Container>
 			<Container>{/* <FilterControls /> */}</Container>
-
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
 					movies.map((movie) => (

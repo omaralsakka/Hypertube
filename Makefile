@@ -30,7 +30,7 @@ clean-modules:
 	rm -rf /node_modules
 
 build:
-	docker-compose run --rm app "npm build"
+	docker-compose run --rm app "npm run build"
 
 install:
 	docker-compose run --rm app "npm install"

@@ -8,7 +8,6 @@ body {
 
 .app {
 	min-height: 100vh;
-	min-width: 100vw;
 }
 
 .blobs-background {
@@ -128,7 +127,32 @@ a {
 	-o-object-fit: cover;
 	object-fit: cover;
 }
+.iconImage {
+	display: none;
+}
+.photo-upload:hover .avatar-img {
+	opacity: 0.5;
+}
 
-.rounded-circle {
+.photo-upload:hover .iconImage {
+	display: block;
+}
+
+.photo-upload:out .rounded-circle {
 	border-radius: 50% !important;
+}
+
+input[type='file'] {
+	display: none;
+}
+.custom-file-upload {
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+}
+
+.vl {
+	border-left: 1px solid #606060;
+	margin: 0;
+	height: 6vh;
 }

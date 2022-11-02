@@ -64,12 +64,15 @@ export type MovieData = {
 	Response: string;
 };
 
+export type MovieId = string | string[] | undefined;
+
 export type Movies = Movie[] | [];
 
 export type RootReducer = ReturnType<typeof rootReducer>;
 
 export type Comment = {
 	id: string;
+	userId: string;
 	userName: string;
 	date: string;
 	comment: string;
@@ -81,4 +84,8 @@ export type Inputs = {
 	userPassword: string;
 	firstName: string;
 	lastName: string;
+};
+
+export type PageLayout = {
+	children: React.ReactNode;
 };

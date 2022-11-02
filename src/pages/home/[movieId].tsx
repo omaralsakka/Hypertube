@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
 import { Container, Card, Row, Col, Collapse, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
@@ -13,90 +13,104 @@ import { motion } from 'framer-motion';
 import CommentsSection from '../../components/commentsSection';
 import axios from 'axios';
 
-const streamMovie = (movie:Movie | undefined) => { // THIS CHANGE IS IMPORTANT
+const streamMovie = (movie: Movie | undefined) => {
+	// THIS CHANGE IS IMPORTANT
 	const response = fetch('/api/video/', {
 		method: 'POST',
 		body: JSON.stringify(movie),
 	});
 };
+import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
 
 	const router = useRouter();
-	const moviesReducer: Movies = useSelector(
-		(state: RootReducer) => state.moviesReducer
-	);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
 	const [isLoading, setLoading] = useState(false);
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [openDescription, setOpenDescription] = useState(false);
-	const [movieInfo, setMovieInfo] = useState({imdb_code: '', movie_path: '', size: 0}); // THIS IS NEEDED TO PASS INFO TO API
+	const [movieInfo, setMovieInfo] = useState({
+		imdb_code: '',
+		movie_path: '',
+		size: 0,
+	}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
 	const [comments, setComments] = useState([
 		{
 			id: '10',
+			userId: '10',
 			userName: 'test1',
 			date: '20.10.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '11',
+			userId: '11',
 			userName: 'test442',
 			date: '20.11.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '12',
+			userId: '12',
 			userName: 'test96',
 			date: '20.12.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '13',
+			userId: '13',
 			userName: 'test86',
 			date: '20.01.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '15',
+			userId: '15',
 			userName: 'test5',
 			date: '20.02.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '16',
+			userId: '16',
 			userName: 'test4',
 			date: '20.03.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '17',
+			userId: '17',
 			userName: 'test3',
 			date: '20.04.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '18',
+			userId: '18',
 			userName: 'test2',
 			date: '20.05.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '19',
+			userId: '19',
 			userName: 'test10',
 			date: '20.06.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '20',
+			userId: '20',
 			userName: 'test12',
 			date: '25.10.2022',
 			comment: 'This movie is cool!!',
 		},
 		{
 			id: '23',
+			userId: '23',
 			userName: 'test13',
 			date: '12.10.2022',
 			comment: 'This movie is cool!!',
@@ -104,18 +118,33 @@ const MoviePage = () => {
 	]);
 	const suggestedMovieStyle = {
 		maxWidth: '10vw',
-		width: '180px',
+		width: '200px',
 		minWidth: '5vw',
 	};
+	const url = `/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`;
+	useEffect(() => {
+		if (movieId?.length) {
+			getMovie(movieId).then((resp) => {
+				if (!resp.id) {
+					window.location.replace('/home');
+				} else {
+					setMovie(resp);
+				}
+			});
+		}
+	}, [movieId]);
 
 	useEffect(() => {
 		if (movie?.id) {
 			getOmdb(movie).then((resp) => setMovieData(resp));
-			setSuggestedMovies(moviesReducer.slice(0, 6));
+			getSuggestedMovies(movie.id).then(
+				(resp) => resp && setSuggestedMovies(resp)
+			);
 		}
 	}, [movie]);
 
-	const handleClick = () => { // THESE CHANGES ARE IMPORTANT
+	const handleClick = () => {
+		// THESE CHANGES ARE IMPORTANT
 		axios.post('/api/video/', movie).then((resp) => {
 			setMovieInfo(resp.data.data);
 			setLoading(true);
@@ -174,7 +203,7 @@ const MoviePage = () => {
 												<Card.Title className="fs-2 mb-4 text-dark">
 													Suggested movies
 												</Card.Title>
-												<Container className="d-flex flex-wrap justify-content-center">
+												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
@@ -276,18 +305,17 @@ const MoviePage = () => {
 							</Card.Body>
 						</Card>
 					</Container>
-					{
-						isLoading ? // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING 
+					{isLoading ? ( // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING
 						<ReactPlayer
-							url={`http://localhost:3000/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`}
+							url={`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`}
 							controls={true}
 							playing={false}
 							width="75%"
 							height="75%"
 						/>
-						:
+					) : (
 						<></>
-					}
+					)}
 				</motion.div>
 			</>
 		);

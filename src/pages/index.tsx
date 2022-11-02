@@ -4,7 +4,24 @@ import { langs } from '../langContext';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../store/actions';
-
+import { useSession, signIn, signOut } from "next-auth/react"
+export function Component() {
+  const { data: session } = useSession()
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    )
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
+    </>
+  )
+}
 const Home: NextPage = () => {
 	const [lang, setLang] = useState(langs.en);
 	const [selectedLanguage, setSelectedLanguage] = useState('en');
@@ -36,7 +53,7 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<div className="App">
+		<div className="app">
 			<div className="main">
 				{selectedLanguage}
 				<div className="language-select">
@@ -48,10 +65,12 @@ const Home: NextPage = () => {
 						<br />
 						{lang.text}
 					</p>
+					
 				</div>
+				<Component />
 			</div>
 		</div>
 	);
 };
 
-export default Home;
+export default Home
