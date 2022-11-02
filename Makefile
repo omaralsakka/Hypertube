@@ -51,3 +51,9 @@ reset-db:
 	docker volume rm hypertube-data
 
 fclean: clean reset-db
+
+prisma-push:
+		docker-compose run --rm app "npx prisma db push && npm i"
+
+prisma-format:
+		docker-compose run --rm app "npx prisma format"

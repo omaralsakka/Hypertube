@@ -38,7 +38,7 @@ export const commentRouter = router({
 			z.object({
 				imdb_code: z.number().min(1),
 				comment_text: z.string().min(1),
-				user_id: z.number().min(1),
+				user_id: z.string().min(1),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {

@@ -1,5 +1,6 @@
 import { trpc } from '../utils/trpc';
 import { useEffect, useState } from 'react';
+var cuid = require('cuid');
 
 const Comments = () => {
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
@@ -12,7 +13,7 @@ const Comments = () => {
 			mutation.mutate({
 				imdb_code: 1,
 				comment_text: 'blaa',
-				user_id: 1,
+				user_id: 'cl9zd7hek00003b6khtorizoc',
 			});
 		} catch (err) {
 			console.log(err);
