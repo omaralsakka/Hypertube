@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import {
 	MDBContainer,
 	MDBRow,
@@ -15,12 +15,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
-import {
-	signIn,
-	getProviders,
-} from 'next-auth/react';
+import { signIn, getProviders } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
-
 
 type Inputs = {
 	email: string;
@@ -34,13 +30,26 @@ const Login = ({
 	const [passType, setPassType] = useState('password');
 	const [disabledButton, setDisabledButton] = useState(true);
 
-	const onSubmit: SubmitHandler<Inputs> = async(data, event) => {
+	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		event?.preventDefault();
-        console.log(data)
-        const user = await signIn('credentials', {email: data.email, password: data.password, callbackUrl: 'http://localhost:3000/home'})
-		console.log(user)
-    };
-
+		console.log(data);
+		const user = await signIn('credentials', {
+			email: data.email,
+			password: data.password,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+	};
+	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		const email = getValues('email')
+		console.log(email);
+		const user = await signIn('email', {
+			email: email,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+	}
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
@@ -50,6 +59,7 @@ const Login = ({
 		watch,
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
@@ -74,10 +84,7 @@ const Login = ({
 									Login
 								</p>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group
-										className="mb-3 d-flex flex-column align-items-center justify-content-center"
-										controlId="formBasicEmail"
-									>
+									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
 										<div className="d-flex flex-row align-items-center mb-4">
 											<MDBIcon fas icon="envelope me-3" size="lg" />
 											<span className="has-float-label">
@@ -141,14 +148,31 @@ const Login = ({
 										</div>
 									</Form.Group>
 								</Form>
-								{providers && Object.values(providers).map((provider) => (
-									provider.name !== 'Credentials' ?
-									<div key={provider.name}>
-										<button onClick={() => signIn(provider.id, { callbackUrl: 'http://localhost:3000/home' })}>
-											Sign in with {provider.name}
+								{providers &&
+									Object.values(providers).map((provider) =>
+										provider.name !== 'Credentials' && provider.name !== 'Email' ? (
+											<div key={provider.name}>
+												<button
+													onClick={() =>
+														signIn(provider.id, {
+															callbackUrl: 'http://localhost:3000/home',
+														})
+													}
+												>
+													Sign in with {provider.name}
+												</button>
+											</div>
+										) : null
+									)}
+								{providers && (
+									<div key={'Email'}>
+										<button
+											onClick={onEmailSubmit}
+										>
+											Sign in with Email
 										</button>
-									</div> : null
-								))}
+									</div>
+								)}
 							</MDBCol>
 							<MDBCol
 								md="10"
