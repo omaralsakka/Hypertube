@@ -2,6 +2,7 @@ import NextAuth, { type NextAuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import FortyTwoProvider from 'next-auth/providers/42-school';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import EmailProvider from 'next-auth/providers/email';
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
@@ -9,26 +10,6 @@ import { prisma } from '../../../server/db/client';
 import { verify } from 'argon2';
 
 export const authOptions: NextAuthOptions = {
-	// Include user.id on session
-	// callbacks: {
-	// 	async jwt({token,account}) {
-	// 		if (account) {
-	// 			token.accessToken = account.access_token
-	// 		  }
-	// 		  return token
-	// 	},
-	// 	async session({session, user, token}) {
-	// 		console.log('User in session callback', user)
-	// 		if (user) {
-	// 			session.user = user
-	// 		}
-	// 		if (session.user && token) {
-	// 			session.user.id = token.id as string;
-	// 		}
-	// 		console.log('Session in callback', session)
-	// 		return session;
-	// 	},
-	// },
 	// Configure one or more authentication providers
 	adapter: PrismaAdapter(prisma),
 	providers: [
@@ -76,6 +57,17 @@ export const authOptions: NextAuthOptions = {
 		FortyTwoProvider({
 			clientId: process.env.FORTY_TWO_CLIENT_ID || '0',
 			clientSecret: process.env.FORTY_TWO_CLIENT_SECRET || '0',
+		}),
+		EmailProvider({
+			server: {
+				host: process.env.EMAIL_SERVER_HOST,
+				port: process.env.EMAIL_SERVER_PORT,
+				auth: {
+					user: process.env.EMAIL_SERVER_USER,
+					pass: process.env.EMAIL_SERVER_PASSWORD,
+				},
+			},
+			from: process.env.EMAIL_FROM,
 		}),
 		// ...add more providers here
 	],

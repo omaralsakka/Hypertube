@@ -16,16 +16,23 @@ const Home = () => {
 		maxHeight: '61vh',
 	};
 	const getMovies = async () => {
-		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
-		const {
-			data: { movies },
-		} = await response.json();
-		return movies;
+		try {
+			const response = await fetch('https://yts.mx/api/v2/list_movies.json');
+			const {
+				data: { movies },
+			} = await response.json();
+			return movies;
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
 	};
 	useEffect(() => {
 		getMovies().then((resp) => {
-			setMoviesState(resp);
-			dispatch(setMovies(resp));
+			if (resp) {
+				setMoviesState(resp);
+				dispatch(setMovies(resp));
+			}
 		});
 	}, []);
 

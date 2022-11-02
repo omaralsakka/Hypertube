@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FormCheck } from 'react-bootstrap';
+import { MouseEvent, useState } from 'react';
+import { FormCheck, Image } from 'react-bootstrap';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,7 +10,8 @@ import { InferGetServerSidePropsType } from 'next';
 import { Container, Card, Form, Row, Col, Button } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
-
+import { BsGithub } from 'react-icons/bs';
+import { AiOutlineMail } from 'react-icons/ai';
 type Inputs = {
 	email: string;
 	password: string;
@@ -32,7 +33,16 @@ const Login = ({
 		});
 		console.log(user);
 	};
-
+	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		const email = getValues('email');
+		console.log(email);
+		const user = await signIn('email', {
+			email: email,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+	};
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
@@ -42,6 +52,7 @@ const Login = ({
 		watch,
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
@@ -60,7 +71,7 @@ const Login = ({
 								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
 							>
 								<Card.Title className="display-5 text-dark mb-5">
-									<strong>Sign up</strong>
+									<strong>Login</strong>
 								</Card.Title>
 								<Form onSubmit={handleSubmit(onSubmit)}>
 									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
@@ -109,7 +120,7 @@ const Login = ({
 												/>
 											</div>
 										</Container>
-										<div className="mb-4" style={{ minHeight: '5vh' }}>
+										<div className="" style={{ minHeight: '5vh' }}>
 											<Button
 												type="submit"
 												variant="outline-warning"
@@ -121,27 +132,55 @@ const Login = ({
 										</div>
 									</Form.Group>
 								</Form>
+								<Container className="d-flex flex-column align-items-center justify-content-center mb-3 border-bottom p-3">
+									<div className="d-flex">
+										{providers &&
+											Object.values(providers).map((provider) =>
+												provider.name !== 'Credentials' &&
+												provider.name !== 'Email' ? (
+													<div className="p-1 mb-2" key={provider.name}>
+														<Button
+															className="d-flex align-items-center justify-content-center p-2"
+															variant={
+																provider.name === '42 School'
+																	? 'primary'
+																	: 'dark'
+															}
+															onClick={() =>
+																signIn(provider.id, {
+																	callbackUrl: 'http://localhost:3000/home',
+																})
+															}
+														>
+															<span className="me-2">Login with </span>
+															{provider.name === 'GitHub' && <BsGithub />}
+															{provider.name === '42 School' && (
+																<Image
+																	src="/42.png"
+																	style={{ maxWidth: '15px' }}
+																/>
+															)}
+														</Button>
+													</div>
+												) : null
+											)}
+									</div>
+									<div className="p-1 mb-2" key="Email">
+										<Button
+											variant="light"
+											className="d-flex align-items-center justify-content-center p-2"
+											onClick={onEmailSubmit}
+										>
+											<span className="me-2">Login with email </span>
+											<AiOutlineMail />
+										</Button>
+									</div>
+								</Container>
 								<div>
 									<p className="text-muted">
 										New to Hypertube? <Link href="/signup">Sign up</Link>
 									</p>
 								</div>
-								{providers &&
-									Object.values(providers).map((provider) =>
-										provider.name !== 'Credentials' ? (
-											<div key={provider.name}>
-												<button
-													onClick={() =>
-														signIn(provider.id, {
-															callbackUrl: 'http://localhost:3000/home',
-														})
-													}
-												>
-													Sign in with {provider.name}
-												</button>
-											</div>
-										) : null
-									)}
 							</Col>
 							<Col
 								md="10"
