@@ -39,11 +39,11 @@ const NavigationBar = () => {
 							</Nav.Item>
 							<Nav.Item className="d-none d-md-block">
 								<Button
+									className="d-flex align-items-center"
 									onClick={() =>
 										signOut({ callbackUrl: 'http://localhost:3000' })
 									}
-									size="sm"
-									variant="warning"
+									variant="outline-dark"
 								>
 									<MdLogout className="fs-5" />
 								</Button>

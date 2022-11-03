@@ -24,7 +24,6 @@ const streamMovie = (movie: Movie | undefined) => {
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 
 const MoviePage = () => {
-
 	const router = useRouter();
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: parseInt(router.query.movieId as string),
@@ -91,13 +90,15 @@ const MoviePage = () => {
 			setLoading(true);
 		});
 	};
-	
+
 	useEffect(() => {
-        const timeout = setTimeout(() => {
-            setMovieUrl(`/api/stream?            imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, [movieInfo])
+		const timeout = setTimeout(() => {
+			setMovieUrl(
+				`/api/stream?            imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
+			);
+		}, 500);
+		return () => clearTimeout(timeout);
+	}, [movieInfo]);
 
 	if (!movie?.id) {
 		return <></>;
@@ -110,9 +111,9 @@ const MoviePage = () => {
 					exit={{ y: -10, opacity: 0 }}
 					transition={{ duration: 0.8 }}
 				>
-					<Container className=" p-sm-4 rounded " fluid>
+					<Container className=" p-sm-4 rounded" fluid>
 						<Card
-							className="glass-background rounded d-flex flex-column p-0"
+							className="glass-background rounded d-flex flex-column p-0 border-0"
 							style={{ minWidth: '60vw', minHeight: '85vh' }}
 						>
 							<Card.Body className="p-0">
@@ -182,9 +183,9 @@ const MoviePage = () => {
 												</Card.Title>
 											</Col>
 										</Row>
-										<Container className="ms-0 mb-3" fluid>
+										<Container className="ms-0 p-0 mb-3" fluid>
 											<Button
-												variant="warning"
+												variant="transparent"
 												onClick={() => setOpenDescription(!openDescription)}
 												aria-controls="description-section"
 												aria-expanded={openDescription}

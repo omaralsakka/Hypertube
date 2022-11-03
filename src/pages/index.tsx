@@ -89,7 +89,7 @@ const Home: NextPage = () => {
 		<ActionButton
 			key="signup-key"
 			path="/signup"
-			variant="primary"
+			variant="outline-primary"
 			text="Signup"
 		/>,
 	];
@@ -143,7 +143,7 @@ const Home: NextPage = () => {
 				className="d-flex flex-column align-items-center justify-content-center p-2"
 				fluid
 			>
-				<Card className="bg-transparent shadow-0">
+				<Card className="bg-transparent shadow-0 border-0">
 					<Card.Body className="d-flex flex-column align-items-center justify-content-center p-3">
 						<Row className="mb-5">
 							<Col>
