@@ -87,3 +87,9 @@ export type Inputs = {
 export type PageLayout = {
 	children: React.ReactNode;
 };
+
+export type MoviePostInfo = {
+	imdb_code: '';
+	movie_path: '';
+	size: 0;
+};
