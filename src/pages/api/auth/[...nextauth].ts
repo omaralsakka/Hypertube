@@ -101,18 +101,19 @@ export const authOptions: NextAuthOptions = {
 			console.log('user in signin callback', user);
 			// Check if user's email has been verified
 			console.log('account in signin callback', account);
+			const adapterUser = user as AdapterUser;
 			// OAuth providers are trusted by default. Other OAuth providers should be added here too.
 			if (account?.provider === '42-school' || account?.provider === 'github')
 				return true;
 			if (account?.provider === 'email') {
-				if (user.name)
+				if (adapterUser.name && adapterUser.emailVerified)
 					return true;
-				else
+				if (!adapterUser.name && !adapterUser.emailVerified)
 					return '/signupfirst';
+				return '/notverified';
 			}
-			const user2 = user as AdapterUser;
 			// For credentials login is rejected if email hasn't been verified
-			if (account?.provider === 'credentials' && user2.emailVerified)
+			if (account?.provider === 'credentials' && adapterUser.emailVerified)
 				return true;
 			// Return false to display a default error message
 			return '/notverified';
