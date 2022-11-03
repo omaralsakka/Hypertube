@@ -3,12 +3,11 @@ import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
 import { MdLogout } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
-import { useSession } from 'next-auth/react';
 
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
-  	const { data: session } = useSession()
+	const { data: session } = useSession();
 	return (
 		<>
 			<Navbar
