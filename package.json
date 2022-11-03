@@ -34,6 +34,7 @@
 		"i18next-browser-languagedetector": "^6.1.8",
 		"i18next-http-backend": "^1.4.4",
 		"i18next-xhr-backend": "^3.2.2",
+		"jsonwebtoken": "^8.5.1",
 		"lodash": "^4.17.21",
 		"mdb-react-ui-kit": "^4.2.0",
 		"mdb-ui-kit": "^5.0.0",
@@ -57,7 +58,9 @@
 	},
 	"devDependencies": {
 		"@types/fluent-ffmpeg": "^2.1.20",
+		"@types/jsonwebtoken": "^8.5.9",
 		"@types/node": "18.0.0",
+		"@types/nodemailer": "^6.4.6",
 		"@types/react": "18.0.14",
 		"@types/react-dom": "18.0.5",
 		"@types/torrent-stream": "^0.0.6",
