@@ -3,7 +3,7 @@ import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
 import { MdLogout } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
-
+import { motion } from 'framer-motion';
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
@@ -38,15 +38,23 @@ const NavigationBar = () => {
 								</Navbar.Text>
 							</Nav.Item>
 							<Nav.Item className="d-none d-md-block">
-								<Button
-									className="d-flex align-items-center"
-									onClick={() =>
-										signOut({ callbackUrl: 'http://localhost:3000' })
-									}
-									variant="outline-dark"
+								<motion.div
+									className="box"
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.9 }}
+									transition={{ type: 'spring', stiffness: 400, damping: 17 }}
 								>
-									<MdLogout className="fs-5" />
-								</Button>
+									<Button
+										className="d-flex justify-content-center align-items-center"
+										onClick={() =>
+											signOut({ callbackUrl: 'http://localhost:3000' })
+										}
+										variant="outline-dark"
+									>
+										<p className="p-0 m-0 me-1 ">Logout</p>
+										<MdLogout className="fs-5 p-0 m-0" />
+									</Button>
+								</motion.div>
 							</Nav.Item>
 						</Nav>
 					</Navbar.Collapse>
