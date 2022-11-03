@@ -1,4 +1,5 @@
 import { Container, Card, Row, Button, Form } from 'react-bootstrap';
+import { trpc } from '../../utils/trpc';
 import { useState } from 'react';
 import { Comment } from '../../types/appTypes';
 import CommentRow from '../commentRow';
@@ -9,7 +10,7 @@ const CommentsSection = ({ comments }: { comments: Comment[] }) => {
 	return (
 		<>
 			<Row className="mb-2">
-				<Card.Title>{comments.length} Comments</Card.Title>
+				<Card.Title>{comments?.length} Comments</Card.Title>
 			</Row>
 			<Row className="mb-3">
 				<Form>
@@ -40,11 +41,12 @@ const CommentsSection = ({ comments }: { comments: Comment[] }) => {
 				</Form>
 			</Row>
 			<Container fluid>
-				{comments.map((comment) => (
-					<div key={comment.id}>
-						<CommentRow comment={comment} />
-					</div>
-				))}
+				{comments &&
+					comments?.map((comment) => (
+						<div key={comment?.id}>
+							<CommentRow comment={comment} />
+						</div>
+					))}
 			</Container>
 		</>
 	);

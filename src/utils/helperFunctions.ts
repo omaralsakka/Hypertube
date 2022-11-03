@@ -4,7 +4,7 @@ import axios from 'axios';
 export const movieRate = (rating: string | undefined) => {
 	switch (rating) {
 		case 'G':
-			return 'All ages';
+			return '6+';
 		case 'PG 12':
 			return '12+';
 		case 'PG 13':

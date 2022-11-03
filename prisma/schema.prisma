@@ -58,6 +58,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Comment       Comment[]
 }
 
 model VerificationToken {
@@ -66,6 +67,16 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// / 
+model Comment {
+  id           Int      @id @unique @default(autoincrement())
+  imdb_code    Int
+  comment_text String?
+  userId       String
+  created_at   DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Movies {

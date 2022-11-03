@@ -73,9 +73,9 @@ export type RootReducer = ReturnType<typeof rootReducer>;
 export type Comment = {
 	id: string;
 	userId: string;
-	userName: string;
-	date: string;
-	comment: string;
+	// userName: string;
+	created_at: string;
+	comment_text: string;
 };
 
 export type Inputs = {
@@ -86,4 +86,10 @@ export type Inputs = {
 
 export type PageLayout = {
 	children: React.ReactNode;
+};
+
+export type MoviePostInfo = {
+	imdb_code: '';
+	movie_path: '';
+	size: 0;
 };

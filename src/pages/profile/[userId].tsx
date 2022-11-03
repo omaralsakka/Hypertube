@@ -1,10 +1,7 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { MDBIcon } from 'mdb-react-ui-kit';
+import { Container, Card } from 'react-bootstrap';
 import { useState } from 'react';
 import { User } from '../../types/appTypes';
-import UserCard from '../../components/userCard';
 
 const ProfilePage = () => {
 	const router = useRouter();

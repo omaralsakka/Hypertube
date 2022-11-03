@@ -54,7 +54,7 @@ const Signup = () => {
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-3 mb-4">
-				<Card className="w-100 glass-background">
+				<Card className="w-100 glass-background border-0">
 					<Card.Body>
 						<Row style={{ minHeight: '50vh' }}>
 							<Col

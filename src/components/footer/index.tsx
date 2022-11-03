@@ -31,7 +31,7 @@ const Footer = () => {
 								<div className="d-flex">
 									<div className="me-5">
 										<a target="__blank" href="https://gitlab.com/vilniemi">
-											<p>Villealfa Niemi</p>
+											<p>Ville Niemi</p>
 										</a>
 										<a target="__blank" href="https://github.com/Jukkay">
 											<p>Jukka Ylimaula</p>
