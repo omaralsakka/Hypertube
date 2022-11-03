@@ -30,7 +30,7 @@ const MoviePage = () => {
 	useEffect(() => {
 		// setComments(data.comments as any);
 		if (data) {
-			console.log(data.comments);
+			// console.log(data.comments);
 			setComments(data.comments as any);
 		}
 	}, [data]);

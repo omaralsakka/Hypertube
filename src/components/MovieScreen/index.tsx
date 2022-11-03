@@ -4,7 +4,7 @@ import { FaPlay } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Movie, MoviePostInfo } from '../../types/appTypes';
-
+import { motion } from 'framer-motion';
 const MovieScreen = ({
 	movie,
 	movieInfo,
@@ -61,12 +61,24 @@ const MovieScreen = ({
 									{isSpinner ? (
 										<Spinner animation="border" variant="warning" />
 									) : (
-										<Button
-											variant="primary"
-											onClick={!isLoading && handleClick}
+										<motion.div
+											className="box"
+											whileHover={{ scale: 1.2 }}
+											whileTap={{ scale: 0.9 }}
+											transition={{
+												type: 'spring',
+												stiffness: 400,
+												damping: 17,
+											}}
 										>
-											<FaPlay />
-										</Button>
+											<Button
+												className="d-flex align-items-center p-3 rounded-pill"
+												variant="primary"
+												onClick={!isLoading && handleClick}
+											>
+												<FaPlay />
+											</Button>
+										</motion.div>
 									)}
 								</Container>
 							</Card.ImgOverlay>
