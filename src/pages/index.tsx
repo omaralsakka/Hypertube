@@ -139,7 +139,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			<Container
-				style={{ minHeight: '60vh' }}
+				style={{ minHeight: '100vh' }}
 				className="d-flex flex-column align-items-center justify-content-center p-2"
 				fluid
 			>
