@@ -1,37 +1,23 @@
 import { useState } from 'react';
-import {
-	MDBContainer,
-	MDBRow,
-	MDBCol,
-	MDBCard,
-	MDBCardBody,
-	MDBCardImage,
-	MDBIcon,
-} from 'mdb-react-ui-kit';
 import Link from 'next/link';
 import { FormCheck } from 'react-bootstrap';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import Form from 'react-bootstrap/Form';
-
+import { Container, Card, Form, Button } from 'react-bootstrap';
+import { flexColCenter } from '../../styles/styleVariables';
+import { RiLockPasswordFill } from 'react-icons/ri';
 type Inputs = {
-	email: string;
 	password: string;
-	code: string;
 };
 
 const changePassword = () => {
-	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-	const [disabledButton, setDisabledButton] = useState(true);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
 	const schema = z.object({
-		email: z.string().min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
-		code: z.string().min(1, { message: 'Required' }),
 	});
 
 	const {
@@ -44,71 +30,36 @@ const changePassword = () => {
 		resolver: zodResolver(schema),
 	});
 	return (
-		<MDBContainer className="p-5">
-			<MDBContainer className="w-100">
-				<MDBCard
-					className="text-black m-5 shadow-lg border-0 p-3 bg-0 bg-transparent glass-background"
-					style={{ borderRadius: '25px' }}
-				>
-					<MDBCardBody>
-						<MDBRow style={{ minHeight: '50vh' }}>
-							<MDBCol
-								md="10"
-								lg="6"
-								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3"
-							>
-								<p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-									Change password
-								</p>
+		<>
+			<Container className="d-flex justify-content-center p-3 mb-4">
+				<Card className="w-75 glass-background">
+					<Card.Body>
+						<div className={`${flexColCenter} w-75 m-auto`}>
+							<Card.Title className="display-6 text-dark mb-5">
+								<strong>New password</strong>
+							</Card.Title>
+							<Card.Title className="mb-5 w-50 text-center">
+								Please enter your new password.
+							</Card.Title>
+							<Container className="d-flex justify-content-center">
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
-										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="envelope me-3" size="lg" />
-											<span className="has-float-label">
-												<Form.Control
-													id="loginEmail"
-													type="email"
-													placeholder=" "
-													{...register('email')}
-													aria-invalid={errors.email ? 'true' : 'false'}
-												/>
-												<label htmlFor="loginEmail">Email</label>
-											</span>
-										</div>
-										{errors.email?.message && (
-											<p>{errors.email?.message as string}</p>
-										)}
-										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="key me-3" size="lg" />
-											<span className="has-float-label">
-												<Form.Control
-													id="code"
-													type="text"
-													placeholder=" "
-													{...register('code')}
-													aria-invalid={errors.code ? 'true' : 'false'}
-													// {...userpassword}
-												/>
-												<label htmlFor="code">Code</label>
-											</span>
-										</div>
-										{errors.password?.message && (
-											<p>{errors.password?.message as string}</p>
-										)}
-										<div className="d-flex flex-row align-items-center mb-4">
-											<MDBIcon fas icon="lock me-3" size="lg" />
-											<span className="has-float-label">
-												<Form.Control
-													id="password"
-													type={passType}
-													placeholder=" "
-													{...register('password')}
-													aria-invalid={errors.password ? 'true' : 'false'}
-													// {...userpassword}
-												/>
-												<label htmlFor="password">Password</label>
-											</span>
-										</div>
+									<Form.Group className={`${flexColCenter} mb-3`}>
+										<Container className="mb-4">
+											<div className="d-flex align-items-center mb-4 ">
+												<RiLockPasswordFill className="me-2 fs-4" />
+												<div className="me-3">
+													<Form.Control
+														id="loginPassword"
+														placeholder="New password"
+														className="border-bottom comment-form bg-transparent"
+														type={passType}
+														{...register('password')}
+														aria-invalid={errors.password ? 'true' : 'false'}
+													></Form.Control>
+												</div>
+											</div>
+										</Container>
+
 										{errors.password?.message && (
 											<p>{errors.password?.message as string}</p>
 										)}
@@ -123,36 +74,24 @@ const changePassword = () => {
 												}
 											/>
 										</div>
-										<div className="mb-4" style={{ minHeight: '5vh' }}>
-											<button
+										<div style={{ minHeight: '5vh' }}>
+											<Button
 												type="submit"
-												className="btn btn-outline-danger btn-rounded btn-lg"
-												data-mdb-ripple-color="dark"
+												variant="outline-warning"
+												size="lg"
 												disabled={!isValid || !isDirty}
 											>
-												Submit{' '}
-											</button>
-										</div>
-										<div>
-											<p className="text-muted">
-												New to Hypertube? <Link href="/signup">signup</Link>
-											</p>
+												Submit
+											</Button>
 										</div>
 									</Form.Group>
 								</Form>
-							</MDBCol>
-							<MDBCol
-								md="10"
-								lg="6"
-								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
-							>
-								<MDBCardImage src={LogoPng} className="w-75" />
-							</MDBCol>
-						</MDBRow>
-					</MDBCardBody>
-				</MDBCard>
-			</MDBContainer>
-		</MDBContainer>
+							</Container>
+						</div>
+					</Card.Body>
+				</Card>
+			</Container>
+		</>
 	);
 };
 
