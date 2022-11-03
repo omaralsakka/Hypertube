@@ -157,3 +157,20 @@ input[type='file'] {
 	margin: 0;
 	height: 6vh;
 }
+
+@keyframes pan {
+	100% {
+		background-position: 30% 0%;
+	}
+}
+
+.cinemaThumbnail {
+	background-image: url('../../public/movies.jpg');
+	background-size: 120rem;
+	height: 35vh;
+	animation: pan 60s infinite alternate linear;
+}
+
+.extraShadow {
+	box-shadow: 50px 50px 100px #a6a6a6, -50px -50px 100px #ffffff;
+}

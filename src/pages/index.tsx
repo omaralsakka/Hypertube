@@ -44,7 +44,7 @@ const ActionButton = ({
 	};
 	return (
 		<>
-			<motion.div className="item" variants={item}>
+			<motion.div transition={{ delay: 1 }} className="item" variants={item}>
 				<Link href={path}>
 					<Button variant={variant} className="me-4" size="lg">
 						{text}
@@ -140,11 +140,11 @@ const Home: NextPage = () => {
 		<>
 			<Container
 				style={{ minHeight: '60vh' }}
-				className="d-flex align-items-center justify-content-center"
+				className="d-flex flex-column align-items-center justify-content-center p-2"
 				fluid
 			>
-				<Card className="bg-transparent shadow-0 w-50">
-					<Card.Body className="d-flex flex-column justify-content-center p-5">
+				<Card className="bg-transparent shadow-0">
+					<Card.Body className="d-flex flex-column align-items-center justify-content-center p-3">
 						<Row className="mb-5">
 							<Col>
 								<motion.div
@@ -152,13 +152,13 @@ const Home: NextPage = () => {
 									animate={{ y: 0, opacity: 1 }}
 									transition={{ duration: 1 }}
 								>
-									<Container className="w-75">
+									<Container className="w-50">
 										<Image src={logoPng} fluid />
 									</Container>
 								</motion.div>
 							</Col>
 						</Row>
-						<Row className="p-3">
+						<Row className="p-3 mb-5">
 							<Col>
 								<Container className="d-flex justify-content-center">
 									<motion.div
@@ -172,8 +172,37 @@ const Home: NextPage = () => {
 								</Container>
 							</Col>
 						</Row>
+						<Row className="text-center mb-5">
+							<motion.div
+								className="d-flex justify-content-center darkFade w-100"
+								initial={{ x: 100, opacity: 0 }}
+								animate={{ x: 0, opacity: 1 }}
+								transition={{ duration: 1 }}
+							>
+								<Card.Text className="display-6" style={{ color: '#333' }}>
+									<strong>Enjoy all your favorite movies & shows.</strong>
+								</Card.Text>
+							</motion.div>
+						</Row>
 					</Card.Body>
 				</Card>
+				<motion.div
+					className="d-flex justify-content-center darkFade w-100"
+					initial={{ y: 100, opacity: 0 }}
+					animate={{ y: 0, opacity: 1 }}
+					transition={{ duration: 1 }}
+				>
+					<Row className="justify-content-center w-50 extraShadow">
+						<Card className="glass-background p-0 ">
+							<Card.Body className="p-0">
+								<Container
+									className="cinemaThumbnail rounded"
+									fluid
+								></Container>
+							</Card.Body>
+						</Card>
+					</Row>
+				</motion.div>
 			</Container>
 		</>
 	);
