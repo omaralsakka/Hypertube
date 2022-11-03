@@ -154,7 +154,7 @@ const MoviePage = () => {
 	
 	useEffect(() => {
         const timeout = setTimeout(() => {
-            setMovieUrl(`/api/stream?            imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
+            setMovieUrl(`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
         }, 500);
         return () => clearTimeout(timeout);
     }, [movieInfo])

@@ -72,4 +72,5 @@ model Movies {
   imdb_code 	String
   movie_path 	String
   size			Int
+  downloaded	Int
 }
