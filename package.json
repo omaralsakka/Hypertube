@@ -27,6 +27,7 @@
 		"bencode": "^2.0.3",
 		"bootstrap": "^5.2.2",
 		"bootstrap-float-label": "^3.0.1",
+		"cuid": "^2.1.8",
 		"fluent-ffmpeg": "^2.1.2",
 		"framer-motion": "^7.6.2",
 		"i": "^0.3.7",
