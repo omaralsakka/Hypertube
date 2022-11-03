@@ -78,6 +78,20 @@ export const authOptions: NextAuthOptions = {
 		// Must be set to jwt for sessions to work properly with credentials provider
 		strategy: 'jwt',
 	},
+	callbacks: {
+		async jwt({ token, user }) {
+			// Persist the OAuth access_token and or the user id to the token right after signin
+			if (user) {
+				token.user = user;
+			}
+			return token;
+		},
+		async session({ session, token }) {
+			// Send properties to the client, like an access_token and user id from a provider.
+			session.token = token;
+			return session;
+		},
+	},
 	debug: true,
 };
 
