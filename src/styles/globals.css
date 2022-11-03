@@ -56,8 +56,9 @@ a {
 	background: #ffffff33;
 	border-radius: 10px;
 	box-shadow: 0 4px 30px #0000001a;
-	backdrop-filter: blur(5px);
-	-webkit-backdrop-filter: blur(10px);
+	background-color: rgba(0, 0, 0, 0.185);
+	/* backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(10px); */
 }
 
 .movieCard-Body {
