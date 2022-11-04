@@ -19,14 +19,26 @@ const streamMovie = (movie: Movie | undefined) => {
 };
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 import MovieScreen from '../../components/MovieScreen';
-
+const skip = true;
 const MoviePage = () => {
 	const router = useRouter();
 
-	const { data, error } = trpc.comment.getMovieComments.useQuery({
-		imdb_code: parseInt(router.query.movieId as string),
-	});
+	// const { data, error } = trpc.comment.getMovieComments.useQuery(USER_QUERY,
+	// 	{
+	// 		imdb_code: parseInt(router.query.movieId as string),
+	// 	},
+	// 	skip: !router.isReady
 
+	// );
+
+	// const slug = router.query.slug;
+
+	const [shouldSkip, setShouldSkip] = useState(true);
+	const { isLoading, error, data } = trpc.comment.getMovieComments.useQuery({
+		variables: { imdb_code: parseInt(router.query.movieId as string) },
+		skip: true,
+	});
+	//TRPCClientError!router.isReady
 	useEffect(() => {
 		// setComments(data.comments as any);
 		if (data) {
@@ -168,3 +180,7 @@ const MoviePage = () => {
 };
 
 export default MoviePage;
+
+MoviePage.getInitialProps = async () => {
+	return {};
+};
