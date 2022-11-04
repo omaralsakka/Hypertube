@@ -12,16 +12,44 @@ import { Form } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../types/appTypes';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { useSession } from 'next-auth/react';
 
 const PhotoUpload = () => {
 	const [photo, setPhoto] = useState('');
+	const [file, setFile] = useState<File | null>();
+	const [fileAmountError, setFileAmountError] = useState(false);
+	const [fileError, setFileError] = useState(false);
+	const { data: session } = useSession();
 	const formData = new FormData();
 
-	const addPhoto = async (photo: any) => {
-		const pic = URL.createObjectURL(photo);
-		setPhoto(pic);
-		formData.append('profileImg', photo);
+	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (!event.target.files || event.target.files.length !== 1) {
+			setFileAmountError(true);
+			return;
+		}
+		setFileError(false);
+		setFileAmountError(false);
+		setFile(event.target.files[0]);
 	};
+
+	useEffect(() => {
+		if (!file || !session?.user?.email) return;
+		formData.append('files', file, file.name);
+		formData.append('email', session.user.email)
+		const upload = async () => {
+			const response = await fetch('/api/image', {
+				method: 'POST',
+				body: formData,
+			});
+			console.log(response)
+		};
+		upload()
+	}, [file]);
+	// const addPhoto = async (photo: any) => {
+	// 	const pic = URL.createObjectURL(photo);
+	// 	setPhoto(pic);
+	// 	formData.append('profileImg', photo);
+	// };
 	return (
 		<>
 			{/* <Card style={{ maxWidth: '300px', maxHeight: '300px' }}>
@@ -49,12 +77,8 @@ const PhotoUpload = () => {
 						<input
 							className="custom-file-input"
 							type="file"
-							onChange={(event: React.ChangeEvent) => {
-								const target = event.target as HTMLInputElement;
-								if (!target.files) return;
-								const file = target.files[0];
-								addPhoto(file);
-							}}
+							accept=".jpg, .png, .jpeg"
+							onChange={onChange}
 						/>
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
