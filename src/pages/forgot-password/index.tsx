@@ -8,15 +8,12 @@ import * as z from 'zod';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { flexColCenter } from '../../styles/styleVariables';
-type Inputs = {
-	email: string;
-	username: string;
-};
+import { EmailInput } from '../../types/appTypes';
 
 const forgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [emailSent, setEmailSent] = useState(false);
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const onSubmit: SubmitHandler<EmailInput> = (data) => console.log(data);
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 	});
@@ -36,14 +33,14 @@ const forgotPassword = () => {
 		handleSubmit,
 		getValues,
 		formState: { errors, isSubmitting, isDirty, isValid },
-	} = useForm<Inputs>({
+	} = useForm<EmailInput>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
 	return (
 		<>
-			<Container className="d-flex justify-content-center p-3 mb-4">
-				<Card className="w-75 glass-background">
+			<Container className="d-flex justify-content-center p-5 mb-4">
+				<Card className="w-75 glass-background border-0">
 					<Card.Body>
 						{emailSent ? (
 							<div className={`${flexColCenter} w-75 m-auto`}>

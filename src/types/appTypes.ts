@@ -85,6 +85,8 @@ export type Inputs = {
 	password: string;
 };
 
+export type EmailInput = Omit<Inputs, 'name' | 'password'>;
+
 export type PageLayout = {
 	children: React.ReactNode;
 };
