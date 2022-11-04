@@ -23,22 +23,23 @@ const Login = ({
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
 
-	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
-		event?.preventDefault();
-		console.log(data);
-		const user = await signIn('credentials', {
-			email: data.email,
-			password: data.password,
-			callbackUrl: 'http://localhost:3000/home',
-		});
-		console.log(user);
-	};
+
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
 		console.log(email);
 		const user = await signIn('email', {
 			email: email,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+	};
+	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
+		event?.preventDefault();
+		console.log(data);
+		const user = await signIn('credentials', {
+			email: data.email,
+			password: data.password,
 			callbackUrl: 'http://localhost:3000/home',
 		});
 		console.log(user);
