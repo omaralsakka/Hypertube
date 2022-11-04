@@ -16,15 +16,6 @@
 		"incremental": true,
 		"noUncheckedIndexedAccess": true
 	},
-	"include": [
-		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.cjs",
-		"**/*.mjs",
-		"src/components/Shapes/use-smooth-transform.tsx",
-		"src/components/Shapes/index.tsx",
-, "src/components/use-smooth-transform.js"		"src/components/settings/index.js"
-	],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
 	"exclude": ["node_modules"]
 }

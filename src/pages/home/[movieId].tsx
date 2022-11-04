@@ -1,18 +1,15 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import ReactPlayer from 'react-player';
-import { Container, Card, Row, Col, Collapse, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootReducer } from '../../types/appTypes';
+import { Container, Card, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
-import { Movies, Movie, MovieData } from '../../types/appTypes';
+import { Movies, Movie, MovieData, MoviePostInfo } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import { movieRate, getOmdb } from '../../utils/helperFunctions';
-import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { trpc } from '../../utils/trpc';
 import CommentsSection from '../../components/commentsSection';
 import axios from 'axios';
+import MovieDescription from '../../components/MovieDescription';
 
 const streamMovie = (movie: Movie | undefined) => {
 	// THIS CHANGE IS IMPORTANT
@@ -22,9 +19,9 @@ const streamMovie = (movie: Movie | undefined) => {
 	});
 };
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
+import MovieScreen from '../../components/MovieScreen';
 
 const MoviePage = () => {
-
 	const router = useRouter();
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: parseInt(router.query.movieId as string),
@@ -33,18 +30,16 @@ const MoviePage = () => {
 	useEffect(() => {
 		// setComments(data.comments as any);
 		if (data) {
-			console.log(data.comments);
+			// console.log(data.comments);
 			setComments(data.comments as any);
 		}
 	}, [data]);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
-	const [isLoading, setLoading] = useState(false);
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
-	const [openDescription, setOpenDescription] = useState(false);
 	const [movieUrl, setMovieUrl] = useState('');
-	const [movieInfo, setMovieInfo] = useState({
+	const [movieInfo, setMovieInfo] = useState<MoviePostInfo>({
 		imdb_code: '',
 		movie_path: '',
 		size: 0,
@@ -77,27 +72,15 @@ const MoviePage = () => {
 			);
 		}
 	}, [movie]);
+
 	useEffect(() => {
-		if (movieInfo.imdb_code.length) {
+		const timeout = setTimeout(() => {
 			setMovieUrl(
-				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
+				`/api/stream?            imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
-		}
-	}, [isLoading]);
-	const handleClick = () => {
-		// THESE CHANGES ARE IMPORTANT
-		axios.post('/api/video/', movie).then((resp) => {
-			setMovieInfo(resp.data.data);
-			setLoading(true);
-		});
-	};
-	
-	useEffect(() => {
-        const timeout = setTimeout(() => {
-            setMovieUrl(`/api/stream?            imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, [movieInfo])
+		}, 500);
+		return () => clearTimeout(timeout);
+	}, [movieInfo]);
 
 	if (!movie?.id) {
 		return <></>;
@@ -110,42 +93,21 @@ const MoviePage = () => {
 					exit={{ y: -10, opacity: 0 }}
 					transition={{ duration: 0.8 }}
 				>
-					<Container className=" p-sm-4 rounded " fluid>
+					<Container className=" p-sm-4 rounded" fluid>
 						<Card
-							className="glass-background rounded d-flex flex-column p-0"
+							className="glass-background rounded d-flex flex-column p-0 border-0"
 							style={{ minWidth: '60vw', minHeight: '85vh' }}
 						>
 							<Card.Body className="p-0">
 								<Container className="p-0" fluid>
 									<Row className="d-flex g-0 m-auto justify-content-center">
-										<Col sm={7}>
-											<Container className="overflow-hidden p-0">
-												<Card style={{ minHeight: '720px', maxHeight: '60vh' }}>
-													<Card.Img
-														className="overflow-hidden"
-														style={{
-															objectFit: 'cover',
-															minHeight: '720px',
-															maxHeight: '60vh',
-														}}
-														src={movie.background_image_original}
-													/>
-													<Card.ImgOverlay>
-														{!isLoading && (
-															<Container className="d-flex justify-content-center align-items-center h-100">
-																<Button
-																	variant="primary"
-																	hidden={isLoading}
-																	onClick={!isLoading && handleClick}
-																>
-																	<FaPlay />
-																</Button>
-															</Container>
-														)}
-													</Card.ImgOverlay>
-												</Card>
-											</Container>
-										</Col>
+										<MovieScreen
+											movie={movie}
+											movieInfo={movieInfo}
+											setMovieUrl={setMovieUrl}
+											setMovieInfo={setMovieInfo}
+											movieUrl={movieUrl}
+										/>
 										<Col sm={5} className="p-1">
 											<Container className="d-flex flex-column justify-content-center align-items-center">
 												<Card.Title className="fs-2 mb-4 text-dark">
@@ -182,66 +144,7 @@ const MoviePage = () => {
 												</Card.Title>
 											</Col>
 										</Row>
-										<Container className="ms-0 mb-3" fluid>
-											<Button
-												variant="warning"
-												onClick={() => setOpenDescription(!openDescription)}
-												aria-controls="description-section"
-												aria-expanded={openDescription}
-											>
-												Read more
-											</Button>
-										</Container>
-										<Collapse in={openDescription}>
-											<Row id="description-section">
-												<Col>
-													<Row className="mb-3">
-														<Card.Title className="fs-3">Plot</Card.Title>
-														<Card.Text style={{ color: '#333' }}>
-															{movieData?.Plot}
-														</Card.Text>
-													</Row>
-													<Row>
-														<div className="d-flex align-items-center mb-1">
-															<Card.Title className="m-0 p-0">Imdb:</Card.Title>
-															<Card.Text className="fs-5 ms-1">
-																{movieData?.imdbRating}
-															</Card.Text>
-														</div>
-														<div className="d-flex align-items-center ">
-															<Card.Title className="m-0 p-0">
-																Country:
-															</Card.Title>
-															<Card.Text className="fs-5 ms-1">
-																{movieData?.Country}
-															</Card.Text>
-														</div>
-													</Row>
-												</Col>
-												<Col>
-													<Row className="mb-3">
-														<Card.Title>
-															<span>Actors:</span>{' '}
-															<strong>{movieData?.Actors}</strong>
-														</Card.Title>
-														<Card.Title>
-															<span>Director:</span>{' '}
-															<strong>{movieData?.Director}</strong>
-														</Card.Title>{' '}
-													</Row>
-													<Row>
-														<Card.Title>
-															<span>Category:</span>{' '}
-															<strong>{movieData?.Genre}</strong>
-														</Card.Title>{' '}
-														<Card.Title>
-															<span>Language:</span>{' '}
-															<strong>{movieData?.Language}</strong>
-														</Card.Title>
-													</Row>
-												</Col>
-											</Row>
-										</Collapse>
+										<MovieDescription movieData={movieData} />
 										<hr />
 										{comments && (
 											<Row>
@@ -255,17 +158,6 @@ const MoviePage = () => {
 							</Card.Body>
 						</Card>
 					</Container>
-					{isLoading ? ( // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING
-						<ReactPlayer
-							url={movieUrl}
-							controls={true}
-							playing={true}
-							width="75%"
-							height="75%"
-						/>
-					) : (
-						<></>
-					)}
 				</motion.div>
 			</>
 		);
