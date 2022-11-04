@@ -1,3 +1,4 @@
+import { date } from 'zod';
 import { rootReducer } from '../store/store';
 export type User = {
 	id: number;
@@ -73,9 +74,9 @@ export type RootReducer = ReturnType<typeof rootReducer>;
 export type Comment = {
 	id: string;
 	userId: string;
-	// userName: string;
 	created_at: string;
 	comment_text: string;
+	user: { image: string; name: string; created_at: Date };
 };
 
 export type Inputs = {
@@ -83,6 +84,8 @@ export type Inputs = {
 	email: string;
 	password: string;
 };
+
+export type EmailInput = Omit<Inputs, 'name' | 'password'>;
 
 export type PageLayout = {
 	children: React.ReactNode;
