@@ -32,6 +32,7 @@ export const moviesRouter = router({
 				data: {
 					imdb_code: input.imdb_code,
 					movie_path: input.movie_path,
+					size: 1, // property size is missing need add something
 				},
 			});
 			console.log(newMovie);
