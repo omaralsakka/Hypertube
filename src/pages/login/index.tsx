@@ -7,11 +7,13 @@ import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
 import { signIn, getProviders } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
+
 import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsGithub } from 'react-icons/bs';
 import { AiOutlineMail } from 'react-icons/ai';
+import { flexColCenter } from '../../styles/styleVariables';
 type Inputs = {
 	email: string;
 	password: string;
@@ -74,7 +76,7 @@ const Login = ({
 									<strong>Login</strong>
 								</Card.Title>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="d-flex flex-column align-items-center justify-content-center">
+									<Form.Group className={flexColCenter}>
 										<Container>
 											<div className="d-flex flex-row align-items-center mb-4 ">
 												<MdAlternateEmail className="me-2 fs-4" />
@@ -120,11 +122,10 @@ const Login = ({
 												/>
 											</div>
 										</Container>
-										<div className="" style={{ minHeight: '5vh' }}>
+										<div style={{ minHeight: '5vh' }}>
 											<Button
 												type="submit"
 												variant="outline-warning"
-												size="lg"
 												disabled={!isValid || !isDirty}
 											>
 												Login

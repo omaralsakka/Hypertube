@@ -23,10 +23,11 @@ const VerifyEmail = () => {
 						<div>An error occurred: {mutation.error.message}</div>
 					) : null}
 
-					{mutation.isSuccess ? (<>
-						<h3>Email address verified. Login to continue!</h3>
-            <button onClick={() => signIn()}>Login</button>
-            </>
+					{mutation.isSuccess ? (
+						<>
+							<h3>Email address verified. Login to continue!</h3>
+							<button onClick={() => signIn()}>Login</button>
+						</>
 					) : null}
 				</>
 			)}
