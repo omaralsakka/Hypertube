@@ -174,3 +174,10 @@ input[type='file'] {
 .extraShadow {
 	box-shadow: 50px 50px 100px #a6a6a6, -50px -50px 100px #ffffff;
 }
+
+.cut-text {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100%;
+	white-space: nowrap;
+}
