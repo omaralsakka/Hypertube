@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { downloadTorrent } from '../../server/torrent/downloadTorrent';
 import { downloadSubtitles } from '../../server/torrent/downloadSubtitles';
 import { prisma } from '../../server/db/client';
+import fs from 'fs';
 interface torrentDataInter {
 	url: string;
 	hash: string;
@@ -50,7 +51,8 @@ export default async function streamVideo(
 		} catch (error) {
 			console.error(error);
 		}
-		// downloadSubtitles(imdbCode); // this is not ready and might not even be used.
+		if (!fs.existsSync(`./subtitles/${imdbCode}`))
+			downloadSubtitles(imdbCode);
 		if (isMovieDownloaded === null || isMovieDownloaded.downloaded === 0) {
 			try {
 				movieInfo = await downloadTorrent(uri, imdbCode, isMovieDownloaded);
@@ -69,6 +71,7 @@ export default async function streamVideo(
 					message: 'Preparing movie for streaming!',
 					data: isMovieDownloaded,
 				});
+				// res.status(200).send('yeeyee'); // REMOVE THIS WHEN UNCOMMENTING STUFF FROM ABOVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	} else {
 		res
 			.status(400)

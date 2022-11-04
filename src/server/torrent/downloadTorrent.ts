@@ -12,6 +12,11 @@ interface DatabaseInfo {
 
 export const downloadTorrent = async (magnetLink: string, imdbCode: string, movieDbInfo: DatabaseInfo | null) =>
 	new Promise((resolve) => {
+		
+		if(movieDbInfo !== null) {
+			resolve(movieDbInfo);
+		}
+		
 		let newMovie: DatabaseInfo;
 
 		let filePath: string = movieDbInfo !== null ? movieDbInfo.movie_path : '';
@@ -48,17 +53,21 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 					movieDbInfo === null
 				) {
 					file.select();
-					newMovie = await prisma.movies.create({
-						data: {
-							imdb_code: imdbCode,
-							movie_path: file.path,
-							size: file.length,
-							downloaded: 0,
-						},
-					});
+					if(movieDbInfo === null) {
+						try {
+							newMovie = await prisma.movies.create({
+								data: {
+									imdb_code: imdbCode,
+									movie_path: file.path,
+									size: file.length,
+									downloaded: 0,
+								},
+							});
+						} catch (error) {
+							console.error(error);
+						}
+					}
 					filePath = file.path;
-				} else {
-					file.select();
 				}
 			});
 		});

@@ -74,3 +74,10 @@ model Movies {
   size			Int
   downloaded	Int
 }
+
+model Subtitles {
+	id			String    @id @default(cuid())
+	imdb_code	String
+	language	String
+	path		String
+}

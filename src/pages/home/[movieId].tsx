@@ -21,6 +21,7 @@ const streamMovie = (movie: Movie | undefined) => {
 	});
 };
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
+import { TrackProps } from 'react-player/file';
 
 const MoviePage = () => {
 
@@ -32,6 +33,7 @@ const MoviePage = () => {
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [openDescription, setOpenDescription] = useState(false);
 	const [movieUrl, setMovieUrl] = useState('');
+	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
 	const [movieInfo, setMovieInfo] = useState({
 		imdb_code: '',
 		movie_path: '',
@@ -144,14 +146,20 @@ const MoviePage = () => {
 		}
 	}, [movie]);
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		// THESE CHANGES ARE IMPORTANT
-		axios.post('/api/video/', movie).then((resp) => {
-			setMovieInfo(resp.data.data);
-			setLoading(true);
-		});
+		const result = await axios.post('/api/video/', movie)
+		setMovieInfo(result.data.data);
+		if(movie) {
+			const subsArray = await axios.post('/api/subtitles/', {imdbCode: movie.imdb_code})
+			setSubtitles(subsArray.data)
+			console.log(subtitles);
+			console.log(subsArray.data)
+			setLoading(true); // think if this has to be outside
+		}
+		//setLoading(true);
 	};
-	
+
 	useEffect(() => {
         const timeout = setTimeout(() => {
             setMovieUrl(`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
@@ -313,13 +321,18 @@ const MoviePage = () => {
 							</Card.Body>
 						</Card>
 					</Container>
-					{isLoading ? ( // THIS HAS TO BE SAVED FOR A BASE MODEL FOR THE FUTURE REACT PLAYER OR ATLEAST THE SRC PATH STRING
+					{isLoading ? (
 						<ReactPlayer
 							url={movieUrl}
 							controls={true}
 							playing={true}
 							width="75%"
 							height="75%"
+							config={{ file: {
+								tracks: [
+									{kind: 'subtitles', src: '/api/stream-subtitles?subpath=./subtitles/tt17076046/tt17076046-en.vtt', srcLang: 'en', label: 'en', default: true},
+								]
+							  }}}
 						/>
 					) : (
 						<></>
