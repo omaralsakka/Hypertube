@@ -53,6 +53,7 @@ model User {
   name          String
   email         String   @unique
   password      String?
+  emailToken    String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]

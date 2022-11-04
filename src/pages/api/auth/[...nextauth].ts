@@ -1,4 +1,5 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
+import { AdapterUser } from 'next-auth/adapters';
 import GitHubProvider from 'next-auth/providers/github';
 import FortyTwoProvider from 'next-auth/providers/42-school';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -47,6 +48,7 @@ export const authOptions: NextAuthOptions = {
 					id: user.id,
 					email: user.email,
 					name: user.name,
+					emailVerified: user.emailVerified,
 				};
 			},
 		}),
@@ -61,7 +63,7 @@ export const authOptions: NextAuthOptions = {
 		EmailProvider({
 			server: {
 				host: process.env.EMAIL_SERVER_HOST,
-				port: process.env.EMAIL_SERVER_PORT,
+				port: Number(process.env.EMAIL_SERVER_PORT),
 				auth: {
 					user: process.env.EMAIL_SERVER_USER,
 					pass: process.env.EMAIL_SERVER_PASSWORD,
@@ -79,10 +81,14 @@ export const authOptions: NextAuthOptions = {
 		strategy: 'jwt',
 	},
 	callbacks: {
-		async jwt({ token, user }) {
+		async jwt({ token, user, account }) {
 			// Persist the OAuth access_token and or the user id to the token right after signin
 			if (user) {
 				token.user = user;
+				return token;
+			}
+			if (account) {
+				token.user = account;
 			}
 			return token;
 		},
@@ -90,6 +96,29 @@ export const authOptions: NextAuthOptions = {
 			// Send properties to the client, like an access_token and user id from a provider.
 			session.token = token;
 			return session;
+		},
+		async signIn({ user, account, profile }) {
+			console.log('user in signin callback', user);
+			// Check if user's email has been verified
+			console.log('account in signin callback', account);
+			const adapterUser = user as AdapterUser;
+			// OAuth providers are trusted by default. Other OAuth providers should be added here too.
+			if (account?.provider === '42-school' || account?.provider === 'github')
+				return true;
+			if (account?.provider === 'email') {
+				if (adapterUser.name && adapterUser.emailVerified)
+					return true;
+				if (!adapterUser.name && !adapterUser.emailVerified)
+					return '/signupfirst';
+				return '/notverified';
+			}
+			// For credentials login is rejected if email hasn't been verified
+			if (account?.provider === 'credentials' && adapterUser.emailVerified)
+				return true;
+			// Return false to display a default error message
+			return '/notverified';
+			// Or you can return a URL to redirect to:
+			// return '/unauthorized'
 		},
 	},
 	debug: true,
