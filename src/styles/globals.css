@@ -181,3 +181,45 @@ input[type='file'] {
 	width: 100%;
 	white-space: nowrap;
 }
+
+.homeMovieStyle {
+	max-width: 20vw;
+	min-width: 15vw;
+	max-height: 61vh;
+}
+
+.suggestedMovieStyle {
+	max-width: 10vw;
+	width: 200px;
+	min-width: 10vw;
+}
+
+@media only screen and (min-width: 460px) and (max-width: 1280px) {
+	.movieOverlay-Info {
+		display: none;
+	}
+	.suggestedMovieStyle {
+		max-width: 20vw;
+		width: 90px;
+		min-width: 8vw;
+	}
+	.movieCard-Body {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.homeMovieStyle {
+		max-width: 30vw;
+		min-width: 20vw;
+		max-height: 30vh;
+	}
+	.suggestedMovieStyle {
+		max-width: 20vw;
+		width: 50px;
+		min-width: 20vw;
+	}
+	.movieCard-Body {
+		display: none;
+	}
+}

@@ -46,11 +46,11 @@ const MoviePage = () => {
 	}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
 	const [comments, setComments] = useState([]);
-	const suggestedMovieStyle = {
-		maxWidth: '10vw',
-		width: '200px',
-		minWidth: '5vw',
-	};
+	// const suggestedMovieStyle = {
+	// 	maxWidth: '10vw',
+	// 	width: '200px',
+	// 	minWidth: '10vw',
+	// };
 
 	useEffect(() => {
 		if (movieId?.length) {
@@ -118,7 +118,7 @@ const MoviePage = () => {
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
 																movie={movie}
-																style={suggestedMovieStyle}
+																style="suggestedMovieStyle"
 																viewType="small"
 															/>
 														</div>
