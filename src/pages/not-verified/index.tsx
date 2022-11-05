@@ -11,45 +11,6 @@ const NotVerified = () => {
 		event.preventDefault();
 		mutation.mutate({ email: email });
 	};
-	// Component
-	// return (
-	// 	<div>
-	// 		{mutation.isLoading ? (
-	// 			<h3>Sending new verification link...</h3>
-	// 		) : (
-	// 			<>
-	// 				{mutation.isSuccess ? (
-	// 					<>
-	// 						<h3>Verification link was sent successfully</h3>
-	// 						<p>Check your email to verify your account.</p>
-	// 					</>
-	// 				) : (
-	// 					<>
-	// 						<h3 className="title is-3">Your email is still unverified</h3>
-	// 						<p>
-	// 							Follow the link in your email to continue. If you haven't
-	// 							received the verification email, request a new verification
-	// 							below.
-	// 						</p>
-	// 						<form onSubmit={handleSubmit}>
-	// 							<input
-	// 								type="email"
-	// 								name="email"
-	// 								value={email}
-	// 								onChange={onChange}
-	// 								required
-	// 							/>
-	// 							<button type="submit">Submit</button>
-	// 						</form>
-	// 					</>
-	// 				)}
-	// 				{mutation.isError ? (
-	// 					<div>An error occurred: {mutation.error.message}</div>
-	// 				) : null}
-	// 			</>
-	// 		)}
-	// 	</div>
-	// );
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-5 mb-4">
@@ -121,7 +82,7 @@ const NotVerified = () => {
 										</Container>
 									</>
 								)}
-								{mutation.isError ? (
+								{mutation.isError && (
 									<>
 										<div className={`${flexColCenter} w-75 m-auto`}>
 											<Card.Title className="display-6 text-dark mb-5 ">
@@ -129,8 +90,6 @@ const NotVerified = () => {
 											</Card.Title>
 										</div>
 									</>
-								) : (
-									<></>
 								)}
 							</>
 						)}

@@ -21,31 +21,35 @@ const MovieCardOverlay = ({
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
-				<Card.Title className="mb-3">{movie.title}</Card.Title>
-				<Row className="g-0 w-75 mb-3">
-					<Col>
-						<span className="border b-1 px-1 rounded border-dark fs-6">
-							{movieRate(movieData?.Rated)}
-						</span>
-					</Col>
-					<Col>
-						<strong>{movie.year}</strong>
-					</Col>
-					<Col className="d-flex align-items-center">
-						<strong className="ms-1">{movie.rating}</strong>
-						<AiFillStar style={{ color: 'yellow' }} />
-					</Col>
-				</Row>
-				{viewType === 'full' && (
-					<Card.Text>
-						Category:{' '}
-						{movie.genres.map((genre) => (
-							<span key={genre + '1'}>
-								<strong>{genre} </strong>
+				<Card.Title className={`mb-3 ${viewType !== 'full' && 'cut-text'}`}>
+					{movie.title}
+				</Card.Title>
+				<div className="movieOverlay-Info">
+					<Row className="g-0 w-75 mb-3 ">
+						<Col>
+							<span className="border b-1 px-1 rounded border-dark fs-6">
+								{movieRate(movieData?.Rated)}
 							</span>
-						))}{' '}
-					</Card.Text>
-				)}
+						</Col>
+						{viewType === 'full' && (
+							<>
+								<Col>
+									<strong>{movie.year}</strong>
+								</Col>
+								<Col className="d-flex align-items-center">
+									<strong className="ms-1">{movie.rating}</strong>
+									<AiFillStar style={{ color: 'yellow' }} />
+								</Col>
+							</>
+						)}
+					</Row>
+					{viewType === 'full' && (
+						<Card.Text>
+							Category:{' '}
+							<strong>{movie.genres.at(0) ? movie.genres.at(0) : 'N/A'}</strong>
+						</Card.Text>
+					)}
+				</div>
 			</Container>
 		</Card.ImgOverlay>
 	);
