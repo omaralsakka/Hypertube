@@ -51,7 +51,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   password      String?
   emailToken    String?
   emailVerified DateTime?
@@ -80,8 +80,37 @@ model Comment {
 }
 
 model Movies {
-  id            String    @id @default(cuid())
-  imdb_code 	String
-  movie_path 	String
-  size			Int
+  id         String @id @default(cuid())
+  imdb_code  String
+  movie_path String
+  size       Int
+}
+
+model Movie {
+  id           Int      @id @unique
+  url                       String
+  imdb_code                 String
+  title                     String
+  title_english                     String
+  title_long                   String
+  slug                      String
+  year                      Int
+  rating                    Float
+  runtime                   Float
+   genres Json[]
+   torrents Json[]
+  summary                   String
+  description_full          String
+  synopsis                  String
+  yt_trailer_code           String
+  language                  String
+  mpa_rating                String
+  background_image          String
+  background_image_original String
+  small_cover_image         String
+  medium_cover_image        String
+  large_cover_image         String
+  state                     String
+  date_uploaded             String
+  date_uploaded_unix          Int
 }
