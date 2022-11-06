@@ -4,15 +4,16 @@ var cuid = require('cuid');
 
 const Movies = () => {
 	const { data, error } = trpc.movie.search.useQuery({
-		// orderBy: 'desc',
-
-		// sortBy: 'title',
-		// imdbRating: 1,
-		// genre: 'Action',
-		// quality: '720p',
-		// fromYear: 1950,
-		// toYear: 2022,
-		search_term: 'Next',
+		order: 'asc',
+		sort: 'rating',
+		imdbRating: 1,
+		// genres: 'Action',
+		fromYear: 1950,
+		toYear: 2023,
+		search_term: '',
+		fromRunTime: 5,
+		toRunTime: 100,
+		description: '1940',
 	});
 
 	useEffect(() => {
