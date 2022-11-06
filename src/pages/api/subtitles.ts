@@ -9,11 +9,11 @@ import { prisma } from '../../server/db/client';
 } */
 
 interface SubtitlesObj {
-	kind: string,
-	src: string,
-	srcLang: string,
-	label: string,
-	default: boolean,
+	kind: string;
+	src: string;
+	srcLang: string;
+	label: string;
+	default: boolean;
 }
 
 export default async function subtitles(
@@ -26,19 +26,19 @@ export default async function subtitles(
 		where: {
 			imdb_code: imdbCode,
 		},
-	})
+	});
 
 	let subtitleTracks: SubtitlesObj[] = [];
 
-	subs.forEach(sub => {
+	subs.forEach((sub) => {
 		subtitleTracks.push({
-			kind: "subtitles",
-			src: `/api/stream-subtitles?subpath=${sub.path}`,
+			kind: 'subtitles',
+			src: `http://localhost:3000/api/stream-subtitles?subpath=${sub.path}`,
 			srcLang: `${sub.language}`,
 			label: `${sub.language}`,
 			default: true,
-		})
-	})
+		});
+	});
 	res.status(200).send(subtitleTracks);
 	//res.status(200).send("HAHAHAHAH");
-};
+}
