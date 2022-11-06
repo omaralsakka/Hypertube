@@ -5,6 +5,7 @@ import { router } from '../trpc';
 import { authRouter } from './auth';
 import { exampleRouter } from './example';
 import { moviesRouter } from './movies';
+import { movieRouter } from './movie';
 import { tokenRouter } from './emailtoken';
 export const appRouter = router({
 	example: exampleRouter,
@@ -13,6 +14,7 @@ export const appRouter = router({
 	comment: commentRouter,
 	movies: moviesRouter,
 	emailtoken: tokenRouter,
+	movie: movieRouter,
 });
 
 // export type definition of API

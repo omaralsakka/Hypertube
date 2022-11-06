@@ -87,18 +87,18 @@ model Movies {
 }
 
 model Movie {
-  id           Int      @id @unique
+  id                        Int    @id @unique
   url                       String
   imdb_code                 String
   title                     String
-  title_english                     String
-  title_long                   String
+  title_english             String
+  title_long                String
   slug                      String
   year                      Int
   rating                    Float
   runtime                   Float
-   genres Json[]
-   torrents Json[]
+  genres                    Json[]
+  torrents                  Json[]
   summary                   String
   description_full          String
   synopsis                  String
@@ -112,5 +112,5 @@ model Movie {
   large_cover_image         String
   state                     String
   date_uploaded             String
-  date_uploaded_unix          Int
+  date_uploaded_unix        Int
 }

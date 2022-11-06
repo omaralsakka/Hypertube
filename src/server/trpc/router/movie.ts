@@ -41,39 +41,45 @@ export const movieRouter = router({
 			};
 		}),
 
-	searchMovie: publicProcedure
-	.input(
-		z.object({ fromYear: z.number(), toYear: z.number(), genre: z.string(), imdbRating: z.number(), orderBy: z.string(), sortBy: z.string(), quality: z.string(), search_term: z.string() })
-	)
-	.query( async ({input, ctx})=> {
-		console.log(input);
-		const movies: any = await ctx.prisma.movie.findMany({
-			where: {
-				title: {
-					has: input.search_term
+	search: publicProcedure
+		.input(
+			z.object({
+				// fromYear: z.number(),
+				// toYear: z.number(),
+				// genre: z.string(),
+				// imdbRating: z.number(),
+				// orderBy: z.string(),
+				// sortBy: z.string(),
+				// quality: z.string(),
+				search_term: z.string(),
+			})
+		)
+		.query(async ({ input, ctx }) => {
+			console.log(input);
+			const movies: any = await ctx.prisma.movie.findMany({
+				where: {
+					title: { contains: input.search_term },
 				},
-				genre: {
-					has: input.genre
-				},
-				quality: {
-					has: input.quality
-				},
-				fromYear: {
-					gt: input.fromYear
-		
-				},
-				toYear: {
-					lt: input.toYear
-				},
-				imdbRating: {
-		
-					gt: input.imdbRating
-				},
-				orderBy: { input.orderBy: input.sortBy}
-	}
-
+			});
+			console.log(movies);
+			return {
+				movies,
+			};
+		}),
 });
 
+// searchMovie: publicProcedure.input(
+//
+// )
+
+// .query( async ({input, ctx})=> {
+// 	console.log(input);
+// 	const movies: any = await ctx.prisma.movie.findMany({
+// 						where: {
+//
+
+// 		});
+// 	}),
 
 // fromYear: number;
 // toYear: number;
@@ -82,3 +88,23 @@ export const movieRouter = router({
 // orderBy: string;
 // sortBy: string;
 // quality: string;
+
+// 		genre: {
+
+// 	has: input.genre
+// },
+// quality: {
+// 	has: input.quality
+// },
+// fromYear: {
+// 	gt: input.fromYear
+
+// },
+// toYear: {
+// 	lt: input.toYear
+// },
+// imdbRating: {
+
+// 	gt: input.imdbRating
+// },
+// orderBy: { input.orderBy: input.sortBy})
