@@ -53,18 +53,18 @@ export const movieRouter = router({
 				imdbRating: z.number(),
 				order: z.string(),
 				sort: z.string(),
-				// description: z.string(),
+				description: z.string(),
 			})
 		)
 		.query(async ({ input, ctx }) => {
 			console.log(input);
 			const movies: any = await ctx.prisma.movie.findMany({
 				where: {
-					title: { search: input.search_term },
+					title: { contains: input.search_term },
 					// genres: {
 					// 	contains: input.genre,
 					// },
-					// description_full: { search: input.description },
+					description_full: { contains: input.description },
 					year: {
 						gt: input.fromYear,
 						lt: input.toYear,

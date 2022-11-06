@@ -54,7 +54,7 @@ const FilterControls = () => {
 		<>
 			<Accordion defaultActiveKey="0">
 				<Accordion.Item eventKey="0">
-					<Accordion.Header>Filters</Accordion.Header>
+					<Accordion.Header>Advanced search</Accordion.Header>
 					<Accordion.Body>
 						<Form onSubmit={handleSubmit(onSubmit)}>
 							<Form.Group className="mb-5">
@@ -153,27 +153,3 @@ const FilterControls = () => {
 };
 
 export default FilterControls;
-/*
-sort_by		String ()	date_added	Sorts the results by choosen value
-order_by		String (desc, asc)
-						title, year, rating, peers, seeds, download_count, like_count,
-						date_added
-quality		String (720p, 1080p, 2160p, 3D)
-limit		Integer between 1 - 50 (inclusive)
-The page will be sortable and filtered according to criteria such as name, genre, the
-IMDb grade, the gap of production year etc...
-
-name
-genre
-imdb grade
-gap of production year
-					<ListGroup horizontal {...register('quality')}>
-								<ListGroup.Item>SD</ListGroup.Item>
-								<ListGroup.Item active>720p</ListGroup.Item>
-								<ListGroup.Item>1080p</ListGroup.Item>
-								<ListGroup.Item action onClick=>4k</ListGroup.Item>
-															<ListGroup horizontal {...register('orderBy')}>
-								<ListGroup.Item>Asc</ListGroup.Item>
-								<ListGroup.Item>Desc</ListGroup.Item>
-							</ListGroup>
-*/
