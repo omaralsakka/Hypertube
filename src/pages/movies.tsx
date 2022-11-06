@@ -12,8 +12,8 @@ const Movies = () => {
 		toYear: 2023,
 		search_term: '',
 		fromRunTime: 5,
-		toRunTime: 100,
-		description: '1940',
+		toRunTime: 200,
+		// description: '',
 	});
 
 	useEffect(() => {
