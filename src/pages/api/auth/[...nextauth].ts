@@ -52,6 +52,7 @@ export const authOptions: NextAuthOptions = {
 					email: user.email,
 					name: user.name,
 					emailVerified: user.emailVerified,
+					image: user.image,
 				};
 			},
 		}),
@@ -122,14 +123,14 @@ export const authOptions: NextAuthOptions = {
 				if (adapterUser.name && adapterUser.emailVerified)
 					return true;
 				if (!adapterUser.name && !adapterUser.emailVerified)
-					return '/signupfirst';
-				return '/notverified';
+					return '/signup-first';
+				return '/not-verified';
 			}
 			// For credentials login is rejected if email hasn't been verified
 			if (account?.provider === 'credentials' && adapterUser.emailVerified)
 				return true;
+			return '/not-verified';
 			// Return false to display a default error message
-			return '/notverified';
 			// Or you can return a URL to redirect to:
 			// return '/unauthorized'
 		},

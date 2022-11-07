@@ -42,7 +42,7 @@ export const userRouter = router({
 				create: {
 					name: input.name,
 					email: input.email,
-					password: hashedPassword
+					password: hashedPassword,
 				} as Prisma.UserCreateInput,
 			});
 			console.log(newUser);
@@ -56,7 +56,21 @@ export const userRouter = router({
 		.input(
 			z.object({
 				email: z.string().email(),
-				password: z.string().min(1).max(30).nullish(),
+				password: z
+					.string()
+					.regex(new RegExp('^$|.*[A-Z].*'), {
+						message: 'One uppercase character required',
+					})
+					.regex(new RegExp('^$|.*[a-z].*'), {
+						message: 'One lowercase character required',
+					})
+					.regex(new RegExp('^$|.*\\d.*'), { message: 'One number required' })
+					.regex(new RegExp('^$|(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+						message: 'The password must be more than 8 characters in length',
+					})
+					.max(255, {
+						message: "The password can't be more than 255 characters in length",
+					}),
 				name: z.string().min(1).max(30),
 			})
 		)
@@ -85,6 +99,35 @@ export const userRouter = router({
 				});
 			return {
 				message: 'User information updated successfully',
+			};
+		}),
+	get: publicProcedure
+		.input(
+			z.object({
+				id: z.string().min(1).max(30),
+			})
+		)
+		.query(async ({ input, ctx }) => {
+			console.log(input);
+			const user = await ctx.prisma.user.findUnique({
+				where: {
+					id: input.id,
+				},
+				select: {
+					name: true,
+					email: true,
+					image: true,
+				},
+			});
+			if (!user)
+				throw new TRPCError({
+					code: 'BAD_REQUEST',
+					message: 'No matching user found',
+					cause: input.id,
+				});
+			return {
+				message: 'User information retrieved successfully',
+				user: user,
 			};
 		}),
 });

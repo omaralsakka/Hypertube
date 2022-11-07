@@ -16,14 +16,14 @@ const FileSchema = z
 		'Only .jpg, .jpeg, and .png formats are supported.'
 	);
 
-const validateInput = async(email: string | undefined, file: File) => {
+const validateInput = async (email: string | undefined, file: File) => {
 	try {
 		const validEmail = EmailSchema.parse(email);
-		const validFile = FileSchema.parse(file)
-		if (!validEmail || !validFile) return false
-		return true
+		const validFile = FileSchema.parse(file);
+		if (!validEmail || !validFile) return false;
+		return true;
 	} catch (err) {}
-}
+};
 
 export default function image(req: NextApiRequest, res: NextApiResponse) {
 	try {
@@ -45,9 +45,12 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 				let email;
 				if (Array.isArray(fields.email)) email = fields.email[0];
 				else email = fields.email;
-				if (!validateInput(email, file)) return res.status(400).send('Invalid input variables')
+				if (!validateInput(email, file))
+					return res.status(400).send('Invalid input variables');
 				// Create new filename
-				const filename = `${file.newFilename}.${file.mimetype?.split("/").pop()}`
+				const filename = `${file.newFilename}.${file.mimetype
+					?.split('/')
+					.pop()}`;
 				await saveFile(file, filename);
 				// Get current image
 				const oldImage = await prisma.user.findUnique({
@@ -70,10 +73,10 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 				if (!photo)
 					return res.status(500).send('Failed to write filename to database');
 				if (oldImage?.image === '')
-					return res.status(201).send('Image updated successfully');
+					return res.status(201).json({ message: 'Image updated successfully', filename: filename });
 				// If old image is local, delete it
 				if (oldImage?.image?.search('http') !== 0) {
-					console.log('Deleting old image', oldImage)
+					console.log('Deleting old image', oldImage);
 					unlink(`./public/images/${oldImage?.image}`, (err) => {
 						if (err) {
 							console.error(err);
@@ -84,7 +87,9 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 					});
 				}
 
-				return res.status(201).send('Image updated successfully');
+				return res
+					.status(201)
+					.json({ message: 'Image updated successfully', filename: filename });
 			});
 		}
 		if (req.method === 'DELETE') {
@@ -98,7 +103,7 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 
 const saveFile = async (file: File, filename: string) => {
 	console.log('Trying to save the file', file);
-	const data = fs.readFileSync(file.filepath)
+	const data = fs.readFileSync(file.filepath);
 	console.log('File read successfully');
 	fs.writeFileSync(`./public/images/${filename}`, data);
 	console.log('File written successfully');

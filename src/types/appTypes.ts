@@ -1,10 +1,8 @@
 import { date } from 'zod';
 import { rootReducer } from '../store/store';
 export type User = {
-	id: number;
-	username: string;
-	firstname: string;
-	lastname: string;
+	id: string;
+	name: string;
 	email: string;
 	image: string;
 };
