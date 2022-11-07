@@ -53,16 +53,21 @@ const Movies = () => {
 		console.log(value);
 	};
 
+	const onChange = (e) =>
+		setInputs({ ...inputs, [e.target.name]: e.target.value });
+
+	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
 	return (
 		<>
-			<FilterControls />
+			<FilterControls props={onSubmit} />
 			{/* <Form onSubmit={handleSubmit(onSubmit)}>
 				<Form.Control {...register('search_term')}></Form.Control>
 				<Form.Control {...register('description')}></Form.Control> */}
 			{/* Title <input />
 			Description <input /> */}
 			{/* </Form> */}
-			Title{' '}
+			Title
 			<input name="search_term" onChange={handleChange} value={search_term} />
 			{data &&
 				data.movies.map((movie: Movie) => (

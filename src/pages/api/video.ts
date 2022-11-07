@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { downloadTorrent } from '../../server/torrent/downloadTorrent';
 import { prisma } from '../../server/db/client';
 import { Prisma } from '@prisma/client';
-const data = require('./data.json');
+const data = require('./movies.json');
 interface torrentDataInter {
 	url: string;
 	hash: string;
@@ -48,6 +48,7 @@ export default async function streamVideo(
 		const isMovieDownloaded = await prisma.movies.findFirst({
 			where: { imdb_code: imdbCode },
 		});
+		addMovies();
 		if (isMovieDownloaded === null) {
 			movieInfo = await downloadTorrent(uri, imdbCode);
 		} else {
@@ -58,7 +59,7 @@ export default async function streamVideo(
 			// with the file size to be downloaded and if the dont match
 			// continue downloading
 		}
-		addMovies();
+
 		if (movieInfo !== false)
 			res.status(200).json({ message: 'Movie downloading!', data: movieInfo });
 		else
@@ -74,7 +75,7 @@ export default async function streamVideo(
 }
 
 const addMovies = async () => {
-	console.log(data);
+	// console.log(data);
 	for (const element of data.data.movies) {
 		console.log(element);
 		// const newMovie = await prisma.movie.upsert({

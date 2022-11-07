@@ -24,7 +24,16 @@ type Inputs = {
 	quality: string;
 };
 
-const FilterControls = () => {
+const {
+	watch,
+	register,
+	handleSubmit,
+	formState: { errors, isSubmitting },
+} = useForm<Inputs>({
+	mode: 'onChange',
+});
+
+const FilterControls = (props) => {
 	const [genres, setGenres] = useState([
 		'Action',
 		'Comedy',
@@ -39,16 +48,6 @@ const FilterControls = () => {
 	// A Trip to the Moon (1902) is consired the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
 	const [ratings, setRatings] = useState(_.range(1, 10));
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-
-	const {
-		watch,
-		register,
-		handleSubmit,
-		formState: { errors, isSubmitting },
-	} = useForm<Inputs>({
-		mode: 'onChange',
-	});
 
 	return (
 		<>
@@ -56,7 +55,7 @@ const FilterControls = () => {
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>Advanced search</Accordion.Header>
 					<Accordion.Body>
-						<Form onSubmit={handleSubmit(onSubmit)}>
+						<Form onSubmit={handleSubmit(props.onSubmit)}>
 							<Form.Group className="mb-5">
 								<div>
 									<Form.Label className="fs-5">From year</Form.Label>
