@@ -1,5 +1,36 @@
 {
 	"welcome": {
 		"title": "Tervetuloa hypertubeen"
+	},
+	"nav": {
+		"home": "Kotisivu",
+		"settings": "Asetukset",
+		"language": "Kieli",
+		"english": "Englanti",
+		"finnish": "Suomi",
+		"logout": "Kirjaudu ulos"
+	},
+	"landing": {
+		"slogan": "Nauti kaikista suosikkielokuvistasi ja -ohjelmistasi.",
+		"login": "Sisään",
+		"signup": "Kirjaudu"
+	},
+	"form": {
+		"email": "Sähköposti",
+		"password": "Salasana",
+		"showPass": "näytä salasana",
+		"loginWith": "Kirjaudu",
+		"loginWithEmail": "Kirjaudu",
+		"signupWith": "Kirjaudu",
+		"signupWithEmail": "Kirjaudu sähköpostilla",
+		"forgotPass": "Unohtuiko salasana?",
+		"newSign": "Uutta Hypertubessa?",
+		"haveAccount": "Sinulla On tili?",
+		"name": "Nimi",
+		"register": "Rekisteröidy"
+	},
+	"footer": {
+		"developed": "Kehittäjät",
+		"project": "Projektin tekijä"
 	}
 }

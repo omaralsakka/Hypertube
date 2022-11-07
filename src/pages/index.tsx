@@ -29,20 +29,12 @@ export function Component() {
 	);
 }
 
-const HeaderComponent = () => {
-	const { t }: i18translateType = useTranslation('common');
-	return (
-		<>
-			<h1>{t('welcome.title')}</h1>
-		</>
-	);
-};
-
 const Home: NextPage = () => {
 	const [lang, setLang] = useState(langs.en);
 	const [selectedLanguage, setSelectedLanguage] = useState('en');
 	const dispatch = useDispatch();
 	const logoPng = '/logo-hypertube/logo-no-background.png';
+	const { t }: i18translateType = useTranslation('common');
 
 	const container = {
 		hidden: { opacity: 1, scale: 0 },
@@ -61,13 +53,13 @@ const Home: NextPage = () => {
 			key="login-key"
 			path="/login"
 			variant="warning"
-			text="Login"
+			text={t('landing.login')}
 		/>,
 		<ActionButton
 			key="signup-key"
 			path="/signup"
 			variant="outline-primary"
-			text="Signup"
+			text={t('landing.signup')}
 		/>,
 	];
 	useEffect(() => {
@@ -99,7 +91,7 @@ const Home: NextPage = () => {
 		<>
 			<Container
 				style={{ minHeight: '100vh' }}
-				className="d-flex flex-column align-items-center justify-content-center p-2"
+				className="d-flex flex-column align-items-center mt-3 p-2"
 				fluid
 			>
 				<Card className="bg-transparent shadow-0 border-0">
@@ -131,7 +123,7 @@ const Home: NextPage = () => {
 								</Container>
 							</Col>
 						</Row>
-						<Row className="text-center mb-5">
+						<Row className="text-center mb-3">
 							<motion.div
 								className="d-flex justify-content-center darkFade w-100"
 								initial={{ x: 100, opacity: 0 }}
@@ -139,7 +131,7 @@ const Home: NextPage = () => {
 								transition={{ duration: 1 }}
 							>
 								<Card.Text className="display-6" style={{ color: '#333' }}>
-									<strong>Enjoy all your favorite movies & shows.</strong>
+									<strong>{t('landing.slogan')}</strong>
 								</Card.Text>
 							</motion.div>
 						</Row>
@@ -162,7 +154,6 @@ const Home: NextPage = () => {
 						</Card>
 					</Row>
 				</motion.div>
-				<HeaderComponent />
 			</Container>
 		</>
 	);

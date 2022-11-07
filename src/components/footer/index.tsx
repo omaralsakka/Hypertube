@@ -1,8 +1,11 @@
-import Link from 'next/link';
 import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const Footer = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
+	const { t }: i18translateType = useTranslation('common');
+
 	return (
 		<>
 			<Container
@@ -26,7 +29,7 @@ const Footer = () => {
 						<Col className="d-flex align-items-center border border-top-0 border-bottom-0">
 							<Container className="d-flex flex-column justify-content-center align-items-center">
 								<p className="fs-5">
-									<strong>Developed by</strong>
+									<strong>{t('footer.developed')}</strong>
 								</p>
 								<div className="d-flex">
 									<div className="me-5">
@@ -51,7 +54,7 @@ const Footer = () => {
 						<Col className="d-flex align-items-center">
 							<Container className="d-flex flex-column justify-content-center align-items-center">
 								<p className="fs-5 m-0">
-									<strong>Project by</strong>
+									<strong>{t('footer.project')}</strong>
 								</p>
 								<div className="d-flex align-items-center justify-content-center">
 									<Container className="p-0">

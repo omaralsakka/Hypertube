@@ -1,5 +1,36 @@
 {
 	"welcome": {
 		"title": "Welcome to Hypertube"
+	},
+	"nav": {
+		"home": "Home",
+		"settings": "Settings",
+		"language": "Language",
+		"english": "English",
+		"finnish": "Finnish",
+		"logout": "Logout"
+	},
+	"landing": {
+		"slogan": "Enjoy all your favorite movies & shows.",
+		"login": "Login",
+		"signup": "Signup"
+	},
+	"form": {
+		"email": "Email",
+		"password": "Password",
+		"showPass": "show password",
+		"loginWith": "Login with",
+		"loginWithEmail": "Login with email",
+		"signupWith": "Signup with",
+		"signupWithEmail": "Signup with email",
+		"forgotPass": "Forgot password?",
+		"newSign": "New to Hypertube?",
+		"haveAccount": "Have an account?",
+		"name": "Name",
+		"register": "Register"
+	},
+	"footer": {
+		"developed": "Developed by",
+		"project": "Project by"
 	}
 }
