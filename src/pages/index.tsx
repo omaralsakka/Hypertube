@@ -5,9 +5,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../store/actions';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { Card, Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Card, Container, Row, Col, Image } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import ActionButton from '../components/landingButtons';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../types/appTypes';
+
 export function Component() {
 	const { data: session } = useSession();
 	if (session) {
@@ -26,31 +29,14 @@ export function Component() {
 	);
 }
 
-const ActionButton = ({
-	path,
-	variant,
-	text,
-}: {
-	path: string;
-	variant: string;
-	text: string;
-}) => {
-	const item = {
-		hidden: { y: 20, opacity: 0 },
-		visible: {
-			y: 0,
-			opacity: 1,
-		},
-	};
+const HeaderComponent = () => {
+	const { t }: i18translateType = useTranslation('common');
+	const { i18n } = useTranslation('common');
 	return (
 		<>
-			<motion.div transition={{ delay: 1 }} className="item" variants={item}>
-				<Link href={path}>
-					<Button variant={variant} className="me-4" size="lg">
-						{text}
-					</Button>
-				</Link>
-			</motion.div>
+			<h1>{t('welcome.title')}</h1>
+			<button onClick={() => i18n.changeLanguage('fi')}>Fi</button>
+			<button onClick={() => i18n.changeLanguage('en')}>En</button>
 		</>
 	);
 };
@@ -72,13 +58,7 @@ const Home: NextPage = () => {
 			},
 		},
 	};
-	const item = {
-		hidden: { y: 20, opacity: 0 },
-		visible: {
-			y: 0,
-			opacity: 1,
-		},
-	};
+
 	const componentArray = [
 		<ActionButton
 			key="login-key"
@@ -118,24 +98,6 @@ const Home: NextPage = () => {
 		dispatch(setLanguage(selectedLanguage));
 	};
 
-	// return (
-	// 	<div className="app">
-	// 		<div className="main">
-	// 			{/* {selectedLanguage}
-	// 			<div className="language-select">
-	// 				<button onClick={switchLang}>Select Language</button>
-	// 			</div> */}
-	// 			{/* <div className="example-text">
-	// 				<p>
-	// 					{lang.ad}
-	// 					<br />
-	// 					{lang.text}
-	// 				</p>
-	// 			</div> */}
-	// 			{/* <Component /> */}
-	// 		</div>
-	// 	</div>
-	// );
 	return (
 		<>
 			<Container
@@ -203,6 +165,7 @@ const Home: NextPage = () => {
 						</Card>
 					</Row>
 				</motion.div>
+				<HeaderComponent />
 			</Container>
 		</>
 	);
