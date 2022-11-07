@@ -20,11 +20,14 @@ export default async function subtitles(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	const imdbCode: string = req.body.imdbCode;
+	
+	const regexImdb = /imdbCode=(.*?)/;
+	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
+	//const imdbCode: string = req.body.imdbCode;
 
 	const subs = await prisma.subtitles.findMany({
 		where: {
-			imdb_code: imdbCode,
+			imdb_code: imdbCode[1],
 		},
 	});
 
@@ -40,5 +43,4 @@ export default async function subtitles(
 		});
 	});
 	res.status(200).send(subtitleTracks);
-	//res.status(200).send("HAHAHAHAH");
 }

@@ -150,16 +150,12 @@ const MoviePage = () => {
 		const result = await axios.post('/api/video/', movie);
 		setMovieInfo(result.data.data);
 		if (movie) {
-			const subsArray = await axios.get('/api/subtitles/', {
-				imdbCode: movie.imdb_code,
+			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`, {
 			});
-
 			console.log(subsArray.data);
-
 			setSubtitles(subsArray.data);
-			setLoading(true); // think if this has to be outside
+			setLoading(true);
 		}
-		//setLoading(true);
 	};
 
 	useEffect(() => {
