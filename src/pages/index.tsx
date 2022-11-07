@@ -31,12 +31,9 @@ export function Component() {
 
 const HeaderComponent = () => {
 	const { t }: i18translateType = useTranslation('common');
-	const { i18n } = useTranslation('common');
 	return (
 		<>
 			<h1>{t('welcome.title')}</h1>
-			<button onClick={() => i18n.changeLanguage('fi')}>Fi</button>
-			<button onClick={() => i18n.changeLanguage('en')}>En</button>
 		</>
 	);
 };

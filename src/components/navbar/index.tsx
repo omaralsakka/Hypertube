@@ -1,9 +1,56 @@
 import { signOut, useSession } from 'next-auth/react';
-import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
+import {
+	Container,
+	Navbar,
+	Image,
+	Nav,
+	Button,
+	Dropdown,
+	DropdownButton,
+} from 'react-bootstrap';
 import { MdLogout } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
 import { motion } from 'framer-motion';
+
+import { useTranslation } from 'react-i18next';
+
+const LanguageMenu = () => {
+	const { i18n } = useTranslation('common');
+
+	return (
+		<>
+			<DropdownButton
+				variant="transparent"
+				id="dropdown-basic-button"
+				title="Language"
+				className="border-0"
+				align="end"
+			>
+				<Container fluid>
+					<Dropdown.Item onClick={() => i18n.changeLanguage('en')}>
+						<div className="d-flex align-items-center ">
+							<Container>
+								<Image src="/english.png" fluid />
+							</Container>
+							<span>English</span>
+						</div>
+					</Dropdown.Item>
+
+					<Dropdown.Item onClick={() => i18n.changeLanguage('fi')}>
+						<div className="d-flex align-items-center">
+							<Container>
+								<Image src="/finnish.png" fluid />
+							</Container>
+							<span>Finnish</span>
+						</div>
+					</Dropdown.Item>
+				</Container>
+			</DropdownButton>
+		</>
+	);
+};
+
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
@@ -33,7 +80,11 @@ const NavigationBar = () => {
 								Settings
 							</Nav.Link>
 							<Nav.Item className="ms-md-auto me-3 d-none d-md-block">
+								<LanguageMenu />
+							</Nav.Item>
+							<Nav.Item className="me-3">
 								<Navbar.Text className="fs-5">
+									test user
 									{session?.user?.name}
 								</Navbar.Text>
 							</Nav.Item>
