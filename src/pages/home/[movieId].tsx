@@ -24,7 +24,6 @@ import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 import { TrackProps } from 'react-player/file';
 
 const MoviePage = () => {
-
 	const router = useRouter();
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
@@ -148,24 +147,29 @@ const MoviePage = () => {
 
 	const handleClick = async () => {
 		// THESE CHANGES ARE IMPORTANT
-		const result = await axios.post('/api/video/', movie)
+		const result = await axios.post('/api/video/', movie);
 		setMovieInfo(result.data.data);
-		if(movie) {
-			const subsArray = await axios.post('/api/subtitles/', {imdbCode: movie.imdb_code})
-			setSubtitles(subsArray.data)
-			console.log(subtitles);
-			console.log(subsArray.data)
+		if (movie) {
+			const subsArray = await axios.get('/api/subtitles/', {
+				imdbCode: movie.imdb_code,
+			});
+
+			console.log(subsArray.data);
+
+			setSubtitles(subsArray.data);
 			setLoading(true); // think if this has to be outside
 		}
 		//setLoading(true);
 	};
 
 	useEffect(() => {
-        const timeout = setTimeout(() => {
-            setMovieUrl(`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, [movieInfo])
+		const timeout = setTimeout(() => {
+			setMovieUrl(
+				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
+			);
+		}, 500);
+		return () => clearTimeout(timeout);
+	}, [movieInfo]);
 
 	if (!movie?.id) {
 		return <></>;
@@ -328,11 +332,11 @@ const MoviePage = () => {
 							playing={true}
 							width="75%"
 							height="75%"
-							config={{ file: {
-								tracks: [
-									{kind: 'subtitles', src: '/api/stream-subtitles?subpath=./subtitles/tt17076046/tt17076046-en.vtt', srcLang: 'en', label: 'en', default: true},
-								]
-							  }}}
+							config={{
+								file: {
+									tracks: subtitles,
+								},
+							}}
 						/>
 					) : (
 						<></>
