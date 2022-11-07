@@ -1,15 +1,14 @@
 import '../components/i18nextConf';
 import type { NextPage } from 'next';
-import { langs } from '../langContext';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setLanguage } from '../store/actions';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Card, Container, Row, Col, Image } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import ActionButton from '../components/landingButtons';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../types/appTypes';
+import { setPageLanguage } from '../utils/helperFunctions';
 
 export function Component() {
 	const { data: session } = useSession();
@@ -30,11 +29,9 @@ export function Component() {
 }
 
 const Home: NextPage = () => {
-	const [lang, setLang] = useState(langs.en);
-	const [selectedLanguage, setSelectedLanguage] = useState('en');
-	const dispatch = useDispatch();
 	const logoPng = '/logo-hypertube/logo-no-background.png';
 	const { t }: i18translateType = useTranslation('common');
+	const { i18n } = useTranslation('common');
 
 	const container = {
 		hidden: { opacity: 1, scale: 0 },
@@ -62,30 +59,10 @@ const Home: NextPage = () => {
 			text={t('landing.signup')}
 		/>,
 	];
+
 	useEffect(() => {
-		const selectedLang = localStorage.getItem('selectedLanguage');
-		const selectedLangObject = localStorage.getItem('selectedLanguageObject');
-		if (selectedLang && selectedLangObject) {
-			setSelectedLanguage(selectedLang);
-			setLang(JSON.parse(selectedLangObject));
-		}
-		if (selectedLang) dispatch(setLanguage(selectedLang));
+		setPageLanguage(i18n);
 	}, []);
-
-	const switchLang = () => {
-		setSelectedLanguage(selectedLanguage === 'en' ? 'fi' : 'en');
-		lang === langs.en ? setLang(langs.fi) : setLang(langs.en);
-
-		localStorage.setItem(
-			'selectedLanguage',
-			selectedLanguage === 'en' ? 'fi' : 'en'
-		);
-		localStorage.setItem(
-			'selectedLanguageObject',
-			JSON.stringify(lang === langs.en ? langs.fi : langs.en)
-		);
-		dispatch(setLanguage(selectedLanguage));
-	};
 
 	return (
 		<>

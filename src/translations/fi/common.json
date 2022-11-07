@@ -12,15 +12,15 @@
 	},
 	"landing": {
 		"slogan": "Nauti kaikista suosikkielokuvistasi ja -ohjelmistasi.",
-		"login": "Sisään",
+		"login": "Kirjaudu sisään",
 		"signup": "Kirjaudu"
 	},
 	"form": {
 		"email": "Sähköposti",
 		"password": "Salasana",
 		"showPass": "näytä salasana",
-		"loginWith": "Kirjaudu",
-		"loginWithEmail": "Kirjaudu",
+		"loginWith": "Kirjaudu sisään",
+		"loginWithEmail": "Kirjaudu sisään",
 		"signupWith": "Kirjaudu",
 		"signupWithEmail": "Kirjaudu sähköpostilla",
 		"forgotPass": "Unohtuiko salasana?",
