@@ -40,7 +40,6 @@ const MovieScreen = ({
 			console.log('MOVIE IMDB CODE : ', movie.imdb_code)
 			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`
 			);
-			console.log("CHECK THIS OUT : ",subsArray.data)
 			setSubtitles(subsArray.data);
 			setIsLoading(true);
 		}

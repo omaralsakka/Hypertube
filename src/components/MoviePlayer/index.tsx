@@ -1,7 +1,15 @@
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 
-const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: [] | any }) => {
+interface Subtitles {
+	default: boolean;
+	kind: string;
+	label: string;
+	src: string;
+	srcLang: string;
+}
+
+const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subtitles[] | any }) => {
 	return (
 		<>
 			<Container
