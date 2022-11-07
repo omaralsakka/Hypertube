@@ -74,7 +74,7 @@ const MoviePage = () => {
 		}
 	}, [movie]);
 
-	const handleClick = async () => {
+	/* const handleClick = async () => {
 		// THESE CHANGES ARE IMPORTANT
 		const result = await axios.post('/api/video/', movie);
 		setMovieInfo(result.data.data);
@@ -85,16 +85,16 @@ const MoviePage = () => {
 			setSubtitles(subsArray.data);
 			setLoading(true);
 		}
-	};
+	}; */
 
-	useEffect(() => {
+	/* useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
 		}, 500);
 		return () => clearTimeout(timeout);
-	}, [movieInfo]);
+	}, [movieInfo]); */
 
 	if (!movie?.id) {
 		return <></>;

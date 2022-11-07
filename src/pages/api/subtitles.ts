@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
 
-/* interface SubtitlesObj {
+interface SubtitlesDbObj {
 		id: string,
 		imdb_code: string,
 		language: string,
 		path: string,
-} */
+}
 
 interface SubtitlesObj {
 	kind: string;
@@ -21,11 +21,10 @@ export default async function subtitles(
 	res: NextApiResponse
 ) {
 	
-	const regexImdb = /imdbCode=(.*?)/;
+	const regexImdb = /imdbCode=(.*)/;
 	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
-	//const imdbCode: string = req.body.imdbCode;
 
-	const subs = await prisma.subtitles.findMany({
+	const subs: SubtitlesDbObj[] = await prisma.subtitles.findMany({
 		where: {
 			imdb_code: imdbCode[1],
 		},
@@ -33,7 +32,7 @@ export default async function subtitles(
 
 	let subtitleTracks: SubtitlesObj[] = [];
 
-	subs.forEach((sub) => {
+	subs.forEach((sub: SubtitlesDbObj) => { 
 		subtitleTracks.push({
 			kind: 'subtitles',
 			src: `http://localhost:3000/api/stream-subtitles?subpath=${sub.path}`,

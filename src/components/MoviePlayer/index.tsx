@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 
-const MoviePlayer = ({ movieUrl }: { movieUrl: string }) => {
+const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: [] | any }) => {
 	return (
 		<>
 			<Container
@@ -19,6 +19,11 @@ const MoviePlayer = ({ movieUrl }: { movieUrl: string }) => {
 						minHeight: '720px',
 						maxHeight: '60vh',
 						zIndex: '10',
+					}}
+					config={{
+						file: {
+							tracks: subtitles,
+						},
 					}}
 				/>
 			</Container>

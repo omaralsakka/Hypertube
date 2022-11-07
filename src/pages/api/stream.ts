@@ -20,12 +20,19 @@ export default function createStream(
 	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
 	const fullSize: any = req.url?.match(regexSize); // fix typescript
 	const range = req.headers.range;
+	const videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
 	let notLoaded = false;
 
 	if (!range) {
-		res.status(404).send('Requires Range header');
+		console.log("No Range Defined");
+			const head = {
+				'Content-Length': fullSize[1],
+				'Content-Type': 'video/mp4',
+			}
+			res.writeHead(200, head)
+			const videoStream = fs.createReadStream(videoPath)
+			videoStream.pipe(res)
 	} else {
-		const videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
 		const isMp4 = videoPath.endsWith('mp4');
 		const videoSize = Number(fullSize[1]);
 		const CHUNK_SIZE = 20e6;

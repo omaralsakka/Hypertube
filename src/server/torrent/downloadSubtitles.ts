@@ -80,14 +80,15 @@ export const downloadSubtitles = async (imdbCode: string) => {
 		.then((response) => {
 			const subtitleID = response.data.filter(
 				(resp: { id: string, attributes: { language: string } }) => {
-					if (
+					/* if (
 						(resp.attributes.language === 'en' ||
 						resp.attributes.language === 'fi' ||
 						resp.attributes.language === 'fr') &&
 						langParser(resp.attributes.language) === true
 					) {
 						return resp;
-					}
+					} */
+					return resp
 				}
 			);
 			langObj = resetLangObj();

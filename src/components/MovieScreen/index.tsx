@@ -20,21 +20,30 @@ const MovieScreen = ({
 }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
+	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
 
 	useEffect(() => {
-		if (movieInfo.imdb_code.length) {
+		const timeout = setTimeout(() => {
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
-		}
-	}, [isLoading]);
-
-	const handleClick = () => {
+		}, 500);
+		return () => clearTimeout(timeout);
+	}, [movieInfo]);
+	
+	const handleClick = async () => {
+		// THESE CHANGES ARE IMPORTANT
 		setIsSpinner(true);
-		axios.post('/api/video/', movie).then((resp) => {
-			setMovieInfo(resp.data.data);
+		const result = await axios.post('/api/video/', movie);
+		setMovieInfo(result.data.data);
+		if (movie) {
+			console.log('MOVIE IMDB CODE : ', movie.imdb_code)
+			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`
+			);
+			console.log("CHECK THIS OUT : ",subsArray.data)
+			setSubtitles(subsArray.data);
 			setIsLoading(true);
-		});
+		}
 	};
 
 	return (
@@ -54,7 +63,7 @@ const MovieScreen = ({
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer movieUrl={movieUrl} />
+							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles}/>
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">
