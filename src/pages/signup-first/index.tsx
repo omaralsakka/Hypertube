@@ -2,8 +2,12 @@ import Link from 'next/link';
 import React from 'react';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const SignUpFirst = () => {
+	const { t }: i18translateType = useTranslation('common');
+
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-5 mb-4">
@@ -11,11 +15,11 @@ const SignUpFirst = () => {
 					<Card.Body>
 						<div className={`${flexColCenter} w-75 m-auto`}>
 							<Card.Title className="display-6 text-dark mb-5">
-								<strong>You need to sign up first</strong>
+								<strong>{t('form.signupFirst')}</strong>
 							</Card.Title>
 							<Link href="/signup" passHref legacyBehavior>
 								<Button variant="outline-warning" size="lg">
-									Sign Up
+									{t('landing.signup')}
 								</Button>
 							</Link>
 						</div>
