@@ -1,4 +1,13 @@
+import { date } from 'zod';
 import { rootReducer } from '../store/store';
+
+export type i18translateType = {
+	t: (
+		key: string | TemplateStringsArray | (string | TemplateStringsArray)[],
+		options?: string | TOptions<StringMap> | undefined
+	) => string;
+};
+
 export type User = {
 	id: number;
 	username: string;
@@ -73,19 +82,25 @@ export type RootReducer = ReturnType<typeof rootReducer>;
 export type Comment = {
 	id: string;
 	userId: string;
-	userName: string;
-	date: string;
-	comment: string;
+	created_at: string;
+	comment_text: string;
+	user: { image: string; name: string; created_at: Date };
 };
 
 export type Inputs = {
-	userName: string;
-	userEmail: string;
-	userPassword: string;
-	firstName: string;
-	lastName: string;
+	name: string;
+	email: string;
+	password: string;
 };
+
+export type EmailInput = Omit<Inputs, 'name' | 'password'>;
 
 export type PageLayout = {
 	children: React.ReactNode;
+};
+
+export type MoviePostInfo = {
+	imdb_code: '';
+	movie_path: '';
+	size: 0;
 };

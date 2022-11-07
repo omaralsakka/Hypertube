@@ -56,8 +56,9 @@ a {
 	background: #ffffff33;
 	border-radius: 10px;
 	box-shadow: 0 4px 30px #0000001a;
-	backdrop-filter: blur(5px);
-	-webkit-backdrop-filter: blur(10px);
+	background-color: rgba(0, 0, 0, 0.185);
+	/* backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(10px); */
 }
 
 .movieCard-Body {
@@ -155,4 +156,70 @@ input[type='file'] {
 	border-left: 1px solid #606060;
 	margin: 0;
 	height: 6vh;
+}
+
+@keyframes pan {
+	100% {
+		background-position: 30% 0%;
+	}
+}
+
+.cinemaThumbnail {
+	background-image: url('../../public/movies.jpg');
+	background-size: 120rem;
+	height: 35vh;
+	animation: pan 60s infinite alternate linear;
+}
+
+.extraShadow {
+	box-shadow: 50px 50px 100px #a6a6a6, -50px -50px 100px #ffffff;
+}
+
+.cut-text {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100%;
+	white-space: nowrap;
+}
+
+.homeMovieStyle {
+	max-width: 20vw;
+	min-width: 15vw;
+	max-height: 61vh;
+}
+
+.suggestedMovieStyle {
+	max-width: 10vw;
+	width: 200px;
+	min-width: 10vw;
+}
+
+@media only screen and (min-width: 460px) and (max-width: 1280px) {
+	.movieOverlay-Info {
+		display: none;
+	}
+	.suggestedMovieStyle {
+		max-width: 20vw;
+		width: 90px;
+		min-width: 8vw;
+	}
+	.movieCard-Body {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.homeMovieStyle {
+		max-width: 30vw;
+		min-width: 20vw;
+		max-height: 30vh;
+	}
+	.suggestedMovieStyle {
+		max-width: 20vw;
+		width: 50px;
+		min-width: 20vw;
+	}
+	.movieCard-Body {
+		display: none;
+	}
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { Button, FormCheck } from 'react-bootstrap';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -8,22 +8,36 @@ import { trpc } from '../../utils/trpc';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Inputs } from '../../types/appTypes';
-import { Container, Card, Form, Row, Col } from 'react-bootstrap';
-import { MdOutlinePersonalVideo } from 'react-icons/md';
+import { Container, Card, Form, Row, Col, Image } from 'react-bootstrap';
+import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { HiUser } from 'react-icons/hi';
+import { AiOutlineMail } from 'react-icons/ai';
+import { BsGithub } from 'react-icons/bs';
+import { InferGetServerSidePropsType } from 'next';
+import { signIn, getProviders } from 'next-auth/react';
+import { flexColCenter } from '../../styles/styleVariables';
 
-const Signup = () => {
+const Signup = ({
+	providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-	const [consent, setConsent] = useState(false);
 
+	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		const email = getValues('email');
+		console.log(email);
+		const user = await signIn('email', {
+			email: email,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+	};
 	const schema = z.object({
-		userName: z.string().min(1, { message: 'Required' }),
-		userPassword: z.string().min(1, { message: 'Required' }),
-		userEmail: z.string().min(1, { message: 'Required' }),
-		firstName: z.string().min(1, { message: 'Required' }),
-		lastName: z.string().min(1, { message: 'Required' }),
+		name: z.string().min(1, { message: 'Required' }),
+		password: z.string().min(1, { message: 'Required' }),
+		email: z.string().min(1, { message: 'Required' }),
 	});
 
 	const notifyDefault = () => toast.success('Activation email sent');
@@ -32,6 +46,7 @@ const Signup = () => {
 		watch,
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
@@ -44,9 +59,9 @@ const Signup = () => {
 		try {
 			console.log(data);
 			mutation.mutate({
-				name: data.userName,
-				email: data.userEmail,
-				password: data.userPassword,
+				name: data.name,
+				email: data.email,
+				password: data.password,
 			});
 		} catch (err) {
 			console.log(err);
@@ -56,7 +71,7 @@ const Signup = () => {
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-3 mb-4">
-				<Card className="w-100 glass-background">
+				<Card className="w-100 glass-background border-0">
 					<Card.Body>
 						<Row style={{ minHeight: '50vh' }}>
 							<Col
@@ -68,7 +83,7 @@ const Signup = () => {
 									<strong>Sign up</strong>
 								</Card.Title>
 								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3 d-flex flex-column align-items-center justify-content-center">
+									<Form.Group className={flexColCenter}>
 										<Container>
 											<div className="d-flex flex-row align-items-center mb-4">
 												<HiUser className="me-2 fs-4" />
@@ -79,19 +94,19 @@ const Signup = () => {
 														className="border-bottom comment-form bg-transparent"
 														placeholder="Name"
 														type="text"
-														{...register('firstName')}
+														{...register('name')}
 													></Form.Control>
 												</div>
 											</div>
 											<div className="d-flex flex-row align-items-center mb-4 ">
-												<MdOutlinePersonalVideo className="me-2 fs-4" />
+												<MdAlternateEmail className="me-2 fs-4" />
 												<div className="me-3">
 													<Form.Control
 														id="signupEmail"
 														className="border-bottom comment-form bg-transparent"
 														placeholder="Email"
 														type="email"
-														{...register('userEmail')}
+														{...register('email')}
 													></Form.Control>
 												</div>
 											</div>
@@ -103,7 +118,7 @@ const Signup = () => {
 														className="border-bottom comment-form bg-transparent"
 														id="signupPassword"
 														type={passType}
-														{...register('userPassword')}
+														{...register('password')}
 													/>
 												</div>
 											</div>
@@ -119,11 +134,10 @@ const Signup = () => {
 												/>
 											</div>
 										</Container>
-										<div className="mb-4" style={{ minHeight: '5vh' }}>
+										<div style={{ minHeight: '5vh' }}>
 											<Button
 												type="submit"
 												variant="outline-warning"
-												size="lg"
 												disabled={!isValid || !isDirty || mutation.isLoading}
 											>
 												Register
@@ -133,6 +147,50 @@ const Signup = () => {
 								</Form>
 								{mutation.isError && <p>{mutation.error.message}</p>}
 								{mutation.isSuccess && <p>User created</p>}
+								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
+									<div className="d-flex">
+										{providers &&
+											Object.values(providers).map((provider) =>
+												provider.name !== 'Credentials' &&
+												provider.name !== 'Email' ? (
+													<div className="p-1 mb-2" key={provider.name}>
+														<Button
+															className="d-flex align-items-center justify-content-center p-2"
+															variant={
+																provider.name === '42 School'
+																	? 'primary'
+																	: 'dark'
+															}
+															onClick={() =>
+																signIn(provider.id, {
+																	callbackUrl: 'http://localhost:3000/home',
+																})
+															}
+														>
+															<span className="me-2">Signup with </span>
+															{provider.name === 'GitHub' && <BsGithub />}
+															{provider.name === '42 School' && (
+																<Image
+																	src="/42.png"
+																	style={{ maxWidth: '15px' }}
+																/>
+															)}
+														</Button>
+													</div>
+												) : null
+											)}
+									</div>
+									<div className="p-1 mb-2" key="Email">
+										<Button
+											variant="light"
+											className="d-flex align-items-center justify-content-center p-2"
+											onClick={onEmailSubmit}
+										>
+											<span className="me-2">Login with email </span>
+											<AiOutlineMail />
+										</Button>
+									</div>
+								</Container>
 								<div>
 									<p className="text-muted">
 										Have an account? <Link href="/login">login</Link>
@@ -153,5 +211,15 @@ const Signup = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps() {
+	const providers = await getProviders();
+
+	return {
+		props: {
+			providers,
+		},
+	};
+}
 
 export default Signup;
