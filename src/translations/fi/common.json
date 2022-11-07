@@ -55,7 +55,9 @@
 		"actors": "Näyttelijät",
 		"director": "Johtaja",
 		"comments": "Kommentit",
-		"addComment": "Lisää kommentti"
+		"addComment": "Lisää kommentti",
+		"cancel": "Peruuttaa",
+		"readMore:": "Lue Lisää"
 	},
 	"footer": {
 		"developed": "Kehittäjät",

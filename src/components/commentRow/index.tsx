@@ -54,7 +54,6 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 									</p>
 								</Link>
 								<span className="text-muted">
-									{/* {comment.created_at.toDateString() as string} */}
 									{comment.created_at.toString() as string}
 								</span>
 							</div>

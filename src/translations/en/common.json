@@ -55,7 +55,9 @@
 		"actors": "Actors",
 		"director": "Director",
 		"comments": "Comments",
-		"addComment": "Add comment"
+		"addComment": "Add comment",
+		"cancel": "Cancel",
+		"readMore:": "Read more"
 	},
 	"footer": {
 		"developed": "Developed by",
