@@ -56,10 +56,11 @@ const Movies = () => {
 	// 	toRunTime,
 	// 	limit,
 	// } = filterInputs;
-	// const { data, error } = trpc.movie.search.useQuery({
-	// 	filterInputs,
-	// 	search_term,
-	// });
+	const { data, error } = trpc.movie.search.useQuery({
+		search_term,
+		fromYear: parseInt(filterInputs.fromYear),
+		toYear: parseInt(filterInputs.toYear),
+	});
 
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
@@ -87,13 +88,13 @@ const Movies = () => {
 			{/* </Form> */}
 			Search title
 			<input name="search_term" onChange={onSearchChange} value={search_term} />
-			{/* {data &&
+			{data &&
 				data.movies.map((movie: Movie) => (
 					<>
 						<option key={movie?.title}>{movie?.title}</option>
 						<img src={movie?.medium_cover_image}></img>
 					</>
-				))} */}
+				))}
 		</>
 	);
 };

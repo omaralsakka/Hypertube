@@ -42,31 +42,31 @@ export const movieRouter = router({
 		}),
 
 	search: publicProcedure
-		// .input(
-		// 	z.object({
-		// 		search_term: z.string(),
-		// 		genre: z.string(),
-		// 		fromYear: z.number(),
-		// 		toYear: z.number(),
-		// 		fromRunTime: z.number(),
-		// 		toRunTime: z.number(),
-		// 		imdbRating: z.number(),
-		// 		order: z.string(),
-		// 		sort: z.string(),
-		// 		description: z.string(),
-		// 		limit: z.number(),
-		// 		seeds: z.number(),
-		// 	})
-		// )
+		.input(
+			z.object({
+				search_term: z.string(),
+				// genre: z.string(),
+				fromYear: z.number(),
+				toYear: z.number(),
+				// fromRunTime: z.number(),
+				// toRunTime: z.number(),
+				// imdbRating: z.number(),
+				// order: z.string(),
+				// sort: z.string(),
+				// description: z.string(),
+				// limit: z.number(),
+				// seeds: z.number(),
+			})
+		)
 		.query(async ({ input, ctx }) => {
-			console.log(input.filterInputs);
-			console.log(input.search_term);
+			console.log(input);
 			const movies: any = await ctx.prisma.movie.findMany({
 				// include: { torrent: true },
 				skip: 0,
 				take: 50,
 				where: {
-					title: { contains: input.search_term },
+					title: { contains: input.search_term, mode: 'insensitive' },
+					year: { gt: input.fromYear, lt: input.toYear },
 				},
 				// where: {
 				// 	// torrent: {
