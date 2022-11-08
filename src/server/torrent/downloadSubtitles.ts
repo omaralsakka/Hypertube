@@ -78,7 +78,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 	)
 		.then((response) => response.json())
 		.then((response) => {
-			console.log("THESE ARE ALL THE SUBTITLES : ", response.data);
+
 			const subtitleID = response.data.filter(
 				(resp: { id: string, attributes: { language: string } }) => { //  the logic in the filtering could be better if the condition was 
 																			  // most downloads instead of just the language.
@@ -90,11 +90,10 @@ export const downloadSubtitles = async (imdbCode: string) => {
 					) {
 						return resp;
 					}
-					return resp
 				}
 			);
 			langObj = resetLangObj();
-			console.log("ANOTHER CHECK FOR ALL SUBS", subtitleID);
+
 			subtitleID.forEach((subtitle: {id: string, attributes: { language: string }}) => {
 
 				const optionsDownload = {
