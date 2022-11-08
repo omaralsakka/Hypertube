@@ -125,7 +125,7 @@ const Home: NextPage = () => {
 						>
 							<Row className="justify-content-center w-50 extraShadow rounded bg-dark">
 								<Card className="p-0 rounded bg-dark overflow-hidden borded-0">
-									<Card.Body className=" p-0">
+									<Card.Body className="bg-dark p-0">
 										<Container
 											className="cinemaThumbnail rounded p-0 m-0"
 											fluid

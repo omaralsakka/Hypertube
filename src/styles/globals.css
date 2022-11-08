@@ -160,7 +160,7 @@ input[type='file'] {
 
 @keyframes pan {
 	100% {
-		transform: translateX(-50vw);
+		transform: translateX(-70vw);
 	}
 }
 
