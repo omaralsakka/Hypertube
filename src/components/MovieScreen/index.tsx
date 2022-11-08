@@ -20,7 +20,7 @@ const MovieScreen = ({
 }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
-	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
+	const [subtitles, setSubtitles] = useState([]);
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -32,12 +32,10 @@ const MovieScreen = ({
 	}, [movieInfo]);
 	
 	const handleClick = async () => {
-		// THESE CHANGES ARE IMPORTANT
 		setIsSpinner(true);
 		const result = await axios.post('/api/video/', movie);
 		setMovieInfo(result.data.data);
 		if (movie) {
-			console.log('MOVIE IMDB CODE : ', movie.imdb_code)
 			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`
 			);
 			setSubtitles(subsArray.data);
