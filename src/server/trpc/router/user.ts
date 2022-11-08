@@ -58,6 +58,7 @@ export const userRouter = router({
 	update: publicProcedure
 		.input(
 			z.object({
+				id: z.string().min(1),
 				email: z.string().email(),
 				password: z
 					.string()
@@ -79,7 +80,43 @@ export const userRouter = router({
 		)
 		.mutation(async ({ input, ctx }) => {
 			console.log(input);
-
+			const user = await ctx.prisma.user.findUnique({
+				where: {
+					id: input.id,
+				},
+				select: {
+					name: true,
+					email: true,
+					image: true,
+					emailVerified: true
+				},
+			});
+			if (!user)
+				throw new TRPCError({
+					code: 'BAD_REQUEST',
+					message: 'No matching user found',
+					cause: input.id,
+				});
+			// Check if email has changed
+			const verified = input.email === user.email ? user.emailVerified : null
+			if (!verified) {
+				// Check that email is not already in use
+				const checkUser = await ctx.prisma.user.findUnique({
+					where: {
+						email: input.email,
+					},
+				});
+				if (checkUser)
+					throw new TRPCError({
+						code: 'BAD_REQUEST',
+						message: 'Email address is already in use',
+						cause: input.email,
+					});
+				// Create token
+				const token = await signEmailToken(input.email);
+				// Send verification email
+				await sendEmailVerification(input.email, token)
+			}
 			// Hash password if given
 			let hashedPassword;
 			if (input.password) hashedPassword = await hash(input.password);
@@ -89,9 +126,10 @@ export const userRouter = router({
 					name: input.name,
 					email: input.email,
 					password: hashedPassword,
+					emailVerified: verified
 				},
 				where: {
-					email: input.email,
+					id: input.id,
 				},
 			});
 			if (!updated)
@@ -121,6 +159,11 @@ export const userRouter = router({
 					name: true,
 					email: true,
 					image: true,
+					accounts: {
+						select: {
+							type: true
+						}
+					}
 				},
 			});
 			if (!user)

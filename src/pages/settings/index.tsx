@@ -13,7 +13,7 @@ import {
 	MdDataUsage,
 	MdOutlineAttribution,
 } from 'react-icons/md';
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify';
 import { HiUser } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useSession } from 'next-auth/react';
@@ -23,6 +23,7 @@ const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
 	const [currentImage, setCurrentImage] = useState('/default.png');
+	const [accountType, setAccountType] = useState<string | undefined>('');
 	const { data: session } = useSession();
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
 		{ id: session?.token?.user?.id },
@@ -56,18 +57,20 @@ const Settings = () => {
 		setValue('email', data.user?.email);
 		setValue('name', data.user?.name);
 		setCurrentImage(data.user?.image || '/default.png');
+		setAccountType(data.user?.accounts[0]?.type);
 	}, [data]);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
 			console.log(data);
 			mutation.mutate({
+				id: session?.token?.user?.id,
 				name: data.name,
 				email: data.email,
 				password: data.password,
 			});
 			// If email was changed
-			notifyDefault()
+			notifyDefault();
 		} catch (err) {
 			console.log(err);
 		}
@@ -93,7 +96,7 @@ const Settings = () => {
 							email={session?.user?.email}
 						/>
 						<Container className="text-center fs-3 mb-4">
-							{userInStore?.userName}
+							{session?.user?.name}
 						</Container>
 						<Container className="d-flex justify-content-center">
 							<Form onSubmit={handleSubmit(onSubmit)}>
@@ -114,44 +117,53 @@ const Settings = () => {
 										</div>
 									</div>
 									<div>
-										<div className="d-flex align-items-center mb-4">
-											<div className="d-flex align-items-center me-4">
-												<MdAlternateEmail className="me-2 fs-4" />
-												<Form.Control
-													id="signupEmail"
-													className="border-bottom comment-form bg-transparent"
-													placeholder="user current email"
-													type="email"
-													{...register('email')}
-												></Form.Control>
+										{accountType !== 'oauth' ? (
+											<div className="d-flex align-items-center mb-4">
+												<div className="d-flex align-items-center me-4">
+													<MdAlternateEmail className="me-2 fs-4" />
+													<Form.Control
+														id="signupEmail"
+														className="border-bottom comment-form bg-transparent"
+														placeholder="user current email"
+														type="email"
+														{...register('email')}
+													></Form.Control>
+												</div>
+												<Form.Text>Change email</Form.Text>
 											</div>
-											<Form.Text>Change email</Form.Text>
-										</div>
-										<div className="d-flex align-items-center mb-4 ">
-											<div className="d-flex align-items-center me-4">
-												<RiLockPasswordFill className="me-2 fs-4" />
+										) : null}
+										{accountType !== 'oauth' ? (
+											<>
+												<div className="d-flex align-items-center mb-4 ">
+													<div className="d-flex align-items-center me-4">
+														<RiLockPasswordFill className="me-2 fs-4" />
 
-												<Form.Control
-													placeholder="password"
-													className="border-bottom comment-form bg-transparent"
-													id="signupPassword"
-													type={passType}
-													{...register('password')}
-												/>
-											</div>
-											<Form.Text>Change password</Form.Text>
-										</div>
-										<div className="mb-4">
-											<FormCheck
-												type="checkbox"
-												label="show password"
-												onClick={() =>
-													passType === 'password'
-														? setPassType('text')
-														: setPassType('password')
-												}
-											/>
-										</div>
+														<Form.Control
+															placeholder="password"
+															className="border-bottom comment-form bg-transparent"
+															id="signupPassword"
+															type={passType}
+															{...register('password')}
+														/>
+													</div>
+													<Form.Text>Change password</Form.Text>
+												</div>
+												<div className="mb-4">
+													<FormCheck
+														type="checkbox"
+														label="show password"
+														onClick={() =>
+															passType === 'password'
+																? setPassType('text')
+																: setPassType('password')
+														}
+													/>
+												</div>
+											</>
+										) : null}
+										{accountType === 'oauth' ? (
+											<p>You're logged in with OAuth. Change your email and password via your chosen OAuth provider.</p>
+										) : null}
 									</div>
 									<div
 										className="mb-4 d-flex align-items-center justify-content-center"

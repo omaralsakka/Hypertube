@@ -107,7 +107,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		// This callback allow us to choose what information is stored in session. We're adding token, because that's where our extended user information is stored. This can be removed if we don't need to add anything.
 		async session({ session, token }) {
-			session.token = token as JWT & { user: User; }
+			session.token = token as JWT & { user: User };
 			return session;
 		},
 		// This callback defines login logic. We can approve or deny login depending on user and account data, and redirect to user to appropriate page when denied login. This is not necessary, if we're ok with standard logic.
@@ -118,12 +118,12 @@ export const authOptions: NextAuthOptions = {
 			// This is necessary trick to avoid type errors when accessing user properties
 			const adapterUser = user as AdapterUser;
 			// OAuth providers are trusted by default. Other OAuth providers should be added here too.
-			if (account?.provider === '42-school' || account?.provider === 'github')
+			if (account?.provider === '42-school' || account?.provider === 'github') {
 				return true;
+			}
 			// Email login is allowed only for users who have signed up and verified their email.
 			if (account?.provider === 'email') {
-				if (adapterUser.name && adapterUser.emailVerified)
-					return true;
+				if (adapterUser.name && adapterUser.emailVerified) return true;
 				if (!adapterUser.name && !adapterUser.emailVerified)
 					return '/signup-first';
 				return '/not-verified';
@@ -141,24 +141,26 @@ export const authOptions: NextAuthOptions = {
 		// async signIn(message) { /* on successful sign in */ },
 		// async signOut(message) { /* on signout */ },
 		// async createUser(message) { /* user created */ },
-		// async updateUser(message) { /* user updated - e.g. their email was verified */ },
-		async linkAccount(message) { 
-			// Adding emailVerified time for OAuth users so they don't have to verify email separately
-			console.log('link account event:', message)
-			if (message.account.type === 'oauth' && message.user.email) {
-				await prisma.user.update({
-					data: {
-						emailVerified: new Date(),
-					},
-					where: {
-						email: message.user.email,
-					},
-				});
-			}
-
-		},
+		// async updateUser(message) {
+		// 	/* user updated - e.g. their email was verified */
+		// 	console.log('User updated event:', message);
+		// },
+		// async linkAccount(message) {
+		// 	// Adding emailVerified time for OAuth users so they don't have to verify email separately
+		// 	console.log('link account event:', message);
+		// 	if (message.account.type === 'oauth' && message.user.email) {
+		// 		await prisma.user.update({
+		// 			data: {
+		// 				emailVerified: new Date(),
+		// 			},
+		// 			where: {
+		// 				email: message.user.email,
+		// 			},
+		// 		});
+		// 	}
+		// },
 		// async session(message) { /* session is active */ },
-	  },
+	},
 	// Turn on for debugging
 	debug: true,
 };
