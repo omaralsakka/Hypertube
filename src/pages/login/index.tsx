@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { FormCheck, Image } from 'react-bootstrap';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -16,6 +16,7 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
+import { useRouter } from 'next/router'
 
 type Inputs = {
 	email: string;
@@ -27,7 +28,11 @@ const Login = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
+	const [credentialsError, setCredentialsError] = useState(false);
+	const [verifiedError, setVerifiedError] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
+	const router = useRouter();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		event?.preventDefault();
@@ -35,9 +40,21 @@ const Login = ({
 		const user = await signIn('credentials', {
 			email: data.email,
 			password: data.password,
-			callbackUrl: 'http://localhost:3000/home',
+			redirect: false,
+			// redirect: false is required to be able to handle server side error messages gracefully. Without it error messages are hard to show in user friendly way.
 		});
 		console.log(user);
+		if (user?.error === 'CredentialsSignin')
+			setCredentialsError(true)
+		else
+			setCredentialsError(false)
+		if (user?.error === 'AccessDenied')
+			setVerifiedError(true)
+		else
+			setVerifiedError(false)
+		if (user?.status === 200) {
+			setSuccess(true)
+		}
 	};
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -64,6 +81,25 @@ const Login = ({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
+
+	// redirect: false option skips normal callbackurl so redirection needs to be done manually.
+	// Redirect on success
+	useEffect(() => {
+		if (!success || !router.isReady) return
+		
+		setTimeout(() => {
+			router.replace('/home');
+		}, 2000)
+	}, [success, router.isReady]);
+	
+	// Redirect on lacking email verification
+	useEffect(() => {
+		if (!verifiedError || !router.isReady) return
+		
+		setTimeout(() => {
+			router.replace('/not-verified');
+		}, 2000)
+	}, [verifiedError, router.isReady]);
 
 	return (
 		<>
@@ -125,6 +161,9 @@ const Login = ({
 													}
 												/>
 											</div>
+											{credentialsError && <p className="text-danger">Invalid username or password</p>}
+											{verifiedError && <p className="text-danger">Your email address hasn't been verified</p>}
+											{success && <p className="text-success">Logged in successfully</p>}
 										</Container>
 										<div style={{ minHeight: '5vh' }}>
 											<Button

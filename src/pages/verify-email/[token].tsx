@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
@@ -16,6 +16,13 @@ const VerifyEmail = () => {
 		const { token } = router.query;
 		mutation.mutate({ token: token as string });
 	}, [router.query]);
+
+	useEffect(() => {
+		if (!mutation.isSuccess) return
+		setTimeout(() => {
+			signOut({ callbackUrl: 'http://localhost:3000/login' })
+		}, 2000)
+	}, [mutation.isSuccess]);
 
 	return (
 		<>

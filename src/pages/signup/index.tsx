@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Button, FormCheck } from 'react-bootstrap';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -15,10 +15,11 @@ import { HiUser } from 'react-icons/hi';
 import { AiOutlineMail } from 'react-icons/ai';
 import { BsGithub } from 'react-icons/bs';
 import { InferGetServerSidePropsType } from 'next';
-import { signIn, getProviders } from 'next-auth/react';
+import { signIn, getProviders, signOut } from 'next-auth/react';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
+import { useRouter } from 'next/router'
 
 const Signup = ({
 	providers,
@@ -27,6 +28,8 @@ const Signup = ({
 	const [passType, setPassType] = useState('password');
 	const { t }: i18translateType = useTranslation('common');
 	const [success, setSuccess] = useState(false);
+	const router = useRouter();
+
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
@@ -62,16 +65,23 @@ const Signup = ({
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
 			console.log(data);
-			mutation.mutate({
+			const response = mutation.mutate({
 				name: data.name,
 				email: data.email,
 				password: data.password,
 			});
+			console.log(response);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	useEffect(() => {
+		if (!mutation.isSuccess) return
+		setTimeout(() => {
+			router.push('/login')
+		}, 2000)
+	}, [mutation.isSuccess]);
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-3 mb-4">
@@ -149,8 +159,8 @@ const Signup = ({
 										</div>
 									</Form.Group>
 								</Form>
-								{mutation.isError && <p>{mutation.error.message}</p>}
-								{mutation.isSuccess && <p>User created</p>}
+								{mutation.isError && <p className="text-danger">{mutation.error.message}</p>}
+								{mutation.isSuccess && <p className="text-success">User created</p>}
 								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
 									<div className="d-flex">
 										{providers &&

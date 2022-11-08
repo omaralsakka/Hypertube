@@ -129,15 +129,17 @@ export const authOptions: NextAuthOptions = {
 				return '/not-verified';
 			}
 			// For credentials login is rejected if email hasn't been verified
+			// We're not using redirection because it causes url errors. Instead we redirect manually on login page based on server response.
 			if (account?.provider === 'credentials' && adapterUser.emailVerified)
 				return true;
-			return '/not-verified';
+			// return '/not-verified';
+			return false
 			// Return false to display a default error message
 			// Or you can return a URL to redirect to:
 			// return '/unauthorized'
 		},
 	},
-	events: {
+	// events: {
 		// async signIn(message) { /* on successful sign in */ },
 		// async signOut(message) { /* on signout */ },
 		// async createUser(message) { /* user created */ },
@@ -160,7 +162,7 @@ export const authOptions: NextAuthOptions = {
 		// 	}
 		// },
 		// async session(message) { /* session is active */ },
-	},
+	// },
 	// Turn on for debugging
 	debug: true,
 };

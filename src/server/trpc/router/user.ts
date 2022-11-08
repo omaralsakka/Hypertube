@@ -106,7 +106,7 @@ export const userRouter = router({
 						email: input.email,
 					},
 				});
-				if (checkUser)
+				if (checkUser && checkUser.email !== user.email)
 					throw new TRPCError({
 						code: 'BAD_REQUEST',
 						message: 'Email address is already in use',

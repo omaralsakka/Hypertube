@@ -14,6 +14,7 @@ import {
 	MdOutlineAttribution,
 } from 'react-icons/md';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { HiUser } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useSession } from 'next-auth/react';
@@ -70,12 +71,12 @@ const Settings = () => {
 				password: data.password,
 			});
 			// If email was changed
-			notifyDefault();
+			// notifyDefault();
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	const notifyDefault = () => toast.success('Activation email sent');
+	// const notifyDefault = () => toast.success('Changes saved successfully');
 	const {
 		register,
 		handleSubmit,
@@ -161,6 +162,8 @@ const Settings = () => {
 												</div>
 											</>
 										) : null}
+											{mutation.isError && <p className="text-danger">{mutation.error.message}</p>}
+											{mutation.isSuccess && <p className="text-success">Changes saved successfully</p>}
 										{accountType === 'oauth' ? (
 											<p>You're logged in with OAuth. Change your email and password via your chosen OAuth provider.</p>
 										) : null}
