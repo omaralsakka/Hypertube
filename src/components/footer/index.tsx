@@ -15,7 +15,7 @@ const Footer = () => {
 			>
 				<Container className="p-3" fluid>
 					<Row>
-						<Col className="d-flex align-items-center justify-content-center ">
+						<Col className="d-flex align-items-center justify-content-center mb-md-0 mb-5">
 							<div>
 								<Container>
 									<Image
@@ -26,7 +26,7 @@ const Footer = () => {
 								</Container>
 							</div>
 						</Col>
-						<Col className="d-flex align-items-center border border-top-0 border-bottom-0">
+						<Col className="d-flex align-items-center border border-top-0 border-bottom-0 mb-md-0 mb-5">
 							<Container className="d-flex flex-column justify-content-center align-items-center">
 								<p className="fs-5">
 									<strong>{t('footer.developed')}</strong>

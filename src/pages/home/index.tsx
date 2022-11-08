@@ -49,7 +49,6 @@ const Home = () => {
 					<LoadingLogo />
 				) : (
 					<>
-						{' '}
 						<Container className="mb-4">
 							<SearchNavBar />
 						</Container>
