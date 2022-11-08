@@ -78,8 +78,8 @@ export const downloadSubtitles = async (imdbCode: string) => {
 	)
 		.then((response) => response.json())
 		.then((response) => {
-
-			const subtitleID = response.data.filter(
+			console.log(response.data);
+			/* const subtitleID = response.data.filter(
 				(resp: { id: string, attributes: { language: string } }) => { //  the logic in the filtering could be better if the condition was 
 																			  // most downloads instead of just the language.
 					if (
@@ -92,9 +92,9 @@ export const downloadSubtitles = async (imdbCode: string) => {
 					}
 				}
 			);
-			langObj = resetLangObj();
+			langObj = resetLangObj(); */
 
-			subtitleID.forEach((subtitle: {id: string, attributes: { language: string }}) => {
+			response.data.forEach((subtitle: {id: string, attributes: { language: string }}) => {
 
 				const optionsDownload = {
 					method: 'POST',
@@ -109,7 +109,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 				fetch('https://api.opensubtitles.com/api/v1/download', optionsDownload)
 					.then((response) => response.json())
 					.then(response => {
-						download(response.link, `./subtitles/${imdbCode}/${imdbCode}-${subtitle.attributes.language}.vtt`, imdbCode, subtitle)
+						download(response.link, `./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`, imdbCode, subtitle)
 					})
 					.catch(err => console.error(err));
 			});
