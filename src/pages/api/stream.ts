@@ -22,7 +22,6 @@ export default function createStream(
 	const fullSize: any = req.url?.match(regexSize); // fix typescript
 	const range = req.headers.range;
 	const videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
-	let notLoaded = false;
 	
 	if (!range) {
 		console.log("No Range Defined");
