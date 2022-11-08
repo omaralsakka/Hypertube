@@ -6,8 +6,8 @@
 		"home": "Kotisivu",
 		"settings": "Asetukset",
 		"language": "Kieli",
-		"english": "Englanti",
-		"finnish": "Suomi",
+		"en": "Englanti",
+		"fi": "Suomi",
 		"logout": "Kirjaudu ulos"
 	},
 	"landing": {

@@ -6,8 +6,8 @@
 		"home": "Home",
 		"settings": "Settings",
 		"language": "Language",
-		"english": "English",
-		"finnish": "Finnish",
+		"en": "English",
+		"fi": "Finnish",
 		"logout": "Logout"
 	},
 	"landing": {

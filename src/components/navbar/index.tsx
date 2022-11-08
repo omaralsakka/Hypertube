@@ -73,7 +73,7 @@ const NavigationBar = () => {
 							</Navbar.Collapse>
 						</>
 					) : (
-						<Nav.Item className="ms-md-auto me-3">
+						<Nav.Item className="ms-auto me-3">
 							<LanguageMenu />
 						</Nav.Item>
 					)}
