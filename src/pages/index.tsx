@@ -123,17 +123,24 @@ const Home: NextPage = () => {
 							animate={{ y: 0, opacity: 1 }}
 							transition={{ duration: 1 }}
 						>
-							<Row className="justify-content-center w-50 extraShadow rounded bg-dark">
-								<Card className="p-0 rounded bg-dark overflow-hidden borded-0">
-									<Card.Body className="bg-dark p-0">
-										<Container
-											className="cinemaThumbnail rounded p-0 m-0"
-											fluid
-										>
-											<Image src="movies.jpg" className="cinemaImage" />
-										</Container>
-									</Card.Body>
-								</Card>
+							<Row className="d-flex justify-content-center w-75 rounded">
+								<Col
+									xs={12}
+									sm={12}
+									lg={8}
+									className="bg-danger p-0 m-0 rounded"
+								>
+									<Card className="p-0 rounded bg-dark overflow-hidden borded-0">
+										<Card.Body className="bg-dark p-0">
+											<Container
+												className="cinemaThumbnail rounded p-0 m-0"
+												fluid
+											>
+												<Image src="movies.jpg" className="cinemaImage" />
+											</Container>
+										</Card.Body>
+									</Card>
+								</Col>
 							</Row>
 						</motion.div>
 					</>
