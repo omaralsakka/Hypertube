@@ -5,6 +5,9 @@ import { movieRate } from '../../utils/helperFunctions';
 import { useEffect, useState } from 'react';
 import { getOmdb } from '../../utils/helperFunctions';
 import { MovieData } from '../../types/appTypes';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
+
 const MovieCardOverlay = ({
 	movie,
 	viewType,
@@ -13,6 +16,7 @@ const MovieCardOverlay = ({
 	viewType: string;
 }) => {
 	const [movieData, setMovieData] = useState<MovieData>();
+	const { t }: i18translateType = useTranslation('common');
 
 	useEffect(() => {
 		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
@@ -45,7 +49,7 @@ const MovieCardOverlay = ({
 					</Row>
 					{viewType === 'full' && (
 						<Card.Text>
-							Category:{' '}
+							{t('movieInfo.category')}:{' '}
 							<strong>{movie.genres.at(0) ? movie.genres.at(0) : 'N/A'}</strong>
 						</Card.Text>
 					)}

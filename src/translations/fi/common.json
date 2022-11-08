@@ -1,5 +1,70 @@
 {
 	"welcome": {
 		"title": "Tervetuloa hypertubeen"
+	},
+	"nav": {
+		"home": "Kotisivu",
+		"settings": "Asetukset",
+		"language": "Kieli",
+		"english": "Englanti",
+		"finnish": "Suomi",
+		"logout": "Kirjaudu ulos"
+	},
+	"landing": {
+		"slogan": "Nauti kaikista suosikkielokuvistasi ja -ohjelmistasi.",
+		"login": "Kirjaudu sisään",
+		"signup": "Kirjaudu"
+	},
+	"form": {
+		"email": "Sähköposti",
+		"password": "Salasana",
+		"showPass": "näytä salasana",
+		"loginWith": "Kirjaudu sisään",
+		"loginWithEmail": "Kirjaudu sisään",
+		"signupWith": "Kirjaudu",
+		"signupWithEmail": "Kirjaudu sähköpostilla",
+		"forgotPass": "Unohtuiko salasana?",
+		"newSign": "Uutta Hypertubessa?",
+		"haveAccount": "Sinulla On tili?",
+		"name": "Nimi",
+		"register": "Rekisteröidy",
+		"newPass": "uusi salasana",
+		"pleaseEnterPass": "Anna uusi salasanasi.",
+		"submit": "Lähetä",
+		"emailSent": "Sähköposti lähetetty",
+		"emailSentMsg": "Olemme lähettäneet sinulle sähköpostin, jossa on kirjautumislinkki, tarkista sähköpostisi.",
+		"forgotPassMsg": "Kirjoita sähköpostiosoitteesi alle, niin lähetämme sinulle linkin kirjautumiseen.",
+		"likeNewAcc": "Haluatko uuden tilin?",
+		"sendNewLink": "Lähetetään uutta vahvistuslinkkiä...",
+		"linkSent": "Vahvistuslinkin lähetys onnistui",
+		"checkYourEmail": "Tarkista sähköpostisi vahvistaaksesi tilisi.",
+		"emailUnverified": "Sähköpostisi on edelleen vahvistamaton",
+		"followLink": "Jatka seuraamalla sähköpostissasi olevaa linkkiä.",
+		"requestLink": "Jos et ole saanut vahvistussähköpostia, pyydä uusi vahvistus alla.",
+		"errorOccurred": "Tapahtui virhe...",
+		"signupFirst": "Sinun täytyy rekisteröityä ensin",
+		"verifyingEmail": "Vahvistetaan sähköpostiosoitetta...",
+		"verified": "Vahvistettu",
+		"emailVerified": "Sähköpostiosoite vahvistettu. Kirjaudu jatkaaksesi!"
+	},
+	"signupImage": {
+		"title": "Lataa kuvasi",
+		"body": "Valitse ladattava kuva"
+	},
+	"movieInfo": {
+		"category": "Kategoria",
+		"suggested": "Ehdotetut elokuvat",
+		"plot": "Juoni",
+		"country": "Maa",
+		"actors": "Näyttelijät",
+		"director": "Johtaja",
+		"comments": "Kommentit",
+		"addComment": "Lisää kommentti",
+		"cancel": "Peruuttaa",
+		"readMore:": "Lue Lisää"
+	},
+	"footer": {
+		"developed": "Kehittäjät",
+		"project": "Projektin tekijä"
 	}
 }

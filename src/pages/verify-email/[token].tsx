@@ -4,10 +4,13 @@ import { useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const VerifyEmail = () => {
 	const router = useRouter();
 	const mutation = trpc.emailtoken.verify.useMutation();
+	const { t }: i18translateType = useTranslation('common');
 
 	useEffect(() => {
 		const { token } = router.query;
@@ -23,7 +26,7 @@ const VerifyEmail = () => {
 							{mutation.isLoading ? (
 								<>
 									<Card.Title className="display-6 text-dark mb-5 ">
-										<strong>Verifying email address...</strong>
+										<strong>{t('form.verifyingEmail')}</strong>
 									</Card.Title>
 								</>
 							) : (
@@ -31,24 +34,24 @@ const VerifyEmail = () => {
 									{mutation.isError && (
 										<>
 											<Card.Title className="display-6 text-dark mb-5 ">
-												<strong>An error occurred...</strong>
+												<strong>{t('form.errorOccurred')}</strong>
 											</Card.Title>
 										</>
 									)}
 									{mutation.isSuccess && (
 										<>
 											<Card.Title className="display-6 text-dark mb-5">
-												<strong>Verified</strong>
+												<strong>{t('form.verified')}</strong>
 											</Card.Title>
 											<Card.Title className="mb-5 w-50 text-center text-muted">
-												Email address verified. Login to continue!
+												{t('form.emailVerified')}
 											</Card.Title>
 											<Button
 												onClick={() => signIn()}
 												variant="outline-warning"
 												size="lg"
 											>
-												Login
+												{t('landing.login')}
 											</Button>
 										</>
 									)}
