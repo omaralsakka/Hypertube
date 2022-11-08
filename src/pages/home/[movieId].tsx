@@ -22,6 +22,7 @@ const streamMovie = (movie: Movie | undefined) => {
 };
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 import MovieScreen from '../../components/MovieScreen';
+import LoadingLogo from '../../components/loadingLogo';
 
 const MoviePage = () => {
 	const router = useRouter();
@@ -80,7 +81,11 @@ const MoviePage = () => {
 	}, [movieInfo]);
 
 	if (!movie?.id) {
-		return <></>;
+		return (
+			<>
+				<LoadingLogo />
+			</>
+		);
 	} else {
 		return (
 			<>

@@ -194,11 +194,11 @@ input[type='file'] {
 	min-width: 10vw;
 }
 
-.puff-in-center {
-	animation: puff-in-center 2s cubic-bezier(0.47, 0, 0.745, 0.715) infinite both;
+.loadingLogo {
+	animation: loadingLogo 1.4s cubic-bezier(0.47, 0, 0.745, 0.715) infinite both;
 }
 
-@keyframes puff-in-center {
+@keyframes loadingLogo {
 	0% {
 		transform: scale(2);
 		filter: blur(4px);
