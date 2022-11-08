@@ -46,12 +46,6 @@ export default function createStream(
 		const CHUNK_SIZE = 20e6;
 		let start = Number(range.replace(/\D/g, ''));
 
-		if (start > videoSize - 1) {
-			// this might be useless after changes so propably will take away
-			notLoaded = true;
-			start = 0;
-		}
-
 		const end = isMp4
 			? Math.min(start + CHUNK_SIZE, videoSize - 1)
 			: videoSize - 1;
@@ -69,13 +63,7 @@ export default function createStream(
 					'Accept-Ranges': 'bytes',
 					'Content-Type': 'video/webm',
 			  };
-
-		if (notLoaded) {
-			res.writeHead(416, headers);
-		} else {
-			res.writeHead(206, headers);
-		}
-
+		res.writeHead(206, headers);
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
 			videoStream.pipe(res);
