@@ -7,6 +7,7 @@ export const commentRouter = router({
 		.input(z.object({ imdb_code: z.number() }))
 		.query(async ({ input, ctx }) => {
 			const comments: any = await ctx.prisma.comment.findMany({
+
 				where: { imdb_code: input.imdb_code },
 				select: {
 					id: true,

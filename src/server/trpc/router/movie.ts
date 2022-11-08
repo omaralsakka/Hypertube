@@ -42,44 +42,63 @@ export const movieRouter = router({
 		}),
 
 	search: publicProcedure
-		.input(
-			z.object({
-				search_term: z.string(),
-				// genre: z.string(),
-				fromYear: z.number(),
-				toYear: z.number(),
-				fromRunTime: z.number(),
-				toRunTime: z.number(),
-				imdbRating: z.number(),
-				order: z.string(),
-				sort: z.string(),
-				description: z.string(),
-			})
-		)
+		// .input(
+		// 	z.object({
+		// 		search_term: z.string(),
+		// 		genre: z.string(),
+		// 		fromYear: z.number(),
+		// 		toYear: z.number(),
+		// 		fromRunTime: z.number(),
+		// 		toRunTime: z.number(),
+		// 		imdbRating: z.number(),
+		// 		order: z.string(),
+		// 		sort: z.string(),
+		// 		description: z.string(),
+		// 		limit: z.number(),
+		// 		seeds: z.number(),
+		// 	})
+		// )
 		.query(async ({ input, ctx }) => {
-			console.log(input);
+			console.log(input.filterInputs);
+			console.log(input.search_term);
 			const movies: any = await ctx.prisma.movie.findMany({
+				// include: { torrent: true },
+				skip: 0,
+				take: 50,
 				where: {
 					title: { contains: input.search_term },
-					// genres: {
-					// 	contains: input.genre,
-					// },
-					description_full: { contains: input.description },
-					year: {
-						gt: input.fromYear,
-						lt: input.toYear,
-					},
-					runtime: {
-						gt: input.fromRunTime,
-						lt: input.toRunTime,
-					},
-					rating: {
-						gt: input.imdbRating,
-					},
 				},
-				orderBy: { [input.sort]: input.order },
+				// where: {
+				// 	// torrent: {
+				// 	// 	seeds: { gt: 5 },
+				// 	// },
+				// },
+				// },
+				// where: {
+				// 	title: { contains: input.search_term, mode: 'insensitive' },
+				// 	// genre.name {
+				// 	// 	contains: input.genre,
+				// 	// },
+
+				// 	description_full: { contains: input.description },
+				// 	year: {
+				// 		gt: input.fromYear,
+				// 		lt: input.toYear,
+				// 	},
+				// 	runtime: {
+				// 		gt: input.fromRunTime,
+				// 		lt: input.toRunTime,
+				// 	},
+				// 	rating: {
+				// 		gt: input.imdbRating,
+				// 	},
+				// 	torrent: {
+				// 		peers: { gt: 5 },
+				// 	},
+
+				// 	// orderBy: { [input.sort]: input.order },
+				// },
 			});
-			console.log(movies);
 			return {
 				movies,
 			};

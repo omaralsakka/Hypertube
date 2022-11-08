@@ -98,8 +98,6 @@ model Movie {
   year                      Int?
   rating                    Float?
   runtime                   Float?
-  genres                    Json[]
-  torrents                  Json[]
   summary                   String?
   description_full          String?
   synopsis                  String?
@@ -114,14 +112,14 @@ model Movie {
   state                     String?
   date_uploaded             String?
   date_uploaded_unix        Int?
-  Torrent                   Torrent[]
-  MovieGenre                MovieGenre[]
+  torrent                   Torrent[]
+  genre                     MovieGenre[]
 }
 
 model Genre {
-  id           Int          @id @unique @default(autoincrement())
-  name         String       @unique
-  MovieGenre   MovieGenre[]
+  id    Int          @id @unique @default(autoincrement())
+  name  String       @unique
+  genre MovieGenre[]
 }
 
 model MovieGenre {

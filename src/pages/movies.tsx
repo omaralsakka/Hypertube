@@ -1,12 +1,8 @@
 import { useState } from 'react';
-
 import { trpc } from '../utils/trpc';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+
 import FilterControls from '../components/filtercontrols';
 import { Movie } from '../types/appTypes';
-import Form from 'react-bootstrap/Form';
 
 type Inputs = {
 	search_term: string;
@@ -19,60 +15,85 @@ type Inputs = {
 const Movies = () => {
 	const [search_term, setsearch_ter] = useState('');
 	let moviesData = [];
-	// const {
-	// 	watch,
-	// 	register,
-	// 	handleSubmit,
-	// 	getValues,
-	// 	formState: { errors, isSubmitting, isDirty, isValid },
-	// } = useForm<Inputs>({
-	// 	mode: 'onChange',
-	// 	resolver: zodResolver(schema),
-	// });
 
-	// const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
-	// 	console.log(data);
-	// };
-	const { data, error } = trpc.movie.search.useQuery({
-		order: 'asc',
+	type FilterInputs = {
+		fromYear: number;
+		toYear: number;
+		genre: string;
+		imdbRating: string;
+		orderBy: string;
+		sortBy: string;
+		quality: string;
+		seeds: number;
+		fromRunTime: number;
+		toRunTime: number;
+		limit: number;
+		description: string;
+	};
+	const [filterInputs, setFilterInputs] = useState({
+		order: 'desc',
 		sort: 'rating',
 		imdbRating: 1,
-		// genres: 'Action',
+		genre: 'Horror',
+		seeds: 10,
 		fromYear: 1950,
 		toYear: 2023,
 		search_term,
 		fromRunTime: 5,
 		toRunTime: 200,
+		limit: 50,
 		description: '',
 	});
+	// const {
+	// 	order,
+	// 	sort,
+	// 	imdbRating,
+	// 	genre,
+	// 	seeds,
+	// 	fromYear,
+	// 	toYear,
+	// 	fromRunTime,
+	// 	toRunTime,
+	// 	limit,
+	// } = filterInputs;
+	// const { data, error } = trpc.movie.search.useQuery({
+	// 	filterInputs,
+	// 	search_term,
+	// });
 
-	const handleChange = (event) => {
-		const { name, value } = event.target;
+	const onSearchChange = (e: any) => {
+		const { name, value } = e.target;
 		setsearch_ter(value);
 		console.log(name);
 		console.log(value);
 	};
 
-	const onChange = (e) =>
-		setInputs({ ...inputs, [e.target.name]: e.target.value });
-
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const onFilterChange = (e: any) => {
+		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
+	};
+	// const onChange = (e) =>
+	// 	setInputs({ ...inputs, [e.target.name]: e.target.value });
 
 	return (
 		<>
-			<FilterControls props={onSubmit} />
-			{/* <Form onSubmit={handleSubmit(onSubmit)}>
-				<Form.Control {...register('search_term')}></Form.Control>
-				<Form.Control {...register('description')}></Form.Control> */}
+			{filterInputs && (
+				<FilterControls
+					onFilterChange={onFilterChange}
+					filterInputs={filterInputs}
+				/>
+			)}
 			{/* Title <input />
 			Description <input /> */}
 			{/* </Form> */}
-			Title
-			<input name="search_term" onChange={handleChange} value={search_term} />
-			{data &&
+			Search title
+			<input name="search_term" onChange={onSearchChange} value={search_term} />
+			{/* {data &&
 				data.movies.map((movie: Movie) => (
-					<option key={movie?.title}>{movie?.title}</option>
-				))}
+					<>
+						<option key={movie?.title}>{movie?.title}</option>
+						<img src={movie?.medium_cover_image}></img>
+					</>
+				))} */}
 		</>
 	);
 };
