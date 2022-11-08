@@ -6,7 +6,9 @@ import { hash } from 'argon2';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken } from '../../../utils/promisifyJWT';
 
+// User creation and update
 export const userRouter = router({
+	// Create user for signup form
 	create: publicProcedure
 		.input(
 			z.object({
@@ -52,6 +54,7 @@ export const userRouter = router({
 					message: 'User created successfully',
 				};
 		}),
+	// Update user for Settings page
 	update: publicProcedure
 		.input(
 			z.object({
@@ -101,6 +104,7 @@ export const userRouter = router({
 				message: 'User information updated successfully',
 			};
 		}),
+	// Get user for Settings and Profile pages
 	get: publicProcedure
 		.input(
 			z.object({
