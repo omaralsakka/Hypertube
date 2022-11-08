@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
-import { Movies } from '../../types/appTypes';
+import { Movies, Movie } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
@@ -45,7 +45,7 @@ const Home = () => {
 			<Container>{/* <FilterControls /> */}</Container>
 			<Container className="d-flex flex-wrap justify-content-center" fluid>
 				{movies &&
-					movies.map((movie) => (
+					movies.map((movie: Movie) => (
 						<MovieCard
 							key={movie.id}
 							movie={movie}

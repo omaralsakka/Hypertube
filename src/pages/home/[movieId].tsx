@@ -10,6 +10,8 @@ import { trpc } from '../../utils/trpc';
 import CommentsSection from '../../components/commentsSection';
 import axios from 'axios';
 import MovieDescription from '../../components/MovieDescription';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const streamMovie = (movie: Movie | undefined) => {
 	// THIS CHANGE IS IMPORTANT
@@ -23,6 +25,7 @@ import MovieScreen from '../../components/MovieScreen';
 
 const MoviePage = () => {
 	const router = useRouter();
+	const { t }: i18translateType = useTranslation('common');
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: parseInt(router.query.movieId as string),
 	});
@@ -30,7 +33,6 @@ const MoviePage = () => {
 	useEffect(() => {
 		// setComments(data.comments as any);
 		if (data) {
-			// console.log(data.comments);
 			setComments(data.comments as any);
 		}
 	}, [data]);
@@ -47,11 +49,6 @@ const MoviePage = () => {
 	}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
 	const [comments, setComments] = useState([]);
-	// const suggestedMovieStyle = {
-	// 	maxWidth: '10vw',
-	// 	width: '200px',
-	// 	minWidth: '10vw',
-	// };
 
 	useEffect(() => {
 		if (movieId?.length) {
@@ -125,7 +122,7 @@ const MoviePage = () => {
 										<Col sm={5} className="p-1">
 											<Container className="d-flex flex-column justify-content-center align-items-center">
 												<Card.Title className="fs-2 mb-4 text-dark">
-													Suggested movies
+													{t('movieInfo.suggested')}
 												</Card.Title>
 												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (

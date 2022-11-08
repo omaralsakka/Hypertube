@@ -1,5 +1,70 @@
 {
 	"welcome": {
 		"title": "Welcome to Hypertube"
+	},
+	"nav": {
+		"home": "Home",
+		"settings": "Settings",
+		"language": "Language",
+		"english": "English",
+		"finnish": "Finnish",
+		"logout": "Logout"
+	},
+	"landing": {
+		"slogan": "Enjoy all your favorite movies & shows.",
+		"login": "Login",
+		"signup": "Signup"
+	},
+	"form": {
+		"email": "Email",
+		"password": "Password",
+		"showPass": "show password",
+		"loginWith": "Login with",
+		"loginWithEmail": "Login with email",
+		"signupWith": "Signup with",
+		"signupWithEmail": "Signup with email",
+		"forgotPass": "Forgot password?",
+		"newSign": "New to Hypertube?",
+		"haveAccount": "Have an account?",
+		"name": "Name",
+		"register": "Register",
+		"newPass": "New password",
+		"pleaseEnterPass": "Please enter your new password.",
+		"submit": "Submit",
+		"emailSent": "Email sent",
+		"emailSentMsg": "We have sent you an email with the login link, please check your email.",
+		"forgotPassMsg": "Enter your email address below and we'll send you a link to login with.",
+		"likeNewAcc": "Would you like a new account?",
+		"sendNewLink": "Sending new verification link...",
+		"linkSent": "Verification link sent successfully",
+		"checkYourEmail": "Check your email to verify your account.",
+		"emailUnverified": "Your email is still unverified",
+		"followLink": "Follow the link in your email to continue.",
+		"requestLink": "If you haven't received the verification email, request a new verification below.",
+		"errorOccurred": "An error occurred...",
+		"signupFirst": "You need to sign up first",
+		"verifyingEmail": "Verifying email address...",
+		"verified": "Verified",
+		"emailVerified": "Email address verified. Login to continue!"
+	},
+	"signupImage": {
+		"title": "Upload your picture",
+		"body": "Please select a picture to upload"
+	},
+	"movieInfo": {
+		"category": "Category",
+		"suggested": "Suggested movies",
+		"plot": "Plot",
+		"country": "Country",
+		"actors": "Actors",
+		"director": "Director",
+		"comments": "Comments",
+		"addComment": "Add comment",
+		"cancel": "Cancel",
+		"readMore:": "Read more"
+	},
+	"footer": {
+		"developed": "Developed by",
+		"project": "Project by"
 	}
 }
