@@ -1,8 +1,6 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
-import { hash } from 'argon2';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken, verifyJWT } from '../../../utils/promisifyJWT';
 

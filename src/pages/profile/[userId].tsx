@@ -7,13 +7,13 @@ const ProfilePage = () => {
 	const router = useRouter();
 	const userId = router.query.movieId;
 	const [user, setUser] = useState<User>({
-		id: 1,
-		username: 'donkey',
-		firstname: 'Jenni',
-		lastname: 'Virtanen',
+		id: 'fasdfadsf',
+		name: 'donkey',
 		email: 'jenni@virta.com',
 		image:
 			'https://theviraler.com/wp-content/uploads/2019/09/pretty-cute-girls-24-2.jpg',
+		OAuth: false,
+		emailVerified: '1-1-2022'
 	});
 
 	if (!user?.id) {
@@ -31,12 +31,12 @@ const ProfilePage = () => {
 							/>
 						</div>
 						<Container className="text-center fs-3 mb-4">
-							{user.username}
+							{user.name}
 						</Container>
 						<Container className="d-flex justify-content-center">
 							<div className="d-flex flex-row align-items-center mb-4 ">
 								<div className="me-3">
-									{user.firstname} {user.lastname}
+									{user.name} {user.name}
 								</div>
 							</div>
 						</Container>

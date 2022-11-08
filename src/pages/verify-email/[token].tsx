@@ -7,6 +7,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
+// Users are directed to this page from the verification link on their emails
 const VerifyEmail = () => {
 	const router = useRouter();
 	const mutation = trpc.emailtoken.verify.useMutation();

@@ -6,6 +6,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
+// Users are redirected to this site if they try to login before verifying their email
 const NotVerified = () => {
 	const [email, setEmail] = useState('');
 	const mutation = trpc.emailtoken.resend.useMutation();

@@ -31,8 +31,7 @@ const UserCard = ({ user }: { user: User }) => {
 					/>
 					<Card.Body>
 						<Card.Title>
-							<b>{user.username}</b>,&nbsp;
-							{user.firstname}&nbsp;{user.lastname}
+							<b>{user.name}</b>
 						</Card.Title>
 					</Card.Body>
 				</Card>

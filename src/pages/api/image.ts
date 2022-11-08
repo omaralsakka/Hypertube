@@ -4,9 +4,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { prisma } from '../../server/db/client';
 
+// File requirements
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
+// Validation schemas
 const EmailSchema = z.string().email();
 const FileSchema = z
 	.any()
@@ -16,6 +18,7 @@ const FileSchema = z
 		'Only .jpg, .jpeg, and .png formats are supported.'
 	);
 
+// Validator function
 const validateInput = async (email: string | undefined, file: File) => {
 	try {
 		const validEmail = EmailSchema.parse(email);
@@ -25,6 +28,7 @@ const validateInput = async (email: string | undefined, file: File) => {
 	} catch (err) {}
 };
 
+// Upload image and delete old if it's saved locally
 export default function image(req: NextApiRequest, res: NextApiResponse) {
 	try {
 		// Validate token
@@ -48,7 +52,7 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 				if (!validateInput(email, file))
 					return res.status(400).send('Invalid input variables');
 				// Create new filename
-				const filename = `${file.newFilename}.${file.mimetype
+				const filename: string = `${file.newFilename}.${file.mimetype
 					?.split('/')
 					.pop()}`;
 				await saveFile(file, filename);
@@ -101,6 +105,7 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
+// Save file to disk
 const saveFile = async (file: File, filename: string) => {
 	console.log('Trying to save the file', file);
 	const data = fs.readFileSync(file.filepath);
@@ -111,6 +116,7 @@ const saveFile = async (file: File, filename: string) => {
 	return;
 };
 
+// Body parses must be set to false for formidable to work
 export const config = {
 	api: {
 		bodyParser: false,
