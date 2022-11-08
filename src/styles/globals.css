@@ -160,15 +160,20 @@ input[type='file'] {
 
 @keyframes pan {
 	100% {
-		background-position: 30% 0%;
+		transform: translateX(-50vw);
 	}
 }
 
 .cinemaThumbnail {
-	background-image: url('../../public/movies.jpg');
+	overflow: hidden;
 	background-size: 120rem;
 	height: 35vh;
+	background-color: black;
+}
+
+.cinemaImage {
 	animation: pan 60s infinite alternate linear;
+	width: 120vw;
 }
 
 .extraShadow {
@@ -225,12 +230,28 @@ input[type='file'] {
 	}
 }
 
+.bigBtn {
+	display: block;
+}
+
+.smallBtn {
+	display: none;
+}
+
 @media only screen and (max-width: 450px) {
 	.homeMovieStyle {
 		max-width: 30vw;
 		min-width: 20vw;
 		max-height: 30vh;
 	}
+	.bigBtn {
+		display: none;
+	}
+	.smallBtn {
+		display: block;
+		width: 100%;
+	}
+
 	.suggestedMovieStyle {
 		max-width: 20vw;
 		width: 50px;
