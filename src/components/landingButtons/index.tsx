@@ -21,11 +21,20 @@ const ActionButton = ({
 	return (
 		<>
 			<motion.div transition={{ delay: 1 }} className="item" variants={item}>
-				<Link href={path}>
-					<Button variant={variant} className="me-4" size="lg">
-						{text}
-					</Button>
-				</Link>
+				<div className="bigBtn">
+					<Link href={path}>
+						<Button variant={variant} className="me-4" size="lg">
+							{text}
+						</Button>
+					</Link>
+				</div>
+				<div className="smallBtn">
+					<Link href={path}>
+						<Button variant={variant} className="me-4" size="sm">
+							{text}
+						</Button>
+					</Link>
+				</div>
 			</motion.div>
 		</>
 	);

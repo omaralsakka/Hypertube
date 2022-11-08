@@ -1,6 +1,5 @@
-import { signOut, useSession } from 'next-auth/react';
-import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
-import { MdLogout } from 'react-icons/md';
+import { useSession } from 'next-auth/react';
+import { Container, Navbar, Image, Nav } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
 import { motion } from 'framer-motion';
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useEffect } from 'react';
 import { setPageLanguage } from '../../utils/helperFunctions';
+import LogoutBtn from '../logoutBtn';
 
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
@@ -23,10 +23,11 @@ const NavigationBar = () => {
 	return (
 		<>
 			<Navbar
+				expand="lg"
 				className="shadow-0 px-3 mx-auto animate-in"
 				style={{ animationDelay: '800ms' }}
 			>
-				<Container className="d-flex align-items-center" fluid>
+				<Container fluid>
 					{session?.user?.name ? (
 						<>
 							<Navbar.Brand href="/home">
@@ -39,23 +40,22 @@ const NavigationBar = () => {
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
 							<Navbar.Collapse id="basic-navbar-nav">
 								<Nav className="me-auto d-flex align-items-center w-100">
-									<Nav.Link className="mx-3" href="/home">
+									<Nav.Link className=" mx-md-3" href="/home">
 										{t('nav.home')}
 									</Nav.Link>
 
-									<Nav.Link className="mx-3" href="/settings">
+									<Nav.Link className="mx-md-3" href="/settings">
 										{t('nav.settings')}
 									</Nav.Link>
-									<Nav.Item className="ms-md-auto me-3 d-none d-md-block">
+									<Nav.Item className="ms-md-auto me-md-3 mb-md-0 mb-1">
 										<LanguageMenu />
 									</Nav.Item>
-									<Nav.Item className="me-3">
+									<Nav.Item className="me-md-3 mb-md-0 mb-3">
 										<Navbar.Text className="fs-5">
-											test user
 											{session?.user?.name}
 										</Navbar.Text>
 									</Nav.Item>
-									<Nav.Item className="d-none d-md-block">
+									<Nav.Item>
 										<motion.div
 											className="box"
 											whileHover={{ scale: 1.2 }}
@@ -66,23 +66,14 @@ const NavigationBar = () => {
 												damping: 17,
 											}}
 										>
-											<Button
-												className="d-flex justify-content-center align-items-center"
-												onClick={() =>
-													signOut({ callbackUrl: 'http://localhost:3000' })
-												}
-												variant="outline-dark"
-											>
-												<p className="p-0 m-0 me-1 ">{t('nav.logout')}</p>
-												<MdLogout className="fs-5 p-0 m-0" />
-											</Button>
+											<LogoutBtn t={t} />
 										</motion.div>
 									</Nav.Item>
 								</Nav>
 							</Navbar.Collapse>
 						</>
 					) : (
-						<Nav.Item className="ms-md-auto me-3 d-none d-md-block">
+						<Nav.Item className="ms-auto me-3">
 							<LanguageMenu />
 						</Nav.Item>
 					)}

@@ -80,17 +80,6 @@ a {
 	animation: fadeIn 1s forwards;
 }
 
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translate3d(0, -10%, 0);
-	}
-	to {
-		opacity: 1;
-		transform: translate3d(0, 0, 0);
-	}
-}
-
 .comment-form {
 	border: 0;
 	box-shadow: none;
@@ -158,17 +147,16 @@ input[type='file'] {
 	height: 6vh;
 }
 
-@keyframes pan {
-	100% {
-		background-position: 30% 0%;
-	}
-}
-
 .cinemaThumbnail {
-	background-image: url('../../public/movies.jpg');
+	overflow: hidden;
 	background-size: 120rem;
 	height: 35vh;
+	background-color: black;
+}
+
+.cinemaImage {
 	animation: pan 60s infinite alternate linear;
+	width: 120vw;
 }
 
 .extraShadow {
@@ -198,6 +186,31 @@ input[type='file'] {
 	animation: loadingLogo 1.4s cubic-bezier(0.47, 0, 0.745, 0.715) infinite both;
 }
 
+.bigBtn {
+	display: block;
+}
+
+.smallBtn {
+	display: none;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -10%, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes pan {
+	100% {
+		transform: translateX(-70vw);
+	}
+}
+
 @keyframes loadingLogo {
 	0% {
 		transform: scale(2);
@@ -223,6 +236,12 @@ input[type='file'] {
 	.movieCard-Body {
 		display: none;
 	}
+	.cinemaThumbnail {
+		height: 25vh;
+	}
+	.cinemaImage {
+		width: 180vw;
+	}
 }
 
 @media only screen and (max-width: 450px) {
@@ -231,6 +250,13 @@ input[type='file'] {
 		min-width: 20vw;
 		max-height: 30vh;
 	}
+	.bigBtn {
+		display: none;
+	}
+	.smallBtn {
+		display: block;
+		width: 100%;
+	}
 	.suggestedMovieStyle {
 		max-width: 20vw;
 		width: 50px;
@@ -238,5 +264,11 @@ input[type='file'] {
 	}
 	.movieCard-Body {
 		display: none;
+	}
+	.cinemaThumbnail {
+		height: 20vh;
+	}
+	.cinemaImage {
+		width: 180vw;
 	}
 }
