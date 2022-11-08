@@ -17,12 +17,15 @@ import { BsGithub } from 'react-icons/bs';
 import { InferGetServerSidePropsType } from 'next';
 import { signIn, getProviders } from 'next-auth/react';
 import { flexColCenter } from '../../styles/styleVariables';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const Signup = ({
 	providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
+	const { t }: i18translateType = useTranslation('common');
 	const [success, setSuccess] = useState(false);
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -81,7 +84,7 @@ const Signup = ({
 								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
 							>
 								<Card.Title className="display-5 text-dark mb-5">
-									<strong>Sign up</strong>
+									<strong>{t('landing.signup')}</strong>
 								</Card.Title>
 								<Form onSubmit={handleSubmit(onSubmit)}>
 									<Form.Group className={flexColCenter}>
@@ -93,7 +96,7 @@ const Signup = ({
 													<Form.Control
 														id="firstName"
 														className="border-bottom comment-form bg-transparent"
-														placeholder="Name"
+														placeholder={t('form.name')}
 														type="text"
 														{...register('name')}
 													></Form.Control>
@@ -105,7 +108,7 @@ const Signup = ({
 													<Form.Control
 														id="signupEmail"
 														className="border-bottom comment-form bg-transparent"
-														placeholder="Email"
+														placeholder={t('form.email')}
 														type="email"
 														{...register('email')}
 													></Form.Control>
@@ -115,7 +118,7 @@ const Signup = ({
 												<RiLockPasswordFill className="me-2 fs-4" />
 												<div className="me-3">
 													<Form.Control
-														placeholder="Password"
+														placeholder={t('form.password')}
 														className="border-bottom comment-form bg-transparent"
 														id="signupPassword"
 														type={passType}
@@ -126,7 +129,7 @@ const Signup = ({
 											<div className="mb-4">
 												<FormCheck
 													type="checkbox"
-													label="show password"
+													label={t('form.showPass')}
 													onClick={() =>
 														passType === 'password'
 															? setPassType('text')
@@ -141,7 +144,7 @@ const Signup = ({
 												variant="outline-warning"
 												disabled={!isValid || !isDirty || mutation.isLoading}
 											>
-												Register
+												{t('form.register')}
 											</Button>
 										</div>
 									</Form.Group>
@@ -168,7 +171,9 @@ const Signup = ({
 																})
 															}
 														>
-															<span className="me-2">Signup with </span>
+															<span className="me-2">
+																{t('form.signupWith')}{' '}
+															</span>
 															{provider.name === 'GitHub' && <BsGithub />}
 															{provider.name === '42 School' && (
 																<Image
@@ -187,14 +192,15 @@ const Signup = ({
 											className="d-flex align-items-center justify-content-center p-2"
 											onClick={onEmailSubmit}
 										>
-											<span className="me-2">Login with email </span>
+											<span className="me-2">{t('form.signupWithEmail')} </span>
 											<AiOutlineMail />
 										</Button>
 									</div>
 								</Container>
 								<div>
 									<p className="text-muted">
-										Have an account? <Link href="/login">login</Link>
+										{t('form.haveAccount')}{' '}
+										<Link href="/login">{t('landing.login')}</Link>
 									</p>
 								</div>
 							</Col>

@@ -194,6 +194,23 @@ input[type='file'] {
 	min-width: 10vw;
 }
 
+.loadingLogo {
+	animation: loadingLogo 1.4s cubic-bezier(0.47, 0, 0.745, 0.715) infinite both;
+}
+
+@keyframes loadingLogo {
+	0% {
+		transform: scale(2);
+		filter: blur(4px);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		filter: blur(0px);
+		opacity: 1;
+	}
+}
+
 @media only screen and (min-width: 460px) and (max-width: 1280px) {
 	.movieOverlay-Info {
 		display: none;

@@ -3,10 +3,14 @@ import { trpc } from '../../utils/trpc';
 import { Card, Container, Form, Button } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { flexColCenter } from '../../styles/styleVariables';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const NotVerified = () => {
 	const [email, setEmail] = useState('');
 	const mutation = trpc.emailtoken.resend.useMutation();
+	const { t }: i18translateType = useTranslation('common');
+
 	const handleSubmit = (event: React.SyntheticEvent) => {
 		event.preventDefault();
 		mutation.mutate({ email: email });
@@ -24,7 +28,7 @@ const NotVerified = () => {
 							<>
 								<div className={`${flexColCenter} w-75 m-auto`}>
 									<Card.Title className="display-6 text-dark mb-5 ">
-										<strong>Sending new verification link...</strong>
+										<strong>{t('form.sendNewLink')}</strong>
 									</Card.Title>
 								</div>
 							</>
@@ -34,10 +38,10 @@ const NotVerified = () => {
 									<>
 										<div className={`${flexColCenter} w-75 m-auto`}>
 											<Card.Title className="display-6 text-dark mb-5 ">
-												<strong>Verification link sent successfully</strong>
+												<strong>{t('form.linkSent')}</strong>
 											</Card.Title>
 											<Card.Title className="mb-5 w-50 text-center text-muted">
-												Check your email to verify your account.
+												{t('form.checkYourEmail')}
 											</Card.Title>
 										</div>
 									</>
@@ -45,14 +49,13 @@ const NotVerified = () => {
 									<>
 										<div className={`${flexColCenter} w-75 m-auto`}>
 											<Card.Title className="display-6 text-dark mb-5 ">
-												<strong>Your email is still unverified</strong>
+												<strong>{t('form.emailUnverified')}</strong>
 											</Card.Title>
 											<Card.Title className="mb-5 w-50 text-center text-muted">
-												Follow the link in your email to continue.
+												{t('form.followLink')}
 											</Card.Title>
 											<Card.Title className="mb-5 w-50 text-center text-muted">
-												If you haven't received the verification email, request
-												a new verification below.
+												{t('form.requestLink')}
 											</Card.Title>
 										</div>
 										<Container className="d-flex justify-content-center">
@@ -65,7 +68,7 @@ const NotVerified = () => {
 																<Form.Control
 																	id="loginEmail"
 																	className="border-bottom comment-form bg-transparent"
-																	placeholder="Email"
+																	placeholder={t('form.email')}
 																	type="email"
 																	name="email"
 																	onChange={handleChange}
@@ -79,7 +82,7 @@ const NotVerified = () => {
 															variant="outline-warning"
 															size="lg"
 														>
-															Submit
+															{t('form.submit')}
 														</Button>
 													</div>
 												</Form.Group>
@@ -91,7 +94,7 @@ const NotVerified = () => {
 									<>
 										<div className={`${flexColCenter} w-75 m-auto`}>
 											<Card.Title className="display-6 text-dark mb-5 ">
-												<strong>An error occurred...</strong>
+												<strong>{t('form.errorOccurred')}</strong>
 											</Card.Title>
 										</div>
 									</>

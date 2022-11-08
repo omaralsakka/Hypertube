@@ -1,6 +1,8 @@
 import { MovieData } from '../../types/appTypes';
 import { Card, Row, Col, Collapse, Button, Container } from 'react-bootstrap';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const MovieDescription = ({
 	movieData,
@@ -8,6 +10,7 @@ const MovieDescription = ({
 	movieData: MovieData | undefined;
 }) => {
 	const [openDescription, setOpenDescription] = useState(false);
+	const { t }: i18translateType = useTranslation('common');
 
 	return (
 		<>
@@ -18,14 +21,14 @@ const MovieDescription = ({
 					aria-controls="description-section"
 					aria-expanded={openDescription}
 				>
-					Read more
+					{t('movieInfo.readMore')}
 				</Button>
 			</Container>
 			<Collapse in={openDescription}>
 				<Row id="description-section">
 					<Col>
 						<Row className="mb-3">
-							<Card.Title className="fs-3">Plot</Card.Title>
+							<Card.Title className="fs-3">{t('movieInfo.plot')}</Card.Title>
 							<Card.Text style={{ color: '#333' }}>{movieData?.Plot}</Card.Text>
 						</Row>
 						<Row>
@@ -36,7 +39,9 @@ const MovieDescription = ({
 								</Card.Text>
 							</div>
 							<div className="d-flex align-items-center ">
-								<Card.Title className="m-0 p-0">Country:</Card.Title>
+								<Card.Title className="m-0 p-0">
+									{t('movieInfo.country')}:
+								</Card.Title>
 								<Card.Text className="fs-5 ms-1">
 									{movieData?.Country}
 								</Card.Text>
@@ -46,18 +51,22 @@ const MovieDescription = ({
 					<Col>
 						<Row className="mb-3">
 							<Card.Title>
-								<span>Actors:</span> <strong>{movieData?.Actors}</strong>
+								<span>{t('movieInfo.actors')}:</span>{' '}
+								<strong>{movieData?.Actors}</strong>
 							</Card.Title>
 							<Card.Title>
-								<span>Director:</span> <strong>{movieData?.Director}</strong>
+								<span>{t('movieInfo.director')}:</span>{' '}
+								<strong>{movieData?.Director}</strong>
 							</Card.Title>{' '}
 						</Row>
 						<Row>
 							<Card.Title>
-								<span>Category:</span> <strong>{movieData?.Genre}</strong>
+								<span>{t('movieInfo.category')}:</span>{' '}
+								<strong>{movieData?.Genre}</strong>
 							</Card.Title>{' '}
 							<Card.Title>
-								<span>Language:</span> <strong>{movieData?.Language}</strong>
+								<span>{t('movieInfo.language')}:</span>{' '}
+								<strong>{movieData?.Language}</strong>
 							</Card.Title>
 						</Row>
 					</Col>

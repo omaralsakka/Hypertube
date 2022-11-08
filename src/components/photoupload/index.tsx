@@ -43,7 +43,7 @@ const PhotoUpload = ({
 				setFileError(true);
 			}
 		};
-		upload();
+		upload();;
 	}, [file]);
 
 	useEffect(() => {

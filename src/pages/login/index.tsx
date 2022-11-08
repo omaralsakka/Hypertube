@@ -14,6 +14,9 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsGithub } from 'react-icons/bs';
 import { AiOutlineMail } from 'react-icons/ai';
 import { flexColCenter } from '../../styles/styleVariables';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
+
 type Inputs = {
 	email: string;
 	password: string;
@@ -24,6 +27,7 @@ const Login = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
+	const { t }: i18translateType = useTranslation('common');
 
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		event?.preventDefault();
@@ -73,7 +77,7 @@ const Login = ({
 								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
 							>
 								<Card.Title className="display-5 text-dark mb-5">
-									<strong>Login</strong>
+									<strong>{t('landing.login')}</strong>
 								</Card.Title>
 								<Form onSubmit={handleSubmit(onSubmit)}>
 									<Form.Group className={flexColCenter}>
@@ -84,7 +88,7 @@ const Login = ({
 													<Form.Control
 														id="loginEmail"
 														className="border-bottom comment-form bg-transparent"
-														placeholder="Email"
+														placeholder={t('form.email')}
 														type="email"
 														{...register('email')}
 													></Form.Control>
@@ -97,7 +101,7 @@ const Login = ({
 												<RiLockPasswordFill className="me-2 fs-4" />
 												<div className="me-3">
 													<Form.Control
-														placeholder="Password"
+														placeholder={t('form.password')}
 														className="border-bottom comment-form bg-transparent"
 														id="loginPassword"
 														type={passType}
@@ -113,7 +117,7 @@ const Login = ({
 											<div className="mb-4">
 												<FormCheck
 													type="checkbox"
-													label="show password"
+													label={t('form.showPass')}
 													onClick={() =>
 														passType === 'password'
 															? setPassType('text')
@@ -128,7 +132,7 @@ const Login = ({
 												variant="outline-warning"
 												disabled={!isValid || !isDirty}
 											>
-												Login
+												{t('landing.login')}
 											</Button>
 										</div>
 									</Form.Group>
@@ -153,7 +157,9 @@ const Login = ({
 																})
 															}
 														>
-															<span className="me-2">Login with </span>
+															<span className="me-2">
+																{t('form.loginWith')}
+															</span>
 															{provider.name === 'GitHub' && <BsGithub />}
 															{provider.name === '42 School' && (
 																<Image
@@ -172,19 +178,20 @@ const Login = ({
 											className="d-flex align-items-center justify-content-center p-2"
 											onClick={onEmailSubmit}
 										>
-											<span className="me-2">Login with email </span>
+											<span className="me-2">{t('form.loginWithEmail')}</span>
 											<AiOutlineMail />
 										</Button>
 									</div>
 								</Container>
 								<Container className="p-3 text-center">
 									<Link href="/forgot-password">
-										<a>Forgot password?</a>
+										<a>{t('form.forgotPass')}</a>
 									</Link>
 								</Container>
 								<div>
 									<p className="text-muted">
-										New to Hypertube? <Link href="/signup">Sign up</Link>
+										{t('form.newSign')}{' '}
+										<Link href="/signup">{t('landing.signup')}</Link>
 									</p>
 								</div>
 							</Col>
