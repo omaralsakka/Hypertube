@@ -7,7 +7,6 @@ import {
 	Button,
 	Row,
 } from 'react-bootstrap';
-import { MDBIcon, MDBRow } from 'mdb-react-ui-kit';
 import { Form } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../types/appTypes';
@@ -35,15 +34,15 @@ const PhotoUpload = () => {
 	useEffect(() => {
 		if (!file || !session?.user?.email) return;
 		formData.append('files', file, file.name);
-		formData.append('email', session.user.email)
+		formData.append('email', session.user.email);
 		const upload = async () => {
 			const response = await fetch('/api/image', {
 				method: 'POST',
 				body: formData,
 			});
-			console.log(response)
+			console.log(response);
 		};
-		upload()
+		upload();
 	}, [file]);
 	// const addPhoto = async (photo: any) => {
 	// 	const pic = URL.createObjectURL(photo);
