@@ -71,7 +71,6 @@ export default async function streamVideo(
 					message: 'Preparing movie for streaming!',
 					data: isMovieDownloaded,
 				});
-				// res.status(200).send('yeeyee'); // REMOVE THIS WHEN UNCOMMENTING STUFF FROM ABOVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	} else {
 		res
 			.status(400)

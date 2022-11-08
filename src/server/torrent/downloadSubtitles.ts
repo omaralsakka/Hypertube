@@ -71,14 +71,13 @@ export const downloadSubtitles = async (imdbCode: string) => {
 			'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
 		},
 	};
-
+	// !! could try again parsing the imdbCode and converting to number before sending to API request.
 	fetch(
 		`https://api.opensubtitles.com/api/v1/subtitles?imdb_id=${imdbCode}`,
 		optionsSearch
 	)
 		.then((response) => response.json())
 		.then((response) => {
-			console.log(response.data);
 			/* const subtitleID = response.data.filter(
 				(resp: { id: string, attributes: { language: string } }) => { //  the logic in the filtering could be better if the condition was 
 																			  // most downloads instead of just the language.
@@ -94,6 +93,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 			);
 			langObj = resetLangObj(); */
 
+			// !! could have check for if (data in response) just in case the OST API did not find any results.
 			response.data.forEach((subtitle: {id: string, attributes: { language: string }}) => {
 
 				const optionsDownload = {

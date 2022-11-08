@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Movie, MoviePostInfo } from '../../types/appTypes';
 import { motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
+import { trpc } from '../../utils/trpc';
+import { RiContactsBookLine } from 'react-icons/ri';
+
 const MovieScreen = ({
 	movie,
 	movieInfo,
@@ -21,6 +25,8 @@ const MovieScreen = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [subtitles, setSubtitles] = useState([]);
+	const { data: session } = useSession(); // for the user
+	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -30,16 +36,27 @@ const MovieScreen = ({
 		}, 500);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
-	
+
 	const handleClick = async () => {
 		setIsSpinner(true);
-		const result = await axios.post('/api/video/', movie);
-		setMovieInfo(result.data.data);
 		if (movie) {
-			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`
-			);
+			const result = await axios.post('/api/video/', movie);
+			setMovieInfo(result.data.data);
+			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
 			setSubtitles(subsArray.data);
 			setIsLoading(true);
+			if(session) {
+				const userId: string = session.token.user.id.toString();
+				const movieId: string = movie.id.toString()
+				try { // this is giving 500 error in web console. 'upsert' is undefined
+					mutation.mutate({
+						user_id: userId,
+						movie_id: movieId,
+					});
+				} catch (err) {
+					console.log(err);
+				}
+			}
 		}
 	};
 
