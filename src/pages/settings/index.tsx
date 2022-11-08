@@ -1,7 +1,7 @@
 import { Container, Card, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as z from 'zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +16,6 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
-
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
 		password: z.string().min(1, { message: 'Required' }),
@@ -39,6 +38,7 @@ const Settings = () => {
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
+
 	return (
 		<>
 			<Container className="d-flex justify-content-center sm-p-3 mb-4 p-2">

@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import React from 'react';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
+import PhotoUpload from '../../components/photoupload';
+import LoadingLogo from '../../components/loadingLogo';
 
-const SignUpFirst = () => {
+const SignupImage = () => {
 	const { t }: i18translateType = useTranslation('common');
 
 	return (
@@ -15,13 +15,12 @@ const SignUpFirst = () => {
 					<Card.Body>
 						<div className={`${flexColCenter} w-75 m-auto`}>
 							<Card.Title className="display-6 text-dark mb-5">
-								<strong>{t('form.signupFirst')}</strong>
+								<strong>{t('signupImage.title')}</strong>
 							</Card.Title>
-							<Link href="/signup" passHref legacyBehavior>
-								<Button variant="outline-warning" size="lg">
-									{t('landing.signup')}
-								</Button>
-							</Link>
+							<PhotoUpload />
+							<Card.Title className="mb-5 w-50 text-center">
+								{t('signupImage.body')}
+							</Card.Title>
 						</div>
 					</Card.Body>
 				</Card>
@@ -30,4 +29,4 @@ const SignUpFirst = () => {
 	);
 };
 
-export default SignUpFirst;
+export default SignupImage;

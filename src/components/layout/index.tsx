@@ -13,10 +13,12 @@ const Layout = ({ children }: PageLayout) => {
 		return (
 			<>
 				<div className="app blobs-background">
-					<ToastContainer />
+					<Container className="p-0 m-0 " fluid>
+						<ToastContainer />
 
-					<NavigationBar />
-					<main>{children}</main>
+						<NavigationBar />
+						<main>{children}</main>
+					</Container>
 				</div>
 				<Footer />
 			</>
@@ -25,7 +27,10 @@ const Layout = ({ children }: PageLayout) => {
 	return (
 		<>
 			<div className="app blobs-background">
-				<main>{children}</main>
+				<Container className="p-0 m-0" fluid>
+					<NavigationBar />
+					<main>{children}</main>
+				</Container>
 			</div>
 			<Footer />
 		</>
