@@ -1,10 +1,11 @@
-import { date } from 'zod';
 import { rootReducer } from '../store/store';
 export type User = {
 	id: string;
 	name: string;
 	email: string;
 	image: string;
+	OAuth: boolean;
+	emailVerified: string;
 };
 export type Movie = {
 	background_image: string;

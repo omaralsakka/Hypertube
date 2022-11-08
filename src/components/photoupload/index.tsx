@@ -54,10 +54,9 @@ const PhotoUpload = ({
 			currentImage === '/default.png'
 		)
 			filepath = '/default.png';
-		else if (currentImage && currentImage.search('http') > 0)
+		else if (currentImage && currentImage.search('http') > -1)
 			filepath = currentImage;
 		else filepath = `/images/${currentImage}`;
-		console.log('Filepath', filepath);
 		setPhoto(filepath);
 	}, [currentImage]);
 

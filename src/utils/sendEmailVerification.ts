@@ -7,7 +7,7 @@ const host = process.env.NEXTAUTH_URL || 'http://localhost:3000'
 
 export const sendEmailVerification = async (email: string, token: string) => {
 	try {
-		const url = `${host}/verifyemail/${token}`
+		const url = `${host}/verify-email/${token}`
 		const transporter = nodemailer.createTransport({
 			service: 'Outlook365',
 			auth: {

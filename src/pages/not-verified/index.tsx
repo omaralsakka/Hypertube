@@ -11,6 +11,10 @@ const NotVerified = () => {
 		event.preventDefault();
 		mutation.mutate({ email: email });
 	};
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (event.target.value)
+			setEmail(event.target.value);
+	}
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-5 mb-4">
@@ -64,6 +68,7 @@ const NotVerified = () => {
 																	placeholder="Email"
 																	type="email"
 																	name="email"
+																	onChange={handleChange}
 																></Form.Control>
 															</div>
 														</div>

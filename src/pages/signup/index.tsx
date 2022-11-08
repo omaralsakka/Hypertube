@@ -23,7 +23,7 @@ const Signup = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
-
+	const [success, setSuccess] = useState(false);
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
@@ -32,6 +32,7 @@ const Signup = ({
 			email: email,
 			callbackUrl: 'http://localhost:3000/home',
 		});
+		if (user) setSuccess(true)
 		console.log(user);
 	};
 	const schema = z.object({

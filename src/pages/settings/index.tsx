@@ -56,7 +56,6 @@ const Settings = () => {
 		setValue('email', data.user?.email);
 		setValue('name', data.user?.name);
 		setCurrentImage(data.user?.image || '/default.png');
-		console.log(data)
 	}, [data]);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
