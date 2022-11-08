@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useEffect } from 'react';
 import { setPageLanguage } from '../../utils/helperFunctions';
+
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
