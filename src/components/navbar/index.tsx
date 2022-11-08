@@ -1,13 +1,5 @@
 import { signOut, useSession } from 'next-auth/react';
-import {
-	Container,
-	Navbar,
-	Image,
-	Nav,
-	Button,
-	Dropdown,
-	DropdownButton,
-} from 'react-bootstrap';
+import { Container, Navbar, Image, Nav, Button } from 'react-bootstrap';
 import { MdLogout } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootReducer } from '../../types/appTypes';
@@ -15,13 +7,18 @@ import { motion } from 'framer-motion';
 import LanguageMenu from '../languageMenu';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-
+import { useEffect } from 'react';
+import { setPageLanguage } from '../../utils/helperFunctions';
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const { data: session } = useSession();
-
 	const { t }: i18translateType = useTranslation('common');
+	const { i18n } = useTranslation('common');
+
+	useEffect(() => {
+		setPageLanguage(i18n);
+	}, []);
 	return (
 		<>
 			<Navbar

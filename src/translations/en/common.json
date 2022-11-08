@@ -47,6 +47,10 @@
 		"verified": "Verified",
 		"emailVerified": "Email address verified. Login to continue!"
 	},
+	"signupImage": {
+		"title": "Upload your picture",
+		"body": "Please select a picture to upload"
+	},
 	"movieInfo": {
 		"category": "Category",
 		"suggested": "Suggested movies",

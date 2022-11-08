@@ -60,10 +60,6 @@ const Home: NextPage = () => {
 		/>,
 	];
 
-	useEffect(() => {
-		setPageLanguage(i18n);
-	}, []);
-
 	return (
 		<>
 			<Container

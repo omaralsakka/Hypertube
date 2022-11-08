@@ -1,4 +1,4 @@
-import { Container, Card, Form, Button } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
@@ -14,11 +14,11 @@ const SignupImage = () => {
 					<Card.Body>
 						<div className={`${flexColCenter} w-75 m-auto`}>
 							<Card.Title className="display-6 text-dark mb-5">
-								<strong>Upload your picture</strong>
+								<strong>{t('signupImage.title')}</strong>
 							</Card.Title>
 							<PhotoUpload />
 							<Card.Title className="mb-5 w-50 text-center">
-								Please select a picture to upload below
+								{t('signupImage.body')}
 							</Card.Title>
 						</div>
 					</Card.Body>

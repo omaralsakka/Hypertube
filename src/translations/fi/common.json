@@ -47,6 +47,10 @@
 		"verified": "Vahvistettu",
 		"emailVerified": "Sähköpostiosoite vahvistettu. Kirjaudu jatkaaksesi!"
 	},
+	"signupImage": {
+		"title": "Lataa kuvasi",
+		"body": "Valitse ladattava kuva"
+	},
 	"movieInfo": {
 		"category": "Kategoria",
 		"suggested": "Ehdotetut elokuvat",
