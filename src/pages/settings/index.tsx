@@ -21,7 +21,7 @@ import { i18translateType } from '../../types/appTypes';
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
-	const [currentImage, setCurrentImage] = useState('/default.png');
+	const [currentImage, setCurrentImage] = useState('/defaultImg2.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
 	const { data: session } = useSession();
 	const { t }: i18translateType = useTranslation('common');
@@ -57,7 +57,7 @@ const Settings = () => {
 		if (!data) return;
 		setValue('email', data.user?.email);
 		setValue('name', data.user?.name);
-		setCurrentImage(data.user?.image || '/default.png');
+		setCurrentImage(data.user?.image || '/defaultImg2.png');
 		setAccountType(data.user?.accounts[0]?.type);
 	}, [data]);
 

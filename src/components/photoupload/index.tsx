@@ -43,7 +43,7 @@ const PhotoUpload = ({
 				setFileError(true);
 			}
 		};
-		upload();;
+		upload();
 	}, [file]);
 
 	useEffect(() => {
@@ -51,16 +51,15 @@ const PhotoUpload = ({
 		if (
 			!currentImage ||
 			currentImage.length < 1 ||
-			currentImage === '/default.png'
+			currentImage === '/defaultImg2.png'
 		)
-			filepath = '/default.png';
+			filepath = '/defaultImg2.png';
 		else if (currentImage && currentImage.search('http') > -1)
 			filepath = currentImage;
 		else filepath = `/images/${currentImage}`;
 		setPhoto(filepath);
 	}, [currentImage]);
 
-	
 	return (
 		<>
 			<div className="mb-3">
@@ -86,7 +85,7 @@ const PhotoUpload = ({
 						className="avatar-img rounded-circle"
 						onError={({ currentTarget }) => {
 							currentTarget.onerror = null;
-							currentTarget.src = '/default.png';
+							currentTarget.src = '/defaultImg2.png';
 						}}
 					/>
 					{fileAmountError && (
