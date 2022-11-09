@@ -9,22 +9,30 @@ import {
 } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
 var _ = require('lodash');
-import { useForm, SubmitHandler } from 'react-hook-form';
-// import { zodResolver } from '@hookform/resolvers/zod';
-// import * as z from 'zod';
-import { useState } from 'react';
 
-type Inputs = {
-	fromYear: number;
-	toYear: number;
+import { useState, useEffect } from 'react';
+
+type FilterInputs = {
+	fromYear: string;
+	toYear: string;
 	genre: string;
 	imdbRating: string;
 	orderBy: string;
 	sortBy: string;
 	quality: string;
+	seeds: string;
+	fromRunTime: string;
+	toRunTime: string;
+	limit: string;
+	description: string;
 };
-
-const FilterControls = () => {
+const FilterControls = ({
+	onFilterChange,
+	filterInputs,
+}: {
+	onFilterChange: EventTarget | any;
+	filterInputs: FilterInputs;
+}) => {
 	const [genres, setGenres] = useState([
 		'Action',
 		'Comedy',
@@ -36,34 +44,34 @@ const FilterControls = () => {
 		'Thriller',
 		'Western',
 	]);
-	// A Trip to the Moon (1902) is consired the first movie released
+	// A Trip to the Moon (1902) is considered the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
 	const [ratings, setRatings] = useState(_.range(1, 10));
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-
-	const {
-		watch,
-		register,
-		handleSubmit,
-		formState: { errors, isSubmitting },
-	} = useForm<Inputs>({
-		mode: 'onChange',
-	});
-
+	console.log(filterInputs);
 	return (
 		<>
 			<Accordion defaultActiveKey="0">
 				<Accordion.Item eventKey="0">
-					<Accordion.Header>Filters</Accordion.Header>
+					<Accordion.Header>Advanced search</Accordion.Header>
 					<Accordion.Body>
-						<Form onSubmit={handleSubmit(onSubmit)}>
+						<Form>
 							<Form.Group className="mb-5">
+								<Form.Label className="fs-5">Description</Form.Label>
+								<input
+									name="description"
+									onChange={(e) => onFilterChange(e)}
+									value={filterInputs.description}
+								/>
+
 								<div>
 									<Form.Label className="fs-5">From year</Form.Label>
 									<Form.Select
 										aria-label="From year"
 										defaultValue={new Date().getFullYear() - 10}
-										{...register('fromYear')}
+										id="fromYear"
+										name="fromYear"
+										value={filterInputs.fromYear}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{years.map((year: number) => (
 											<option key={year}>{year}</option>
@@ -73,7 +81,10 @@ const FilterControls = () => {
 									<Form.Select
 										aria-label="To year"
 										defaultValue={2021}
-										{...register('toYear')}
+										id="toYear"
+										name="toYear"
+										value={filterInputs.toYear}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{years.map((year: number) => (
 											<option key={year}>{year}</option>
@@ -81,15 +92,57 @@ const FilterControls = () => {
 									</Form.Select>
 								</div>
 								<div>
+									<Form.Label className="fs-5">From runtime</Form.Label>
+									<Form.Select
+										aria-label="From runtime"
+										defaultValue={5}
+										id="fromRunTime"
+										name="fromRunTime"
+										value={filterInputs.fromRunTime}
+										onChange={(e) => onFilterChange(e)}
+									>
+										<option value="0">0</option>
+										<option value="30">30</option>
+										<option value="60">60</option>
+										<option value="90">90</option>
+										<option value="120">120</option>
+										<option value="300">300</option>
+										<option value="5100">5100</option>
+									</Form.Select>
+								</div>
+								<div>
+									<Form.Label className="fs-5">To runtime</Form.Label>
+									<Form.Select
+										aria-label="To runtime"
+										defaultValue={200}
+										id="toRunTime"
+										name="toRunTime"
+										value={filterInputs.toRunTime}
+										onChange={(e) => onFilterChange(e)}
+									>
+										<option value="0">0</option>
+										<option value="30">30</option>
+										<option value="60">60</option>
+										<option value="90">90</option>
+										<option value="120">120</option>
+										<option value="300">300</option>
+										<option value="5100">5100</option>
+									</Form.Select>
+								</div>
+
+								<div>
 									<Form.Label className="fs-5">Order By</Form.Label>
 									<div>
 										<Form.Select
 											aria-label="Order By"
 											defaultValue="Desc"
-											{...register('orderBy')}
+											id="orderBy"
+											name="orderBy"
+											value={filterInputs.orderBy}
+											onChange={(e) => onFilterChange(e)}
 										>
-											<option value="Desc">Descending</option>
-											<option value="Asc">Ascending</option>
+											<option value="desc">Descending</option>
+											<option value="asc">Ascending</option>
 										</Form.Select>
 									</div>
 								</div>
@@ -98,7 +151,10 @@ const FilterControls = () => {
 									<Form.Select
 										aria-label="Sort By"
 										defaultValue="rating"
-										{...register('sortBy')}
+										id="sortBy"
+										name="sortBy"
+										value={filterInputs.sortBy}
+										onChange={(e) => onFilterChange(e)}
 									>
 										<option value="title">title</option>
 										<option value="year">year</option>
@@ -111,18 +167,45 @@ const FilterControls = () => {
 										<Form.Select
 											aria-label="Quality"
 											defaultValue="720p"
-											{...register('quality')}
+											id="quality"
+											name="quality"
+											value={filterInputs.quality}
+											onChange={(e) => onFilterChange(e)}
 										>
-											<option value="SD">title</option>
+											<option value="SD">SD</option>
 											<option value="720p">720p</option>
 											<option value="1080p">1080p</option>
-											<option value="4k">4k</option>
+											<option value="3D">3D</option>
+										</Form.Select>
+									</div>
+								</div>
+								<div>
+									<Form.Label className="fs-5">Seeds</Form.Label>
+									<div>
+										<Form.Select
+											aria-label="Seeds"
+											defaultValue="1"
+											id="seeds"
+											name="seeds"
+											value={filterInputs.seeds}
+											onChange={(e) => onFilterChange(e)}
+										>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="5">5</option>
+											<option value="10">10</option>
 										</Form.Select>
 									</div>
 								</div>
 								<div>
 									<Form.Label className="fs-5">Genre</Form.Label>
-									<Form.Select aria-label="Genre" {...register('genre')}>
+									<Form.Select
+										aria-label="Genre"
+										id="genre"
+										name="genre"
+										value={filterInputs.genre}
+										onChange={(e) => onFilterChange(e)}
+									>
 										{genres.map((genre) => (
 											<option key={genre + '1'}>{genre}</option>
 										))}
@@ -133,15 +216,15 @@ const FilterControls = () => {
 									<Form.Select
 										aria-label="Imdb rating"
 										defaultValue={7}
-										{...register('imdbRating')}
+										id="imdbRating"
+										name="imdbRating"
+										value={filterInputs.imdbRating}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{ratings.map((rating: number) => (
 											<option key={rating}>{rating}</option>
 										))}
 									</Form.Select>
-								</div>
-								<div>
-									<Button type="submit">Apply filter</Button>
 								</div>
 							</Form.Group>
 						</Form>
@@ -153,27 +236,3 @@ const FilterControls = () => {
 };
 
 export default FilterControls;
-/*
-sort_by		String ()	date_added	Sorts the results by choosen value
-order_by		String (desc, asc)
-						title, year, rating, peers, seeds, download_count, like_count,
-						date_added
-quality		String (720p, 1080p, 2160p, 3D)
-limit		Integer between 1 - 50 (inclusive)
-The page will be sortable and filtered according to criteria such as name, genre, the
-IMDb grade, the gap of production year etc...
-
-name
-genre
-imdb grade
-gap of production year
-					<ListGroup horizontal {...register('quality')}>
-								<ListGroup.Item>SD</ListGroup.Item>
-								<ListGroup.Item active>720p</ListGroup.Item>
-								<ListGroup.Item>1080p</ListGroup.Item>
-								<ListGroup.Item action onClick=>4k</ListGroup.Item>
-															<ListGroup horizontal {...register('orderBy')}>
-								<ListGroup.Item>Asc</ListGroup.Item>
-								<ListGroup.Item>Desc</ListGroup.Item>
-							</ListGroup>
-*/

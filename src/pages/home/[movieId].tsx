@@ -32,6 +32,7 @@ const MoviePage = () => {
 	//TRPCClientError!router.isReady
 	useEffect(() => {
 		// setComments(data.comments as any);
+
 		if (data) {
 			setComments(data.comments as any);
 		}
