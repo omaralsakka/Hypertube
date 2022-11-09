@@ -78,7 +78,7 @@ const FilterControls = (props) => {
 									<Form.Label className="fs-5">From runtime</Form.Label>
 									<Form.Select
 										aria-label="From runtime"
-										defaultValue={45}
+										defaultValue={5}
 										id="fromRunTime"
 										name="fromRunTime"
 										value={props.filterInputs.fromRunTime}
@@ -97,7 +97,7 @@ const FilterControls = (props) => {
 									<Form.Label className="fs-5">To runtime</Form.Label>
 									<Form.Select
 										aria-label="To runtime"
-										defaultValue={90}
+										defaultValue={200}
 										id="toRunTime"
 										name="toRunTime"
 										value={props.filterInputs.toRunTime}
