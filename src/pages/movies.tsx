@@ -63,7 +63,7 @@ const Movies = () => {
 		toYear: parseInt(filterInputs.toYear),
 		fromRunTime: parseInt(filterInputs.fromRunTime),
 		toRunTime: parseInt(filterInputs.toRunTime),
-		imdbRating: parseInt(filterInputs.imdbRating),
+		imdbRating: parseInt(filterInputs.imdbRating),	
 		orderBy: filterInputs.orderBy,
 		sortBy: filterInputs.sortBy,
 	});

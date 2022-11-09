@@ -12,17 +12,28 @@ var _ = require('lodash');
 
 import { useState, useEffect } from 'react';
 
-// type Inputs = {
-// 	fromYear: number;
-// 	toYear: number;
-// 	genre: string;
-// 	imdbRating: string;
-// 	orderBy: string;
-// 	sortBy: string;
-// 	quality: string;
-// };
+type FilterInputs = {
+	fromYear: number;
+	toYear: number;
+	genre: string;
+	imdbRating: number;
+	orderBy: string;
+	sortBy: string;
+	quality: string;
+	seeds: number;
+	fromRunTime: number;
+	toRunTime: number;
+	limit: number;
+	description: string;
+};
 
-const FilterControls = (props) => {
+const FilterControls = ({
+	onFilterChange,
+	filterInputs,
+}: {
+	onFilterChange: EventTarget | any;
+	filterInputs: FilterInputs;
+}) => {
 	const [genres, setGenres] = useState([
 		'Action',
 		'Comedy',
@@ -37,7 +48,7 @@ const FilterControls = (props) => {
 	// A Trip to the Moon (1902) is considered the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
 	const [ratings, setRatings] = useState(_.range(1, 10));
-	console.log(props);
+	console.log(filterInputs);
 	return (
 		<>
 			<Accordion defaultActiveKey="0">
@@ -53,8 +64,8 @@ const FilterControls = (props) => {
 										defaultValue={new Date().getFullYear() - 10}
 										id="fromYear"
 										name="fromYear"
-										value={props.filterInputs.fromYear}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.fromYear}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{years.map((year: number) => (
 											<option key={year}>{year}</option>
@@ -66,8 +77,8 @@ const FilterControls = (props) => {
 										defaultValue={2021}
 										id="toYear"
 										name="toYear"
-										value={props.filterInputs.toYear}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.toYear}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{years.map((year: number) => (
 											<option key={year}>{year}</option>
@@ -81,8 +92,8 @@ const FilterControls = (props) => {
 										defaultValue={5}
 										id="fromRunTime"
 										name="fromRunTime"
-										value={props.filterInputs.fromRunTime}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.fromRunTime}
+										onChange={(e) => onFilterChange(e)}
 									>
 										<option value="0">0</option>
 										<option value="30">30</option>
@@ -100,8 +111,8 @@ const FilterControls = (props) => {
 										defaultValue={200}
 										id="toRunTime"
 										name="toRunTime"
-										value={props.filterInputs.toRunTime}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.toRunTime}
+										onChange={(e) => onFilterChange(e)}
 									>
 										<option value="0">0</option>
 										<option value="30">30</option>
@@ -121,8 +132,8 @@ const FilterControls = (props) => {
 											defaultValue="Desc"
 											id="orderBy"
 											name="orderBy"
-											value={props.filterInputs.ordordererBy}
-											onChange={(e) => props.onFilterChange(e)}
+											value={filterInputs.orderBy}
+											onChange={(e) => onFilterChange(e)}
 										>
 											<option value="desc">Descending</option>
 											<option value="asc">Ascending</option>
@@ -136,8 +147,8 @@ const FilterControls = (props) => {
 										defaultValue="rating"
 										id="sortBy"
 										name="sortBy"
-										value={props.filterInputs.sortBy}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.sortBy}
+										onChange={(e) => onFilterChange(e)}
 									>
 										<option value="title">title</option>
 										<option value="year">year</option>
@@ -152,8 +163,8 @@ const FilterControls = (props) => {
 											defaultValue="720p"
 											id="quality"
 											name="quality"
-											value={props.filterInputs.quality}
-											onChange={(e) => props.onFilterChange(e)}
+											value={filterInputs.quality}
+											onChange={(e) => onFilterChange(e)}
 										>
 											<option value="SD">title</option>
 											<option value="720p">720p</option>
@@ -168,8 +179,8 @@ const FilterControls = (props) => {
 										aria-label="Genre"
 										id="genre"
 										name="genre"
-										value={props.filterInputs.genre}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.genre}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{genres.map((genre) => (
 											<option key={genre + '1'}>{genre}</option>
@@ -183,8 +194,8 @@ const FilterControls = (props) => {
 										defaultValue={7}
 										id="imdbRating"
 										name="imdbRating"
-										value={props.filterInputs.imdbRating}
-										onChange={(e) => props.onFilterChange(e)}
+										value={filterInputs.imdbRating}
+										onChange={(e) => onFilterChange(e)}
 									>
 										{ratings.map((rating: number) => (
 											<option key={rating}>{rating}</option>
