@@ -8,17 +8,15 @@ import { Inputs } from '../../types/appTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormCheck } from 'react-bootstrap';
 import PhotoUpload from '../../components/photoupload';
-import {
-	MdAlternateEmail,
-	MdDataUsage,
-	MdOutlineAttribution,
-} from 'react-icons/md';
+import { MdAlternateEmail } from 'react-icons/md';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { HiUser } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useSession } from 'next-auth/react';
 import { trpc } from '../../utils/trpc';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const Settings = () => {
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
@@ -26,6 +24,8 @@ const Settings = () => {
 	const [currentImage, setCurrentImage] = useState('/default.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
 	const { data: session } = useSession();
+	const { t }: i18translateType = useTranslation('common');
+
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
 		{ id: session?.token?.user?.id },
 		{
@@ -114,7 +114,7 @@ const Settings = () => {
 													{...register('name')}
 												></Form.Control>
 											</div>
-											<Form.Text>Change name</Form.Text>
+											<Form.Text>{t('settings.changeName')}</Form.Text>
 										</div>
 									</div>
 									<div>
@@ -130,7 +130,7 @@ const Settings = () => {
 														{...register('email')}
 													></Form.Control>
 												</div>
-												<Form.Text>Change email</Form.Text>
+												<Form.Text>{t('settings.changeEmail')}</Form.Text>
 											</div>
 										) : null}
 										{accountType !== 'oauth' ? (
@@ -140,19 +140,19 @@ const Settings = () => {
 														<RiLockPasswordFill className="me-2 fs-4" />
 
 														<Form.Control
-															placeholder="password"
+															placeholder={t('form.newPass')}
 															className="border-bottom comment-form bg-transparent"
 															id="signupPassword"
 															type={passType}
 															{...register('password')}
 														/>
 													</div>
-													<Form.Text>Change password</Form.Text>
+													<Form.Text>{t('settings.changePass')}</Form.Text>
 												</div>
 												<div className="mb-4">
 													<FormCheck
 														type="checkbox"
-														label="show password"
+														label={t('form.showPass')}
 														onClick={() =>
 															passType === 'password'
 																? setPassType('text')
@@ -162,10 +162,16 @@ const Settings = () => {
 												</div>
 											</>
 										) : null}
-											{mutation.isError && <p className="text-danger">{mutation.error.message}</p>}
-											{mutation.isSuccess && <p className="text-success">Changes saved successfully</p>}
+										{mutation.isError && (
+											<p className="text-danger">{mutation.error.message}</p>
+										)}
+										{mutation.isSuccess && (
+											<p className="text-success">
+												{t('settings.changesSaved')}
+											</p>
+										)}
 										{accountType === 'oauth' ? (
-											<p>You're logged in with OAuth. Change your email and password via your chosen OAuth provider.</p>
+											<p>{t('settings.providerMsg')}</p>
 										) : null}
 									</div>
 									<div
@@ -178,7 +184,7 @@ const Settings = () => {
 											data-mdb-ripple-color="dark"
 											disabled={!isValid || !isDirty || mutation.isLoading}
 										>
-											Save changes
+											{t('settings.saveChange')}
 										</button>
 									</div>
 								</Form.Group>

@@ -20,7 +20,7 @@
 		"password": "Salasana",
 		"showPass": "näytä salasana",
 		"loginWith": "Kirjaudu sisään",
-		"loginWithEmail": "Kirjaudu sisään",
+		"loginWithEmail": "kirjaudu sisään linkillä",
 		"signupWith": "Rekisteröidy",
 		"signupWithEmail": "Rekisteröidy sähköpostilla",
 		"forgotPass": "Unohtuiko salasana?",
@@ -62,6 +62,14 @@
 		"addComment": "Lisää kommentti",
 		"cancel": "Peruuttaa",
 		"readMore": "Lue Lisää"
+	},
+	"settings": {
+		"changeName": "Vaihtaa nimeä",
+		"changeEmail": "Vaihda sähköposti",
+		"changePass": "Vaihda salasana",
+		"saveChange": "Tallenna",
+		"providerMsg": "Olet kirjautunut sisään toisen palveluntarjoajan kanssa.<br />Vaihda sähköpostiosoitteesi ja salasanasi palveluntarjoajan kautta.",
+		"changesSaved": "Muutokset tallennettu onnistuneesti"
 	},
 	"footer": {
 		"developed": "Kehittäjät",

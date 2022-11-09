@@ -219,16 +219,6 @@ const Signup = ({
 												) : null
 											)}
 									</div>
-									<div className="p-1 mb-2" key="Email">
-										<Button
-											variant="light"
-											className="d-flex align-items-center justify-content-center p-2"
-											onClick={onEmailSubmit}
-										>
-											<span className="me-2">{t('form.signupWithEmail')} </span>
-											<AiOutlineMail />
-										</Button>
-									</div>
 								</Container>
 								<div>
 									<p className="text-muted">
