@@ -19,7 +19,7 @@ import { signIn, getProviders, signOut } from 'next-auth/react';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 const Signup = ({
 	providers,
@@ -38,26 +38,26 @@ const Signup = ({
 			email: email,
 			callbackUrl: 'http://localhost:3000/home',
 		});
-		if (user) setSuccess(true)
+		if (user) setSuccess(true);
 		console.log(user);
 	};
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
 		password: z
-		.string()
-		.regex(new RegExp('.*[A-Z].*'), {
-			message: 'One uppercase character required',
-		})
-		.regex(new RegExp('.*[a-z].*'), {
-			message: 'One lowercase character required',
-		})
-		.regex(new RegExp('.*\\d.*'), { message: 'One number required' })
-		.regex(new RegExp('(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
-			message: 'The password must be more than 8 characters in length',
-		})
-		.max(255, {
-			message: "The password can't be more than 255 characters in length",
-		}),
+			.string()
+			.regex(new RegExp('.*[A-Z].*'), {
+				message: 'One uppercase character required',
+			})
+			.regex(new RegExp('.*[a-z].*'), {
+				message: 'One lowercase character required',
+			})
+			.regex(new RegExp('.*\\d.*'), { message: 'One number required' })
+			.regex(new RegExp('(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+				message: 'The password must be more than 8 characters in length',
+			})
+			.max(255, {
+				message: "The password can't be more than 255 characters in length",
+			}),
 		email: z.string().email().min(1, { message: 'Required' }),
 	});
 
@@ -91,13 +91,10 @@ const Signup = ({
 	};
 
 	useEffect(() => {
-		console.log("isLoading", mutation.isLoading);
-	}, [mutation.isLoading]);
-	useEffect(() => {
-		if (!mutation.isSuccess) return
+		if (!mutation.isSuccess) return;
 		setTimeout(() => {
-			router.push('/login')
-		}, 2000)
+			router.push('/login');
+		}, 2000);
 	}, [mutation.isSuccess]);
 	return (
 		<>
@@ -153,7 +150,11 @@ const Signup = ({
 													/>
 												</div>
 											</div>
-												{errors?.password && getValues('password') && <p className="text-danger">{errors?.password?.message}</p>}
+											{errors?.password && getValues('password') && (
+												<p className="text-danger">
+													{errors?.password?.message}
+												</p>
+											)}
 											<div className="mb-4">
 												<FormCheck
 													type="checkbox"
@@ -177,8 +178,12 @@ const Signup = ({
 										</div>
 									</Form.Group>
 								</Form>
-								{mutation.isError && <p className="text-danger">{mutation.error.message}</p>}
-								{mutation.isSuccess && <p className="text-success">User created</p>}
+								{mutation.isError && (
+									<p className="text-danger">{mutation.error.message}</p>
+								)}
+								{mutation.isSuccess && (
+									<p className="text-success">User created</p>
+								)}
 								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
 									<div className="d-flex">
 										{providers &&
