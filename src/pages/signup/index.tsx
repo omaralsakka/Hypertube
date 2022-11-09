@@ -45,20 +45,20 @@ const Signup = ({
 		name: z.string().min(1, { message: 'Required' }),
 		password: z
 		.string()
-		.regex(new RegExp('^$|.*[A-Z].*'), {
+		.regex(new RegExp('.*[A-Z].*'), {
 			message: 'One uppercase character required',
 		})
-		.regex(new RegExp('^$|.*[a-z].*'), {
+		.regex(new RegExp('.*[a-z].*'), {
 			message: 'One lowercase character required',
 		})
-		.regex(new RegExp('^$|.*\\d.*'), { message: 'One number required' })
-		.regex(new RegExp('^$|(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+		.regex(new RegExp('.*\\d.*'), { message: 'One number required' })
+		.regex(new RegExp('(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
 			message: 'The password must be more than 8 characters in length',
 		})
 		.max(255, {
 			message: "The password can't be more than 255 characters in length",
 		}),
-		email: z.string().min(1, { message: 'Required' }),
+		email: z.string().email().min(1, { message: 'Required' }),
 	});
 
 	const notifyDefault = () => toast.success('Activation email sent');
@@ -90,6 +90,9 @@ const Signup = ({
 		}
 	};
 
+	useEffect(() => {
+		console.log("isLoading", mutation.isLoading);
+	}, [mutation.isLoading]);
 	useEffect(() => {
 		if (!mutation.isSuccess) return
 		setTimeout(() => {
@@ -150,6 +153,7 @@ const Signup = ({
 													/>
 												</div>
 											</div>
+												{errors?.password && getValues('password') && <p className="text-danger">{errors?.password?.message}</p>}
 											<div className="mb-4">
 												<FormCheck
 													type="checkbox"
