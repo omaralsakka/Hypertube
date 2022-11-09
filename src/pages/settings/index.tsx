@@ -24,10 +24,10 @@ const Settings = () => {
 	const [currentImage, setCurrentImage] = useState('/defaultImg2.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
 	const { data: session } = useSession();
-	const { t }: i18translateType = useTranslation('common');
 
+	const { t }: i18translateType = useTranslation('common');
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
-		{ id: session?.token?.user?.id },
+		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id },
 		{
 			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
 		}
@@ -59,6 +59,11 @@ const Settings = () => {
 		setValue('name', data.user?.name);
 		setCurrentImage(data.user?.image || '/defaultImg2.png');
 		setAccountType(data.user?.accounts[0]?.type);
+		// console.log('setting data');
+		// setValue('email', data.user?.email);
+		// setValue('name', data.user?.name);
+		// setCurrentImage(data.user?.image || '/defaultImg2.png');
+		// setAccountType(data.user?.accounts[0]?.type);
 	}, [data]);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -71,12 +76,13 @@ const Settings = () => {
 				password: data.password,
 			});
 			// If email was changed
-			// notifyDefault();
+			notifyDefault();
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	// const notifyDefault = () => toast.success('Changes saved successfully');
+	const notifyDefault = () =>
+		toast.success('Changes saved successfully', { position: 'top-center' });
 	const {
 		register,
 		handleSubmit,
@@ -163,15 +169,16 @@ const Settings = () => {
 											</>
 										) : null}
 										{mutation.isError && (
-											<p className="text-danger">{mutation.error.message}</p>
-										)}
-										{mutation.isSuccess && (
-											<p className="text-success">
-												{t('settings.changesSaved')}
+											<p className="text-danger text-center">
+												{mutation.error.message}
 											</p>
 										)}
 										{accountType === 'oauth' ? (
-											<p>{t('settings.providerMsg')}</p>
+											<p className="text-center">
+												{t('settings.providerMsg1')}
+												<br />
+												{t('settings.providerMsg2')}
+											</p>
 										) : null}
 									</div>
 									<div
@@ -180,7 +187,15 @@ const Settings = () => {
 									>
 										<button
 											type="submit"
-											className="btn btn-outline-danger btn-rounded btn-lg"
+											className="btn btn-outline-warning bigBtn btn-rounded btn-lg"
+											data-mdb-ripple-color="dark"
+											disabled={!isValid || !isDirty || mutation.isLoading}
+										>
+											{t('settings.saveChange')}
+										</button>
+										<button
+											type="submit"
+											className="btn btn-outline-warning smallBtn btn-rounded"
 											data-mdb-ripple-color="dark"
 											disabled={!isValid || !isDirty || mutation.isLoading}
 										>

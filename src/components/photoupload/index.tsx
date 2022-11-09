@@ -79,15 +79,17 @@ const PhotoUpload = ({
 						/>
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
-					<img
-						src={`${photo}`}
-						alt="user profile image"
-						className="avatar-img rounded-circle"
-						onError={({ currentTarget }) => {
-							currentTarget.onerror = null;
-							currentTarget.src = '/defaultImg2.png';
-						}}
-					/>
+					<div className="settingsImg">
+						<img
+							src={`${photo}`}
+							alt="user profile image"
+							className="avatar-img rounded-circle"
+							onError={({ currentTarget }) => {
+								currentTarget.onerror = null;
+								currentTarget.src = '/defaultImg2.png';
+							}}
+						/>
+					</div>
 					{fileAmountError && (
 						<p>Please, choose one picture as a profile picture.</p>
 					)}

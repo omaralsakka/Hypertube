@@ -88,7 +88,7 @@ export const userRouter = router({
 					name: true,
 					email: true,
 					image: true,
-					emailVerified: true
+					emailVerified: true,
 				},
 			});
 			if (!user)
@@ -98,7 +98,7 @@ export const userRouter = router({
 					cause: input.id,
 				});
 			// Check if email has changed
-			const verified = input.email === user.email ? user.emailVerified : null
+			const verified = input.email === user.email ? user.emailVerified : null;
 			if (!verified) {
 				// Check that email is not already in use
 				const checkUser = await ctx.prisma.user.findUnique({
@@ -115,7 +115,7 @@ export const userRouter = router({
 				// Create token
 				const token = await signEmailToken(input.email);
 				// Send verification email
-				await sendEmailVerification(input.email, token)
+				await sendEmailVerification(input.email, token);
 			}
 			// Hash password if given
 			let hashedPassword;
@@ -126,7 +126,7 @@ export const userRouter = router({
 					name: input.name,
 					email: input.email,
 					password: hashedPassword,
-					emailVerified: verified
+					emailVerified: verified,
 				},
 				where: {
 					id: input.id,
@@ -161,17 +161,17 @@ export const userRouter = router({
 					image: true,
 					accounts: {
 						select: {
-							type: true
-						}
-					}
+							type: true,
+						},
+					},
 				},
 			});
-			if (!user)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.id,
-				});
+			// if (!user)
+			// 	throw new TRPCError({
+			// 		code: 'BAD_REQUEST',
+			// 		message: 'No matching user found',
+			// 		cause: input.id,
+			// 	});
 			return {
 				message: 'User information retrieved successfully',
 				user: user,

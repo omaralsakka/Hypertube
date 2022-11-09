@@ -68,7 +68,8 @@
 		"changeEmail": "Vaihda sähköposti",
 		"changePass": "Vaihda salasana",
 		"saveChange": "Tallenna",
-		"providerMsg": "Olet kirjautunut sisään toisen palveluntarjoajan kanssa.<br />Vaihda sähköpostiosoitteesi ja salasanasi palveluntarjoajan kautta.",
+		"providerMsg1": "Olet kirjautunut sisään toisen palveluntarjoajan kanssa.",
+		"providerMsg2": "Vaihda sähköpostiosoitteesi ja salasanasi palveluntarjoajan kautta.",
 		"changesSaved": "Muutokset tallennettu onnistuneesti"
 	},
 	"footer": {
