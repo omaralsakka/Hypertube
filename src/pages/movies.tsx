@@ -36,7 +36,7 @@ const Movies = () => {
 		sortBy: 'rating',
 		imdbRating: 1,
 		genre: 'Horror',
-		seeds: 10,
+		seeds: 1,
 		fromYear: 0,
 		toYear: 2021,
 		search_term,
@@ -63,9 +63,13 @@ const Movies = () => {
 		toYear: parseInt(filterInputs.toYear),
 		fromRunTime: parseInt(filterInputs.fromRunTime),
 		toRunTime: parseInt(filterInputs.toRunTime),
-		imdbRating: parseInt(filterInputs.imdbRating),	
+		imdbRating: parseInt(filterInputs.imdbRating),
 		orderBy: filterInputs.orderBy,
 		sortBy: filterInputs.sortBy,
+		quality: filterInputs.quality,
+		seeds: parseInt(filterInputs.seeds),
+		description: filterInputs.description,
+		genre: filterInputs.genre,
 	});
 
 	const onSearchChange = (e: any) => {

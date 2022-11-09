@@ -57,6 +57,13 @@ const FilterControls = ({
 					<Accordion.Body>
 						<Form>
 							<Form.Group className="mb-5">
+							<Form.Label className="fs-5">Description</Form.Label>
+								<input
+									name="description"
+									onChange={(e) => onFilterChange(e)}
+									value={filterInputs.description}
+								/>
+
 								<div>
 									<Form.Label className="fs-5">From year</Form.Label>
 									<Form.Select
@@ -166,10 +173,28 @@ const FilterControls = ({
 											value={filterInputs.quality}
 											onChange={(e) => onFilterChange(e)}
 										>
-											<option value="SD">title</option>
+											<option value="SD">SD</option>
 											<option value="720p">720p</option>
 											<option value="1080p">1080p</option>
-											<option value="4k">4k</option>
+											<option value="3D">3D</option>
+										</Form.Select>
+									</div>
+								</div>
+								<div>
+									<Form.Label className="fs-5">Seeds</Form.Label>
+									<div>
+										<Form.Select
+											aria-label="Seeds"
+											defaultValue="1"
+											id="seeds"
+											name="seeds"
+											value={filterInputs.seeds}
+											onChange={(e) => onFilterChange(e)}
+										>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="5">5</option>
+											<option value="10">10</option>
 										</Form.Select>
 									</div>
 								</div>
