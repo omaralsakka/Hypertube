@@ -11,7 +11,7 @@ export const movieRouter = router({
 			const movies: any = await ctx.prisma.movies.findFirst({
 				where: { imdb_code: input.imdb_code },
 			});
-			console.log(movies);
+			// console.log(movies);
 			if (!movies)
 				throw new TRPCError({
 					code: 'BAD_REQUEST',
@@ -28,7 +28,7 @@ export const movieRouter = router({
 			z.object({ imdb_code: z.string().min(1), movie_path: z.string().min(1) })
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
+			// console.log(input);
 			const newMovie: any = await ctx.prisma.movies.create({
 				data: {
 					imdb_code: input.imdb_code,
@@ -36,7 +36,7 @@ export const movieRouter = router({
 					size: 1, // property size is missing need add something
 				},
 			});
-			console.log(newMovie);
+			// console.log(newMovie);
 			return {
 				message: 'Movie inserted into table successfully',
 			};
@@ -61,7 +61,7 @@ export const movieRouter = router({
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			console.log(input);
+			// console.log(input);
 			const movies: any = await ctx.prisma.movie.findMany({
 				skip: 0,
 				take: 20,
