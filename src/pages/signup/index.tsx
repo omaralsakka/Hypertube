@@ -43,7 +43,21 @@ const Signup = ({
 	};
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
-		password: z.string().min(1, { message: 'Required' }),
+		password: z
+		.string()
+		.regex(new RegExp('^$|.*[A-Z].*'), {
+			message: 'One uppercase character required',
+		})
+		.regex(new RegExp('^$|.*[a-z].*'), {
+			message: 'One lowercase character required',
+		})
+		.regex(new RegExp('^$|.*\\d.*'), { message: 'One number required' })
+		.regex(new RegExp('^$|(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+			message: 'The password must be more than 8 characters in length',
+		})
+		.max(255, {
+			message: "The password can't be more than 255 characters in length",
+		}),
 		email: z.string().min(1, { message: 'Required' }),
 	});
 
