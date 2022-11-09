@@ -194,8 +194,9 @@ input[type='file'] {
 	display: none;
 }
 
-.settingsImg {
+.photo-upload {
 	max-width: 140px;
+	max-height: 140px;
 }
 
 @keyframes fadeIn {
@@ -275,7 +276,8 @@ input[type='file'] {
 	.cinemaImage {
 		width: 180vw;
 	}
-	.settingsImg {
+	.photo-upload {
 		max-width: 120px;
+		max-height: 120px;
 	}
 }

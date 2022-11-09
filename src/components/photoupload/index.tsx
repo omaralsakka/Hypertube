@@ -1,6 +1,6 @@
-import { Form } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { ToastContainer, toast } from 'react-toastify';
 
 const PhotoUpload = ({
 	currentImage,
@@ -14,7 +14,11 @@ const PhotoUpload = ({
 	const [fileAmountError, setFileAmountError] = useState(false);
 	const [fileError, setFileError] = useState(false);
 	const formData = new FormData();
-
+	const selectImgError = () => {
+		toast.error('Please, choose one picture as a profile picture.', {
+			position: 'top-center',
+		});
+	};
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (!event.target.files || event.target.files.length !== 1) {
 			setFileAmountError(true);
@@ -60,6 +64,19 @@ const PhotoUpload = ({
 		setPhoto(filepath);
 	}, [currentImage]);
 
+	useEffect(() => {
+		fileAmountError &&
+			toast.error('Please, choose one picture as a profile picture.', {
+				position: 'top-center',
+			});
+	}, [fileAmountError]);
+
+	useEffect(() => {
+		fileError &&
+			toast.error('Unable to upload profile picture.', {
+				position: 'top-center',
+			});
+	}, [fileError]);
 	return (
 		<>
 			<div className="mb-3">
@@ -79,21 +96,17 @@ const PhotoUpload = ({
 						/>
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
-					<div className="settingsImg">
-						<img
-							src={`${photo}`}
-							alt="user profile image"
-							className="avatar-img rounded-circle"
-							onError={({ currentTarget }) => {
-								currentTarget.onerror = null;
-								currentTarget.src = '/defaultImg2.png';
-							}}
-						/>
-					</div>
-					{fileAmountError && (
-						<p>Please, choose one picture as a profile picture.</p>
-					)}
-					{fileError && <p>Unable to upload profile picture.</p>}
+					{/* <div className="settingsImg"> */}
+					<img
+						src={`${photo}`}
+						alt="user profile image"
+						className="avatar-img rounded-circle"
+						onError={({ currentTarget }) => {
+							currentTarget.onerror = null;
+							currentTarget.src = '/defaultImg2.png';
+						}}
+					/>
+					{/* </div> */}
 				</div>
 			</div>
 		</>
