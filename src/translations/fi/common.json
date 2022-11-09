@@ -20,7 +20,7 @@
 		"password": "Salasana",
 		"showPass": "näytä salasana",
 		"loginWith": "Kirjaudu sisään",
-		"loginWithEmail": "Kirjaudu sisään",
+		"loginWithEmail": "kirjaudu sisään linkillä",
 		"signupWith": "Rekisteröidy",
 		"signupWithEmail": "Rekisteröidy sähköpostilla",
 		"forgotPass": "Unohtuiko salasana?",
