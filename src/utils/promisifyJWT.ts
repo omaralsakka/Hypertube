@@ -1,6 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 const secret = process.env.NEXTAUTH_SECRET || ''
 
+// Creates token for email verification
 export const signEmailToken = async (email: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
 		const expirationTime = 3600;
@@ -10,7 +11,7 @@ export const signEmailToken = async (email: string): Promise<string> => {
 			},
 			secret,
 			{
-				issuer: '42 Dates',
+				issuer: 'Hypertube',
 				algorithm: 'HS256',
 				expiresIn: expirationTime,
 			},
@@ -22,6 +23,7 @@ export const signEmailToken = async (email: string): Promise<string> => {
 	});
 };
 
+// Check that token from user is valid
 export const verifyJWT = async (
 	userToken: string,
 	serverToken: string

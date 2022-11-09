@@ -9,6 +9,8 @@ import EmailProvider from 'next-auth/providers/email';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../server/db/client';
 import { verify } from 'argon2';
+import { User } from '../../../types/appTypes';
+import { JWT } from 'next-auth/jwt';
 
 export const authOptions: NextAuthOptions = {
 	// Configure one or more authentication providers
@@ -52,6 +54,7 @@ export const authOptions: NextAuthOptions = {
 					email: user.email,
 					name: user.name,
 					emailVerified: user.emailVerified,
+					image: user.image,
 				};
 			},
 		}),
@@ -104,7 +107,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		// This callback allow us to choose what information is stored in session. We're adding token, because that's where our extended user information is stored. This can be removed if we don't need to add anything.
 		async session({ session, token }) {
-			session.token = token;
+			session.token = token as JWT & { user: User };
 			return session;
 		},
 		// This callback defines login logic. We can approve or deny login depending on user and account data, and redirect to user to appropriate page when denied login. This is not necessary, if we're ok with standard logic.
@@ -115,25 +118,51 @@ export const authOptions: NextAuthOptions = {
 			// This is necessary trick to avoid type errors when accessing user properties
 			const adapterUser = user as AdapterUser;
 			// OAuth providers are trusted by default. Other OAuth providers should be added here too.
-			if (account?.provider === '42-school' || account?.provider === 'github')
+			if (account?.provider === '42-school' || account?.provider === 'github') {
 				return true;
+			}
 			// Email login is allowed only for users who have signed up and verified their email.
 			if (account?.provider === 'email') {
-				if (adapterUser.name && adapterUser.emailVerified)
-					return true;
+				if (adapterUser.name && adapterUser.emailVerified) return true;
 				if (!adapterUser.name && !adapterUser.emailVerified)
-					return '/signupfirst';
-				return '/notverified';
+					return '/signup-first';
+				return '/not-verified';
 			}
 			// For credentials login is rejected if email hasn't been verified
+			// We're not using redirection because it causes url errors. Instead we redirect manually on login page based on server response.
 			if (account?.provider === 'credentials' && adapterUser.emailVerified)
 				return true;
+			// return '/not-verified';
+			return false
 			// Return false to display a default error message
-			return '/notverified';
 			// Or you can return a URL to redirect to:
 			// return '/unauthorized'
 		},
 	},
+	// events: {
+		// async signIn(message) { /* on successful sign in */ },
+		// async signOut(message) { /* on signout */ },
+		// async createUser(message) { /* user created */ },
+		// async updateUser(message) {
+		// 	/* user updated - e.g. their email was verified */
+		// 	console.log('User updated event:', message);
+		// },
+		// async linkAccount(message) {
+		// 	// Adding emailVerified time for OAuth users so they don't have to verify email separately
+		// 	console.log('link account event:', message);
+		// 	if (message.account.type === 'oauth' && message.user.email) {
+		// 		await prisma.user.update({
+		// 			data: {
+		// 				emailVerified: new Date(),
+		// 			},
+		// 			where: {
+		// 				email: message.user.email,
+		// 			},
+		// 		});
+		// 	}
+		// },
+		// async session(message) { /* session is active */ },
+	// },
 	// Turn on for debugging
 	debug: true,
 };

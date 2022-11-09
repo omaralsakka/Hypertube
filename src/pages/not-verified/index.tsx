@@ -6,6 +6,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
+// Users are redirected to this site if they try to login before verifying their email
 const NotVerified = () => {
 	const [email, setEmail] = useState('');
 	const mutation = trpc.emailtoken.resend.useMutation();
@@ -15,6 +16,10 @@ const NotVerified = () => {
 		event.preventDefault();
 		mutation.mutate({ email: email });
 	};
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (event.target.value)
+			setEmail(event.target.value);
+	}
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-5 mb-4">
@@ -67,6 +72,7 @@ const NotVerified = () => {
 																	placeholder={t('form.email')}
 																	type="email"
 																	name="email"
+																	onChange={handleChange}
 																></Form.Control>
 															</div>
 														</div>

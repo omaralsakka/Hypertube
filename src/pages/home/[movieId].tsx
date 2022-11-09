@@ -8,7 +8,6 @@ import { movieRate, getOmdb } from '../../utils/helperFunctions';
 import { motion } from 'framer-motion';
 import { trpc } from '../../utils/trpc';
 import CommentsSection from '../../components/commentsSection';
-import axios from 'axios';
 import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';

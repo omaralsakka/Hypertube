@@ -13,7 +13,7 @@
 	"landing": {
 		"slogan": "Nauti kaikista suosikkielokuvistasi ja -ohjelmistasi.",
 		"login": "Kirjaudu sisään",
-		"signup": "Kirjaudu"
+		"signup": "Rekisteröidy"
 	},
 	"form": {
 		"email": "Sähköposti",
@@ -21,8 +21,8 @@
 		"showPass": "näytä salasana",
 		"loginWith": "Kirjaudu sisään",
 		"loginWithEmail": "Kirjaudu sisään",
-		"signupWith": "Kirjaudu",
-		"signupWithEmail": "Kirjaudu sähköpostilla",
+		"signupWith": "Rekisteröidy",
+		"signupWithEmail": "Rekisteröidy sähköpostilla",
 		"forgotPass": "Unohtuiko salasana?",
 		"newSign": "Uutta Hypertubessa?",
 		"haveAccount": "Sinulla On tili?",

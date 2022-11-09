@@ -1,12 +1,12 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
-import { hash } from 'argon2';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken, verifyJWT } from '../../../utils/promisifyJWT';
 
+// Email verification endpoints
 export const tokenRouter = router({
+	// Resend email verification on request
 	resend: publicProcedure
 		.input(
 			z.object({
@@ -35,6 +35,7 @@ export const tokenRouter = router({
 					message: 'User created successfully',
 				};
 		}),
+	// Verify email
 	verify: publicProcedure
 		.input(
 			z.object({
@@ -49,6 +50,7 @@ export const tokenRouter = router({
 					code: 'INTERNAL_SERVER_ERROR',
 				});
 			}
+			// Verify email token
 			const payload = await verifyJWT(input.token, serverToken);
 			console.log(payload);
 			if (typeof payload === 'undefined' || typeof payload === 'string')
@@ -57,7 +59,7 @@ export const tokenRouter = router({
 					message: 'Invalid token',
 					cause: input.token,
 				});
-			// Update token
+			// Update db
 			const updated = await ctx.prisma.user.update({
 				data: {
 					emailVerified: new Date(),
