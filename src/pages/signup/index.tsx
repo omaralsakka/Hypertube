@@ -52,7 +52,7 @@ const Signup = ({
 				message: 'One lowercase character required',
 			})
 			.regex(new RegExp('.*\\d.*'), { message: 'One number required' })
-			.regex(new RegExp('(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+			.min(8, {
 				message: 'The password must be more than 8 characters in length',
 			})
 			.max(255, {
