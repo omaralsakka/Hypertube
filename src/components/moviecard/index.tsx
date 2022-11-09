@@ -9,7 +9,7 @@ const MovieCard = ({
 	viewType,
 }: {
 	movie: Movie;
-	style: {};
+	style: string;
 	viewType: string;
 }) => {
 	if (!movie) {
@@ -29,8 +29,7 @@ const MovieCard = ({
 						}}
 					>
 						<Card
-							className="m-3 movieCard bg-transparent overflow-hidden"
-							style={style}
+							className={`m-3 movieCard bg-transparent overflow-hidden ${style}`}
 						>
 							<Card.Img
 								src={movie.medium_cover_image}

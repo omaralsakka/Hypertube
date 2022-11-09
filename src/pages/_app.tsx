@@ -7,10 +7,9 @@ import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import type { AppType } from 'next/app';
 import { trpc } from '../utils/trpc';
-
+import LanguageProvider from '../components/languageProvider';
 import { Provider } from 'react-redux';
 import store from '../store/store';
-import LanguageProvider from '../LanguageProvider';
 import Head from 'next/head';
 import Layout from '../components/layout';
 

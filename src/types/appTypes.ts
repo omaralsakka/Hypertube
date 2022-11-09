@@ -1,5 +1,14 @@
+import { TOptions } from 'i18next';
 import { date } from 'zod';
 import { rootReducer } from '../store/store';
+
+export type i18translateType = {
+	t: (
+		key: string | TemplateStringsArray | (string | TemplateStringsArray)[],
+		options?: string | TOptions<String> | undefined
+	) => string;
+};
+
 export type User = {
 	id: number;
 	username: string;
@@ -84,6 +93,8 @@ export type Inputs = {
 	email: string;
 	password: string;
 };
+
+export type EmailInput = Omit<Inputs, 'name' | 'password'>;
 
 export type PageLayout = {
 	children: React.ReactNode;

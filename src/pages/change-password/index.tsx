@@ -7,12 +7,16 @@ import * as z from 'zod';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
+
 type Inputs = {
 	password: string;
 };
 
 const changePassword = () => {
 	const [passType, setPassType] = useState('password');
+	const { t }: i18translateType = useTranslation('common');
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -36,10 +40,10 @@ const changePassword = () => {
 					<Card.Body>
 						<div className={`${flexColCenter} w-75 m-auto`}>
 							<Card.Title className="display-6 text-dark mb-5">
-								<strong>New password</strong>
+								<strong>{t('form.newPass')}</strong>
 							</Card.Title>
 							<Card.Title className="mb-5 w-50 text-center">
-								Please enter your new password.
+								{t('form.pleaseEnterPass')}
 							</Card.Title>
 							<Container className="d-flex justify-content-center">
 								<Form onSubmit={handleSubmit(onSubmit)}>
@@ -50,7 +54,7 @@ const changePassword = () => {
 												<div className="me-3">
 													<Form.Control
 														id="loginPassword"
-														placeholder="New password"
+														placeholder={t('form.newPass')}
 														className="border-bottom comment-form bg-transparent"
 														type={passType}
 														{...register('password')}
@@ -66,7 +70,7 @@ const changePassword = () => {
 										<div className="mb-4">
 											<FormCheck
 												type="checkbox"
-												label="show password"
+												label={t('form.showPass')}
 												onClick={() =>
 													passType === 'password'
 														? setPassType('text')
@@ -81,7 +85,7 @@ const changePassword = () => {
 												size="lg"
 												disabled={!isValid || !isDirty}
 											>
-												Submit
+												{t('form.submit')}
 											</Button>
 										</div>
 									</Form.Group>

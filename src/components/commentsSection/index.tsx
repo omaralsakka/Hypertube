@@ -7,6 +7,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 type Inputs = {
 	comment_text: string;
@@ -48,6 +50,7 @@ const CommentsSection = ({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
+	const { t }: i18translateType = useTranslation('common');
 
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		//		event?.preventDefault();
@@ -57,7 +60,9 @@ const CommentsSection = ({
 	return (
 		<>
 			<Row className="mb-2">
-				<Card.Title>{comments?.length} Comments</Card.Title>
+				<Card.Title>
+					{comments?.length} {t('movieInfo.comments')}
+				</Card.Title>
 			</Row>
 			<Row className="mb-3">
 				<Form onSubmit={handleSubmit(onSubmit)}>
@@ -66,6 +71,7 @@ const CommentsSection = ({
 							className="border-bottom comment-form bg-transparent"
 							placeholder="Add comment"
 							{...register('comment_text')}
+							placeholder={t('movieInfo.addComment')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>
 					</Form.Group>
@@ -76,14 +82,14 @@ const CommentsSection = ({
 							variant="warning"
 							type="submit"
 						>
-							Add comment
+							{t('movieInfo.addComment')}
 						</Button>
 						<Button
 							hidden={addCommentBtn}
 							variant="outline-dark"
 							onClick={() => setAddCommentBtn(true)}
 						>
-							Cancel
+							{t('movieInfo.cancel')}
 						</Button>
 					</Container>
 				</Form>

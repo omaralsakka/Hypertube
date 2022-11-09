@@ -1,13 +1,14 @@
 import '../components/i18nextConf';
 import type { NextPage } from 'next';
-import { langs } from '../langContext';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setLanguage } from '../store/actions';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { Card, Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Card, Container, Row, Col, Image } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import ActionButton from '../components/landingButtons';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../types/appTypes';
+import { useEffect, useState } from 'react';
+import LoadingLogo from '../components/loadingLogo';
+
 export function Component() {
 	const { data: session } = useSession();
 	if (session) {
@@ -26,40 +27,10 @@ export function Component() {
 	);
 }
 
-const ActionButton = ({
-	path,
-	variant,
-	text,
-}: {
-	path: string;
-	variant: string;
-	text: string;
-}) => {
-	const item = {
-		hidden: { y: 20, opacity: 0 },
-		visible: {
-			y: 0,
-			opacity: 1,
-		},
-	};
-	return (
-		<>
-			<motion.div transition={{ delay: 1 }} className="item" variants={item}>
-				<Link href={path}>
-					<Button variant={variant} className="me-4" size="lg">
-						{text}
-					</Button>
-				</Link>
-			</motion.div>
-		</>
-	);
-};
-
 const Home: NextPage = () => {
-	const [lang, setLang] = useState(langs.en);
-	const [selectedLanguage, setSelectedLanguage] = useState('en');
-	const dispatch = useDispatch();
 	const logoPng = '/logo-hypertube/logo-no-background.png';
+	const { t }: i18translateType = useTranslation('common');
+	const [loader, setLoader] = useState(true);
 
 	const container = {
 		hidden: { opacity: 1, scale: 0 },
@@ -72,137 +43,108 @@ const Home: NextPage = () => {
 			},
 		},
 	};
-	const item = {
-		hidden: { y: 20, opacity: 0 },
-		visible: {
-			y: 0,
-			opacity: 1,
-		},
-	};
+
 	const componentArray = [
 		<ActionButton
 			key="login-key"
 			path="/login"
 			variant="warning"
-			text="Login"
+			text={t('landing.login')}
 		/>,
 		<ActionButton
 			key="signup-key"
 			path="/signup"
 			variant="outline-primary"
-			text="Signup"
+			text={t('landing.signup')}
 		/>,
 	];
 	useEffect(() => {
-		const selectedLang = localStorage.getItem('selectedLanguage');
-		const selectedLangObject = localStorage.getItem('selectedLanguageObject');
-		if (selectedLang && selectedLangObject) {
-			setSelectedLanguage(selectedLang);
-			setLang(JSON.parse(selectedLangObject));
-		}
-		if (selectedLang) dispatch(setLanguage(selectedLang));
+		setTimeout(() => {
+			setLoader(false);
+		}, 2000);
 	}, []);
-
-	const switchLang = () => {
-		setSelectedLanguage(selectedLanguage === 'en' ? 'fi' : 'en');
-		lang === langs.en ? setLang(langs.fi) : setLang(langs.en);
-
-		localStorage.setItem(
-			'selectedLanguage',
-			selectedLanguage === 'en' ? 'fi' : 'en'
-		);
-		localStorage.setItem(
-			'selectedLanguageObject',
-			JSON.stringify(lang === langs.en ? langs.fi : langs.en)
-		);
-		dispatch(setLanguage(selectedLanguage));
-	};
-
-	// return (
-	// 	<div className="app">
-	// 		<div className="main">
-	// 			{/* {selectedLanguage}
-	// 			<div className="language-select">
-	// 				<button onClick={switchLang}>Select Language</button>
-	// 			</div> */}
-	// 			{/* <div className="example-text">
-	// 				<p>
-	// 					{lang.ad}
-	// 					<br />
-	// 					{lang.text}
-	// 				</p>
-	// 			</div> */}
-	// 			{/* <Component /> */}
-	// 		</div>
-	// 	</div>
-	// );
 	return (
 		<>
 			<Container
 				style={{ minHeight: '100vh' }}
-				className="d-flex flex-column align-items-center justify-content-center p-2"
+				className="d-flex flex-column align-items-center mt-3 p-2"
 				fluid
 			>
-				<Card className="bg-transparent shadow-0 border-0">
-					<Card.Body className="d-flex flex-column align-items-center justify-content-center p-3">
-						<Row className="mb-5">
-							<Col>
-								<motion.div
-									initial={{ y: -100, opacity: 0 }}
-									animate={{ y: 0, opacity: 1 }}
-									transition={{ duration: 1 }}
-								>
-									<Container className="w-50">
-										<Image src={logoPng} fluid />
-									</Container>
-								</motion.div>
-							</Col>
-						</Row>
-						<Row className="p-3 mb-5">
-							<Col>
-								<Container className="d-flex justify-content-center">
+				{loader ? (
+					<LoadingLogo />
+				) : (
+					<>
+						<Card className="bg-transparent shadow-0 border-0">
+							<Card.Body className="d-flex flex-column align-items-center justify-content-center p-3">
+								<Row className="mb-5">
+									<Col>
+										<motion.div
+											initial={{ y: -100, opacity: 0 }}
+											animate={{ y: 0, opacity: 1 }}
+											transition={{ duration: 1 }}
+										>
+											<Container className="w-50">
+												<Image src={logoPng} fluid />
+											</Container>
+										</motion.div>
+									</Col>
+								</Row>
+								<Row className="p-3 mb-sm-5 mb-3">
+									<Col>
+										<Container className="d-flex justify-content-center">
+											<motion.div
+												className="container d-flex justify-content-center"
+												variants={container}
+												initial="hidden"
+												animate="visible"
+											>
+												{componentArray.map((comp) => comp)}
+											</motion.div>
+										</Container>
+									</Col>
+								</Row>
+								<Row className="text-center mb-3">
 									<motion.div
-										className="container d-flex justify-content-center"
-										variants={container}
-										initial="hidden"
-										animate="visible"
+										className="d-flex justify-content-center darkFade w-100"
+										initial={{ x: 100, opacity: 0 }}
+										animate={{ x: 0, opacity: 1 }}
+										transition={{ duration: 1 }}
 									>
-										{componentArray.map((comp) => comp)}
+										<Card.Text className="display-6" style={{ color: '#333' }}>
+											<strong>{t('landing.slogan')}</strong>
+										</Card.Text>
 									</motion.div>
-								</Container>
-							</Col>
-						</Row>
-						<Row className="text-center mb-5">
-							<motion.div
-								className="d-flex justify-content-center darkFade w-100"
-								initial={{ x: 100, opacity: 0 }}
-								animate={{ x: 0, opacity: 1 }}
-								transition={{ duration: 1 }}
-							>
-								<Card.Text className="display-6" style={{ color: '#333' }}>
-									<strong>Enjoy all your favorite movies & shows.</strong>
-								</Card.Text>
-							</motion.div>
-						</Row>
-					</Card.Body>
-				</Card>
-				<motion.div
-					className="d-flex justify-content-center darkFade w-100"
-					initial={{ y: 100, opacity: 0 }}
-					animate={{ y: 0, opacity: 1 }}
-					transition={{ duration: 1 }}
-				>
-					<Row className="justify-content-center w-50 extraShadow">
-						<Card className="glass-background p-0 ">
-							<Card.Body className="p-0">
-								<Container
-									className="cinemaThumbnail rounded"
-									fluid
-								></Container>
+								</Row>
 							</Card.Body>
 						</Card>
-					</Row>
-				</motion.div>
+						<motion.div
+							className="d-flex justify-content-center darkFade w-100"
+							initial={{ y: 100, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							transition={{ duration: 1 }}
+						>
+							<Row className="d-flex justify-content-center w-75 rounded">
+								<Col
+									xs={12}
+									sm={12}
+									lg={8}
+									className="bg-danger p-0 m-0 rounded"
+								>
+									<Card className="p-0 rounded bg-dark overflow-hidden borded-0">
+										<Card.Body className="bg-dark p-0">
+											<Container
+												className="cinemaThumbnail rounded p-0 m-0"
+												fluid
+											>
+												<Image src="movies.jpg" className="cinemaImage" />
+											</Container>
+										</Card.Body>
+									</Card>
+								</Col>
+							</Row>
+						</motion.div>
+					</>
+				)}
 			</Container>
 		</>
 	);

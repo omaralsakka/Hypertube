@@ -23,3 +23,15 @@ export const getOmdb = async (movie: Movie) => {
 	const resp = await axios.get(baseUrl);
 	return resp.data;
 };
+
+export const setPageLanguage = (i18n: any) => {
+	const selectedLang = localStorage.getItem('selectedLanguage');
+
+	if (selectedLang) {
+		const languageParsed = JSON.parse(selectedLang);
+		i18n.changeLanguage(languageParsed.language);
+	} else {
+		const userLanguage = { language: 'en' };
+		localStorage.setItem('selectedLanguage', JSON.stringify(userLanguage));
+	}
+};

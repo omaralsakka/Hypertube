@@ -9,6 +9,8 @@ import { motion } from 'framer-motion';
 import { trpc } from '../../utils/trpc';
 import CommentsSection from '../../components/commentsSection';
 import MovieDescription from '../../components/MovieDescription';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const streamMovie = (movie: Movie | undefined) => {
 	// THIS CHANGE IS IMPORTANT
@@ -19,30 +21,18 @@ const streamMovie = (movie: Movie | undefined) => {
 };
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 import MovieScreen from '../../components/MovieScreen';
-const skip = true;
+import LoadingLogo from '../../components/loadingLogo';
+
 const MoviePage = () => {
 	const router = useRouter();
-
-	// const { data, error } = trpc.comment.getMovieComments.useQuery(USER_QUERY,
-	// 	{
-	// 		imdb_code: parseInt(router.query.movieId as string),
-	// 	},
-	// 	skip: !router.isReady
-
-	// );
-
-	// const slug = router.query.slug;
-
-	const [shouldSkip, setShouldSkip] = useState(true);
-	const { isLoading, error, data } = trpc.comment.getMovieComments.useQuery({
-		variables: { imdb_code: parseInt(router.query.movieId as string) },
-		skip: true,
+	const { t }: i18translateType = useTranslation('common');
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: parseInt(router.query.movieId as string),
 	});
 	//TRPCClientError!router.isReady
 	useEffect(() => {
 		// setComments(data.comments as any);
 		if (data) {
-			// console.log(data.comments);
 			setComments(data.comments as any);
 		}
 	}, [data]);
@@ -58,11 +48,6 @@ const MoviePage = () => {
 	}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
 	const [comments, setComments] = useState([]);
-	const suggestedMovieStyle = {
-		maxWidth: '10vw',
-		width: '200px',
-		minWidth: '5vw',
-	};
 
 	useEffect(() => {
 		if (movieId?.length) {
@@ -95,7 +80,11 @@ const MoviePage = () => {
 	}, [movieInfo]);
 
 	if (!movie?.id) {
-		return <></>;
+		return (
+			<>
+				<LoadingLogo />
+			</>
+		);
 	} else {
 		return (
 			<>
@@ -123,14 +112,14 @@ const MoviePage = () => {
 										<Col sm={5} className="p-1">
 											<Container className="d-flex flex-column justify-content-center align-items-center">
 												<Card.Title className="fs-2 mb-4 text-dark">
-													Suggested movies
+													{t('movieInfo.suggested')}
 												</Card.Title>
 												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
 																movie={movie}
-																style={suggestedMovieStyle}
+																style="suggestedMovieStyle"
 																viewType="small"
 															/>
 														</div>

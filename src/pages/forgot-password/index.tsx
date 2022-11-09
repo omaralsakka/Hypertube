@@ -8,15 +8,16 @@ import * as z from 'zod';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { flexColCenter } from '../../styles/styleVariables';
-type Inputs = {
-	email: string;
-	username: string;
-};
+import { EmailInput } from '../../types/appTypes';
+import { useTranslation } from 'react-i18next';
+import { i18translateType } from '../../types/appTypes';
 
 const forgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [emailSent, setEmailSent] = useState(false);
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const { t }: i18translateType = useTranslation('common');
+
+	const onSubmit: SubmitHandler<EmailInput> = (data) => console.log(data);
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 	});
@@ -36,33 +37,31 @@ const forgotPassword = () => {
 		handleSubmit,
 		getValues,
 		formState: { errors, isSubmitting, isDirty, isValid },
-	} = useForm<Inputs>({
+	} = useForm<EmailInput>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
 	return (
 		<>
-			<Container className="d-flex justify-content-center p-3 mb-4">
-				<Card className="w-75 glass-background">
+			<Container className="d-flex justify-content-center p-5 mb-4">
+				<Card className="w-75 glass-background border-0">
 					<Card.Body>
 						{emailSent ? (
 							<div className={`${flexColCenter} w-75 m-auto`}>
 								<Card.Title className="display-6 text-dark mb-5">
-									<strong>Email sent</strong>
+									<strong>{t('form.emailSent')}Email sent</strong>
 								</Card.Title>
 								<Card.Title className="mb-5 w-50 text-center">
-									We have sent you an email with the login link, please check
-									your email.
+									{t('form.emailSentMsg')}
 								</Card.Title>
 							</div>
 						) : (
 							<div className={`${flexColCenter} w-75 m-auto`}>
 								<Card.Title className="display-6 text-dark mb-5">
-									<strong>Forgot password</strong>
+									<strong>{t('form.forgotPass')}Forgot password</strong>
 								</Card.Title>
 								<Card.Title className="mb-5 w-50 text-center">
-									Enter your email address below and we'll send you a link to
-									login with.
+									{t('form.forgotPassMsg')}
 								</Card.Title>
 								<Container className="d-flex justify-content-center">
 									<Form onSubmit={handleSubmit(onSubmit)}>
@@ -74,7 +73,7 @@ const forgotPassword = () => {
 														<Form.Control
 															id="loginEmail"
 															className="border-bottom comment-form bg-transparent"
-															placeholder="Email"
+															placeholder={t('form.email')}
 															type="email"
 															{...register('email')}
 														></Form.Control>
@@ -89,7 +88,7 @@ const forgotPassword = () => {
 													onClick={onEmailSubmit}
 													disabled={!isValid || !isDirty}
 												>
-													Submit
+													{t('form.submit')}
 												</Button>
 											</div>
 										</Form.Group>
@@ -97,8 +96,8 @@ const forgotPassword = () => {
 								</Container>
 								<div>
 									<p className="text-muted">
-										Would you like a new account?{' '}
-										<Link href="/signup">Sign up</Link>
+										{t('form.likeNewAcc')}{' '}
+										<Link href="/signup">{t('landing.signup')}</Link>
 									</p>
 								</div>
 							</div>
