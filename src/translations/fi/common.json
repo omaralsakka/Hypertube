@@ -63,6 +63,14 @@
 		"cancel": "Peruuttaa",
 		"readMore": "Lue Lisää"
 	},
+	"settings": {
+		"changeName": "Vaihtaa nimeä",
+		"changeEmail": "Vaihda sähköposti",
+		"changePass": "Vaihda salasana",
+		"saveChange": "Tallenna",
+		"providerMsg": "Olet kirjautunut sisään toisen palveluntarjoajan kanssa.<br />Vaihda sähköpostiosoitteesi ja salasanasi palveluntarjoajan kautta.",
+		"changesSaved": "Muutokset tallennettu onnistuneesti"
+	},
 	"footer": {
 		"developed": "Kehittäjät",
 		"project": "Projektin tekijä"

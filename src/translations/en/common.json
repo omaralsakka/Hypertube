@@ -63,6 +63,14 @@
 		"cancel": "Cancel",
 		"readMore:": "Read more"
 	},
+	"settings": {
+		"changeName": "Change name",
+		"changeEmail": "Change email",
+		"changePass": "Change password",
+		"saveChange": "Save changes",
+		"providerMsg": "You're logged in with another service provider. <br />Change your email and password via your provider.",
+		"changesSaved": "Changes saved successfully"
+	},
 	"footer": {
 		"developed": "Developed by",
 		"project": "Project by"
