@@ -8,23 +8,18 @@ type Inputs = {
 	search_term: string;
 	description: string;
 };
-// const schema = z.object({
-// 	search_term: z.string().min(1, { message: 'Required' }),
-// 	// description: z.string().min(1, { message: 'Required' }),
-// });
-
 type FilterInputs = {
-	fromYear: number;
-	toYear: number;
+	fromYear: string;
+	toYear: string;
 	genre: string;
-	imdbRating: number;
+	imdbRating: string;
 	orderBy: string;
 	sortBy: string;
 	quality: string;
-	seeds: number;
-	fromRunTime: number;
-	toRunTime: number;
-	limit: number;
+	seeds: string;
+	fromRunTime: string;
+	toRunTime: string;
+	limit: string;
 	description: string;
 };
 const Movies = () => {
@@ -34,29 +29,19 @@ const Movies = () => {
 	const [filterInputs, setFilterInputs] = useState({
 		orderBy: 'desc',
 		sortBy: 'rating',
-		imdbRating: 1,
+		imdbRating: '1',
 		genre: 'Horror',
-		seeds: 1,
-		fromYear: 0,
-		toYear: 2021,
+		seeds: '1',
+		fromYear: '0',
+		toYear: '2021',
 		search_term,
-		fromRunTime: 0,
-		toRunTime: 300,
-		limit: 50,
+		fromRunTime: '0',
+		toRunTime: '300',
+		limit: '50',
 		description: '',
+		quality: '720p',
 	});
-	// const {
-	// 	order,
-	// 	sort,
-	// 	imdbRating,
-	// 	genre,
-	// 	seeds,
-	// 	fromYear,
-	// 	toYear,
-	// 	fromRunTime,
-	// 	toRunTime,
-	// 	limit,
-	// } = filterInputs;
+
 	const { data, error } = trpc.movie.search.useQuery({
 		search_term,
 		fromYear: parseInt(filterInputs.fromYear),
@@ -82,8 +67,6 @@ const Movies = () => {
 	const onFilterChange = (e: any) => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 	};
-	// const onChange = (e) =>
-	// 	setInputs({ ...inputs, [e.target.name]: e.target.value });
 
 	return (
 		<>
@@ -93,9 +76,6 @@ const Movies = () => {
 					filterInputs={filterInputs}
 				/>
 			)}
-			{/* Title <input />
-			Description <input /> */}
-			{/* </Form> */}
 			Search title
 			<input name="search_term" onChange={onSearchChange} value={search_term} />
 			{data &&

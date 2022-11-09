@@ -63,7 +63,6 @@ export const movieRouter = router({
 		.query(async ({ input, ctx }) => {
 			console.log(input);
 			const movies: any = await ctx.prisma.movie.findMany({
-				// include: { torrent: true },
 				skip: 0,
 				take: 5,
 				where: {

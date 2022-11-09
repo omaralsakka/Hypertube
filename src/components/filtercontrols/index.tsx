@@ -13,20 +13,19 @@ var _ = require('lodash');
 import { useState, useEffect } from 'react';
 
 type FilterInputs = {
-	fromYear: number;
-	toYear: number;
+	fromYear: string;
+	toYear: string;
 	genre: string;
-	imdbRating: number;
+	imdbRating: string;
 	orderBy: string;
 	sortBy: string;
 	quality: string;
-	seeds: number;
-	fromRunTime: number;
-	toRunTime: number;
-	limit: number;
+	seeds: string;
+	fromRunTime: string;
+	toRunTime: string;
+	limit: string;
 	description: string;
 };
-
 const FilterControls = ({
 	onFilterChange,
 	filterInputs,
@@ -57,7 +56,7 @@ const FilterControls = ({
 					<Accordion.Body>
 						<Form>
 							<Form.Group className="mb-5">
-							<Form.Label className="fs-5">Description</Form.Label>
+								<Form.Label className="fs-5">Description</Form.Label>
 								<input
 									name="description"
 									onChange={(e) => onFilterChange(e)}
