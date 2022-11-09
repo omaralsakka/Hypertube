@@ -37,7 +37,7 @@ const LanguageMenu = () => {
 				id="dropdown-basic-button"
 				title={t(`nav.${selectedLang}`)}
 				className="border-0"
-				align="end"
+				align={{ lg: 'end' }}
 			>
 				<Container className="p-0">
 					<Dropdown.Item onClick={() => updatePageLanguage('en')}>
