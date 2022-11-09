@@ -47,7 +47,7 @@ const FilterControls = ({
 	// A Trip to the Moon (1902) is considered the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
 	const [ratings, setRatings] = useState(_.range(1, 10));
-	console.log(filterInputs);
+	// console.log(filterInputs);
 	return (
 		<>
 			<Accordion defaultActiveKey="0">
@@ -67,7 +67,7 @@ const FilterControls = ({
 									<Form.Label className="fs-5">From year</Form.Label>
 									<Form.Select
 										aria-label="From year"
-										defaultValue={new Date().getFullYear() - 10}
+										// defaultValue={new Date().getFullYear() - 10}
 										id="fromYear"
 										name="fromYear"
 										value={filterInputs.fromYear}
@@ -80,7 +80,7 @@ const FilterControls = ({
 									<Form.Label className="fs-5">To year</Form.Label>
 									<Form.Select
 										aria-label="To year"
-										defaultValue={2021}
+										// defaultValue={2021}
 										id="toYear"
 										name="toYear"
 										value={filterInputs.toYear}
@@ -95,7 +95,7 @@ const FilterControls = ({
 									<Form.Label className="fs-5">From runtime</Form.Label>
 									<Form.Select
 										aria-label="From runtime"
-										defaultValue={5}
+										// defaultValue={5}
 										id="fromRunTime"
 										name="fromRunTime"
 										value={filterInputs.fromRunTime}
@@ -114,7 +114,7 @@ const FilterControls = ({
 									<Form.Label className="fs-5">To runtime</Form.Label>
 									<Form.Select
 										aria-label="To runtime"
-										defaultValue={200}
+										// defaultValue={200}
 										id="toRunTime"
 										name="toRunTime"
 										value={filterInputs.toRunTime}
@@ -135,7 +135,7 @@ const FilterControls = ({
 									<div>
 										<Form.Select
 											aria-label="Order By"
-											defaultValue="Desc"
+											// defaultValue="Desc"
 											id="orderBy"
 											name="orderBy"
 											value={filterInputs.orderBy}
@@ -150,7 +150,7 @@ const FilterControls = ({
 									<Form.Label className="fs-5">Sort By</Form.Label>
 									<Form.Select
 										aria-label="Sort By"
-										defaultValue="rating"
+										// defaultValue="rating"
 										id="sortBy"
 										name="sortBy"
 										value={filterInputs.sortBy}
@@ -166,7 +166,7 @@ const FilterControls = ({
 									<div>
 										<Form.Select
 											aria-label="Quality"
-											defaultValue="720p"
+											// defaultValue="720p"
 											id="quality"
 											name="quality"
 											value={filterInputs.quality}
@@ -184,7 +184,7 @@ const FilterControls = ({
 									<div>
 										<Form.Select
 											aria-label="Seeds"
-											defaultValue="1"
+											// defaultValue="1"
 											id="seeds"
 											name="seeds"
 											value={filterInputs.seeds}
@@ -215,7 +215,7 @@ const FilterControls = ({
 									<Form.Label className="fs-5">Imdb rating</Form.Label>
 									<Form.Select
 										aria-label="Imdb rating"
-										defaultValue={7}
+										// defaultValue={7}
 										id="imdbRating"
 										name="imdbRating"
 										value={filterInputs.imdbRating}
