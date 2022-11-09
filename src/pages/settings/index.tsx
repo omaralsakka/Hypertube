@@ -59,11 +59,6 @@ const Settings = () => {
 		setValue('name', data.user?.name);
 		setCurrentImage(data.user?.image || '/defaultImg2.png');
 		setAccountType(data.user?.accounts[0]?.type);
-		// console.log('setting data');
-		// setValue('email', data.user?.email);
-		// setValue('name', data.user?.name);
-		// setCurrentImage(data.user?.image || '/defaultImg2.png');
-		// setAccountType(data.user?.accounts[0]?.type);
 	}, [data]);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
