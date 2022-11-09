@@ -68,7 +68,8 @@
 		"changeEmail": "Change email",
 		"changePass": "Change password",
 		"saveChange": "Save changes",
-		"providerMsg": "You're logged in with another service provider. <br />Change your email and password via your provider.",
+		"providerMsg1": "You're logged in with another service provider.",
+		"providerMsg2": "Change your email and password via your provider.",
 		"changesSaved": "Changes saved successfully"
 	},
 	"footer": {
