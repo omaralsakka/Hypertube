@@ -176,7 +176,7 @@ const Settings = () => {
 											type="submit"
 											className="btn btn-outline-danger btn-rounded btn-lg"
 											data-mdb-ripple-color="dark"
-											disabled={!isValid || !isDirty}
+											disabled={!isValid || !isDirty || mutation.isLoading}
 										>
 											Save changes
 										</button>

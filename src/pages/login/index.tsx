@@ -30,12 +30,14 @@ const Login = ({
 	const [passType, setPassType] = useState('password');
 	const [credentialsError, setCredentialsError] = useState(false);
 	const [verifiedError, setVerifiedError] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
 	const router = useRouter();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		event?.preventDefault();
+		setIsLoading(true);
 		console.log(data);
 		const user = await signIn('credentials', {
 			email: data.email,
@@ -44,6 +46,7 @@ const Login = ({
 			// redirect: false is required to be able to handle server side error messages gracefully. Without it error messages are hard to show in user friendly way.
 		});
 		console.log(user);
+		setIsLoading(false);
 		if (user?.error === 'CredentialsSignin')
 			setCredentialsError(true)
 		else
@@ -169,7 +172,7 @@ const Login = ({
 											<Button
 												type="submit"
 												variant="outline-warning"
-												disabled={!isValid || !isDirty}
+												disabled={!isValid || !isDirty || isLoading}
 											>
 												{t('landing.login')}
 											</Button>
