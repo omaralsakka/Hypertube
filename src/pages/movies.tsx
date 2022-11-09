@@ -12,27 +12,28 @@ type Inputs = {
 // 	search_term: z.string().min(1, { message: 'Required' }),
 // 	// description: z.string().min(1, { message: 'Required' }),
 // });
+
+type FilterInputs = {
+	fromYear: number;
+	toYear: number;
+	genre: string;
+	imdbRating: number;
+	orderBy: string;
+	sortBy: string;
+	quality: string;
+	seeds: number;
+	fromRunTime: number;
+	toRunTime: number;
+	limit: number;
+	description: string;
+};
 const Movies = () => {
 	const [search_term, setsearch_ter] = useState('');
 	let moviesData = [];
 
-	type FilterInputs = {
-		fromYear: number;
-		toYear: number;
-		genre: string;
-		imdbRating: string;
-		orderBy: string;
-		sortBy: string;
-		quality: string;
-		seeds: number;
-		fromRunTime: number;
-		toRunTime: number;
-		limit: number;
-		description: string;
-	};
 	const [filterInputs, setFilterInputs] = useState({
-		order: 'desc',
-		sort: 'rating',
+		orderBy: 'desc',
+		sortBy: 'rating',
 		imdbRating: 1,
 		genre: 'Horror',
 		seeds: 10,
@@ -60,6 +61,11 @@ const Movies = () => {
 		search_term,
 		fromYear: parseInt(filterInputs.fromYear),
 		toYear: parseInt(filterInputs.toYear),
+		fromRunTime: parseInt(filterInputs.fromRunTime),
+		toRunTime: parseInt(filterInputs.toRunTime),
+		imdbRating: parseInt(filterInputs.imdbRating),
+		orderBy: filterInputs.orderBy,
+		sortBy: filterInputs.sortBy,
 	});
 
 	const onSearchChange = (e: any) => {

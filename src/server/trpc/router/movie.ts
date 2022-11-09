@@ -48,11 +48,11 @@ export const movieRouter = router({
 				// genre: z.string(),
 				fromYear: z.number(),
 				toYear: z.number(),
-				// fromRunTime: z.number(),
-				// toRunTime: z.number(),
-				// imdbRating: z.number(),
-				// order: z.string(),
-				// sort: z.string(),
+				fromRunTime: z.number(),
+				toRunTime: z.number(),
+				imdbRating: z.number(),
+				orderBy: z.string(),
+				sortBy: z.string(),
 				// description: z.string(),
 				// limit: z.number(),
 				// seeds: z.number(),
@@ -67,7 +67,15 @@ export const movieRouter = router({
 				where: {
 					title: { contains: input.search_term, mode: 'insensitive' },
 					year: { gt: input.fromYear, lt: input.toYear },
+					runtime: {
+						gt: input.fromRunTime,
+						lt: input.toRunTime,
+					},
+					rating: {
+						gt: input.imdbRating,
+					},
 				},
+				orderBy: { [input.sortBy]: input.orderBy },
 				// where: {
 				// 	// torrent: {
 				// 	// 	seeds: { gt: 5 },
@@ -80,23 +88,10 @@ export const movieRouter = router({
 				// 	// 	contains: input.genre,
 				// 	// },
 
-				// 	description_full: { contains: input.description },
-				// 	year: {
-				// 		gt: input.fromYear,
-				// 		lt: input.toYear,
-				// 	},
-				// 	runtime: {
-				// 		gt: input.fromRunTime,
-				// 		lt: input.toRunTime,
-				// 	},
-				// 	rating: {
-				// 		gt: input.imdbRating,
-				// 	},
 				// 	torrent: {
 				// 		peers: { gt: 5 },
 				// 	},
 
-				// 	// orderBy: { [input.sort]: input.order },
 				// },
 			});
 			return {

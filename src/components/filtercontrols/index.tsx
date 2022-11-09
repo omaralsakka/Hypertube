@@ -75,6 +75,45 @@ const FilterControls = (props) => {
 									</Form.Select>
 								</div>
 								<div>
+									<Form.Label className="fs-5">From runtime</Form.Label>
+									<Form.Select
+										aria-label="From runtime"
+										defaultValue={45}
+										id="fromRunTime"
+										name="fromRunTime"
+										value={props.filterInputs.fromRunTime}
+										onChange={(e) => props.onFilterChange(e)}
+									>
+										<option value="0">0</option>
+										<option value="30">30</option>
+										<option value="60">60</option>
+										<option value="90">90</option>
+										<option value="120">120</option>
+										<option value="300">300</option>
+										<option value="5100">5100</option>
+									</Form.Select>
+								</div>
+								<div>
+									<Form.Label className="fs-5">To runtime</Form.Label>
+									<Form.Select
+										aria-label="To runtime"
+										defaultValue={90}
+										id="toRunTime"
+										name="toRunTime"
+										value={props.filterInputs.toRunTime}
+										onChange={(e) => props.onFilterChange(e)}
+									>
+										<option value="0">0</option>
+										<option value="30">30</option>
+										<option value="60">60</option>
+										<option value="90">90</option>
+										<option value="120">120</option>
+										<option value="300">300</option>
+										<option value="5100">5100</option>
+									</Form.Select>
+								</div>
+
+								<div>
 									<Form.Label className="fs-5">Order By</Form.Label>
 									<div>
 										<Form.Select
@@ -82,11 +121,11 @@ const FilterControls = (props) => {
 											defaultValue="Desc"
 											id="orderBy"
 											name="orderBy"
-											value={props.filterInputs.orderBy}
+											value={props.filterInputs.ordordererBy}
 											onChange={(e) => props.onFilterChange(e)}
 										>
-											<option value="Desc">Descending</option>
-											<option value="Asc">Ascending</option>
+											<option value="desc">Descending</option>
+											<option value="asc">Ascending</option>
 										</Form.Select>
 									</div>
 								</div>
