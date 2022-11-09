@@ -5,6 +5,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
+// User is redirected here, if they try to login with email before signing up.
 const SignUpFirst = () => {
 	const { t }: i18translateType = useTranslation('common');
 

@@ -1,13 +1,12 @@
-import { signEmailToken } from './promisifyJWT';
 import nodemailer from 'nodemailer';
-import { prisma } from '../server/db/client';
 const mailUser = process.env.EMAIL_SERVER_USER || 'jukkacamagru@outlook.com';
 const password = process.env.EMAIL_SERVER_PASSWORD || '';
 const host = process.env.NEXTAUTH_URL || 'http://localhost:3000'
 
+// Sends verification email to user
 export const sendEmailVerification = async (email: string, token: string) => {
 	try {
-		const url = `${host}/verifyemail/${token}`
+		const url = `${host}/verify-email/${token}`
 		const transporter = nodemailer.createTransport({
 			service: 'Outlook365',
 			auth: {

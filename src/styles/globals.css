@@ -194,6 +194,11 @@ input[type='file'] {
 	display: none;
 }
 
+.photo-upload {
+	max-width: 140px;
+	max-height: 140px;
+}
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -255,7 +260,7 @@ input[type='file'] {
 	}
 	.smallBtn {
 		display: block;
-		width: 100%;
+		/* width: 100%; */
 	}
 	.suggestedMovieStyle {
 		max-width: 20vw;
@@ -270,5 +275,9 @@ input[type='file'] {
 	}
 	.cinemaImage {
 		width: 180vw;
+	}
+	.photo-upload {
+		max-width: 120px;
+		max-height: 120px;
 	}
 }

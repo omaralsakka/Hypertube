@@ -20,7 +20,7 @@
 		"password": "Password",
 		"showPass": "show password",
 		"loginWith": "Login with",
-		"loginWithEmail": "Login with email",
+		"loginWithEmail": "Login with link",
 		"signupWith": "Signup with",
 		"signupWithEmail": "Signup with email",
 		"forgotPass": "Forgot password?",
@@ -61,7 +61,16 @@
 		"comments": "Comments",
 		"addComment": "Add comment",
 		"cancel": "Cancel",
-		"readMore:": "Read more"
+		"readMore": "Read more"
+	},
+	"settings": {
+		"changeName": "Change name",
+		"changeEmail": "Change email",
+		"changePass": "Change password",
+		"saveChange": "Save changes",
+		"providerMsg1": "You're logged in with another service provider.",
+		"providerMsg2": "Change your email and password via your provider.",
+		"changesSaved": "Changes saved successfully"
 	},
 	"footer": {
 		"developed": "Developed by",
