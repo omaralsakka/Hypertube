@@ -56,6 +56,7 @@ model User {
   emailToken    String?
   emailVerified DateTime?
   image         String?
+  firstLogin    Boolean  @default(true)
   accounts      Account[]
   sessions      Session[]
   Comment       Comment[]

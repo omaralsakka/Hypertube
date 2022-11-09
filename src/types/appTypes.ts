@@ -15,6 +15,7 @@ export type User = {
 	email: string;
 	image: string;
 	OAuth: boolean;
+	firstLogin: boolean;
 	emailVerified: string;
 };
 export type Movie = {

@@ -27,7 +27,7 @@ const Settings = () => {
 	const { t }: i18translateType = useTranslation('common');
 
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
-		{ id: session?.token?.user?.id },
+		{ id: session?.token?.user?.id ? session?.token?.user?.id : '0'},
 		{
 			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
 		}
@@ -54,15 +54,16 @@ const Settings = () => {
 	});
 
 	useEffect(() => {
-		if (!data) return;
-		setValue('email', data.user?.email);
-		setValue('name', data.user?.name);
+		if (!data?.user?.email || !data.user.name) return;
+		setValue('email', data.user.email);
+		setValue('name', data.user.name);
 		setCurrentImage(data.user?.image || '/defaultImg2.png');
 		setAccountType(data.user?.accounts[0]?.type);
 	}, [data]);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
+			if (!session?.token?.user?.id) return
 			console.log(data);
 			mutation.mutate({
 				id: session?.token?.user?.id,

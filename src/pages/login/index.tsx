@@ -103,7 +103,7 @@ const Login = ({
 			router.replace('/not-verified');
 		}, 2000)
 	}, [verifiedError, router.isReady]);
-
+	
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-3 mb-4">
