@@ -146,7 +146,7 @@ model Torrent {
   date_uploaded_unix String
   movieId            Int
   movie              Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
-  downloaded	Int
+  downloaded	Int?
 }
 
 model Subtitles {

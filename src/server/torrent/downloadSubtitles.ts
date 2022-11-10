@@ -78,7 +78,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 	)
 		.then((response) => response.json())
 		.then((response) => {
-			/* const subtitleID = response.data.filter(
+			const subtitleID = response.data.filter(
 				(resp: { id: string, attributes: { language: string } }) => { //  the logic in the filtering could be better if the condition was 
 																			  // most downloads instead of just the language.
 					if (
@@ -91,7 +91,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 					}
 				}
 			);
-			langObj = resetLangObj(); */
+			langObj = resetLangObj();
 
 			// !! could have check for if (data in response) just in case the OST API did not find any results.
 			response.data.forEach((subtitle: {id: string, attributes: { language: string }}) => {

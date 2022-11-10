@@ -33,7 +33,7 @@ const MovieScreen = ({
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
-		}, 500);
+		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
 
@@ -48,7 +48,7 @@ const MovieScreen = ({
 			if(session) {
 				const userId: string = session.token.user.id.toString();
 				const movieId: string = movie.id.toString()
-				try { // this is giving 500 error in web console. 'upsert' is undefined
+				try {
 					mutation.mutate({
 						user_id: userId,
 						movie_id: movieId,

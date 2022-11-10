@@ -2,8 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { downloadTorrent } from '../../server/torrent/downloadTorrent';
 import { downloadSubtitles } from '../../server/torrent/downloadSubtitles';
 import { prisma } from '../../server/db/client';
-import { Prisma } from '@prisma/client';
-const data = require('./movies.json');
+import fs from 'fs';
 interface torrentDataInter {
 	url: string;
 	hash: string;
@@ -52,8 +51,8 @@ export default async function streamVideo(
 		} catch (error) {
 			console.error(error);
 		}
-		if (!fs.existsSync(`./subtitles/${imdbCode}`))
-			downloadSubtitles(imdbCode);
+		/* if (!fs.existsSync(`./subtitles/${imdbCode}`)) // out of use for now because api limit is full
+			downloadSubtitles(imdbCode); */
 		if (isMovieDownloaded === null || isMovieDownloaded.downloaded === 0) {
 			try {
 				movieInfo = await downloadTorrent(uri, imdbCode, isMovieDownloaded);

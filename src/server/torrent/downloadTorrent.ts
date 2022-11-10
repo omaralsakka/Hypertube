@@ -55,7 +55,8 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 				) {
 					file.select();
 					if(movieDbInfo === null) {
-						const timestamp = Math.floor(Date.now()/1000).toString();
+						let timestamp: Date | string = new Date();
+						timestamp = timestamp.toString();
 						try {
 							newMovie = await prisma.movies.create({
 								data: {
