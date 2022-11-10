@@ -35,6 +35,17 @@ const Login = ({
 	const { t }: i18translateType = useTranslation('common');
 	const router = useRouter();
 
+
+	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		const email = getValues('email');
+		console.log(email);
+		const user = await signIn('email', {
+			email: email,
+			callbackUrl: 'http://localhost:3000/home',
+		});
+		console.log(user);
+	};
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		event?.preventDefault();
 		setIsLoading(true);
@@ -58,16 +69,6 @@ const Login = ({
 		if (user?.status === 200) {
 			setSuccess(true)
 		}
-	};
-	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		const email = getValues('email');
-		console.log(email);
-		const user = await signIn('email', {
-			email: email,
-			callbackUrl: 'http://localhost:3000/home',
-		});
-		console.log(user);
 	};
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),

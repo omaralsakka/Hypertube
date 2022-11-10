@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -51,7 +52,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   password      String?
   emailToken    String?
   emailVerified DateTime?
@@ -80,8 +81,67 @@ model Comment {
 }
 
 model Movies {
-  id            String    @id @default(cuid())
-  imdb_code 	String
-  movie_path 	String
-  size			Int
+  id         String @id @default(cuid())
+  imdb_code  String
+  movie_path String
+  size       Int
+}
+
+model Movie {
+  id                        Int          @id @unique
+  url                       String?
+  imdb_code                 String
+  title                     String
+  title_english             String?
+  title_long                String?
+  slug                      String?
+  year                      Int?
+  rating                    Float?
+  runtime                   Float?
+  summary                   String?
+  description_full          String?
+  synopsis                  String?
+  yt_trailer_code           String?
+  language                  String?
+  mpa_rating                String?
+  background_image          String?
+  background_image_original String?
+  small_cover_image         String?
+  medium_cover_image        String?
+  large_cover_image         String?
+  state                     String?
+  date_uploaded             String?
+  date_uploaded_unix        Int?
+  torrent                   Torrent[]
+  genre                     MovieGenre[]
+}
+
+model Genre {
+  id    Int          @id @unique @default(autoincrement())
+  name  String       @unique
+  genre MovieGenre[]
+}
+
+model MovieGenre {
+  id        Int    @id @unique @default(autoincrement())
+  genreName String
+  movieId   Int
+  genre     Genre  @relation(fields: [genreName], references: [name], onDelete: Cascade)
+  movie     Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+}
+
+model Torrent {
+  id                 Int     @id @unique @default(autoincrement())
+  url                String
+  hash               String
+  quality            String
+  type               String?
+  seeds              Int
+  peers              Int
+  size_bytes         BigInt
+  size               String
+  date_uploaded      String
+  date_uploaded_unix String
+  movieId            Int
+  movie              Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
 }

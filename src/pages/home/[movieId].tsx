@@ -29,9 +29,10 @@ const MoviePage = () => {
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: parseInt(router.query.movieId as string),
 	});
-
+	//TRPCClientError!router.isReady
 	useEffect(() => {
 		// setComments(data.comments as any);
+
 		if (data) {
 			setComments(data.comments as any);
 		}
@@ -150,7 +151,10 @@ const MoviePage = () => {
 										{comments && (
 											<Row>
 												<Col>
-													<CommentsSection comments={comments} />
+													<CommentsSection
+														comments={comments}
+														imdb_code={parseInt(router.query.movieId as string)}
+													/>
 												</Col>
 											</Row>
 										)}
@@ -166,3 +170,7 @@ const MoviePage = () => {
 };
 
 export default MoviePage;
+
+MoviePage.getInitialProps = async () => {
+	return {};
+};
