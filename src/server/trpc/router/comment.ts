@@ -4,9 +4,11 @@ import { TRPCError } from '@trpc/server';
 
 export const commentRouter = router({
 	getMovieComments: publicProcedure
-		.input(z.object({ imdb_code: z.number() }))
+		.input(z.object({ imdb_code: z.number().min(1) }))
 		.query(async ({ input, ctx }) => {
+			console.log(input);
 			const comments: any = await ctx.prisma.comment.findMany({
+
 				where: { imdb_code: input.imdb_code },
 				select: {
 					id: true,

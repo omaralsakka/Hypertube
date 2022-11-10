@@ -10,13 +10,14 @@ export type i18translateType = {
 };
 
 export type User = {
-	id: number;
-	username: string;
-	firstname: string;
-	lastname: string;
+	id: string;
+	name: string;
 	email: string;
 	image: string;
+	OAuth: boolean;
+	emailVerified: string;
 };
+
 export type Movie = {
 	background_image: string;
 	background_image_original: string;

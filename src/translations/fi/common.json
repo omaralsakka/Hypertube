@@ -6,23 +6,23 @@
 		"home": "Kotisivu",
 		"settings": "Asetukset",
 		"language": "Kieli",
-		"english": "Englanti",
-		"finnish": "Suomi",
+		"en": "Englanti",
+		"fi": "Suomi",
 		"logout": "Kirjaudu ulos"
 	},
 	"landing": {
 		"slogan": "Nauti kaikista suosikkielokuvistasi ja -ohjelmistasi.",
 		"login": "Kirjaudu sisään",
-		"signup": "Kirjaudu"
+		"signup": "Rekisteröidy"
 	},
 	"form": {
 		"email": "Sähköposti",
 		"password": "Salasana",
 		"showPass": "näytä salasana",
 		"loginWith": "Kirjaudu sisään",
-		"loginWithEmail": "Kirjaudu sisään",
-		"signupWith": "Kirjaudu",
-		"signupWithEmail": "Kirjaudu sähköpostilla",
+		"loginWithEmail": "kirjaudu sisään linkillä",
+		"signupWith": "Rekisteröidy",
+		"signupWithEmail": "Rekisteröidy sähköpostilla",
 		"forgotPass": "Unohtuiko salasana?",
 		"newSign": "Uutta Hypertubessa?",
 		"haveAccount": "Sinulla On tili?",
@@ -61,7 +61,16 @@
 		"comments": "Kommentit",
 		"addComment": "Lisää kommentti",
 		"cancel": "Peruuttaa",
-		"readMore:": "Lue Lisää"
+		"readMore": "Lue Lisää"
+	},
+	"settings": {
+		"changeName": "Vaihtaa nimeä",
+		"changeEmail": "Vaihda sähköposti",
+		"changePass": "Vaihda salasana",
+		"saveChange": "Tallenna",
+		"providerMsg1": "Olet kirjautunut sisään toisen palveluntarjoajan kanssa.",
+		"providerMsg2": "Vaihda sähköpostiosoitteesi ja salasanasi palveluntarjoajan kautta.",
+		"changesSaved": "Muutokset tallennettu onnistuneesti"
 	},
 	"footer": {
 		"developed": "Kehittäjät",

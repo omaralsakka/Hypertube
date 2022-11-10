@@ -7,52 +7,137 @@ import { useDispatch } from 'react-redux';
 import { setMovies } from '../../store/actions';
 import FilterControls from '../../components/filtercontrols';
 import { useSession } from 'next-auth/react';
+import LoadingLogo from '../../components/loadingLogo';
+import { trpc } from '../../utils/trpc';
+
+type Inputs = {
+	search_term: string;
+	description: string;
+};
+type FilterInputs = {
+	fromYear: string;
+	toYear: string;
+	genre: string;
+	imdbRating: string;
+	orderBy: string;
+	sortBy: string;
+	quality: string;
+	seeds: string;
+	fromRunTime: string;
+	toRunTime: string;
+	limit: string;
+	description: string;
+};
 
 const Home = () => {
-	const [movies, setMoviesState] = useState<Movies>();
-	const dispatch = useDispatch();
-	// const homeMovieStyle = {
-	// 	maxWidth: '20vw',
-	// 	minWidth: '15vw',
-	// 	maxHeight: '61vh',
-	// };
-	const getMovies = async () => {
-		try {
-			const response = await fetch('https://yts.mx/api/v2/list_movies.json');
-			const {
-				data: { movies },
-			} = await response.json();
-			return movies;
-		} catch (error) {
-			console.error(error);
-			return false;
-		}
-	};
-	useEffect(() => {
-		getMovies().then((resp) => {
-			if (resp) {
-				setMoviesState(resp);
-				dispatch(setMovies(resp));
-			}
-		});
-	}, []);
+	// const [movies, setMoviesState] = useState<Movies>();
+	// const dispatch = useDispatch();
+	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
+
+	// const getMovies = async () => {
+	// 	try {
+	// 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
+	// 		const {
+	// 			data: { movies },
+	// 		} = await response.json();
+	// 		return movies;
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 		return false;
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	getMovies().then((resp) => {
+	// 		if (resp) {
+	// 			setMoviesState(resp);
+	// 			dispatch(setMovies(resp));
+	// 		}
+	// 	});
+	// }, []);
+
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setLoader(false);
+	// 	}, 3000);
+	// }, []);
+
+	const [search_term, setsearch_ter] = useState('');
+	let moviesData = [];
+
+	const [filterInputs, setFilterInputs] = useState({
+		orderBy: 'desc',
+		sortBy: 'rating',
+		imdbRating: '1',
+		genre: 'Horror',
+		seeds: '1',
+		fromYear: '0',
+		toYear: '2021',
+		search_term,
+		fromRunTime: '0',
+		toRunTime: '300',
+		limit: '50',
+		description: '',
+		quality: '720p',
+	});
+
+	const { data, error } = trpc.movie.search.useQuery({
+		search_term,
+		fromYear: parseInt(filterInputs.fromYear),
+		toYear: parseInt(filterInputs.toYear),
+		fromRunTime: parseInt(filterInputs.fromRunTime),
+		toRunTime: parseInt(filterInputs.toRunTime),
+		imdbRating: parseInt(filterInputs.imdbRating),
+		orderBy: filterInputs.orderBy,
+		sortBy: filterInputs.sortBy,
+		quality: filterInputs.quality,
+		seeds: parseInt(filterInputs.seeds),
+		description: filterInputs.description,
+		genre: filterInputs.genre,
+	});
+
+	const onSearchChange = (e: any) => {
+		const { name, value } = e.target;
+		setsearch_ter(value);
+		// console.log(name);
+		// console.log(value);
+	};
+
+	const onFilterChange = (e: any) => {
+		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
+	};
+
 	return (
 		<>
-			<Container className="mb-4">
-				<SearchNavBar />
-			</Container>
-			<Container>{/* <FilterControls /> */}</Container>
-			<Container className="d-flex flex-wrap justify-content-center" fluid>
-				{movies &&
-					movies.map((movie: Movie) => (
-						<MovieCard
-							key={movie.id}
-							movie={movie}
-							style="homeMovieStyle"
-							viewType="full"
+			<Container className="d-flex flex-column" fluid>
+				{/* {loader ? (
+					<LoadingLogo />
+				) : ( */}
+				<>
+					<Container className="mb-4">
+						<SearchNavBar
+							onSearchChange={onSearchChange}
+							search_term={search_term}
 						/>
-					))}
+					</Container>
+					<Container>
+						<FilterControls
+							onFilterChange={onFilterChange}
+							filterInputs={filterInputs}
+						/>
+					</Container>
+					<Container className="d-flex flex-wrap justify-content-center" fluid>
+						{data?.movies.map((movie: Movie) => (
+							<MovieCard
+								key={movie.id}
+								movie={movie}
+								style="homeMovieStyle"
+								viewType="full"
+							/>
+						))}
+					</Container>
+				</>
 			</Container>
 		</>
 	);

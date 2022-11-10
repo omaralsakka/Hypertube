@@ -1,5 +1,5 @@
 import { DefaultSession, TokenSet } from 'next-auth';
-
+import { User } from './next-auth.d'
 declare module 'next-auth' {
 	/**
 	 * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -8,7 +8,7 @@ declare module 'next-auth' {
 		user?: {
 			id: string;
 		} & DefaultSession['user'];
-		token: TokenSet;
+		token: TokenSet & { user: User}
 	}
 }
 
