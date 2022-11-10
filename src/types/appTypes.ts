@@ -106,3 +106,9 @@ export type MoviePostInfo = {
 	movie_path: '';
 	size: 0;
 };
+
+export type WatchedMoviesUpsert = {
+    id?: string
+    user_id: string
+    movies: string
+  }

@@ -85,6 +85,8 @@ model Movies {
   imdb_code  String
   movie_path String
   size       Int
+  downloaded Int
+  date       String
 }
 
 model Movie {
@@ -144,4 +146,18 @@ model Torrent {
   date_uploaded_unix String
   movieId            Int
   movie              Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  downloaded	Int?
+}
+
+model Subtitles {
+	id			  String    @id @default(cuid())
+	imdb_code	String
+	language	String
+	path		String
+}
+
+model WatchedMovies {
+  id			String    @id @default(cuid())
+  user_id String    @unique
+  movies  String[]
 }

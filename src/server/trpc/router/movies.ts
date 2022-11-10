@@ -1,43 +1,40 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
-import { prisma } from '../../../server/db/client';
+import { WatchedMoviesUpsert } from '../../../types/appTypes';
 
 export const moviesRouter = router({
-	getMovieByImdb: publicProcedure
-		.input(z.object({ imdb_code: z.string() }))
-		.query(async ({ input, ctx }) => {
-			const movies: any = await ctx.prisma.movies.findFirst({
-				where: { imdb_code: input.imdb_code },
-			});
-			// console.log(movies);
-			if (!movies)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No movies found',
-					cause: input.imdb_code,
-				});
-			return {
-				movies,
-			};
-		}),
-
-	addMovie: publicProcedure
+	setMovieAsWatched: publicProcedure
 		.input(
-			z.object({ imdb_code: z.string().min(1), movie_path: z.string().min(1) })
+			z.object({ user_id: z.string().min(1), movie_id: z.string().min(1) })
 		)
 		.mutation(async ({ input, ctx }) => {
-			// console.log(input);
-			const newMovie: any = await ctx.prisma.movies.create({
-				data: {
-					imdb_code: input.imdb_code,
-					movie_path: input.movie_path,
-					size: 1, // property size is missing need add something
+			let isWatched: boolean = false;
+			const userData = await ctx.prisma.watchedMovies.findFirst({
+				where: {
+					user_id: input.user_id,
 				},
-			});
-			// console.log(newMovie);
+			})
+			if(userData !== null &&userData.movies.includes(input.movie_id)) {
+				isWatched = true;
+			}
+			if(isWatched === false){
+				const watchedMovie = await ctx.prisma.watchedMovies.upsert({
+					where: {
+						user_id: input.user_id,
+					  },
+					update: {
+						movies: {
+							push: input.movie_id,
+						}
+					},
+					create: {
+					  user_id: input.user_id,
+					  movies: input.movie_id,
+					} as WatchedMoviesUpsert
+				});
+			}
 			return {
-				message: 'Movie inserted into table successfully',
+				message: 'Movie set as watched into table successfully',
 			};
 		}),
 });
