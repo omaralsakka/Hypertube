@@ -17,6 +17,7 @@ export type User = {
 	OAuth: boolean;
 	emailVerified: string;
 };
+
 export type Movie = {
 	background_image: string;
 	background_image_original: string;

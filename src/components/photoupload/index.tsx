@@ -96,7 +96,6 @@ const PhotoUpload = ({
 						/>
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
-					{/* <div className="settingsImg"> */}
 					<img
 						src={`${photo}`}
 						alt="user profile image"
@@ -106,7 +105,6 @@ const PhotoUpload = ({
 							currentTarget.src = '/defaultImg2.png';
 						}}
 					/>
-					{/* </div> */}
 				</div>
 			</div>
 		</>
