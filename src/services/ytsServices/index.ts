@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { MovieId } from '../../types/appTypes';
 const baseUrl = 'https://yts.mx/api/v2/';
+// import { Prisma } from '@prisma/client';
+// import { prisma } from '../../server/db/client';
+// const data = require('./data.json');
 
 export const getSuggestedMovies = async (movieId: number) => {
 	try {

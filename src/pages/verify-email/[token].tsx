@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
@@ -7,6 +7,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
+// Users are directed to this page from the verification link on their emails
 const VerifyEmail = () => {
 	const router = useRouter();
 	const mutation = trpc.emailtoken.verify.useMutation();
@@ -16,6 +17,13 @@ const VerifyEmail = () => {
 		const { token } = router.query;
 		mutation.mutate({ token: token as string });
 	}, [router.query]);
+
+	useEffect(() => {
+		if (!mutation.isSuccess) return
+		setTimeout(() => {
+			signOut({ callbackUrl: 'http://localhost:3000/login' })
+		}, 2000)
+	}, [mutation.isSuccess]);
 
 	return (
 		<>

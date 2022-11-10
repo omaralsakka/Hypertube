@@ -8,7 +8,6 @@ import { movieRate, getOmdb } from '../../utils/helperFunctions';
 import { motion } from 'framer-motion';
 import { trpc } from '../../utils/trpc';
 import CommentsSection from '../../components/commentsSection';
-import axios from 'axios';
 import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
@@ -22,6 +21,7 @@ const streamMovie = (movie: Movie | undefined) => {
 };
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 import MovieScreen from '../../components/MovieScreen';
+import LoadingLogo from '../../components/loadingLogo';
 
 const MoviePage = () => {
 	const router = useRouter();
@@ -29,9 +29,10 @@ const MoviePage = () => {
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: parseInt(router.query.movieId as string),
 	});
-
+	//TRPCClientError!router.isReady
 	useEffect(() => {
 		// setComments(data.comments as any);
+
 		if (data) {
 			setComments(data.comments as any);
 		}
@@ -94,7 +95,11 @@ const MoviePage = () => {
 	}, [movieInfo]); */
 
 	if (!movie?.id) {
-		return <></>;
+		return (
+			<>
+				<LoadingLogo />
+			</>
+		);
 	} else {
 		return (
 			<>
@@ -160,7 +165,10 @@ const MoviePage = () => {
 										{comments && (
 											<Row>
 												<Col>
-													<CommentsSection comments={comments} />
+													<CommentsSection
+														comments={comments}
+														imdb_code={parseInt(router.query.movieId as string)}
+													/>
 												</Col>
 											</Row>
 										)}
@@ -176,3 +184,7 @@ const MoviePage = () => {
 };
 
 export default MoviePage;
+
+MoviePage.getInitialProps = async () => {
+	return {};
+};
