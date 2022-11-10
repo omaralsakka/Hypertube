@@ -81,17 +81,18 @@ model Comment {
 
 model Movies {
   id            String    @id @default(cuid())
-  imdb_code 	String
-  movie_path 	String
-  size			Int
-  downloaded	Int
+  imdb_code 	  String
+  movie_path 	  String
+  size			    Int
+  downloaded	  Int
+  date          String
 }
 
 model Subtitles {
-	id			String    @id @default(cuid())
+	id			  String    @id @default(cuid())
 	imdb_code	String
 	language	String
-	path		String
+	path		  String
 }
 
 model WatchedMovies {

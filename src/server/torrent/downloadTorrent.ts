@@ -8,6 +8,7 @@ interface DatabaseInfo {
 	movie_path: string;
 	size: number;
 	downloaded: number;
+	date: string;
 };
 
 export const downloadTorrent = async (magnetLink: string, imdbCode: string, movieDbInfo: DatabaseInfo | null) =>
@@ -54,6 +55,7 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 				) {
 					file.select();
 					if(movieDbInfo === null) {
+						const timestamp = Math.floor(Date.now()/1000).toString();
 						try {
 							newMovie = await prisma.movies.create({
 								data: {
@@ -61,6 +63,7 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 									movie_path: file.path,
 									size: file.length,
 									downloaded: 0,
+									date: timestamp,
 								},
 							});
 						} catch (error) {
