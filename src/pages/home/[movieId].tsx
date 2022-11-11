@@ -42,6 +42,7 @@ const MoviePage = () => {
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
 	const [movieUrl, setMovieUrl] = useState('');
+	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
 	const [movieInfo, setMovieInfo] = useState<MoviePostInfo>({
 		imdb_code: '',
 		movie_path: '',
@@ -71,14 +72,27 @@ const MoviePage = () => {
 		}
 	}, [movie]);
 
-	useEffect(() => {
+	/* const handleClick = async () => {
+		// THESE CHANGES ARE IMPORTANT
+		const result = await axios.post('/api/video/', movie);
+		setMovieInfo(result.data.data);
+		if (movie) {
+			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`, {
+			});
+			console.log(subsArray.data);
+			setSubtitles(subsArray.data);
+			setLoading(true);
+		}
+	}; */
+
+	/* useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
 		}, 500);
 		return () => clearTimeout(timeout);
-	}, [movieInfo]);
+	}, [movieInfo]); */
 
 	if (!movie?.id) {
 		return (
