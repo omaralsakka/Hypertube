@@ -20,7 +20,9 @@ const schema = z.object({
 
 const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const router = useRouter();
+	const context = trpc.useContext();
 
+	const [comments, setComments] = useState([]);
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
@@ -35,7 +37,10 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				},
 				{
 					onSuccess: () => {
-						router.push(`/home/${imdb_code}`);
+						console.log(data);
+						//context.invalidate(['comment.getMovieComments']);
+						context.invalidate();
+						//setComments([...comments?.comments, newComment]);
 					},
 				}
 			);
@@ -43,9 +48,16 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 			console.log(err);
 		}
 	};
-	const { data, error } = trpc.comment.getMovieComments.useQuery({
-		imdb_code: parseInt(router.query.movieId as string),
-	});
+	const { data, error } = trpc.comment.getMovieComments.useQuery(
+		{
+			imdb_code: parseInt(router.query.movieId as string),
+		},
+		{
+			onSuccess(newComments) {
+				setComments(newComments);
+			},
+		}
+	);
 
 	// console.log(session?.user);
 	const {
@@ -103,8 +115,8 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				</Form>
 			</Row>
 			<Container fluid>
-				{data?.comments &&
-					data?.comments?.map((comment) => (
+				{comments?.comments &&
+					comments?.comments.map((comment) => (
 						<div key={comment?.id}>
 							<CommentRow comment={comment} />
 						</div>
