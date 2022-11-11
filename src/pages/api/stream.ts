@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
+
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 export const config = {
 	api: {
@@ -38,6 +41,7 @@ export default function createStream(
 		if(parsedRange !== null) {
 			parsedRange = Number(parsedRange[1]);
 		}
+
 		const isMp4 = videoPath.endsWith('mp4');
 		const videoSize = Number(fullSize[1]);
 		const CHUNK_SIZE = 20e6;
@@ -46,8 +50,8 @@ export default function createStream(
 		const end = isMp4
 		? Math.min(start + CHUNK_SIZE, videoSize - 1)
 		: videoSize - 1;
-		const contentLength = end - start + 1;
-		
+		const contentLength = (end - start) + 1;
+
 		const headers = isMp4
 		? {
 			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
@@ -56,10 +60,13 @@ export default function createStream(
 			'Content-Type': 'video/mp4',
 		}
 		: {
-			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
-			'Accept-Ranges': 'bytes',
-			'Content-Type': 'video/webm',
+			"Content-Range": `bytes ${start}-${end}/${videoSize}`,
+					"Accept-Ranges": "bytes",
+					"Content-Type": "video/matroska"
 		};
+
+		// still have to implement if user is using firefox videdo has to be converted to 'webm' and bitrate 512k
+
 		if(parsedRange !== null && parsedRange > fs.statSync(videoPath).size) {
 			res.status(216).send('Video download not finished.');
 		} else {
@@ -67,11 +74,15 @@ export default function createStream(
 		}
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
-			videoStream.pipe(res);
+			videoStream.pipe(res)
 		} else {
+			console.log("NOT MP4 !!!!");
 			ffmpeg(videoStream)
-				.format('webm')
-				.on('error', () => {})
+				.format('matroska')
+				.videoBitrate('2048k')
+				.on('error', (err) => { 
+					console.log('An error occurred: ' + err.message);
+				})
 				.pipe(res);
 		}
 	}
