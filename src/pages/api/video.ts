@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { downloadTorrent } from '../../server/torrent/downloadTorrent';
 import { prisma } from '../../server/db/client';
 import { Prisma } from '@prisma/client';
-const data = require('./movies.json');
 interface torrentDataInter {
 	url: string;
 	hash: string;
