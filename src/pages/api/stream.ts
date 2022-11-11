@@ -42,7 +42,12 @@ export default function createStream(
 			parsedRange = Number(parsedRange[1]);
 		}
 
-		const isMp4 = videoPath.endsWith('mp4');
+		let isMp4:boolean;
+		if(videoPath.endsWith('mp4') && videoPath.includes('YTS')) {
+			isMp4 = true;
+		} else {
+			isMp4 = false;
+		}
 		const videoSize = Number(fullSize[1]);
 		const CHUNK_SIZE = 20e6;
 		let start = Number(range.replace(/\D/g, ''));
