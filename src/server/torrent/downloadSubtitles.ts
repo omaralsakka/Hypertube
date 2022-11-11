@@ -96,25 +96,27 @@ export const downloadSubtitles = async (imdbCode: string) => {
 			);
 			langObj = resetLangObj();
 			// !! could have check for if (data in response) just in case the OST API did not find any results.
-			subtitleID.forEach((subtitle: {id: string, attributes: { language: string }}) => {
-
-				const optionsDownload = {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json', 
-						'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
-					},
-					body: `{"file_id":${subtitle.id},
-						"sub_format": "webvtt"}`,
-				};
-
-				fetch('https://api.opensubtitles.com/api/v1/download', optionsDownload)
-					.then((response) => response.json())
-					.then(response => {
-						download(response.link, `./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`, imdbCode, subtitle)
-					})
-					.catch(err => console.error(err));
-			});
+			if(subtitleID !== null) {
+				subtitleID.forEach((subtitle: {id:string, attributes: { language: string , files:[{file_id:number}]}}) => {
+	
+					const optionsDownload = {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json', 
+							'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
+						},
+						body: `{"file_id":${subtitle.attributes.files[0].file_id},
+							"sub_format": "webvtt"}`,
+					};
+	
+					fetch('https://api.opensubtitles.com/api/v1/download', optionsDownload)
+						.then((response) => response.json())
+						.then(response => {
+							download(response.link, `./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`, imdbCode, subtitle)
+						})
+						.catch(err => console.error(err));
+				});
+			}
 		})
 		.catch((err) => console.error(err));
 };
