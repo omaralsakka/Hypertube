@@ -43,7 +43,11 @@ const MovieScreen = ({
 			const result = await axios.post('/api/video/', movie);
 			setMovieInfo(result.data.data);
 			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
-			setSubtitles(subsArray.data);
+			if(subsArray) {
+				setSubtitles(subsArray.data);
+			} else {
+				setSubtitles([]);
+			}
 			setIsLoading(true);
 			if(session) {
 				const userId: string = session.token.user.id.toString();

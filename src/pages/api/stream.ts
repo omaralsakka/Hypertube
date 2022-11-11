@@ -16,9 +16,8 @@ export default function createStream(
 	const regexImdb = /imdbCode=(.*?)&/;
 	const regexSize = /size=(.*)/;
 	const regexRange = /bytes=(.*)-/;
-	let moviePath: any = req.url?.match(regexPath); // fix typescript have to have check for if req.url exists before assigning values for these variables 
-	//moviePath = moviePath[1]?.split('%20').join(' ');
-	moviePath = decodeURI( moviePath[1]) // test if this works to remove encoded uri characters
+	let moviePath: any = req.url?.match(regexPath); // fix typescript // have to have check for if req.url exists before assigning values for these variables 
+	moviePath = decodeURI( moviePath[1]);
 	const imdbCode: any = req.url?.match(regexImdb); // fix typescript
 	const fullSize: any = req.url?.match(regexSize); // fix typescript
 	const range = req.headers.range;
