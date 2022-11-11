@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
+import { useRouter } from 'next/router';
 
 type Inputs = {
 	comment_text: string;
@@ -17,29 +18,36 @@ const schema = z.object({
 	comment_text: z.string().min(1, {}),
 });
 
-const CommentsSection = ({
-	comments,
-	imdb_code,
-}: {
-	comments: Comment[];
-	imdb_code: number;
-}) => {
+const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
+	const router = useRouter();
+
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
 	const addComment = (imdb_code: number, comment_text: string) => {
 		try {
-			mutation.mutate({
-				imdb_code,
-				comment_text,
-				//user_id: session?.user.id,
-				user_id: 'cl9zq8f8m0000pj0i88z7ju3f',
-			});
+			mutation.mutate(
+				{
+					imdb_code,
+					comment_text,
+					//user_id: session?.user.id,
+					user_id: 'cl9zd7hek00003b6khtorizoc',
+				},
+				{
+					onSuccess: () => {
+						router.push(`/home/${imdb_code}`);
+					},
+				}
+			);
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	console.log(session?.user);
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: parseInt(router.query.movieId as string),
+	});
+
+	// console.log(session?.user);
 	const {
 		watch,
 		register,
@@ -61,7 +69,7 @@ const CommentsSection = ({
 		<>
 			<Row className="mb-2">
 				<Card.Title>
-					{comments?.length} {t('movieInfo.comments')}
+					{data?.comments?.length} {t('movieInfo.comments')}
 				</Card.Title>
 			</Row>
 			<Row className="mb-3">
@@ -71,7 +79,7 @@ const CommentsSection = ({
 							className="border-bottom comment-form bg-transparent"
 							placeholder="Add comment"
 							{...register('comment_text')}
-							placeholder={t('movieInfo.addComment')}
+							// placeholder={t('movieInfo.addComment')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>
 					</Form.Group>
@@ -95,8 +103,8 @@ const CommentsSection = ({
 				</Form>
 			</Row>
 			<Container fluid>
-				{comments &&
-					comments?.map((comment) => (
+				{data?.comments &&
+					data?.comments?.map((comment) => (
 						<div key={comment?.id}>
 							<CommentRow comment={comment} />
 						</div>
