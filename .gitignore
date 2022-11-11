@@ -50,3 +50,6 @@ package-lock.json
 /subtitles/*
 
 /config/secrets
+
+#uploaded Images
+/public/images/*.jpeg
