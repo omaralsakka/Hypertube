@@ -2,6 +2,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import common_en from '../../translations/en/common.json';
 import common_fi from '../../translations/fi/common.json';
+import common_cn from '../../translations/cn/common.json';
 import { ReactNode } from 'react';
 
 i18next.init({
@@ -13,6 +14,9 @@ i18next.init({
 		},
 		fi: {
 			common: common_fi,
+		},
+		cn: {
+			common: common_cn,
 		},
 	},
 });
