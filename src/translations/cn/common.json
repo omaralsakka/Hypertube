@@ -1,0 +1,71 @@
+{
+	"welcome": {
+		"title": "欢迎来到 Hypertube"
+	},
+	"nav": {
+		"home": "主页",
+		"settings": "设置",
+		"language": "语言",
+		"en": "English",
+		"fi": "Suomi",
+		"cn": "中文",
+		"logout": "退出"
+	},
+	"landing": {
+		"slogan": "尽享所有你想要看的电影和电视节目",
+		"login": "登陆",
+		"signup": "注册"
+	},
+	"form": {
+		"email": "邮箱",
+		"password": "密码",
+		"showPass": "显示密码",
+		"loginWith": "登陆方式",
+		"loginWithEmail": "邮箱登录",
+		"signupWith": "注册方式",
+		"signupWithEmail": "邮箱注册",
+		"forgotPass": "忘记密码?",
+		"newSign": "Hypertube的新用户?",
+		"haveAccount": "是否已有账号?",
+		"name": "用户名",
+		"register": "注册",
+		"newPass": "新密码",
+		"pleaseEnterPass": "请输入新密码",
+		"submit": "提交",
+		"emailSent": "发送到邮箱",
+		"emailSentMsg": "我们已经将登陆链接发送至您的邮箱，请查看您的邮箱。",
+		"forgotPassMsg": "在下方输入您的邮箱账号，我们将给您发送登陆链接。",
+		"likeNewAcc": "您需要注册新账号吗",
+		"sendNewLink": "发送新的验证链接",
+		"linkSent": "验证链接已经发送成功",
+		"checkYourEmail": "查看您的邮箱验证您的账号。",
+		"emailUnverified": "您的邮箱还未验证",
+		"followLink": "继续在邮箱中按照链接提示操作",
+		"requestLink": "如果您没接手到邮箱验证，请在下方寻求新的验证。",
+		"errorOccurred": "一个错误提示出现",
+		"signupFirst": "请先登陆",
+		"verifyingEmail": "正在验证您的邮箱地址",
+		"verified": "验证成功",
+		"emailVerified": "邮箱已验证，请继续登陆"
+	},
+	"signupImage": {
+		"title": "上传您的图片",
+		"body": "请选择上传一张图片"
+	},
+	"movieInfo": {
+		"category": "类型",
+		"suggested": "推荐的电影",
+		"plot": "剧情",
+		"country": "国家",
+		"actors": "演员",
+		"director": "导演",
+		"comments": "评计",
+		"addComment": "添加评价",
+		"cancel": "取消",
+		"readMore": "更多信息"
+	},
+	"footer": {
+		"developed": "开发者",
+		"project": "项目制作者"
+	}
+}
