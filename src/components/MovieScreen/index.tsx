@@ -26,7 +26,7 @@ const MovieScreen = ({
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [subtitles, setSubtitles] = useState([]);
 	const { data: session } = useSession(); // for the user
-	const mutation = trpc.movies.setMovieAsWatched.useMutation();
+	// const mutation = trpc.movies.setMovieAsWatched.useMutation();
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -42,20 +42,22 @@ const MovieScreen = ({
 		if (movie) {
 			const result = await axios.post('/api/video/', movie);
 			setMovieInfo(result.data.data);
-			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
+			const subsArray = await axios.get(
+				`/api/subtitles?imdbCode=${movie.imdb_code}`
+			);
 			setSubtitles(subsArray.data);
 			setIsLoading(true);
-			if(session) {
+			if (session) {
 				const userId: string = session.token.user.id.toString();
-				const movieId: string = movie.id.toString()
-				try {
-					mutation.mutate({
-						user_id: userId,
-						movie_id: movieId,
-					});
-				} catch (err) {
-					console.log(err);
-				}
+				const movieId: string = movie.id.toString();
+				// try {
+				// 	mutation.mutate({
+				// 		user_id: userId,
+				// 		movie_id: movieId,
+				// 	});
+				// } catch (err) {
+				// 	console.log(err);
+				// }
 			}
 		}
 	};
@@ -77,7 +79,7 @@ const MovieScreen = ({
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles}/>
+							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles} />
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">

@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react';
 
 interface Subtitles {
 	default: boolean;
@@ -10,18 +10,23 @@ interface Subtitles {
 	srcLang: string;
 }
 
-const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subtitles[] | any }) => {
-	
+const MoviePlayer = ({
+	movieUrl,
+	subtitles,
+}: {
+	movieUrl: string;
+	subtitles: Subtitles[] | any;
+}) => {
 	const playerRef = useRef(null);
 
-	const onError = useCallback(() => {
-		if(playerRef.current !== null) {
-			playerRef.current.seekTo(0, 'seconds'); // THINK ABOUT THIS, WORKS AND COMPILES BUT GOOD TO GET RID OF THIS.
-			// if we want we can output some message for the user 
-			// that the movie has not downloaded enough to seek to
-			/// users desired seconds/bytes
-		}
-	}, [playerRef.current])
+	// const onError = useCallback(() => {
+	// 	if(playerRef.current !== null) {
+	// 		playerRef.current.seekTo(0, 'seconds'); // THINK ABOUT THIS, WORKS AND COMPILES BUT GOOD TO GET RID OF THIS.
+	// 		// if we want we can output some message for the user
+	// 		// that the movie has not downloaded enough to seek to
+	// 		/// users desired seconds/bytes
+	// 	}
+	// }, [playerRef.current])
 
 	return (
 		<>
@@ -36,7 +41,7 @@ const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subt
 					controls={true}
 					playing={true}
 					width="100%"
-					onError={onError}
+					// onError={onError}
 					style={{
 						objectFit: 'cover',
 						minHeight: '720px',

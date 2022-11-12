@@ -71,7 +71,6 @@ const CommentsSection = ({
 							className="border-bottom comment-form bg-transparent"
 							placeholder="Add comment"
 							{...register('comment_text')}
-							placeholder={t('movieInfo.addComment')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>
 					</Form.Group>

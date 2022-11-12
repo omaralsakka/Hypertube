@@ -66,7 +66,7 @@ export const movieRouter = router({
 				skip: 0,
 				take: 20,
 				where: {
-					title: { contains: input.search_term, mode: 'insensitive' },
+					// title: { contains: input.search_term, mode: 'insensitive' },
 					year: { gt: input.fromYear, lt: input.toYear },
 					runtime: {
 						gt: input.fromRunTime,
@@ -75,10 +75,10 @@ export const movieRouter = router({
 					rating: {
 						gt: input.imdbRating,
 					},
-					description_full: {
-						contains: input.description,
-						mode: 'insensitive',
-					},
+					// description_full: {
+					// 	contains: input.description,
+					// 	mode: 'insensitive',
+					// },
 					torrent: {
 						some: {
 							quality: {
@@ -99,6 +99,7 @@ export const movieRouter = router({
 				},
 				orderBy: { [input.sortBy]: input.orderBy },
 			});
+			console.log(movies);
 			return {
 				movies,
 			};

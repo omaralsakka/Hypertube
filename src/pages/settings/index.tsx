@@ -55,8 +55,8 @@ const Settings = () => {
 
 	useEffect(() => {
 		if (!data) return;
-		setValue('email', data.user?.email);
-		setValue('name', data.user?.name);
+		// setValue('email', data.user?.email);
+		// setValue('name', data.user?.name);
 		setCurrentImage(data.user?.image || '/defaultImg2.png');
 		setAccountType(data.user?.accounts[0]?.type);
 	}, [data]);
