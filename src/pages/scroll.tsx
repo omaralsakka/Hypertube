@@ -13,9 +13,11 @@ function Scroll() {
 	// 		setItems(items.concat(Array.from({ length: 20 })));
 	// 	}, 1500);
 	// };
-	const [page, setPage] = useState(1);
+	const [page, setPage] = useState(0);
 
 	const [search_term, setsearch_ter] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+
 	let moviesData = [];
 
 	const [filterInputs, setFilterInputs] = useState({
@@ -111,7 +113,7 @@ function Scroll() {
 		console.log(response.data);
 		// setMovies(response.data);
 
-		if (response.data.length < 5) {
+		if (response.data.length < 50) {
 			setHasMore(false);
 		}
 		movies;
@@ -127,11 +129,9 @@ function Scroll() {
 		// }
 	};
 
-	const icrementPage = () => {
+	const incrementPage = () => {
 		setPage(page + 1);
-		// setTimeout(() => {
 		getMoviesTwo();
-		// }, 1500);
 
 		console.log('page change ' + page.toString());
 	};
@@ -142,7 +142,7 @@ function Scroll() {
 			<input name="search_term" onChange={onSearchChange} value={search_term} />
 			<InfiniteScroll
 				dataLength={page * movies.length} //This is important field to render the next data
-				next={icrementPage}
+				next={incrementPage}
 				hasMore={hasMore}
 				loader={<h4>Loading...</h4>}
 				endMessage={
@@ -163,10 +163,11 @@ function Scroll() {
 			>
 				{movies &&
 					movies.map((movie: Movie) => (
-						<div style={style} key={movie.title}>
-							<option>
+						<div key={movie.title}>
+							<>
+								<img src={movie.medium_cover_image}></img>
 								{movie?.title} {movie.rating}
-							</option>
+							</>
 						</div>
 					))}
 			</InfiniteScroll>

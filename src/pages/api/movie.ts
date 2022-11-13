@@ -9,8 +9,8 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 		console.log(req.body);
 		console.log('bodybody');
 		const movies: any = await prisma.movie.findMany({
-			skip: input.page * 5,
-			take: 5,
+			skip: input.page * 50,
+			take: 50,
 			where: {
 				title: { contains: input.search_term, mode: 'insensitive' },
 				year: { gt: input.fromYear, lt: input.toYear },
