@@ -141,7 +141,7 @@ function Scroll() {
 			Search title
 			<input name="search_term" onChange={onSearchChange} value={search_term} />
 			<InfiniteScroll
-				dataLength={movies.length} //This is important field to render the next data
+				dataLength={page * movies.length} //This is important field to render the next data
 				next={icrementPage}
 				hasMore={hasMore}
 				loader={<h4>Loading...</h4>}
