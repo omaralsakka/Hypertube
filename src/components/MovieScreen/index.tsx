@@ -25,7 +25,7 @@ const MovieScreen = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [subtitles, setSubtitles] = useState([]);
-	const { data: session } = useSession(); // for the user
+	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 
 	useEffect(() => {
