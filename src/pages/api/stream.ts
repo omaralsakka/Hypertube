@@ -25,6 +25,15 @@ export default function createStream(
 	const fullSize: any = req.url?.match(regexSize); // fix typescript
 	const range = req.headers.range;
 	const videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
+	let browser = req.headers['user-agent']; // fix typescript
+
+	if (browser && browser.includes("Chrome")) {
+		browser = 'Chrome';
+	} else if (browser && browser.includes("Firefox")) {
+		browser = 'Firefox';
+	} else {
+		browser = 'Browser';
+	}
 
 	if (!range) {
 		console.log("No Range Defined");
@@ -56,7 +65,8 @@ export default function createStream(
 		? Math.min(start + CHUNK_SIZE, videoSize - 1)
 		: videoSize - 1;
 		const contentLength = (end - start) + 1;
-
+		// error - RangeError [ERR_OUT_OF_RANGE]: The value of "end" is out of range. It must be >= 0 && <= 9007199254740991. Received -1
+		// GOT THIS RANDOMLY IN THE SERVER LOG, I once thought about this '-1' thing and apparently it can be cause issues.
 		const headers = isMp4
 		? {
 			'Content-Range': `bytes ${start}-${end}/${videoSize}`,
@@ -70,8 +80,6 @@ export default function createStream(
 					"Content-Type": "video/matroska"
 		};
 
-		// still have to implement if user is using firefox videdo has to be converted to 'webm' and bitrate 512k
-
 		if(parsedRange !== null && parsedRange > fs.statSync(videoPath).size) {
 			res.status(216).send('Video download not finished.');
 		} else {
@@ -80,11 +88,18 @@ export default function createStream(
 		const videoStream = fs.createReadStream(videoPath, { start, end });
 		if (isMp4) {
 			videoStream.pipe(res)
-		} else {
-			console.log("NOT MP4 !!!!");
+		} else if (browser === 'Chrome'){
 			ffmpeg(videoStream)
 				.format('matroska')
 				.videoBitrate('2048k')
+				.on('error', (err) => { 
+					console.log('An error occurred: ' + err.message);
+				})
+				.pipe(res);
+		} else {
+			ffmpeg(videoStream)
+				.format('webm')
+				.videoBitrate('512k')
 				.on('error', (err) => { 
 					console.log('An error occurred: ' + err.message);
 				})
