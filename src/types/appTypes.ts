@@ -108,7 +108,22 @@ export type MoviePostInfo = {
 };
 
 export type WatchedMoviesUpsert = {
-    id?: string
-    user_id: string
-    movies: string
-  }
+	id?: string;
+	user_id: string;
+	movies: string;
+};
+
+export type FilterInputs = {
+	fromYear: string;
+	toYear: string;
+	genre: string;
+	imdbRating: string;
+	orderBy: string;
+	sortBy: string;
+	quality: string;
+	seeds: string;
+	fromRunTime: string;
+	toRunTime: string;
+	limit: string;
+	description: string;
+};

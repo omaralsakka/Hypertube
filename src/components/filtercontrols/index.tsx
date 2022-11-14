@@ -1,31 +1,11 @@
 import { Movie } from '../../types/appTypes';
-import {
-	Form,
-	Button,
-	Alert,
-	Card,
-	Container,
-	Accordion,
-} from 'react-bootstrap';
+import { Form, Accordion } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
+import { FilterInputs } from '../../types/appTypes';
 var _ = require('lodash');
 
 import { useState, useEffect } from 'react';
 
-type FilterInputs = {
-	fromYear: string;
-	toYear: string;
-	genre: string;
-	imdbRating: string;
-	orderBy: string;
-	sortBy: string;
-	quality: string;
-	seeds: string;
-	fromRunTime: string;
-	toRunTime: string;
-	limit: string;
-	description: string;
-};
 const FilterControls = ({
 	onFilterChange,
 	filterInputs,
@@ -47,7 +27,6 @@ const FilterControls = ({
 	// A Trip to the Moon (1902) is considered the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
 	const [ratings, setRatings] = useState(_.range(1, 10));
-	// console.log(filterInputs);
 	return (
 		<>
 			<Accordion defaultActiveKey="0">

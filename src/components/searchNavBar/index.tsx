@@ -1,13 +1,12 @@
 import { Container, Navbar, Form } from 'react-bootstrap';
-import { useState } from 'react';
 
 const SearchNavBar = ({
-	onSearchChange, search_term
+	onSearchChange,
+	search_term,
 }: {
 	onSearchChange: EventTarget | any;
-	search_term: string
+	search_term: string;
 }) => {
-
 	return (
 		<>
 			<Navbar
@@ -21,13 +20,12 @@ const SearchNavBar = ({
 						<span className="d-sm-none fs-6 ms-auto">Search</span>
 					</Container>
 					<Navbar.Collapse id="home-navbar">
-						<Form className="m-auto w-100">
+						<Form className="w-100">
 							<Form.Control
 								onChange={onSearchChange}
 								name="search_term"
 								value={search_term}
 								placeholder="What would you like to watch?"
-								className="me-2 border-0"
 								aria-label="Search"
 							/>
 						</Form>
