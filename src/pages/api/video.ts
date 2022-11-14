@@ -51,8 +51,8 @@ export default async function streamVideo(
 		} catch (error) {
 			console.error(error);
 		}
-		/* if (!fs.existsSync(`./subtitles/${imdbCode}`)) // out of use for now because api limit is full
-			downloadSubtitles(imdbCode); */
+		if (!fs.existsSync(`./subtitles/${imdbCode}`)) // out of use for now because api limit is full
+			downloadSubtitles(imdbCode);
 		if (isMovieDownloaded === null || isMovieDownloaded.downloaded === 0) {
 			try {
 				movieInfo = await downloadTorrent(uri, imdbCode, isMovieDownloaded);

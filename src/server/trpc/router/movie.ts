@@ -23,25 +23,6 @@ export const movieRouter = router({
 			};
 		}),
 
-	addMovie: publicProcedure
-		.input(
-			z.object({ imdb_code: z.string().min(1), movie_path: z.string().min(1) })
-		)
-		.mutation(async ({ input, ctx }) => {
-			// console.log(input);
-			const newMovie: any = await ctx.prisma.movies.create({
-				data: {
-					imdb_code: input.imdb_code,
-					movie_path: input.movie_path,
-					size: 1, // property size is missing need add something
-				},
-			});
-			// console.log(newMovie);
-			return {
-				message: 'Movie inserted into table successfully',
-			};
-		}),
-
 	search: publicProcedure
 		.input(
 			z.object({
