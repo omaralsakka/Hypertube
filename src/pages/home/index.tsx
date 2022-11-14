@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
 import { Movie } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
@@ -7,7 +7,7 @@ import FilterControls from '../../components/filtercontrols';
 import { useSession } from 'next-auth/react';
 import LoadingLogo from '../../components/loadingLogo';
 import { trpc } from '../../utils/trpc';
-
+import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
 const Home = () => {
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
@@ -61,14 +61,16 @@ const Home = () => {
 					<LoadingLogo />
 				) : ( */}
 				<>
-					<Container className="d-flex align-items-center justify-content-center border border-light rounded mb-4 mt-4 	w-50">
-						<div className="w-75">
+					<Container
+						className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
+					>
+						<div className="searchNavBar mb-sm-0 mb-3">
 							<SearchNavBar
 								onSearchChange={onSearchChange}
 								search_term={search_term}
 							/>
 						</div>
-						<div className="p-0">
+						<div className="p-0 mb-sm-0 mb-3">
 							<FilterControls
 								onFilterChange={onFilterChange}
 								filterInputs={filterInputs}
