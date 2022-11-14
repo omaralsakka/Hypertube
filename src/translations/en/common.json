@@ -51,6 +51,9 @@
 		"title": "Upload your picture",
 		"body": "Please select a picture to upload"
 	},
+	"search": {
+		"searchPlace": "What would you like to watch?"
+	},
 	"movieInfo": {
 		"category": "Category",
 		"suggested": "Suggested movies",
