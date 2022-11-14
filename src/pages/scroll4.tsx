@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+
+import { useLazyAxios } from 'use-axios-client';
 
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 
 function SimpleInfiniteList() {
 	//const { loading, items, hasNextPage, error, loadMore } = useLoadItems();
-	const [error, setError] = useState(undefined);
 	const hasNextPage = true;
 
 	// const [items, setItems] = useState(Array.from({ length: 20 }));
@@ -21,7 +21,6 @@ function SimpleInfiniteList() {
 	const [page, setPage] = useState(0);
 
 	const [search_term, setsearch_ter] = useState('');
-	const [loading, setLoading] = useState(false);
 
 	let moviesData = [];
 
@@ -44,40 +43,40 @@ function SimpleInfiniteList() {
 
 	const [movies, setMovies] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
-	useEffect(() => {
-		const getMovies = async () => {
-			const response = await axios('/api/movie', {
-				method: 'POST',
-				data: {
-					search_term,
-					fromYear: parseInt(filterInputs.fromYear),
-					toYear: parseInt(filterInputs.toYear),
-					fromRunTime: parseInt(filterInputs.fromRunTime),
-					toRunTime: parseInt(filterInputs.toRunTime),
-					imdbRating: parseInt(filterInputs.imdbRating),
-					orderBy: filterInputs.orderBy,
-					sortBy: filterInputs.sortBy,
-					quality: filterInputs.quality,
-					seeds: parseInt(filterInputs.seeds),
-					description: filterInputs.description,
-					genre: filterInputs.genre,
-					page,
-				},
-			});
-			setMovies(response.data);
-			// if (response.status === 201) {
-			// 	const data = await response.json();
-			// 	console.log(data);
-			// 	if (data.filename) setPhoto(`/images/${data.filename}`);
-			// } else {
-			// 	setFileError(true);
-			// }
-		};
-		setPage(page + 1);
-		console.log('getMovies');
-		console.log(movies);
-		getMovies();
-	}, [search_term]);
+	// useEffect(() => {
+	// 	const getMovies = async () => {
+	// 		const response = await axios('/api/movie', {
+	// 			method: 'POST',
+	// 			data: {
+	// 				search_term,
+	// 				fromYear: parseInt(filterInputs.fromYear),
+	// 				toYear: parseInt(filterInputs.toYear),
+	// 				fromRunTime: parseInt(filterInputs.fromRunTime),
+	// 				toRunTime: parseInt(filterInputs.toRunTime),
+	// 				imdbRating: parseInt(filterInputs.imdbRating),
+	// 				orderBy: filterInputs.orderBy,
+	// 				sortBy: filterInputs.sortBy,
+	// 				quality: filterInputs.quality,
+	// 				seeds: parseInt(filterInputs.seeds),
+	// 				description: filterInputs.description,
+	// 				genre: filterInputs.genre,
+	// 				page,
+	// 			},
+	// 		});
+	// 		setMovies(response.data);
+	// 		// if (response.status === 201) {
+	// 		// 	const data = await response.json();
+	// 		// 	console.log(data);
+	// 		// 	if (data.filename) setPhoto(`/images/${data.filename}`);
+	// 		// } else {
+	// 		// 	setFileError(true);
+	// 		// }
+	// 	};
+	// 	setPage(page + 1);
+	// 	console.log('getMovies');
+	// 	console.log(movies);
+	// 	getMovies();
+	// }, [search_term]);
 
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
@@ -85,7 +84,9 @@ function SimpleInfiniteList() {
 		console.log(name);
 		console.log(value);
 	};
-
+	// useEffect(() => {
+	// 	getData();
+	// }, []);
 	const onFilterChange = (e: any) => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 	};
@@ -96,50 +97,16 @@ function SimpleInfiniteList() {
 		margin: 6,
 		padding: 8,
 	};
-	const getMoviesTwo = async () => {
-		setError(true);
-		const response = await axios('/api/movie', {
-			method: 'POST',
-			data: {
-				search_term,
-				fromYear: parseInt(filterInputs.fromYear),
-				toYear: parseInt(filterInputs.toYear),
-				fromRunTime: parseInt(filterInputs.fromRunTime),
-				toRunTime: parseInt(filterInputs.toRunTime),
-				imdbRating: parseInt(filterInputs.imdbRating),
-				orderBy: filterInputs.orderBy,
-				sortBy: filterInputs.sortBy,
-				quality: filterInputs.quality,
-				seeds: parseInt(filterInputs.seeds),
-				description: filterInputs.description,
-				genre: filterInputs.genre,
-				page,
-			},
-		});
-		console.log(response.data);
-		// setMovies(response.data);
 
-		if (response.data.length < 50) {
-			setHasMore(false);
-		}
-		movies;
-		setMovies((movies) => [...movies, ...response.data]);
-		console.log(movies);
-		setError(undefined);
-		// if (response.status === 201) {
-		// 	const data = await response.json();
-		// 	console.log(data);
-		// 	if (data.filename) setPhoto(`/images/${data.filename}`);
-		// } else {
-		// 	setFileError(true);
-		// }
-	};
+	const [getData, { data, error, loading }] = useLazyAxios({
+		method: 'POST',
+		url: '/api/movie',
+	});
 
 	const incrementPage = async () => {
 		console.log('page');
 		setPage(page + 1);
-		getMoviesTwo();
-
+		// getData();
 		// 	setTimeout(() => {
 		// 		setItems(items.concat(Array.from({ length: 20 })));
 		// 	}, 1500);		console.log('page change ' + page.toString());
@@ -157,18 +124,46 @@ function SimpleInfiniteList() {
 		// visible, instead of becoming fully visible on the screen.
 		rootMargin: '0px 0px 400px 0px',
 	});
+	console.log(loading);
 
 	return (
 		<>
-			{movies &&
-				movies.map((movie: Movie) => (
+			<button
+				onClick={() =>
+					getData({
+						search_term,
+						fromYear: parseInt(filterInputs.fromYear),
+						toYear: parseInt(filterInputs.toYear),
+						fromRunTime: parseInt(filterInputs.fromRunTime),
+						toRunTime: parseInt(filterInputs.toRunTime),
+						imdbRating: parseInt(filterInputs.imdbRating),
+						orderBy: filterInputs.orderBy,
+						sortBy: filterInputs.sortBy,
+						quality: filterInputs.quality,
+						seeds: parseInt(filterInputs.seeds),
+						description: filterInputs.description,
+						genre: filterInputs.genre,
+						page: 1,
+					})
+				}
+			>
+				Get data
+			</button>
+			{/* <Suspense fallback={renderLoader()}> */}
+			{loading && <div>Loading...</div>}
+			{error && <div>{error.message}</div>}
+			{data && <div>{data}</div>}
+
+			{/* {data &&
+				data.map((movie: Movie) => (
 					<div key={movie.id}>
 						<>
 							<img src={movie.medium_cover_image}></img>
 							{movie?.id} {movie.rating}
 						</>
 					</div>
-				))}
+				))} */}
+			{/* </Suspense> */}
 			{/* 
               As long as we have a "next page", we show "Loading" right under the list.
               When it becomes visible on the screen, or it comes near, it triggers 'onLoadMore'.

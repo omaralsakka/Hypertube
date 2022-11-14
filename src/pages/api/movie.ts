@@ -1,15 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
 import axios from 'axios';
+const { Console } = require('console');
+const fs = require('fs');
 
+const myLogger = new Console({
+	stdout: fs.createWriteStream('normalStdout.txt'),
+	stderr: fs.createWriteStream('errStdErr.txt'),
+});
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
+	myLogger.log(req);
 	if (req.method === 'POST') {
 		const input = req.body;
-		console.log('bodybody');
-		console.log(req.body);
-		console.log('bodybody');
+
 		const movies: any = await prisma.movie.findMany({
-			skip: input.page * 50,
+			skip: 1 * 50,
 			take: 50,
 			where: {
 				title: { contains: input.search_term, mode: 'insensitive' },
@@ -48,6 +53,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 		// console.log(movies);
 
 		res.status(200).json(movies);
+		return res;
 	}
 };
 

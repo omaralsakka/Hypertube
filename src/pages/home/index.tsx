@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 import LoadingLogo from '../../components/loadingLogo';
 import { trpc } from '../../utils/trpc';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import React, { lazy, Suspense } from 'react';
 
 import axios from 'axios';
 type Inputs = {
@@ -171,6 +172,14 @@ const Home = () => {
 		// 		setItems(items.concat(Array.from({ length: 20 })));
 		// 	}, 1500);		console.log('page change ' + page.toString());
 	};
+	const displayPage = () => {
+		if (movie.id % 50 == 0) {
+			<p>
+				<b>Pagenumber: {page}</b>
+			</p>;
+		}
+	};
+	const renderLoader = () => <p>Loading</p>;
 
 	const [infiniteRef] = useInfiniteScroll({
 		loading,
@@ -204,17 +213,24 @@ const Home = () => {
 							filterInputs={filterInputs}
 						/>
 					</Container>
+
 					<Container className="d-flex flex-wrap justify-content-center" fluid>
 						<>
 							{movies &&
-								movies.map((movie: Movie) => (
-									<MovieCard
-										key={movie.id}
-										movie={movie}
-										style="homeMovieStyle"
-										viewType="full"
-									/>
-								))}
+								movies.map(
+									(movie: Movie) => (
+										(
+											<MovieCard
+												key={movie.id}
+												movie={movie}
+												style="homeMovieStyle"
+												viewType="full"
+											/>
+										),
+										// <displayPage(movie.id)
+									)
+								)}
+
 							{/* 
               As long as we have a "next page", we show "Loading" right under the list.
               When it becomes visible on the screen, or it comes near, it triggers 'onLoadMore'.
