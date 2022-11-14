@@ -96,7 +96,7 @@ export default function createStream(
 					console.log('An error occurred: ' + err.message);
 				})
 				.pipe(res);
-		} else {
+		} else if(browser === 'Firefox'){
 			ffmpeg(videoStream)
 				.format('webm')
 				.videoBitrate('512k')
