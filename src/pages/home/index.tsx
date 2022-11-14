@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
-import { Movies, Movie } from '../../types/appTypes';
+import { Movie } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import FilterControls from '../../components/filtercontrols';
 import { useSession } from 'next-auth/react';
@@ -61,17 +61,19 @@ const Home = () => {
 					<LoadingLogo />
 				) : ( */}
 				<>
-					<Container className="mb-4">
-						<SearchNavBar
-							onSearchChange={onSearchChange}
-							search_term={search_term}
-						/>
-					</Container>
-					<Container>
-						<FilterControls
-							onFilterChange={onFilterChange}
-							filterInputs={filterInputs}
-						/>
+					<Container className="d-flex align-items-center justify-content-center border border-light rounded mb-4 mt-4 	w-50">
+						<div className="w-75">
+							<SearchNavBar
+								onSearchChange={onSearchChange}
+								search_term={search_term}
+							/>
+						</div>
+						<div className="p-0">
+							<FilterControls
+								onFilterChange={onFilterChange}
+								filterInputs={filterInputs}
+							/>
+						</div>
 					</Container>
 					<Container className="d-flex flex-wrap justify-content-center" fluid>
 						{data?.movies.map((movie: Movie) => (
