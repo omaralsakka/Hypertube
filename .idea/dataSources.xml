@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="hypertube@0.0.0.0" uuid="3c2d001b-b92d-4b84-b213-e9e7ed79a521">
+    <data-source source="LOCAL" name="hypertube@0.0.0.0" uuid="368c36c5-88b3-4b6c-b7b8-e477bdd85c40">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
