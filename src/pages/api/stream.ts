@@ -123,7 +123,7 @@ export default function createStream(
 			}
 		} else {
 			console.log("ERROR ERROR ERROR ERROR ERROR")
-			res.status(404).send('Given URL and input is invalid. Please try again.');
+			reject({message: 'Given URL and input is invalid. Please try again.'});
 		}
 	} else {
 		reject({message: 'Not Authorized'});
