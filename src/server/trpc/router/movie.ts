@@ -98,6 +98,9 @@ export const movieRouter = router({
 					},
 				},
 				orderBy: { [input.sortBy]: input.orderBy },
+				include: {
+					genre: true,
+				},
 			});
 			return {
 				movies,

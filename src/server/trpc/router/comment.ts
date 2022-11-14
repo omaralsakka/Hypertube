@@ -8,7 +8,6 @@ export const commentRouter = router({
 		.query(async ({ input, ctx }) => {
 			console.log(input);
 			const comments: any = await ctx.prisma.comment.findMany({
-
 				where: { imdb_code: input.imdb_code },
 				select: {
 					id: true,
@@ -54,6 +53,7 @@ export const commentRouter = router({
 			//console.log(newComment);
 			return {
 				message: 'Comment inserted into table successfully',
+				newComment,
 			};
 		}),
 });
