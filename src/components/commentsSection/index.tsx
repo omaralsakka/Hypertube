@@ -22,7 +22,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const router = useRouter();
 	const context = trpc.useContext();
 
-	const [comments, setComments] = useState([]);
+	const [comments, setComments] = useState<any[]>([]);
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
@@ -32,15 +32,12 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				{
 					imdb_code,
 					comment_text,
-					//user_id: session?.user.id,
-					user_id: 'cl9zd7hek00003b6khtorizoc',
+					user_id: session.user.id || '',
+					//user_id: 'cl9zd7hek00003b6khtorizoc',
 				},
 				{
 					onSuccess: () => {
-						console.log(data);
-						//context.invalidate(['comment.getMovieComments']);
 						context.invalidate();
-						//setComments([...comments?.comments, newComment]);
 					},
 				}
 			);
@@ -54,7 +51,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 		},
 		{
 			onSuccess(newComments) {
-				setComments(newComments);
+				setComments(newComments as any);
 			},
 		}
 	);
@@ -115,16 +112,14 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				</Form>
 			</Row>
 			<Container fluid>
-				{comments?.comments &&
-					comments?.comments.map((comment) => (
-						<div key={comment?.id}>
-							<CommentRow comment={comment} />
-						</div>
-					))}
+				{comments.comments.map((comment: String) => (
+					<div key={comment?.id}>
+						<CommentRow comment={comment} />
+					</div>
+				))}
 			</Container>
 		</>
 	);
 };
 
 export default CommentsSection;
-/* onSubmit={handleSubmit(newComment) */
