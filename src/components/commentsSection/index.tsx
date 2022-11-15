@@ -21,8 +21,6 @@ const schema = z.object({
 const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const router = useRouter();
 	const context = trpc.useContext();
-
-	const [comments, setComments] = useState([]);
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
@@ -37,10 +35,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				},
 				{
 					onSuccess: () => {
-						console.log(data);
-						//context.invalidate(['comment.getMovieComments']);
 						context.invalidate();
-						//setComments([...comments?.comments, newComment]);
 					},
 				}
 			);
@@ -48,18 +43,9 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 			console.error(err);
 		}
 	};
-	const { data, error } = trpc.comment.getMovieComments.useQuery(
-		{
-			imdb_code: parseInt(router.query.movieId as string),
-		},
-		{
-			onSuccess(newComments) {
-				setComments(newComments);
-			},
-		}
-	);
-
-	// console.log(session?.user);
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: parseInt(router.query.movieId as string),
+	});
 	const {
 		watch,
 		register,
@@ -89,9 +75,8 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 					<Form.Group>
 						<Form.Control
 							className="border-bottom comment-form bg-transparent"
-							placeholder="Add comment"
+							placeholder={t('movieInfo.addComment')}
 							{...register('comment_text')}
-							// placeholder={t('movieInfo.addComment')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>
 					</Form.Group>
@@ -115,9 +100,9 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				</Form>
 			</Row>
 			<Container fluid>
-				{comments?.comments &&
-					comments?.comments.map((comment) => (
-						<div key={comment?.id}>
+				{data?.comments &&
+					data.comments.map((comment: Comment) => (
+						<div key={comment.id}>
 							<CommentRow comment={comment} />
 						</div>
 					))}
@@ -125,6 +110,4 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 		</>
 	);
 };
-
 export default CommentsSection;
-/* onSubmit={handleSubmit(newComment) */
