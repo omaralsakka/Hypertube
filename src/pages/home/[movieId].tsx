@@ -11,6 +11,7 @@ import CommentsSection from '../../components/commentsSection';
 import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
+import { useSession } from 'next-auth/react';
 
 const streamMovie = (movie: Movie | undefined) => {
 	// THIS CHANGE IS IMPORTANT
@@ -26,6 +27,10 @@ import LoadingLogo from '../../components/loadingLogo';
 const MoviePage = () => {
 	const router = useRouter();
 	const { t }: i18translateType = useTranslation('common');
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: parseInt(router.query.movieId as string),
+	});
+	const { status } = useSession();
 
 	//TRPCClientError!router.isReady
 	// useEffect(() => {
@@ -70,6 +75,11 @@ const MoviePage = () => {
 		}
 	}, [movie]);
 
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'authenticated') {
+			window.location.replace('/');
+		}
+	}, [status]);
 	/* const handleClick = async () => {
 		// THESE CHANGES ARE IMPORTANT
 		const result = await axios.post('/api/video/', movie);

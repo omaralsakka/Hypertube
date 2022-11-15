@@ -28,7 +28,6 @@ const forgotPassword = () => {
 			email: email,
 			callbackUrl: 'http://localhost:3000/change-password',
 		});
-		console.log(user);
 		setEmailSent(true);
 	};
 	const {

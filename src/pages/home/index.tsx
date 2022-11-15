@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
 import { Movie } from '../../types/appTypes';
@@ -8,10 +8,10 @@ import { useSession } from 'next-auth/react';
 import LoadingLogo from '../../components/loadingLogo';
 import { trpc } from '../../utils/trpc';
 import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
+
 const Home = () => {
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
-
 	const [search_term, setsearch_ter] = useState('');
 
 	const [filterInputs, setFilterInputs] = useState({
@@ -54,40 +54,40 @@ const Home = () => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 	};
 
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'authenticated') {
+			window.location.replace('/');
+		}
+	}, [status]);
 	return (
 		<>
 			<Container className="d-flex flex-column" fluid>
-				{/* {loader ? (
-					<LoadingLogo />
-				) : ( */}
-				<>
-					<Container
-						className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
-					>
-						<div className="searchNavBar mb-sm-0 mb-3">
-							<SearchNavBar
-								onSearchChange={onSearchChange}
-								search_term={search_term}
-							/>
-						</div>
-						<div className="p-0 mb-sm-0 mb-3">
-							<FilterControls
-								onFilterChange={onFilterChange}
-								filterInputs={filterInputs}
-							/>
-						</div>
-					</Container>
-					<Container className="d-flex flex-wrap justify-content-center" fluid>
-						{data?.movies.map((movie: Movie) => (
-							<MovieCard
-								key={movie.id}
-								movie={movie}
-								style="homeMovieStyle"
-								viewType="full"
-							/>
-						))}
-					</Container>
-				</>
+				<Container
+					className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
+				>
+					<div className="searchNavBar mb-sm-0 mb-3">
+						<SearchNavBar
+							onSearchChange={onSearchChange}
+							search_term={search_term}
+						/>
+					</div>
+					<div className="p-0 mb-sm-0 mb-3">
+						<FilterControls
+							onFilterChange={onFilterChange}
+							filterInputs={filterInputs}
+						/>
+					</div>
+				</Container>
+				<Container className="d-flex flex-wrap justify-content-center" fluid>
+					{data?.movies.map((movie: Movie) => (
+						<MovieCard
+							key={movie.id}
+							movie={movie}
+							style="homeMovieStyle"
+							viewType="full"
+						/>
+					))}
+				</Container>
 			</Container>
 		</>
 	);

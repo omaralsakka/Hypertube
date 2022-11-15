@@ -23,7 +23,7 @@ const Settings = () => {
 	const [passType, setPassType] = useState('password');
 	const [currentImage, setCurrentImage] = useState('/defaultImg2.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
 
 	const { t }: i18translateType = useTranslation('common');
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
@@ -54,16 +54,16 @@ const Settings = () => {
 	});
 
 	useEffect(() => {
-		if (!data) return;
-		setValue('email', data.user?.email);
-		setValue('name', data.user?.name);
-		setCurrentImage(data.user?.image || '/defaultImg2.png');
-		setAccountType(data.user?.accounts[0]?.type);
+		if (data?.user) {
+			setValue('email', data.user?.email);
+			setValue('name', data.user?.name);
+			setCurrentImage(data.user?.image || '/defaultImg2.png');
+			setAccountType(data.user?.accounts[0]?.type);
+		}
 	}, [data]);
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
-			console.log(data);
 			mutation.mutate({
 				id: session?.token?.user?.id,
 				name: data.name,
@@ -73,7 +73,7 @@ const Settings = () => {
 			// If email was changed
 			notifyDefault();
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 	const notifyDefault = () =>
@@ -87,7 +87,11 @@ const Settings = () => {
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
-
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'authenticated') {
+			window.location.replace('/');
+		}
+	}, [status]);
 	return (
 		<>
 			<Container className="d-flex justify-content-center sm-p-3 mb-4 p-2">

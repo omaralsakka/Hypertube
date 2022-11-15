@@ -45,7 +45,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				}
 			);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 	const { data, error } = trpc.comment.getMovieComments.useQuery(

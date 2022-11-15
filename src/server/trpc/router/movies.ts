@@ -37,4 +37,43 @@ export const moviesRouter = router({
 				message: 'Movie set as watched into table successfully',
 			};
 		}),
+
+	updateMovieDate: publicProcedure
+	.input(
+		z.object({ imdbCode: z.string().min(1) })
+	).mutation(async ({input, ctx}) => {
+		let timestamp: Date | string = new Date();
+		timestamp = timestamp.toString();
+		const newDate = await ctx.prisma.movies.update({
+			where: {
+				imdb_code: input.imdbCode,
+			  },
+			  data: {
+				date: timestamp
+			  }
+		});
+	}),
+
+	getAllMovies: publicProcedure
+	.query(async ({ ctx }) => {
+		const movies: any = await ctx.prisma.movies.findMany();
+		console.log(movies);
+		return {
+			movies,
+		};
+	}),
+
+	getWatchedMovies: publicProcedure
+	.input(z.string())
+	.query(async ({ input, ctx }) => {
+		const movies: any = await ctx.prisma.watchedMovies.findFirst({
+			where: {
+				user_id: input,
+			},
+		});
+		console.log(movies);
+		return {
+			movies,
+		};
+	}),
 });
