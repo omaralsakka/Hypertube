@@ -13,7 +13,6 @@ const Home = () => {
 	const { data: session, status } = useSession();
 
 	const [search_term, setsearch_ter] = useState('');
-
 	const [filterInputs, setFilterInputs] = useState({
 		orderBy: 'desc',
 		sortBy: 'rating',
