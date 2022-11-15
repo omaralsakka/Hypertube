@@ -36,13 +36,13 @@ export default function streamVideo(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) { return new Promise(async (reject, resolve) => {
-	
+
 	const session = await unstable_getServerSession(req, res, authOptions)
 
 	if(session) {
 		if (req.method === 'POST') {
-			let movieInfo: any = false; // fix typing
-			let isMovieDownloaded: any; // fix typing
+			let movieInfo: any = false;
+			let isMovieDownloaded: any;
 			const data = req.body;
 			const id: number = data.id;
 			const imdbCode: string = data.imdb_code;
@@ -78,13 +78,11 @@ export default function streamVideo(
 					});
 		} else {
 			res
-				.status(400)
+				.status(400) // this whole else clause can be removed. it was here only for development.
 				.json({ message: 'Type of request invalid, please do a POST request' });
 		};
 	} else {
 		reject({message: 'Not authorized'});
 	}
-});
-
-
+  });
 };

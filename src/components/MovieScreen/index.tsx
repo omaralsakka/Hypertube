@@ -25,14 +25,22 @@ const MovieScreen = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [subtitles, setSubtitles] = useState([]);
+	const [isMp4, setIsMp4] = useState(true);
 	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
+	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
+
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
+
+			if(movieInfo.movie_path.includes('YIFY') || movieInfo.movie_path.includes('.mkv')){
+				setIsMp4(false);
+			}
+
 		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
@@ -47,6 +55,13 @@ const MovieScreen = ({
 				setSubtitles(subsArray.data);
 			} else {
 				setSubtitles([]);
+			}
+			try {
+				mutationUpdateDate.mutate({
+					imdbCode: result.data.data.imdb_code,
+				})
+			} catch (err) {
+				console.log(err);
 			}
 			setIsLoading(true);
 			if(session) {
@@ -81,7 +96,7 @@ const MovieScreen = ({
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles}/>
+							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles} isMp4={isMp4}/>
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">

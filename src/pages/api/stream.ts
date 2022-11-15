@@ -82,6 +82,7 @@ export default function createStream(
 			const contentLength: number = (end - start) + 1;
 			// error - RangeError [ERR_OUT_OF_RANGE]: The value of "end" is out of range. It must be >= 0 && <= 9007199254740991. Received -1
 			// GOT THIS RANDOMLY IN THE SERVER LOG, I once thought about this '-1' thing and apparently it can be cause issues.
+			// if end === -1 reject();
 			const headers: {} = isMp4
 			? {
 				'Content-Range': `bytes ${start}-${end}/${videoSize}`,
@@ -112,7 +113,7 @@ export default function createStream(
 						console.log('An error occurred: ' + err.message);
 					})
 					.pipe(res);
-			} else if(browser === 'Firefox'){
+			} else if (browser === 'Firefox' || browser === 'Browser'){
 				ffmpeg(videoStream)
 					.format('webm')
 					.videoBitrate('512k')
@@ -122,7 +123,7 @@ export default function createStream(
 					.pipe(res);
 			}
 		} else {
-			console.log("ERROR ERROR ERROR ERROR ERROR")
+			console.log("ERROR ERROR ERROR ERROR ERROR");
 			reject({message: 'Given URL and input is invalid. Please try again.'});
 		}
 	} else {
