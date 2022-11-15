@@ -1,19 +1,18 @@
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 interface Subtitles {
-	default: boolean;
 	kind: string;
 	label: string;
 	src: string;
 	srcLang: string;
 }
 
-const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subtitles[] | any }) => {
+const MoviePlayer = ({ movieUrl, subtitles, isMp4 }: { movieUrl: string, subtitles: Subtitles[] | any, isMp4: boolean }) => {
 	
 	const playerRef = useRef(null);
-
+	
 	const onError = useCallback(() => {
 		if(playerRef.current !== null) {
 			playerRef.current.seekTo(0, 'seconds'); // THINK ABOUT THIS, WORKS AND COMPILES BUT GOOD TO GET RID OF THIS.
@@ -33,7 +32,7 @@ const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subt
 				<ReactPlayer
 					ref={playerRef}
 					url={movieUrl}
-					controls={true}
+					controls={isMp4}
 					playing={true}
 					width="100%"
 					onError={onError}

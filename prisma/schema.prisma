@@ -82,7 +82,7 @@ model Comment {
 
 model Movies {
   id         String @id @default(cuid())
-  imdb_code  String
+  imdb_code  String @unique
   movie_path String
   size       Int
   downloaded Int
