@@ -29,7 +29,6 @@ const NavigationBar = () => {
 	}, []);
 	useEffect(() => {
 		if (data?.user) {
-			console.log('this is data: ', data?.user?.image);
 			setUserImg(`/images/${data?.user?.image}` || '/defaultImg2.png');
 		}
 	}, [data]);
