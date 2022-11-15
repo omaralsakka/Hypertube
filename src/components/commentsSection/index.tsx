@@ -39,7 +39,6 @@ const CommentsSection = ({
 			console.log(err);
 		}
 	};
-	console.log(session?.user);
 	const {
 		watch,
 		register,
