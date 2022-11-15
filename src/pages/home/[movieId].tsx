@@ -101,7 +101,6 @@ const MoviePage = () => {
 		}, 500);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]); */
-	console.log('this is status: ', status);
 
 	if (!movie?.id) {
 		return (

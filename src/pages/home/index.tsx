@@ -12,8 +12,8 @@ import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
 const Home = () => {
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
-
 	const [search_term, setsearch_ter] = useState('');
+
 	const [filterInputs, setFilterInputs] = useState({
 		orderBy: 'desc',
 		sortBy: 'rating',

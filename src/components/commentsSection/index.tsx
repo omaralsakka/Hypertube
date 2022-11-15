@@ -36,7 +36,7 @@ const CommentsSection = ({
 				user_id: 'cl9zq8f8m0000pj0i88z7ju3f',
 			});
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 	const {

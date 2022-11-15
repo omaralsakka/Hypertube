@@ -64,7 +64,6 @@ const Settings = () => {
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
-			console.log(data);
 			mutation.mutate({
 				id: session?.token?.user?.id,
 				name: data.name,
@@ -74,7 +73,7 @@ const Settings = () => {
 			// If email was changed
 			notifyDefault();
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 	const notifyDefault = () =>
