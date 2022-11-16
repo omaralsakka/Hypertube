@@ -8,7 +8,6 @@ import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { trpc } from '../../utils/trpc';
 import { RiContactsBookLine } from 'react-icons/ri';
-import { deleteFiles } from '../../utils/cron-deleteFiles';
 
 const MovieScreen = ({
 	movie,
@@ -30,19 +29,18 @@ const MovieScreen = ({
 	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
-	deleteFiles();
+
 	useEffect(() => {
 		const timeout = setTimeout(() => {
+
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
 
-			if (
-				movieInfo.movie_path.includes('YIFY') ||
-				movieInfo.movie_path.includes('.mkv')
-			) {
+			if(movieInfo.movie_path.includes('YIFY') || movieInfo.movie_path.includes('.mkv')){
 				setIsMp4(false);
 			}
+
 		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
@@ -52,10 +50,8 @@ const MovieScreen = ({
 		if (movie) {
 			const result = await axios.post('/api/video/', movie);
 			setMovieInfo(result.data.data);
-			const subsArray = await axios.get(
-				`/api/subtitles?imdbCode=${movie.imdb_code}`
-			);
-			if (subsArray) {
+			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
+			if(subsArray) {
 				setSubtitles(subsArray.data);
 			} else {
 				setSubtitles([]);
@@ -63,9 +59,9 @@ const MovieScreen = ({
 			try {
 				mutationUpdateDate.mutate({
 					imdbCode: result.data.data.imdb_code,
-				});
+				})
 			} catch (err) {
-				console.error(err);
+				console.log(err);
 			}
 			setIsLoading(true);
 			const userId: string = session?.token.user.id.toString();
@@ -98,11 +94,7 @@ const MovieScreen = ({
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer
-								movieUrl={movieUrl}
-								subtitles={subtitles}
-								isMp4={isMp4}
-							/>
+							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles} isMp4={isMp4}/>
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">
