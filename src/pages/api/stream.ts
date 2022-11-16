@@ -107,10 +107,14 @@ export default function createStream(
 			}
 		} else {
 			console.log("ERROR ERROR ERROR ERROR ERROR");
-			reject({message: 'Given URL and input is invalid. Please try again.'});
+			res
+				.status(200) // this is stupid, but only here to prevent error in console.log
+				.json( 'Unauthorized access' );
 		}
 	} else {
-		reject({message: 'Not Authorized'});
+		res
+			.status(200) // this is stupid, but only here to prevent error in console.log
+			.json( 'Unauthorized access' );
 	}
   });
 }

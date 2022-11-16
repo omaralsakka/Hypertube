@@ -21,8 +21,7 @@ interface SubtitlesObj {
 export default async function subtitles(
 	req: NextApiRequest,
 	res: NextApiResponse
-) { return new Promise(async (reject, resolve) => {
-
+) {
 	const session = await unstable_getServerSession(req, res, authOptions)
 	if(session) {
 		const regexImdb: RegExp = /imdbCode=(.*)/;
@@ -48,10 +47,13 @@ export default async function subtitles(
 			});
 			res.status(200).send(subtitleTracks);
 		} else {
-			reject({message: 'IMDB-Code is invalid'});
+			res
+				.status(200) // this is stupid, but only here to prevent error in console.log
+				.json( 'Incorrect IMDB code' );
 		}
 	} else {
-		reject({message: 'Not authorized'});
+		res
+			.status(200) // this is stupid, but only here to prevent error in console.log
+			.json( 'Unauthorized access' );
 	}
-  });
 }

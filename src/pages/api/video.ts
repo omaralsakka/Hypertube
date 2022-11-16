@@ -32,10 +32,10 @@ const createMagnetLink = (
 	return magnetLink;
 };
 
-export default function streamVideo(
+export default async function streamVideo(
 	req: NextApiRequest,
 	res: NextApiResponse
-) { return new Promise(async (reject, resolve) => {
+) {
 
 	const session = await unstable_getServerSession(req, res, authOptions)
 
@@ -82,11 +82,12 @@ export default function streamVideo(
 					});
 		} else {
 			res
-				.status(400) // this whole else clause can be removed. it was here only for development.
-				.json({ message: 'Type of request invalid, please do a POST request' });
+				.status(200) // this is stupid, but only here to prevent error in console.log
+				.json( 'Unauthorized access' );
 		};
 	} else {
-		reject({message: 'Not authorized'});
+		res
+			.status(200) // this is stupid, but only here to prevent error in console.log
+			.json( 'Unauthorized access' );
 	}
-  });
 };
