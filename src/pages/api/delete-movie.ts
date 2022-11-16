@@ -11,9 +11,12 @@ interface MovieData {
     downloaded:	number
     date:	string
 }
+// API resolved without sending a response for /api/delete-movie, this may result in stalled requests.
+// Not sure if i should return a promise here to avoid the the error above.
 
-export default async function deleteFiles(){
-        const task = cron.schedule('0 23 * * *', async () => { // '*/1 * * * * *' every second for testing
+export default function deleteFiles(){
+    return new Promise(async (reject, resolve) => {
+        const task = cron.schedule('*/1 * * * * *', async () => { // '*/1 * * * * *' every second for testing
         console.log('cron is running in the background, will do a check at 23');
         let downloadedMovies: MovieData[] = [];
         let timestamp: number = Date.now();
@@ -42,4 +45,5 @@ export default async function deleteFiles(){
         })
     });
     task.start();
+  });
 };
