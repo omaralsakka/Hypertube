@@ -12,11 +12,12 @@ interface MovieData {
     date:	string
 }
 // API resolved without sending a response for /api/delete-movie, this may result in stalled requests.
-// Not sure if i should return a promise here to avoid the the error above.
+// "returning" a promise removes the error, however i am not actually resolving or rejecting 
+// if i do 'res' or 'rej' that will produce an error ...
 
 export default function deleteFiles(){
     return new Promise(async (reject, resolve) => {
-        const task = cron.schedule('*/1 * * * * *', async () => { // '*/1 * * * * *' every second for testing
+        const task = cron.schedule('0 23 * * *', async () => { // '*/1 * * * * *' every second for testing
         console.log('cron is running in the background, will do a check at 23');
         let downloadedMovies: MovieData[] = [];
         let timestamp: number = Date.now();
@@ -27,10 +28,10 @@ export default function deleteFiles(){
             console.error(error);
         }
 
-        let moviesToDelete: MovieData[] = []; // fix typescript
+        let moviesToDelete: MovieData[] = [];
 
         downloadedMovies?.filter((movie: MovieData) => {
-            if(Date.parse(movie.date) < timestamp - 1) { // can use 1 instead of 2629800000 to test. these are milliseconds
+            if(Date.parse(movie.date) < timestamp - 2629800000) { // can use 1 instead of 2629800000 (1 month) to test. these are milliseconds
                 moviesToDelete.push(movie);
             }
         })
