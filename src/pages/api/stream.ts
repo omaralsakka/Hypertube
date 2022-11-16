@@ -36,15 +36,6 @@ export default function createStream(
 			videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
 		}
 	
-		let browser: string | undefined = req.headers['user-agent'];
-		if (browser && browser.includes("Chrome")) {
-			browser = 'Chrome';
-		} else if (browser && browser.includes("Firefox")) {
-			browser = 'Firefox';
-		} else {
-			browser = 'Browser';
-		}
-	
 		if (!range && fullSize && imdbCode && videoPath) {
 	
 			console.log("No Range Defined");
@@ -105,19 +96,11 @@ export default function createStream(
 			const videoStream: fs.ReadStream = fs.createReadStream(videoPath, { start, end });
 			if (isMp4) { // could check also if the YIFY has fully downloaded, then the conversion is not necessary
 				videoStream.pipe(res)
-			} else if (browser === 'Chrome'){
+			} else {
 				ffmpeg(videoStream)
-					.format('matroska')
-					.videoBitrate('2048k')
-					.on('error', (err) => { 
-						console.log('An error occurred: ' + err.message);
-					})
-					.pipe(res);
-			} else if (browser === 'Firefox' || browser === 'Browser'){
-				ffmpeg(videoStream)
-					.format('webm')
+					.toFormat('webm')
 					.videoBitrate('512k')
-					.on('error', (err) => { 
+					.on('error', (err) => {
 						console.log('An error occurred: ' + err.message);
 					})
 					.pipe(res);
