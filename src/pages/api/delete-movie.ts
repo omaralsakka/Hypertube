@@ -32,7 +32,7 @@ export default async function deleteFiles(){
             }
         })
 
-        moviesToDelete.map(async (movie: any) => {
+        moviesToDelete.map(async (movie: MovieData) => {
             fs.rmSync(`./movies/${movie.imdb_code}`, { recursive: true, force: true });
             await prisma.movies.delete({
                 where: {
