@@ -29,7 +29,6 @@ const Home = () => {
 		description: '',
 		quality: '720p',
 	});
-
 	
 	const { data, error } = trpc.movie.search.useQuery({
 		search_term,
@@ -45,11 +44,6 @@ const Home = () => {
 		description: filterInputs.description,
 		genre: filterInputs.genre,
 	});
-
-/* 	if(session && session.token) {
-		const allWatchedMovies = trpc.movies.getWatchedMovies.useQuery(session.token.user.id);
-		console.log(allWatchedMovies);
-	} */
 
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;

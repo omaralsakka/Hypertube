@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { trpc } from '../../utils/trpc';
 import { RiContactsBookLine } from 'react-icons/ri';
+import { deleteFiles } from '../../utils/cron-deleteFiles';
 
 const MovieScreen = ({
 	movie,
@@ -29,7 +30,7 @@ const MovieScreen = ({
 	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
-
+	deleteFiles();
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 
@@ -64,17 +65,15 @@ const MovieScreen = ({
 				console.log(err);
 			}
 			setIsLoading(true);
-			if(session) {
-				const userId: string = session.token.user.id.toString();
-				const movieId: string = movie.id.toString()
-				try {
-					mutation.mutate({
-						user_id: userId,
-						movie_id: movieId,
-					});
-				} catch (err) {
-					console.log(err);
-				}
+			const userId: string = session?.token.user.id.toString();
+			const movieId: string = movie.id.toString()
+			try {
+				mutation.mutate({
+					user_id: userId,
+					movie_id: movieId,
+				});
+			} catch (err) {
+				console.log(err);
 			}
 		}
 	};

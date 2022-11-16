@@ -4,24 +4,20 @@ import { prisma } from '../server/db/client';
 
 export const deleteFiles = async () => {
         //cron.schedule('10 * * * * *', async () => {
-        // get all movie data
+        console.log('cron is running in the background every 10 seconds');
         let downloadedMovies: any;
-        const mutation = trpc.movies.getAllMovies.useQuery();
-        try {
-            downloadedMovies = await prisma.movies.findMany();
-        } catch (error) {
-            console.error(error);
-        }
-        console.log(downloadedMovies)
+        let timestamp: number = Date.now();
+        const query = trpc.movies.getAllMovies.useQuery();
+        
+        let moviesToDelete: any = []; // fix typescript
 
-    
-        /* downloadedMovies.filter((movie: any) => {
-        }) */
-    
-    
-    
-        // check if there is a movie that has been watched 1 > month ago
-    
+        query?.data?.movies?.filter((movie: any) => {
+            if(Date.parse(movie.date) < timestamp - 1) {
+                moviesToDelete.push(movie);
+            }
+        })
+
+        console.log("THESE ARE THE MOVIS TO DELETE : ", moviesToDelete);
     
     
         // delete all movies that are "expired"
