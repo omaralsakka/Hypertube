@@ -21,7 +21,6 @@ const MovieCardOverlay = ({
 	useEffect(() => {
 		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
 	}, []);
-
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">

@@ -29,10 +29,12 @@ const NavigationBar = () => {
 	}, []);
 	useEffect(() => {
 		if (data?.user) {
-			console.log('this is data: ', data?.user?.image);
-			setUserImg(`/images/${data?.user?.image}` || '/defaultImg2.png');
+			data?.user?.image !== null
+				? setUserImg(`/images/${data?.user?.image}`)
+				: setUserImg('/defaultImg2.png');
 		}
 	}, [data]);
+
 	return (
 		<>
 			<Navbar
@@ -56,10 +58,6 @@ const NavigationBar = () => {
 									<Nav.Link className=" mx-md-3" href="/home">
 										{t('nav.home')}
 									</Nav.Link>
-
-									{/* <Nav.Link className="mx-md-3" href="/settings">
-										{t('nav.settings')}
-									</Nav.Link> */}
 									<Nav.Item className="ms-md-auto me-md-3 mb-md-0 mb-1">
 										<LanguageMenu />
 									</Nav.Item>

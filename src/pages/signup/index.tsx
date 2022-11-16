@@ -33,13 +33,11 @@ const Signup = ({
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
-		console.log(email);
 		const user = await signIn('email', {
 			email: email,
 			callbackUrl: 'http://localhost:3000/home',
 		});
 		if (user) setSuccess(true);
-		console.log(user);
 	};
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
@@ -78,15 +76,13 @@ const Signup = ({
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
-			console.log(data);
 			const response = mutation.mutate({
 				name: data.name,
 				email: data.email,
 				password: data.password,
 			});
-			console.log(response);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
