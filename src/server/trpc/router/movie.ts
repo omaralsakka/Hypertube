@@ -5,42 +5,6 @@ import { prisma } from '../../db/client';
 import { MdDescription } from 'react-icons/md';
 
 export const movieRouter = router({
-	getMovieByImdb: publicProcedure
-		.input(z.object({ imdb_code: z.string() }))
-		.query(async ({ input, ctx }) => {
-			const movies: any = await ctx.prisma.movies.findFirst({
-				where: { imdb_code: input.imdb_code },
-			});
-			// console.log(movies);
-			if (!movies)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No movies found',
-					cause: input.imdb_code,
-				});
-			return {
-				movies,
-			};
-		}),
-
-	addMovie: publicProcedure
-		.input(
-			z.object({ imdb_code: z.string().min(1), movie_path: z.string().min(1) })
-		)
-		.mutation(async ({ input, ctx }) => {
-			// console.log(input);
-			const newMovie: any = await ctx.prisma.movies.create({
-				data: {
-					imdb_code: input.imdb_code,
-					movie_path: input.movie_path,
-					size: 1, // property size is missing need add something
-				},
-			});
-			// console.log(newMovie);
-			return {
-				message: 'Movie inserted into table successfully',
-			};
-		}),
 
 	search: publicProcedure
 		.input(

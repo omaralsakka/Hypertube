@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { downloadTorrent } from '../../server/torrent/downloadTorrent';
 import { downloadSubtitles } from '../../server/torrent/downloadSubtitles';
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "./auth/[...nextauth]"
 import { prisma } from '../../server/db/client';
 import fs from 'fs';
 interface torrentDataInter {
@@ -30,50 +32,57 @@ const createMagnetLink = (
 	return magnetLink;
 };
 
-export default async function streamVideo(
+export default function streamVideo(
 	req: NextApiRequest,
 	res: NextApiResponse
-) {
+) { return new Promise(async (reject, resolve) => {
 
-	if (req.method === 'POST') {
-		let movieInfo: any = false; // fix typing
-		let isMovieDownloaded: any; // fix typing
-		const data = req.body;
-		const id: number = data.id;
-		const imdbCode: string = data.imdb_code;
-		const movieTitle: string = data.title_long;
-		const torrents: torrentDataInter[] = data.torrents;
-		const uri: string = createMagnetLink(torrents, movieTitle);
-		try {
-			isMovieDownloaded = await prisma.movies.findFirst({
-				where: { imdb_code: imdbCode },
-			});
-		} catch (error) {
-			console.error(error);
-		}
-		/* if (!fs.existsSync(`./subtitles/${imdbCode}`)) // out of use for now because api limit is full
-			downloadSubtitles(imdbCode); */
-		if (isMovieDownloaded === null || isMovieDownloaded.downloaded === 0) {
+	const session = await unstable_getServerSession(req, res, authOptions)
+
+	if(session) {
+		if (req.method === 'POST') {
+			let movieInfo: any = false;
+			let isMovieDownloaded: any;
+			const data = req.body;
+			const id: number = data.id;
+			const imdbCode: string = data.imdb_code;
+			const movieTitle: string = data.title_long;
+			const torrents: torrentDataInter[] = data.torrents;
+			const uri: string = createMagnetLink(torrents, movieTitle);
 			try {
-				movieInfo = await downloadTorrent(uri, imdbCode, isMovieDownloaded);
+				isMovieDownloaded = await prisma.movies.findFirst({
+					where: { imdb_code: imdbCode },
+				});
 			} catch (error) {
 				console.error(error);
+			}
+			if (!fs.existsSync(`./subtitles/${imdbCode}`))
+				downloadSubtitles(imdbCode);
+			if (isMovieDownloaded === null || isMovieDownloaded.downloaded === 0) {
+				try {
+					movieInfo = await downloadTorrent(uri, imdbCode, isMovieDownloaded);
+				} catch (error) {
+					console.error(error);
+				};
+			} else {
+				console.log('Movie has been already downloaded');
 			};
+			if (movieInfo !== false)
+				res.status(200).json({ message: 'Movie downloading!', data: movieInfo });
+			else
+				res
+					.status(200)
+					.json({
+						message: 'Preparing movie for streaming!',
+						data: isMovieDownloaded,
+					});
 		} else {
-			console.log('Movie has been already downloaded');
-		};
-		if (movieInfo !== false)
-			res.status(200).json({ message: 'Movie downloading!', data: movieInfo });
-		else
 			res
-				.status(200)
-				.json({
-					message: 'Preparing movie for streaming!',
-					data: isMovieDownloaded,
-				});
+				.status(400) // this whole else clause can be removed. it was here only for development.
+				.json({ message: 'Type of request invalid, please do a POST request' });
+		};
 	} else {
-		res
-			.status(400)
-			.json({ message: 'Type of request invalid, please do a POST request' });
-	};
+		reject({message: 'Not authorized'});
+	}
+  });
 };

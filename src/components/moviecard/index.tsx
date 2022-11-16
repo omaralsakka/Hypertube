@@ -15,7 +15,6 @@ const MovieCard = ({
 	if (!movie) {
 		return <></>;
 	}
-
 	return (
 		<>
 			<Link href={`/home/${movie.id}`}>

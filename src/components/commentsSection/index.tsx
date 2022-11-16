@@ -21,19 +21,17 @@ const schema = z.object({
 const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const router = useRouter();
 	const context = trpc.useContext();
-
-	const [comments, setComments] = useState<any[]>([]);
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
 	const addComment = (imdb_code: number, comment_text: string) => {
+		console.log(session);
 		try {
 			mutation.mutate(
 				{
 					imdb_code,
 					comment_text,
-					user_id: session.user.id || '',
-					//user_id: 'cl9zd7hek00003b6khtorizoc',
+					user_id: session?.token.user.id,
 				},
 				{
 					onSuccess: () => {
@@ -42,21 +40,12 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				}
 			);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
-	const { data, error } = trpc.comment.getMovieComments.useQuery(
-		{
-			imdb_code: parseInt(router.query.movieId as string),
-		},
-		{
-			onSuccess(newComments) {
-				setComments(newComments as any);
-			},
-		}
-	);
-
-	// console.log(session?.user);
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: parseInt(router.query.movieId as string),
+	});
 	const {
 		watch,
 		register,
@@ -86,9 +75,8 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 					<Form.Group>
 						<Form.Control
 							className="border-bottom comment-form bg-transparent"
-							placeholder="Add comment"
+							placeholder={t('movieInfo.addComment')}
 							{...register('comment_text')}
-							// placeholder={t('movieInfo.addComment')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>
 					</Form.Group>
@@ -112,14 +100,14 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 				</Form>
 			</Row>
 			<Container fluid>
-				{comments.comments.map((comment: String) => (
-					<div key={comment?.id}>
-						<CommentRow comment={comment} />
-					</div>
-				))}
+				{data?.comments &&
+					data.comments.map((comment: Comment) => (
+						<div key={comment.id}>
+							<CommentRow comment={comment} />
+						</div>
+					))}
 			</Container>
 		</>
 	);
 };
-
 export default CommentsSection;

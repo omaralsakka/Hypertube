@@ -65,7 +65,7 @@ const MovieDescription = ({
 								<strong>{movieData?.Genre}</strong>
 							</Card.Title>{' '}
 							<Card.Title>
-								<span>{t('movieInfo.language')}:</span>{' '}
+								<span>{t('nav.language')}:</span>{' '}
 								<strong>{movieData?.Language}</strong>
 							</Card.Title>
 						</Row>

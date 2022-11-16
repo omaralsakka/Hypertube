@@ -25,14 +25,23 @@ const MovieScreen = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [subtitles, setSubtitles] = useState([]);
-	const { data: session } = useSession(); // for the user
+	const [isMp4, setIsMp4] = useState(true);
+	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
+	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
+
+			if (
+				movieInfo.movie_path.includes('YIFY') ||
+				movieInfo.movie_path.includes('.mkv')
+			) {
+				setIsMp4(false);
+			}
 		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
@@ -42,19 +51,32 @@ const MovieScreen = ({
 		if (movie) {
 			const result = await axios.post('/api/video/', movie);
 			setMovieInfo(result.data.data);
-			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
-			setSubtitles(subsArray.data);
+			const subsArray = await axios.get(
+				`/api/subtitles?imdbCode=${movie.imdb_code}`
+			);
+			if (subsArray) {
+				setSubtitles(subsArray.data);
+			} else {
+				setSubtitles([]);
+			}
+			try {
+				mutationUpdateDate.mutate({
+					imdbCode: result.data.data.imdb_code,
+				});
+			} catch (err) {
+				console.error(err);
+			}
 			setIsLoading(true);
-			if(session) {
+			if (session) {
 				const userId: string = session.token.user.id.toString();
-				const movieId: string = movie.id.toString()
+				const movieId: string = movie.id.toString();
 				try {
 					mutation.mutate({
 						user_id: userId,
 						movie_id: movieId,
 					});
 				} catch (err) {
-					console.log(err);
+					console.error(err);
 				}
 			}
 		}
@@ -77,7 +99,11 @@ const MovieScreen = ({
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles}/>
+							<MoviePlayer
+								movieUrl={movieUrl}
+								subtitles={subtitles}
+								isMp4={isMp4}
+							/>
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">

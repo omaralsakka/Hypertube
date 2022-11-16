@@ -22,6 +22,10 @@ body {
 	height: auto;
 }
 
+.searchNavBar {
+	width: 75%;
+}
+
 .glass-background {
 	background: #ffffff33;
 	border-radius: 10px;
@@ -200,8 +204,8 @@ input[type='file'] {
 }
 
 .nav-user-img_container {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 }
 
 @keyframes fadeIn {
@@ -259,6 +263,9 @@ input[type='file'] {
 		max-width: 30vw;
 		min-width: 20vw;
 		max-height: 30vh;
+	}
+	.searchNavBar {
+		width: 100%;
 	}
 	.bigBtn {
 		display: none;

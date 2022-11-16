@@ -38,10 +38,8 @@ const PhotoUpload = ({
 				method: 'POST',
 				body: formData,
 			});
-			console.log(response);
 			if (response.status === 201) {
 				const data = await response.json();
-				console.log(data);
 				if (data.filename) setPhoto(`/images/${data.filename}`);
 			} else {
 				setFileError(true);
