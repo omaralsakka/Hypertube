@@ -25,13 +25,13 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
 	const addComment = (imdb_code: number, comment_text: string) => {
+		console.log(session);
 		try {
 			mutation.mutate(
 				{
 					imdb_code,
 					comment_text,
-					//user_id: session?.user.id,
-					user_id: 'cl9zd7hek00003b6khtorizoc',
+					user_id: session?.token.user.id,
 				},
 				{
 					onSuccess: () => {

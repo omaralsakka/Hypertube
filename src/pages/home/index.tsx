@@ -54,11 +54,11 @@ const Home = () => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 	};
 
-	// useEffect(() => {
-	// 	if (status !== 'loading' && status !== 'authenticated') {
-	// 		window.location.replace('/');
-	// 	}
-	// }, [status]);
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'authenticated') {
+			window.location.replace('/');
+		}
+	}, [status]);
 	return (
 		<>
 			<Container className="d-flex flex-column" fluid>

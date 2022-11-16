@@ -75,11 +75,11 @@ const MoviePage = () => {
 		}
 	}, [movie]);
 
-	// useEffect(() => {
-	// 	if (status !== 'loading' && status !== 'authenticated') {
-	// 		window.location.replace('/');
-	// 	}
-	// }, [status]);
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'authenticated') {
+			window.location.replace('/');
+		}
+	}, [status]);
 	/* const handleClick = async () => {
 		// THESE CHANGES ARE IMPORTANT
 		const result = await axios.post('/api/video/', movie);
