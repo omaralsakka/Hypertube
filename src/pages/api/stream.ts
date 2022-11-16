@@ -103,7 +103,7 @@ export default function createStream(
 			}
 	
 			const videoStream: fs.ReadStream = fs.createReadStream(videoPath, { start, end });
-			if (isMp4) {
+			if (isMp4) { // could check also if the YIFY has fully downloaded, then the conversion is not necessary
 				videoStream.pipe(res)
 			} else if (browser === 'Chrome'){
 				ffmpeg(videoStream)

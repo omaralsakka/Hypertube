@@ -79,7 +79,7 @@ export const moviesRouter = router({
 
 	deleteMovie: publicProcedure
 	.input(z.string())
-	.query(async ({input, ctx}) => { // give the imdbCode as input
+	.query(async ({input, ctx}) => {
 		const deletedMovies: any = await ctx.prisma.movies.delete({
 			where: {
 				imdb_code: input

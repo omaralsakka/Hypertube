@@ -15,6 +15,9 @@ interface MovieData {
 // "returning" a promise removes the error, however i am not actually resolving or rejecting 
 // if i do 'res' or 'rej' that will produce an error ...
 
+// This endpoint has not been protected. I will do it if necessary. This whole file might be used
+// a different way than I initally tought of.
+
 export default function deleteFiles(){
     return new Promise(async (reject, resolve) => {
         const task = cron.schedule('0 23 * * *', async () => { // '*/1 * * * * *' every second for testing

@@ -58,14 +58,18 @@ export default function streamVideo(
 			}
 			if (!fs.existsSync(`./subtitles/${imdbCode}`))
 				downloadSubtitles(imdbCode);
-			if (isMovieDownloaded === null || isMovieDownloaded.downloaded === 0) {
+			if (isMovieDownloaded === null /* || isMovieDownloaded.downloaded === 0 */) {
+				 // I am thinking about to remove this ||or condition.
+				 // Will start multiple downloads of same movie if not downloaded and user decides to stream after refresh or leaving page.
+				 // Downside is that if the server would 'go down' and the movie is not fully downloaded, it wont ever restart to download the movie
+				 // and we the result would be a partially loaded file.
 				try {
 					movieInfo = await downloadTorrent(uri, imdbCode, isMovieDownloaded);
 				} catch (error) {
 					console.error(error);
 				};
 			} else {
-				console.log('Movie has been already downloaded');
+				console.log('Movie has been already downloaded'); // this can be removed when everything is ready
 			};
 			if (movieInfo !== false)
 				res.status(200).json({ message: 'Movie downloading!', data: movieInfo });
