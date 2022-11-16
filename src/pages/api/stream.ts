@@ -97,7 +97,7 @@ export default function createStream(
 			if (isMp4) { // could check also if the YIFY has fully downloaded, then the conversion is not necessary
 				videoStream.pipe(res)
 			} else {
-				ffmpeg(videoStream)
+				ffmpeg(videoPath) // instead of readstream i am formating the actual file, this has improved the streaming a lot.
 					.toFormat('webm')
 					.videoBitrate('512k')
 					.on('error', (err) => {
