@@ -101,7 +101,7 @@ export default function createStream(
 					.toFormat('webm')
 					.videoBitrate('512k')
 					.on('error', (err) => {
-						console.log('An error occurred: ' + err.message);
+						console.log('An error occurred: ' + err.message); // remove this before submit
 					})
 					.pipe(res);
 			}
