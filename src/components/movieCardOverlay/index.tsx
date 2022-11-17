@@ -48,8 +48,8 @@ const MovieCardOverlay = ({
 					</Row>
 					{viewType === 'full' && (
 						<Card.Text>
-							{t('movieInfo.category')}:{' '}
 							{/* <strong>{movie.genres.at(0) ? movie.genres.at(0) : 'N/A'}</strong> */}
+							<strong>{movie.genre[0].genreName}</strong>
 						</Card.Text>
 					)}
 				</div>

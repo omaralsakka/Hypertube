@@ -33,13 +33,13 @@ const MoviePage = () => {
 	const { status } = useSession();
 
 	//TRPCClientError!router.isReady
-	useEffect(() => {
-		// setComments(data.comments as any);
+	// useEffect(() => {
+	// 	// setComments(data.comments as any);
 
-		if (data) {
-			setComments(data.comments as any);
-		}
-	}, [data]);
+	// 	if (data) {
+	// 		setComments(data.comments as any);
+	// 	}
+	// }, [data]);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
 	const [movieData, setMovieData] = useState<MovieData>();
@@ -174,7 +174,6 @@ const MoviePage = () => {
 											<Row>
 												<Col>
 													<CommentsSection
-														comments={comments}
 														imdb_code={parseInt(router.query.movieId as string)}
 													/>
 												</Col>
