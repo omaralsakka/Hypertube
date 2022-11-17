@@ -23,7 +23,7 @@ export default async function subtitles(
 	res: NextApiResponse
 ) {
 	const session = await unstable_getServerSession(req, res, authOptions)
-	if(session) {
+	if(session?.token) {
 		const regexImdb: RegExp = /imdbCode=(.*)/;
 		const imdbCode: RegExpMatchArray | string | null | undefined = req.url?.match(regexImdb);
 	

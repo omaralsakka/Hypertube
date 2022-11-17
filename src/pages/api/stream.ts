@@ -18,7 +18,8 @@ export default function createStream(
 	res: NextApiResponse
 ) { return new Promise(async (resolve, reject) => {
 	const session = await unstable_getServerSession(req, res, authOptions)
-	if(session) {
+	console.log(session);
+	if(session?.token) {
 		const regexPath: RegExp = /path=(.*)&/;
 		const regexImdb: RegExp = /imdbCode=(.*?)&/;
 		const regexSize: RegExp = /size=(.*)/;
