@@ -56,11 +56,11 @@ export default function createStream(
 				parsedRange = Number(parsedRange[1]);
 			}
 	
-			let isMp4:boolean;
+			let isMp4: boolean = false;
 			if(videoPath.endsWith('mp4') && videoPath.includes('YTS')) {
 				isMp4 = true;
-			} else {
-				isMp4 = false;
+			} else if(videoPath.includes('YIFY') && fs.statSync(videoPath).size === Number(fullSize[1])) {
+				isMp4 = true;
 			}
 	
 			const videoSize: number = Number(fullSize[1]);
