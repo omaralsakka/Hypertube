@@ -18,7 +18,8 @@ export default function createStream(
 	res: NextApiResponse
 ) { return new Promise(async (resolve, reject) => {
 	const session = await unstable_getServerSession(req, res, authOptions)
-	if(session) {
+
+	if(session?.token) {
 		const regexPath: RegExp = /path=(.*)&/;
 		const regexImdb: RegExp = /imdbCode=(.*?)&/;
 		const regexSize: RegExp = /size=(.*)/;
@@ -34,15 +35,6 @@ export default function createStream(
 		let videoPath: string | null = null;
 		if(imdbCode) {
 			videoPath = `./movies/${imdbCode[1]}/${moviePath}`;
-		}
-	
-		let browser: string | undefined = req.headers['user-agent'];
-		if (browser && browser.includes("Chrome")) {
-			browser = 'Chrome';
-		} else if (browser && browser.includes("Firefox")) {
-			browser = 'Firefox';
-		} else {
-			browser = 'Browser';
 		}
 	
 		if (!range && fullSize && imdbCode && videoPath) {
@@ -103,31 +95,25 @@ export default function createStream(
 			}
 	
 			const videoStream: fs.ReadStream = fs.createReadStream(videoPath, { start, end });
-			if (isMp4) {
+			if (isMp4) { // could check also if the YIFY has fully downloaded, then the conversion is not necessary
 				videoStream.pipe(res)
-			} else if (browser === 'Chrome'){
-				ffmpeg(videoStream)
-					.format('matroska')
-					.videoBitrate('2048k')
-					.on('error', (err) => { 
-						console.log('An error occurred: ' + err.message);
-					})
-					.pipe(res);
-			} else if (browser === 'Firefox' || browser === 'Browser'){
-				ffmpeg(videoStream)
-					.format('webm')
+			} else {
+				ffmpeg(videoPath) // instead of readstream i am formating the actual file, this has improved the streaming a lot.
+					.toFormat('webm')
 					.videoBitrate('512k')
-					.on('error', (err) => { 
-						console.log('An error occurred: ' + err.message);
+					.on('error', (err) => {
+						console.log('An error occurred: ' + err.message); // remove this before submit
 					})
 					.pipe(res);
 			}
 		} else {
 			console.log("ERROR ERROR ERROR ERROR ERROR");
-			reject({message: 'Given URL and input is invalid. Please try again.'});
+			res
+				.status(200) // this is stupid, but only here to prevent error in console.log
+				.json( 'Invalid input. Please try again.' );
 		}
 	} else {
-		reject({message: 'Not Authorized'});
+		res.redirect('/')
 	}
   });
 }

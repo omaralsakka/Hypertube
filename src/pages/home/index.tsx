@@ -29,7 +29,6 @@ const Home = () => {
 		description: '',
 		quality: '720p',
 	});
-
 	const { data, error } = trpc.movie.search.useQuery({
 		search_term,
 		fromYear: parseInt(filterInputs.fromYear),
