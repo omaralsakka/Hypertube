@@ -109,12 +109,10 @@ export default function createStream(
 			console.log("ERROR ERROR ERROR ERROR ERROR");
 			res
 				.status(200) // this is stupid, but only here to prevent error in console.log
-				.json( 'Unauthorized access' );
+				.json( 'Invalid input. Please try again.' );
 		}
 	} else {
-		res
-			.status(200) // this is stupid, but only here to prevent error in console.log
-			.json( 'Unauthorized access' );
+		res.redirect('/')
 	}
   });
 }

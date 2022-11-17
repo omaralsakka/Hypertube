@@ -47,13 +47,10 @@ export default async function subtitles(
 			});
 			res.status(200).send(subtitleTracks);
 		} else {
-			res
-				.status(200) // this is stupid, but only here to prevent error in console.log
-				.json( 'Incorrect IMDB code' );
+			res.redirect('/home')
 		}
 	} else {
 		res
-			.status(200) // this is stupid, but only here to prevent error in console.log
-			.json( 'Unauthorized access' );
+			.redirect('/')
 	}
 }

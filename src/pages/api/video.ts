@@ -81,13 +81,9 @@ export default async function streamVideo(
 						data: isMovieDownloaded,
 					});
 		} else {
-			res
-				.status(200) // this is stupid, but only here to prevent error in console.log
-				.json( 'Unauthorized access' );
+			res.redirect('/home')
 		};
 	} else {
-		res
-			.status(200) // this is stupid, but only here to prevent error in console.log
-			.json( 'Unauthorized access' );
+		res.redirect('/')
 	}
 };
