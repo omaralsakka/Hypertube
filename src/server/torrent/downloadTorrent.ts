@@ -48,10 +48,10 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 		engine.on('torrent', () => {
 			engine.files.forEach(async (file: TorrentStream.TorrentFile) => {
 				if (
-					(file.name.endsWith('.mp4') ||
+					file.name.endsWith('.mp4') ||
 					file.name.endsWith('.mkv') ||
-					file.name.endsWith('.webm')) &&
-					movieDbInfo === null
+					file.name.endsWith('.webm')
+					// I removed '&& movieDbInfo === null' that I saw useless, but just leaving a reminder for now if issues appear.
 				) {
 					file.select();
 					if(movieDbInfo === null) {

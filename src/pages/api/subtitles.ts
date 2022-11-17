@@ -21,10 +21,9 @@ interface SubtitlesObj {
 export default async function subtitles(
 	req: NextApiRequest,
 	res: NextApiResponse
-) { return new Promise(async (reject, resolve) => {
-
+) {
 	const session = await unstable_getServerSession(req, res, authOptions)
-	if(session) {
+	if(session?.token) {
 		const regexImdb: RegExp = /imdbCode=(.*)/;
 		const imdbCode: RegExpMatchArray | string | null | undefined = req.url?.match(regexImdb);
 	
@@ -37,7 +36,7 @@ export default async function subtitles(
 		
 			let subtitleTracks: SubtitlesObj[] = [];
 		
-			subs.forEach((sub: SubtitlesDbObj) => { 
+			subs?.forEach((sub: SubtitlesDbObj) => { 
 				subtitleTracks.push({
 					kind: 'subtitles',
 					src: `http://localhost:3000/api/stream-subtitles?subpath=${sub.path}`,
@@ -48,10 +47,10 @@ export default async function subtitles(
 			});
 			res.status(200).send(subtitleTracks);
 		} else {
-			reject({message: 'IMDB-Code is invalid'});
+			res.redirect('/home')
 		}
 	} else {
-		reject({message: 'Not authorized'});
+		res
+			.redirect('/')
 	}
-  });
 }

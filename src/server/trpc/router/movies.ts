@@ -14,7 +14,7 @@ export const moviesRouter = router({
 					user_id: input.user_id,
 				},
 			})
-			if(userData !== null &&userData.movies.includes(input.movie_id)) {
+			if(userData !== null && userData.movies.includes(input.movie_id)) {
 				isWatched = true;
 			}
 			if(isWatched === false){
@@ -75,5 +75,15 @@ export const moviesRouter = router({
 		return {
 			movies,
 		};
+	}),
+
+	deleteMovie: publicProcedure
+	.input(z.string())
+	.query(async ({input, ctx}) => {
+		const deletedMovies: any = await ctx.prisma.movies.delete({
+			where: {
+				imdb_code: input
+			}
+		})
 	}),
 });
