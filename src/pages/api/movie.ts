@@ -14,6 +14,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 			where: {
 				// title: { contains: input.search_term, mode: 'insensitive' },
 				year: { gt: input.fromYear, lt: input.toYear },
+				language: { contains: input.language },
 				runtime: {
 					gt: input.fromRunTime,
 					lt: input.toRunTime,
