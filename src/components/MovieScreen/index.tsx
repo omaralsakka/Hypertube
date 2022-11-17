@@ -48,31 +48,27 @@ const MovieScreen = ({
 	const handleClick = async () => {
 		setIsSpinner(true);
 		if (movie) {
-			const result = await axios.post('/api/video/', movie);
-			setMovieInfo(result.data.data);
-			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
-			if(subsArray) {
-				setSubtitles(subsArray.data);
-			} else {
-				setSubtitles([]);
-			}
 			try {
+				const result = await axios.post('/api/video/', movie);
+				setMovieInfo(result.data.data);
+				const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
+				if(subsArray) {
+					setSubtitles(subsArray.data);
+				} else {
+					setSubtitles([]);
+				}
 				mutationUpdateDate.mutate({
 					imdbCode: result.data.data.imdb_code,
 				})
-			} catch (err) {
-				console.log(err);
-			}
-			setIsLoading(true);
-			const userId: string = session?.token.user.id.toString();
-			const movieId: string = movie.id.toString()
-			try {
+				setIsLoading(true);
+				const userId: string = session?.token.user.id.toString();
+				const movieId: string = movie.id.toString()
 				mutation.mutate({
 					user_id: userId,
 					movie_id: movieId,
 				});
-			} catch (err) {
-				console.log(err);
+			} catch (error) {
+				console.error(error)
 			}
 		}
 	};

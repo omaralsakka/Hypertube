@@ -39,7 +39,7 @@ export default async function streamVideo(
 
 	const session = await unstable_getServerSession(req, res, authOptions)
 
-	if(session) {
+	if(session?.token) {
 		if (req.method === 'POST') {
 			let movieInfo: any = false;
 			let isMovieDownloaded: any;

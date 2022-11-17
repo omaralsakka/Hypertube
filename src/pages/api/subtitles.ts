@@ -36,7 +36,7 @@ export default async function subtitles(
 		
 			let subtitleTracks: SubtitlesObj[] = [];
 		
-			subs.forEach((sub: SubtitlesDbObj) => { 
+			subs?.forEach((sub: SubtitlesDbObj) => { 
 				subtitleTracks.push({
 					kind: 'subtitles',
 					src: `http://localhost:3000/api/stream-subtitles?subpath=${sub.path}`,

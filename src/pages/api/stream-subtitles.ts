@@ -16,7 +16,7 @@ export default function streamSubtitles(
 		if(subPath) {
 			fs.readFile(subPath[1], (err, data) => {
 				if (err) {
-					res.status(200).send("Wrong file format, path or some other error");
+					res.status(404).send("Wrong file format, path or some other error");
 				}
 				res.status(200).send(data);
 			});
