@@ -69,6 +69,7 @@ const Home = () => {
 	// 	}, 3000);
 	// }, []);
 	const [search_term, setsearch_ter] = useState('');
+	const controller = new AbortController();
 
 	const [filterInputs, setFilterInputs] = useState({
 		orderBy: 'desc',
@@ -89,25 +90,30 @@ const Home = () => {
 	useEffect(() => {
 		const getMovies = async () => {
 			setIsLoading(true);
-			const response = await axios('/api/movie', {
-				method: 'POST',
-				data: {
-					search_term,
-					fromYear: parseInt(filterInputs.fromYear),
-					toYear: parseInt(filterInputs.toYear),
-					fromRunTime: parseInt(filterInputs.fromRunTime),
-					toRunTime: parseInt(filterInputs.toRunTime),
-					imdbRating: parseInt(filterInputs.imdbRating),
-					language: filterInputs.language,
-					orderBy: filterInputs.orderBy,
-					sortBy: filterInputs.sortBy,
-					quality: filterInputs.quality,
-					seeds: parseInt(filterInputs.seeds),
-					description: filterInputs.description,
-					genre: filterInputs.genre,
-				},
-			});
-			setMovies(response.data);
+			try {
+				const response = await axios('/api/movie', {
+					signal: controller.signal,
+					method: 'POST',
+					data: {
+						search_term,
+						fromYear: parseInt(filterInputs.fromYear),
+						toYear: parseInt(filterInputs.toYear),
+						fromRunTime: parseInt(filterInputs.fromRunTime),
+						toRunTime: parseInt(filterInputs.toRunTime),
+						imdbRating: parseInt(filterInputs.imdbRating),
+						language: filterInputs.language,
+						orderBy: filterInputs.orderBy,
+						sortBy: filterInputs.sortBy,
+						quality: filterInputs.quality,
+						seeds: parseInt(filterInputs.seeds),
+						description: filterInputs.description,
+						genre: filterInputs.genre,
+					},
+				});
+				setMovies(response.data);
+			} catch (e) {
+				console.log(e);
+			}
 			setIsLoading(false);
 			// if (response.status === 201) {
 			// 	const data = await response.json();
@@ -117,6 +123,9 @@ const Home = () => {
 			// 	setFileError(true);
 			// }
 		};
+		if (isLoading) {
+			controller.abort();
+		}
 		getMovies();
 	}, [filterInputs]);
 
@@ -224,6 +233,7 @@ const Home = () => {
 
 	const onFilterChange = (e: any) => {
 		console.log('change');
+
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 		// getMovies();
 		// context.invalidate();
