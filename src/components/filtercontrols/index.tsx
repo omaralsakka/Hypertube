@@ -61,7 +61,7 @@ const FilterControls = ({
 		'es',
 		'fr',
 		'ar',
-		'jp',
+		'ja',
 		'ko',
 		'it',
 		'de',
@@ -269,6 +269,12 @@ const FilterControls = ({
 										))}
 									</Form.Select>
 								</div>
+								{/* <div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+  <label class="form-check-label" for="flexCheckChecked">
+    Checked checkbox
+  </label>
+</div> */}
 							</Form.Group>
 						</Form>
 					</Accordion.Body>
