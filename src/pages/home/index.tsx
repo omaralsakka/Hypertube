@@ -40,6 +40,7 @@ const Home = () => {
 	const [loader, setLoader] = useState(true);
 	const { data: session } = useSession();
 	const [movies, setMovies] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 	// const getMovies = async () => {
 	// 	try {
 	// 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
@@ -87,6 +88,7 @@ const Home = () => {
 	});
 	useEffect(() => {
 		const getMovies = async () => {
+			setIsLoading(true);
 			const response = await axios('/api/movie', {
 				method: 'POST',
 				data: {
@@ -106,6 +108,7 @@ const Home = () => {
 				},
 			});
 			setMovies(response.data);
+			setIsLoading(false);
 			// if (response.status === 201) {
 			// 	const data = await response.json();
 			// 	console.log(data);
@@ -179,6 +182,8 @@ const Home = () => {
 	// 	console.log('refetch');
 	// }, [isRefetching]);
 	const getMovies = async () => {
+		setIsLoading(true);
+		setMovies([]);
 		const response = await axios('/api/movie', {
 			method: 'POST',
 			data: {
@@ -198,6 +203,7 @@ const Home = () => {
 			},
 		});
 		setMovies(response.data);
+		setIsLoading(false);
 		// if (response.status === 201) {
 		// 	const data = await response.json();
 		// 	console.log(data);
@@ -210,7 +216,7 @@ const Home = () => {
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
 		setsearch_ter(value);
-		getMovies();
+		// getMovies();
 		// console.log(name);
 		// console.log(value);
 	};
@@ -248,7 +254,9 @@ const Home = () => {
 							className="d-flex flex-wrap justify-content-center"
 							fluid
 						>
-							{movies &&
+							{isLoading && <LoadingLogo />}
+							{!isLoading &&
+								movies &&
 								movies?.map((movie: Movie) => (
 									<MovieCard
 										key={movie.id}
