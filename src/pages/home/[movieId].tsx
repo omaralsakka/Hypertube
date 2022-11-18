@@ -12,6 +12,7 @@ import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
+const MovieDB = require('moviedb')('99bfb76d8c47a3cb8112f5bf4e6bdd4d');
 
 const streamMovie = (movie: Movie | undefined) => {
 	// THIS CHANGE IS IMPORTANT
@@ -25,6 +26,7 @@ import MovieScreen from '../../components/MovieScreen';
 import LoadingLogo from '../../components/loadingLogo';
 
 const MoviePage = () => {
+	// const mdb = new MovieDB();
 	const router = useRouter();
 	const { t }: i18translateType = useTranslation('common');
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
@@ -74,6 +76,16 @@ const MoviePage = () => {
 			);
 		}
 	}, [movie]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
+				console.log(res);
+			});
+		};
+
+		fetchData();
+	}, []);
 
 	useEffect(() => {
 		if (status !== 'loading' && status !== 'authenticated') {

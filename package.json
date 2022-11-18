@@ -38,6 +38,7 @@
 		"i18next-xhr-backend": "^3.2.2",
 		"jsonwebtoken": "^8.5.1",
 		"lodash": "^4.17.21",
+		"moviedb": "^0.2.12",
 		"next": "12.3.2",
 		"next-auth": "^4.15.0",
 		"node-cron": "^3.0.2",
@@ -54,6 +55,7 @@
 		"react-redux": "^8.0.4",
 		"react-toastify": "^9.0.8",
 		"superjson": "1.9.1",
+		"tmdb": "^2.6.0",
 		"torrent-stream": "^1.2.1",
 		"uuid": "^9.0.0",
 		"zod": "^3.18.0"
