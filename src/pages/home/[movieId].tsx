@@ -79,7 +79,7 @@ const MoviePage = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
+			MovieDB.movieCredits({ id: 666 }, (err, res) => {
 				console.log(res);
 			});
 		};
