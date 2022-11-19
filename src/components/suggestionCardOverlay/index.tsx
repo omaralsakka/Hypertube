@@ -16,7 +16,7 @@ const SuggestionCardOverlay = ({
 	viewType: string;
 }) => {
 	const { t }: i18translateType = useTranslation('common');
-
+	console.log(typeof movie.vote_average);
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
@@ -33,10 +33,12 @@ const SuggestionCardOverlay = ({
 
 						<>
 							<Col>
-								<strong>{movie.release_date}</strong>
+								<strong>{movie.release_date.slice(0, 4)}</strong>
 							</Col>
 							<Col className="d-flex align-items-center">
-								<strong className="ms-1">{movie.rating}</strong>
+								<strong className="ms-1">
+									{movie.vote_average.toFixed(1)}
+								</strong>
 								<AiFillStar style={{ color: 'yellow' }} />
 							</Col>
 						</>

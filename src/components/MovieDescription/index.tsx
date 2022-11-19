@@ -16,16 +16,22 @@ const MovieDescription = ({
 	const [openDescription, setOpenDescription] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
 	const [producer, setProducer] = useState('');
+	const [writer, setWriter] = useState('');
 
 	useEffect(() => {
 		const getProducer = () => {
 			const first = crew?.find((obj) => {
-				return obj.job === 'Producer';
+				return obj.department === 'Production';
+			});
+			const second = crew?.find((obj) => {
+				return obj.department === 'Writing';
 			});
 
+			if (second) {
+				setWriter(second.name);
+			}
 			if (first) {
 				setProducer(first.name);
-				console.log(first.name);
 			}
 		};
 
@@ -84,6 +90,11 @@ const MovieDescription = ({
 								<span>{t('movieInfo.director')}</span>
 								&nbsp;
 								<strong>{movieData?.Director}</strong>
+							</Card.Title>
+							<Card.Title>
+								<span>Writer</span>
+								&nbsp;
+								<strong>{crew && writer}</strong>
 							</Card.Title>
 							<Card.Title>
 								<span>Producer</span>
