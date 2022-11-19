@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
 import { Movies, Movie } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
@@ -126,6 +126,7 @@ const Home = () => {
 	};
 	const getMoviesTwo = async () => {
 		// setError(true);
+		// setLoading(true);
 		const response = await axios('/api/movie', {
 			method: 'POST',
 			data: {
@@ -144,6 +145,7 @@ const Home = () => {
 				page,
 			},
 		});
+		setLoading(false);
 		console.log(response.data);
 		// setMovies(response.data);
 
@@ -165,20 +167,22 @@ const Home = () => {
 
 	const incrementPage = async () => {
 		console.log('page');
+		// if (!loading) {
 		setPage(page + 1);
 		getMoviesTwo();
+		// }
 
 		// 	setTimeout(() => {
 		// 		setItems(items.concat(Array.from({ length: 20 })));
 		// 	}, 1500);		console.log('page change ' + page.toString());
 	};
-	const displayPage = () => {
-		if (movie.id % 50 == 0) {
-			<p>
-				<b>Pagenumber: {page}</b>
-			</p>;
-		}
-	};
+	// const displayPage = () => {
+	// 	if (movie.id % 50 == 0) {
+	// 		<p>
+	// 			<b>Pagenumber: {page}</b>
+	// 		</p>;
+	// 	}
+	// };
 	const renderLoader = () => <p>Loading</p>;
 
 	const [infiniteRef] = useInfiniteScroll({
@@ -217,19 +221,14 @@ const Home = () => {
 					<Container className="d-flex flex-wrap justify-content-center" fluid>
 						<>
 							{movies &&
-								movies.map(
-									(movie: Movie) => (
-										(
-											<MovieCard
-												key={movie.id}
-												movie={movie}
-												style="homeMovieStyle"
-												viewType="full"
-											/>
-										),
-										// <displayPage(movie.id)
-									)
-								)}
+								movies.map((movie: Movie) => (
+									<MovieCard
+										key={movie.id}
+										movie={movie}
+										style="homeMovieStyle"
+										viewType="full"
+									/>
+								))}
 
 							{/* 
               As long as we have a "next page", we show "Loading" right under the list.
@@ -240,10 +239,14 @@ const Home = () => {
                 {loading && <ListItem>Loading...</ListItem>}
               and leave "Loading" without this ref.
           */}
-							{hasNextPage && <div ref={infiniteRef}>Loading</div>}
 						</>
 					</Container>
 				</>
+				{hasNextPage && (
+					<Row>
+						<div ref={infiniteRef}>Loading page: {page}</div>
+					</Row>
+				)}
 			</Container>
 		</>
 	);

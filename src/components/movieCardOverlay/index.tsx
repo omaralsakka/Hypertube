@@ -15,12 +15,12 @@ const MovieCardOverlay = ({
 	movie: Movie;
 	viewType: string;
 }) => {
-	const [movieData, setMovieData] = useState<MovieData>();
+	// const [movieData, setMovieData] = useState<MovieData>();
 	const { t }: i18translateType = useTranslation('common');
 
-	useEffect(() => {
-		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
-	}, []);
+	// useEffect(() => {
+	// 	movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
+	// }, []);
 
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
@@ -31,9 +31,7 @@ const MovieCardOverlay = ({
 				<div className="movieOverlay-Info">
 					<Row className="g-0 w-75 mb-3 ">
 						<Col>
-							<span className="border b-1 px-1 rounded border-dark fs-6">
-								{movieRate(movieData?.Rated)}
-							</span>
+							<span className="border b-1 px-1 rounded border-dark fs-6"></span>
 						</Col>
 						{viewType === 'full' && (
 							<>
