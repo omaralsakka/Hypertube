@@ -25,6 +25,8 @@ export type Movie = {
 	date_uploaded_unix: number;
 	description_full: string;
 	genres: [];
+	genreName: string;
+	genre: [];
 	id: number;
 	imdb_code: string;
 	language: string;
@@ -73,6 +75,34 @@ export type MovieData = {
 	Production: string;
 	Website: string;
 	Response: string;
+};
+
+export type Cast = {
+	adult: string;
+	cast_id: string;
+	character: string;
+	credit_id: string;
+	gender: string;
+	id: string;
+	known_for_department: string;
+	name: string;
+	order: string;
+	original_name: string;
+	popularity: string;
+	profile_path: string;
+};
+
+export type Crew = {
+	adult: string;
+	credit_id: string;
+	department: string;
+	gender: string;
+	id: string;
+	job: string;
+	name: string;
+	original_name: string;
+	popularity: string;
+	profile_path: string;
 };
 
 export type MovieId = string | string[] | undefined;

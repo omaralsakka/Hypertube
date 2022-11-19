@@ -28,6 +28,7 @@
 		"bencode": "^2.0.3",
 		"bootstrap": "^5.2.2",
 		"cuid": "^2.1.8",
+		"dotenv": "^16.0.3",
 		"fluent-ffmpeg": "^2.1.2",
 		"formidable": "^2.0.1",
 		"framer-motion": "^7.6.2",

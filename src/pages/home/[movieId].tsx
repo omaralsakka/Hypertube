@@ -2,8 +2,16 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Container, Card, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
-import { Movies, Movie, MovieData, MoviePostInfo } from '../../types/appTypes';
+import {
+	Movies,
+	Movie,
+	MovieData,
+	MoviePostInfo,
+	Cast,
+	Crew,
+} from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
+import SuggestionCard from '../../components/suggestionCard';
 import { movieRate, getOmdb } from '../../utils/helperFunctions';
 import { motion } from 'framer-motion';
 import { trpc } from '../../utils/trpc';
@@ -12,7 +20,8 @@ import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
-const MovieDB = require('moviedb')('99bfb76d8c47a3cb8112f5bf4e6bdd4d');
+
+const MovieDB = require('moviedb')('');
 
 const streamMovie = (movie: Movie | undefined) => {
 	// THIS CHANGE IS IMPORTANT
@@ -21,7 +30,7 @@ const streamMovie = (movie: Movie | undefined) => {
 		body: JSON.stringify(movie),
 	});
 };
-import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
+import { getMovie } from '../../services/ytsServices';
 import MovieScreen from '../../components/MovieScreen';
 import LoadingLogo from '../../components/loadingLogo';
 
@@ -34,19 +43,13 @@ const MoviePage = () => {
 	});
 	const { status } = useSession();
 
-	//TRPCClientError!router.isReady
-	// useEffect(() => {
-	// 	// setComments(data.comments as any);
-
-	// 	if (data) {
-	// 		setComments(data.comments as any);
-	// 	}
-	// }, [data]);
 	const movieId = router.query.movieId;
 	const [movie, setMovie] = useState<Movie>();
 	const [movieData, setMovieData] = useState<MovieData>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
+	const [recommendMovies, setRecommendMovies] = useState<any>([]);
 	const [movieUrl, setMovieUrl] = useState('');
+	const [crew, setCrew] = useState<any>([]);
 	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
 	const [movieInfo, setMovieInfo] = useState<MoviePostInfo>({
 		imdb_code: '',
@@ -55,6 +58,18 @@ const MoviePage = () => {
 	}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
 	const [comments, setComments] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			MovieDB.movieSimilar({ id: movie?.imdb_code }, (err: any, res: any) => {
+				setRecommendMovies(res.results);
+				console.log(res.results);
+			});
+		};
+		if (movie?.id) {
+			fetchData();
+		}
+	}, [movie]);
 
 	useEffect(() => {
 		if (movieId?.length) {
@@ -71,21 +86,23 @@ const MoviePage = () => {
 	useEffect(() => {
 		if (movie?.id) {
 			getOmdb(movie).then((resp) => setMovieData(resp));
-			getSuggestedMovies(movie.id).then(
-				(resp) => resp && setSuggestedMovies(resp)
-			);
+			// getSuggestedMovies(movie.id).then(
+			// 	(resp) => resp && setSuggestedMovies(resp)
+			// );
 		}
 	}, [movie]);
 
 	useEffect(() => {
 		const fetchData = async () => {
-			MovieDB.movieCredits({ id: 666 }, (err, res) => {
+			MovieDB.movieCredits({ id: movie?.imdb_code }, (err: any, res: any) => {
+				setCrew(res);
 				console.log(res);
 			});
 		};
-
-		fetchData();
-	}, []);
+		if (movie?.id) {
+			fetchData();
+		}
+	}, [movie]);
 
 	useEffect(() => {
 		if (status !== 'loading' && status !== 'authenticated') {
@@ -150,7 +167,7 @@ const MoviePage = () => {
 													{t('movieInfo.suggested')}
 												</Card.Title>
 												<Container className="d-flex flex-wrap justify-content-center w-75">
-													{suggestedMovies?.map((movie) => (
+													{/* {suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
 																movie={movie}
@@ -158,7 +175,19 @@ const MoviePage = () => {
 																viewType="small"
 															/>
 														</div>
-													))}
+													))} */}
+													{recommendMovies &&
+														recommendMovies
+															?.filter((item: any, index: any) => index < 6)
+															.map((movie: any) => (
+																<div key={movie.id} className="fadeInAnimated">
+																	<SuggestionCard
+																		movie={movie}
+																		style="suggestedMovieStyle"
+																		viewType="small"
+																	/>
+																</div>
+															))}
 												</Container>
 											</Container>
 										</Col>
@@ -180,7 +209,11 @@ const MoviePage = () => {
 												</Card.Title>
 											</Col>
 										</Row>
-										<MovieDescription movieData={movieData} />
+										<MovieDescription
+											movieData={movieData}
+											crew={crew.crew as Array<Crew>}
+											cast={crew.cast as Array<Cast>}
+										/>
 										<hr />
 										{comments && (
 											<Row>
