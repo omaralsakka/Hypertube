@@ -12,8 +12,9 @@ const SuggestionCard = ({
 	style: string;
 	viewType: string;
 }) => {
+	console.log(movie);
 	return (
-		<Link href={`/home/${movie.id}`}>
+		<Link href={`/home/${movie.imdb_code}`}>
 			<a>
 				<motion.div
 					initial={{ opacity: 0, scale: 0.5 }}
