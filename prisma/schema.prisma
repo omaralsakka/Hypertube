@@ -73,7 +73,7 @@ model VerificationToken {
 // / 
 model Comment {
   id           Int      @id @unique @default(autoincrement())
-  imdb_code    String   @unique
+  imdb_code    String 
   comment_text String?
   userId       String
   created_at   DateTime @default(now())

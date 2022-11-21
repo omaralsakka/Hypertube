@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import { movieRate } from '../../utils/helperFunctions';
 
 const MovieDB = require('moviedb')('99bfb76d8c47a3cb8112f5bf4e6bdd4d');
 
@@ -39,13 +40,11 @@ const MoviePage = () => {
 
 	const router = useRouter();
 	const [movie, setMovie] = useState<Movie>();
-	console.log(router.query.imdb_code);
+
 	const imdb_code = router.query.imdb_code;
 
 	const { t }: i18translateType = useTranslation('common');
-	const { data, error } = trpc.comment.getMovieComments.useQuery({
-		imdb_code: imdb_code as string,
-	});
+
 	const { status } = useSession();
 
 	// const [movieData, setMovieData] = useState<Movie>();
@@ -59,8 +58,6 @@ const MoviePage = () => {
 		movie_path: '',
 		size: 0,
 	}); // THIS IS NEEDED TO PASS INFO TO API
-	// this is forced comments to display for now till we got real backend comments
-	const [comments, setComments] = useState([]);
 
 	// useEffect(() => {
 	// 	if (imdb_code) {
@@ -74,12 +71,13 @@ const MoviePage = () => {
 	// 	}
 	// }, [imdb_code]);
 
+	// console.log(data);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const response = await axios.get(
 				`/api/movie-metadata?imdb_code=${imdb_code}`
 			);
-			console.log(response.data);
 			setMovie(response.data);
 		};
 		if (imdb_code) {
@@ -91,7 +89,6 @@ const MoviePage = () => {
 		const fetchData = async () => {
 			MovieDB.movieCredits({ id: movie?.imdb_code }, (err: any, res: any) => {
 				setCrew(res);
-				// console.log(res);
 			});
 		};
 		if (movie?.id) {
@@ -104,6 +101,19 @@ const MoviePage = () => {
 			window.location.replace('/');
 		}
 	}, [status]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			MovieDB.movieSimilar({ id: movie?.imdb_code }, (err: any, res: any) => {
+				setRecommendMovies(res.results);
+				console.log(res.results);
+			});
+		};
+		if (movie?.id) {
+			fetchData();
+		}
+	}, [movie]);
+
 	/* const handleClick = async () => {
 		// THESE CHANGES ARE IMPORTANT
 		const result = await axios.post('/api/video/', movie);
@@ -198,7 +208,7 @@ const MoviePage = () => {
 											<Card.Title className="mb-4 fs-5 d-flex align-items-center p-0">
 												{movie?.year}
 												<span className="mx-3 border b-1 p-1 rounded border-dark fs-6">
-													{/* {movieRate(movieData?.Rated)} */}
+													{movieRate(movie?.rating)}
 												</span>
 												<span>{movie?.runtime}</span>
 											</Card.Title>
@@ -210,15 +220,15 @@ const MoviePage = () => {
 										cast={crew.cast as Array<Cast>}
 									/>
 									<hr />
-									{comments && (
+									{
 										<Row>
 											<Col>
 												<CommentsSection
-													imdb_code={parseInt(router.query.movieId as string)}
+													imdb_code={router.query.imdb_code as string}
 												/>
 											</Col>
 										</Row>
-									)}
+									}
 								</Container>
 							</Container>
 						</Card.Body>

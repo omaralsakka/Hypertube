@@ -8,7 +8,7 @@ export const commentRouter = router({
 		.query(async ({ input, ctx }) => {
 			console.log(input);
 			const comments: any = await ctx.prisma.comment.findMany({
-				where: { imdb_code: input.imdb_code },
+				where: { imdb_code: input.imdb_code as string },
 				select: {
 					id: true,
 					imdb_code: true,
