@@ -43,9 +43,9 @@ const MoviePage = () => {
 	const imdb_code = router.query.imdb_code;
 
 	const { t }: i18translateType = useTranslation('common');
-	// const { data, error } = trpc.comment.getMovieComments.useQuery({
-	// 	imdb_code: imdb_code,
-	// });
+	const { data, error } = trpc.comment.getMovieComments.useQuery({
+		imdb_code: imdb_code as string,
+	});
 	const { status } = useSession();
 
 	// const [movieData, setMovieData] = useState<Movie>();
@@ -60,7 +60,7 @@ const MoviePage = () => {
 		size: 0,
 	}); // THIS IS NEEDED TO PASS INFO TO API
 	// this is forced comments to display for now till we got real backend comments
-	// const [comments, setComments] = useState([]);
+	const [comments, setComments] = useState([]);
 
 	// useEffect(() => {
 	// 	if (imdb_code) {
@@ -150,7 +150,7 @@ const MoviePage = () => {
 							<Container className="p-0" fluid>
 								<Row className="d-flex g-0 m-auto justify-content-center">
 									<MovieScreen
-										movie={movie}
+										movie={movie as Movie}
 										movieInfo={movieInfo}
 										setMovieUrl={setMovieUrl}
 										setMovieInfo={setMovieInfo}
@@ -210,7 +210,7 @@ const MoviePage = () => {
 										cast={crew.cast as Array<Cast>}
 									/>
 									<hr />
-									{/* {comments && (
+									{comments && (
 										<Row>
 											<Col>
 												<CommentsSection
@@ -218,7 +218,7 @@ const MoviePage = () => {
 												/>
 											</Col>
 										</Row>
-									)} */}
+									)}
 								</Container>
 							</Container>
 						</Card.Body>

@@ -8,12 +8,9 @@ const movieMetadata = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (session) {
 		if (req.method === 'GET') {
 			const data = req.query;
-			console.log('data');
-			console.log(data);
-			console.log('data');
 			const movie: any = await prisma.movie.findUnique({
 				where: {
-					imdb_code: data.imdb_code,
+					imdb_code: data.imdb_code as string,
 				},
 			});
 			console.log(movie);
