@@ -17,7 +17,7 @@ export type User = {
 	OAuth: boolean;
 	emailVerified: string;
 };
-
+//yts data
 export type Movie = {
 	background_image: string;
 	background_image_original: string;
@@ -48,7 +48,7 @@ export type Movie = {
 	year: number;
 	yt_trailer_code: string;
 };
-
+//omdb data
 export type MovieData = {
 	Title: string;
 	Year: string;

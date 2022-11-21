@@ -1,15 +1,15 @@
-import { MovieData, Crew, Cast } from '../../types/appTypes';
+import { Movie, Crew, Cast } from '../../types/appTypes';
 import { Card, Row, Col, Collapse, Button, Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
 const MovieDescription = ({
-	movieData,
+	movie,
 	crew,
 	cast,
 }: {
-	movieData: MovieData | undefined;
+	movie: Movie | undefined;
 	crew: Array<Crew> | undefined;
 	cast: Array<Cast> | undefined;
 }) => {
@@ -57,30 +57,30 @@ const MovieDescription = ({
 					<Col>
 						<Row className="mb-3">
 							<Card.Title className="fs-3">{t('movieInfo.plot')}</Card.Title>
-							<Card.Text style={{ color: '#333' }}>{movieData?.Plot}</Card.Text>
+							<Card.Text style={{ color: '#333' }}>
+								{movie?.description_full}
+							</Card.Text>
 						</Row>
 						<Row>
 							<div className="d-flex align-items-center mb-1">
 								<Card.Title className="m-0 p-0">Imdb:</Card.Title>
-								<Card.Text className="fs-5 ms-1">
-									{movieData?.imdbRating}
-								</Card.Text>
+								<Card.Text className="fs-5 ms-1">{movie?.rating}</Card.Text>
 							</div>
 							<div className="d-flex align-items-center ">
-								<Card.Title className="m-0 p-0">
+								{/* <Card.Title className="m-0 p-0">
 									{t('movieInfo.country')}:
 								</Card.Title>
 								<Card.Text className="fs-5 ms-1">
-									{movieData?.Country}
-								</Card.Text>
+									{movie?.}
+								</Card.Text> */}
 							</div>
 							<Card.Title>
 								<span>{t('movieInfo.category')}:</span>
-								<strong>{movieData?.Genre}</strong>
+								{/* <strong>{movie?.genre[0]}</strong> */}
 							</Card.Title>
 							<Card.Title>
 								<span>{t('nav.language')}:</span>
-								<strong>{movieData?.Language}</strong>
+								<strong>{movie?.language}</strong>
 							</Card.Title>
 						</Row>
 					</Col>
@@ -89,18 +89,21 @@ const MovieDescription = ({
 							<Card.Title>
 								<span>{t('movieInfo.director')}</span>
 								&nbsp;
-								<strong>{movieData?.Director}</strong>
+								{/* <strong>{movie?.Director}</strong> */}
 							</Card.Title>
+							<hr />
 							<Card.Title>
 								<span>Writer</span>
 								&nbsp;
 								<strong>{crew && writer}</strong>
 							</Card.Title>
+							<hr />
 							<Card.Title>
 								<span>Producer</span>
 								&nbsp;
 								<strong>{crew && producer}</strong>
 							</Card.Title>
+							<hr />
 							<Card.Title>
 								<span>{t('movieInfo.actors')}</span>
 							</Card.Title>

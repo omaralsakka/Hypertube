@@ -3,7 +3,6 @@ import { Movie } from '../../types/appTypes';
 import { AiFillStar } from 'react-icons/ai';
 import { movieRate } from '../../utils/helperFunctions';
 import { useEffect, useState } from 'react';
-import { getOmdb } from '../../utils/helperFunctions';
 import { MovieData } from '../../types/appTypes';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
@@ -16,12 +15,8 @@ const MovieCardOverlay = ({
 	movie: Movie;
 	viewType: string;
 }) => {
-	const [movieData, setMovieData] = useState<MovieData>();
 	const { t }: i18translateType = useTranslation('common');
 
-	useEffect(() => {
-		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
-	}, []);
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
@@ -32,7 +27,7 @@ const MovieCardOverlay = ({
 					<Row className="g-0 w-75 mb-3 ">
 						<Col>
 							<span className="border b-1 px-1 rounded border-dark fs-6">
-								{movieRate(movieData?.Rated)}
+								{movieRate(movie.rating.toString())}
 							</span>
 						</Col>
 						{viewType === 'full' && (
