@@ -4,10 +4,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
 
 interface SubtitlesDbObj {
-		id: string,
-		imdb_code: string,
-		language: string,
-		path: string,
+	id: string;
+	imdb_code: string;
+	language: string;
+	path: string;
 }
 
 interface SubtitlesObj {

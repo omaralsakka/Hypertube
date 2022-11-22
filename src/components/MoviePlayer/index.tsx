@@ -35,7 +35,7 @@ const MoviePlayer = ({ movieUrl, subtitles, isMp4 }: { movieUrl: string, subtitl
 					controls={isMp4}
 					playing={true}
 					width="100%"
-					onError={onError}
+					// onError={onError}
 					style={{
 						objectFit: 'cover',
 						minHeight: '720px',

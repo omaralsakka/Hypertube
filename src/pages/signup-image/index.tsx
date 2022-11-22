@@ -17,7 +17,7 @@ const SignupImage = () => {
 							<Card.Title className="display-6 text-dark mb-5">
 								<strong>{t('signupImage.title')}</strong>
 							</Card.Title>
-							<PhotoUpload />
+
 							<Card.Title className="mb-5 w-50 text-center">
 								{t('signupImage.body')}
 							</Card.Title>
