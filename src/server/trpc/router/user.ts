@@ -18,7 +18,6 @@ export const userRouter = router({
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
 			// Check if exists
 			const checkUser = await ctx.prisma.user.findUnique({
 				where: {
@@ -79,7 +78,6 @@ export const userRouter = router({
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
 			const user = await ctx.prisma.user.findUnique({
 				where: {
 					id: input.id,
@@ -150,7 +148,6 @@ export const userRouter = router({
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			console.log(input);
 			const user = await ctx.prisma.user.findUnique({
 				where: {
 					id: input.id,
@@ -175,6 +172,33 @@ export const userRouter = router({
 			return {
 				message: 'User information retrieved successfully',
 				user: user,
+			};
+		}),
+
+		getProfile: publicProcedure
+		.input(
+			z.string().min(1).max(30)
+		)
+		.query(async ({ input, ctx }) => {
+			const user = await ctx.prisma.user.findUnique({
+				where: {
+					id: input
+				},
+				select: {
+					id: true,
+					name: true,
+					email: true,
+					image: true,
+					emailVerified: true,
+					accounts: {
+						select: {
+							type: true,
+						},
+					},
+				},
+			});
+			return {
+				user
 			};
 		}),
 });

@@ -12,14 +12,6 @@ import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
-
-const streamMovie = (movie: Movie | undefined) => {
-	// THIS CHANGE IS IMPORTANT
-	const response = fetch('/api/video/', {
-		method: 'POST',
-		body: JSON.stringify(movie),
-	});
-};
 import { getMovie, getSuggestedMovies } from '../../services/ytsServices';
 import MovieScreen from '../../components/MovieScreen';
 import LoadingLogo from '../../components/loadingLogo';
@@ -80,27 +72,6 @@ const MoviePage = () => {
 			window.location.replace('/');
 		}
 	}, [status]);
-	/* const handleClick = async () => {
-		// THESE CHANGES ARE IMPORTANT
-		const result = await axios.post('/api/video/', movie);
-		setMovieInfo(result.data.data);
-		if (movie) {
-			const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`, {
-			});
-			console.log(subsArray.data);
-			setSubtitles(subsArray.data);
-			setLoading(true);
-		}
-	}; */
-
-	/* useEffect(() => {
-		const timeout = setTimeout(() => {
-			setMovieUrl(
-				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
-			);
-		}, 500);
-		return () => clearTimeout(timeout);
-	}, [movieInfo]); */
 
 	if (!movie?.id) {
 		return (
