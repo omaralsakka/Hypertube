@@ -7,21 +7,6 @@ var _ = require('lodash');
 import { useState } from 'react';
 import AdvancedSearch from '../advancedSearch';
 
-type FilterInputs = {
-	fromYear: string;
-	toYear: string;
-	genre: string;
-	imdbRating: string;
-	orderBy: string;
-	sortBy: string;
-	quality: string;
-	seeds: string;
-	fromRunTime: string;
-	language: string;
-	toRunTime: string;
-	limit: string;
-	description: string;
-};
 const FilterControls = ({
 	onFilterChange,
 	filterInputs,
@@ -254,134 +239,138 @@ const FilterControls = ({
 					</Form.Group>
 				</Form>
 			</AdvancedSearch>
-								<div>
-									<Form.Label className="fs-5">Order By</Form.Label>
-									<div>
-										<Form.Select
-											aria-label="Order By"
-											// defaultValue="Desc"
-											id="orderBy"
-											name="orderBy"
-											value={filterInputs.orderBy}
-											onChange={(e) => onFilterChange(e)}
-										>
-											<option value="desc">Descending</option>
-											<option value="asc">Ascending</option>
-										</Form.Select>
-									</div>
-								</div>
-								<div>
-									<Form.Label className="fs-5">Sort By</Form.Label>
-									<Form.Select
-										aria-label="Sort By"
-										// defaultValue="rating"
-										id="sortBy"
-										name="sortBy"
-										value={filterInputs.sortBy}
-										onChange={(e) => onFilterChange(e)}
-									>
-										<option value="title">title</option>
-										<option value="year">year</option>
-										<option value="rating">rating</option>
-										<option value="downloads">downloads</option>
-										<option value="seeds">seeds</option>
-									</Form.Select>
-								</div>
-								<div>
-									<Form.Label className="fs-5">Quality</Form.Label>
-									<div>
-										<Form.Select
-											aria-label="Quality"
-											// defaultValue="720p"
-											id="quality"
-											name="quality"
-											value={filterInputs.quality}
-											onChange={(e) => onFilterChange(e)}
-										>
-											<option value="SD">SD</option>
-											<option value="720p">720p</option>
-											<option value="1080p">1080p</option>
-											<option value="3D">3D</option>
-										</Form.Select>
-									</div>
-								</div>
-								<div>
-									<Form.Label className="fs-5">Seeds</Form.Label>
-									<div>
-										<Form.Select
-											aria-label="Seeds"
-											// defaultValue="1"
-											id="seeds"
-											name="seeds"
-											value={filterInputs.seeds}
-											onChange={(e) => onFilterChange(e)}
-										>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="5">5</option>
-											<option value="10">10</option>
-										</Form.Select>
-									</div>
-								</div>
-								<div>
-									<Form.Label className="fs-5">Genre</Form.Label>
-									<Form.Select
-										aria-label="Genre"
-										id="genre"
-										name="genre"
-										value={filterInputs.genre}
-										onChange={(e) => onFilterChange(e)}
-									>
-										{genres.map((genre) => (
-											<option key={genre + '1'}>{genre}</option>
-										))}
-									</Form.Select>
-								</div>
-								<div>
-									<Form.Label className="fs-5">Language</Form.Label>
-									<Form.Select
-										aria-label="Language"
-										id="language"
-										name="language"
-										value={filterInputs.language}
-										onChange={(e) => onFilterChange(e)}
-									>
-										{languages.map((language) => (
-											<option key={language + '1'}>{language}</option>
-										))}
-									</Form.Select>
-								</div>
-								<div>
-									<Form.Label className="fs-5">Imdb rating</Form.Label>
-									<Form.Select
-										aria-label="Imdb rating"
-										// defaultValue={7}
-										id="imdbRating"
-										name="imdbRating"
-										value={filterInputs.imdbRating}
-										onChange={(e) => onFilterChange(e)}
-									>
-										{ratings.map((rating: number) => (
-											<option key={rating}>{rating}</option>
-										))}
-									</Form.Select>
-								</div>
-								{/* <div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-  <label class="form-check-label" for="flexCheckChecked">
-    Checked checkbox
-  </label>
-</div> */}
-							</Form.Group>
-						</Form>
-					</Accordion.Body>
-				</Accordion.Item>
-			</Accordion>
 		</>
 	);
 };
 
 export default FilterControls;
+// 								<div>
+// 									<Form.Label className="fs-5">Order By</Form.Label>
+// 									<div>
+// 										<Form.Select
+// 											aria-label="Order By"
+// 											// defaultValue="Desc"
+// 											id="orderBy"
+// 											name="orderBy"
+// 											value={filterInputs.orderBy}
+// 											onChange={(e) => onFilterChange(e)}
+// 										>
+// 											<option value="desc">Descending</option>
+// 											<option value="asc">Ascending</option>
+// 										</Form.Select>
+// 									</div>
+// 								</div>
+// 								<div>
+// 									<Form.Label className="fs-5">Sort By</Form.Label>
+// 									<Form.Select
+// 										aria-label="Sort By"
+// 										// defaultValue="rating"
+// 										id="sortBy"
+// 										name="sortBy"
+// 										value={filterInputs.sortBy}
+// 										onChange={(e) => onFilterChange(e)}
+// 									>
+// 										<option value="title">title</option>
+// 										<option value="year">year</option>
+// 										<option value="rating">rating</option>
+// 										<option value="downloads">downloads</option>
+// 										<option value="seeds">seeds</option>
+// 									</Form.Select>
+// 								</div>
+// 								<div>
+// 									<Form.Label className="fs-5">Quality</Form.Label>
+// 									<div>
+// 										<Form.Select
+// 											aria-label="Quality"
+// 											// defaultValue="720p"
+// 											id="quality"
+// 											name="quality"
+// 											value={filterInputs.quality}
+// 											onChange={(e) => onFilterChange(e)}
+// 										>
+// 											<option value="SD">SD</option>
+// 											<option value="720p">720p</option>
+// 											<option value="1080p">1080p</option>
+// 											<option value="3D">3D</option>
+// 										</Form.Select>
+// 									</div>
+// 								</div>
+// 								<div>
+// 									<Form.Label className="fs-5">Seeds</Form.Label>
+// 									<div>
+// 										<Form.Select
+// 											aria-label="Seeds"
+// 											// defaultValue="1"
+// 											id="seeds"
+// 											name="seeds"
+// 											value={filterInputs.seeds}
+// 											onChange={(e) => onFilterChange(e)}
+// 										>
+// 											<option value="1">1</option>
+// 											<option value="2">2</option>
+// 											<option value="5">5</option>
+// 											<option value="10">10</option>
+// 										</Form.Select>
+// 									</div>
+// 								</div>
+// 								<div>
+// 									<Form.Label className="fs-5">Genre</Form.Label>
+// 									<Form.Select
+// 										aria-label="Genre"
+// 										id="genre"
+// 										name="genre"
+// 										value={filterInputs.genre}
+// 										onChange={(e) => onFilterChange(e)}
+// 									>
+// 										{genres.map((genre) => (
+// 											<option key={genre + '1'}>{genre}</option>
+// 										))}
+// 									</Form.Select>
+// 								</div>
+// 								<div>
+// 									<Form.Label className="fs-5">Language</Form.Label>
+// 									<Form.Select
+// 										aria-label="Language"
+// 										id="language"
+// 										name="language"
+// 										value={filterInputs.language}
+// 										onChange={(e) => onFilterChange(e)}
+// 									>
+// 										{languages.map((language) => (
+// 											<option key={language + '1'}>{language}</option>
+// 										))}
+// 									</Form.Select>
+// 								</div>
+// 								<div>
+// 									<Form.Label className="fs-5">Imdb rating</Form.Label>
+// 									<Form.Select
+// 										aria-label="Imdb rating"
+// 										// defaultValue={7}
+// 										id="imdbRating"
+// 										name="imdbRating"
+// 										value={filterInputs.imdbRating}
+// 										onChange={(e) => onFilterChange(e)}
+// 									>
+// 										{ratings.map((rating: number) => (
+// 											<option key={rating}>{rating}</option>
+// 										))}
+// 									</Form.Select>
+// 								</div>
+// 								{/* <div class="form-check">
+//   <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+//   <label class="form-check-label" for="flexCheckChecked">
+//     Checked checkbox
+//   </label>
+// </div> */}
+// 							</Form.Group>
+// 						</Form>
+// 					</Accordion.Body>
+// 				</Accordion.Item>
+// 			</Accordion>
+// 		</>
+// 	);
+// };
+
 /*Rank
 (2010)	Country	Number of feature films produced1
 2005	2006	2007	2008	2009	2010

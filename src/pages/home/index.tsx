@@ -19,7 +19,6 @@ const Home = () => {
 
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
-	const { data: session } = useSession();
 	const [movies, setMovies] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	// const getMovies = async () => {

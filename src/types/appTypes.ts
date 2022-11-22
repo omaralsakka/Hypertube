@@ -153,6 +153,7 @@ export type FilterInputs = {
 	quality: string;
 	seeds: string;
 	fromRunTime: string;
+	language: string;
 	toRunTime: string;
 	limit: string;
 	description: string;
