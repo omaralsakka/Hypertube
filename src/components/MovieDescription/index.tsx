@@ -60,7 +60,7 @@ const MovieDescription = ({
 			</Container>
 			<Collapse in={openDescription}>
 				<Row id="description-section">
-					<Col>
+					<Col className="mb-sm-0 mb-2" sm>
 						<Row className="mb-3">
 							<Card.Title className="fs-3">{t('movieInfo.plot')}</Card.Title>
 							<Card.Text style={{ color: '#333' }}>
@@ -95,7 +95,7 @@ const MovieDescription = ({
 							</Card.Title>
 						</Row>
 					</Col>
-					<Col>
+					<Col sm>
 						<Row className="mb-3">
 							<Card.Title>
 								<span>{t('movieInfo.director')}</span>
