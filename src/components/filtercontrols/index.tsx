@@ -73,14 +73,27 @@ const FilterControls = ({
 						</Form.Select>
 					</Form.Group>
 					{/* <Form.Group className="d-flex flex-column mb-4">
-						<Form.Label className="text-muted">Description</Form.Label>
+						<Form.Label className="text-white">Description</Form.Label>
 						<Form.Control
 							name="description"
 							onChange={(e) => onFilterChange(e)}
 							value={filterInputs.description}
 						/>
 					</Form.Group> */}
-
+					<Form.Group>
+						<Form.Label className="text-white">Language</Form.Label>
+						<Form.Select
+							aria-label="Language"
+							id="language"
+							name="language"
+							value={filterInputs.language}
+							onChange={(e) => onFilterChange(e)}
+						>
+							{languages.map((language) => (
+								<option key={language + '1'}>{language}</option>
+							))}
+						</Form.Select>
+					</Form.Group>
 					<Form.Group className="mb-4">
 						<Form.Label className="text-white">Rating</Form.Label>
 						<Form.Select
@@ -199,6 +212,7 @@ const FilterControls = ({
 								<option value="title">title</option>
 								<option value="year">year</option>
 								<option value="rating">rating</option>
+								{/* <option value="seeds">seeds</option> */}
 							</Form.Select>
 						</Container>
 					</Form.Group>
@@ -217,7 +231,7 @@ const FilterControls = ({
 								<option value="SD">SD</option>
 								<option value="720p">720p</option>
 								<option value="1080p">1080p</option>
-								<option value="3D">3D</option>
+								{/* <option value="3D">3D</option> */}
 							</Form.Select>
 						</Container>
 						<Container>

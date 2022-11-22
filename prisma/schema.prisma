@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  // previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -116,6 +116,7 @@ model Movie {
   date_uploaded_unix        Int?
   torrent                   Torrent[]
   genre                     MovieGenre[]
+  primary_genre         String?
   num_of_votes              Int?
 }
 

@@ -46,7 +46,7 @@ const MovieCardOverlay = ({
 						<Card.Text>
 							{/* <strong>{movie.genres.at(0) ? movie.genres.at(0) : 'N/A'}</strong> */}
 
-							<strong>{movie?.genre ? [0].genreName : string}</strong>
+							{/* <strong>{movie?.genre[0]['genreName']}</strong> */}
 						</Card.Text>
 					)}
 				</div>

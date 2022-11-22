@@ -1,4 +1,4 @@
-id,primary_genre
+movieId,genre
 46423,Action
 46422,Thriller
 46421,Thriller

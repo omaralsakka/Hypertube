@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
 import axios from 'axios';
+import { Movie } from '../../types/appTypes';
 
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
@@ -36,15 +37,15 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 						},
 					},
 				},
-				genre: {
-					some: {
-						genreName: {
-							contains: input.genre,
-						},
-					},
-				},
+				// genre: {
+				// 	some: {
+				// 		genreName: {
+				// 			in: input.genre,
+				// 		},
+				// 	},
+				// },
 			},
-			orderBy: { [input.sortBy]: input.orderBy },
+			orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
 		});
 		// console.log(movies);
 
