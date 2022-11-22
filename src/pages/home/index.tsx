@@ -76,7 +76,7 @@ const Home = () => {
 						<>
 							<Container className="d-flex flex-column" fluid>
 								<Container
-									className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
+									className={`sticky-top ${flexColCenter} flex-sm-row bg-transparent shadow-sm rounded mb-4 mt-4 `}
 								>
 									<div className="searchNavBar mb-sm-0 mb-3">
 										<SearchNavBar
