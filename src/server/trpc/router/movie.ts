@@ -5,7 +5,6 @@ import { prisma } from '../../db/client';
 import { MdDescription } from 'react-icons/md';
 
 export const movieRouter = router({
-
 	search: publicProcedure
 		.input(
 			z.object({
@@ -30,7 +29,7 @@ export const movieRouter = router({
 				skip: 0,
 				take: 20,
 				where: {
-					// title: { contains: input.search_term, mode: 'insensitive' },
+					title: { contains: input.search_term, mode: 'insensitive' },
 					year: { gt: input.fromYear, lt: input.toYear },
 					runtime: {
 						gt: input.fromRunTime,

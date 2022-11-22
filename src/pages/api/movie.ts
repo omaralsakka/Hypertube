@@ -13,7 +13,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 			skip: 0,
 			take: 20,
 			where: {
-				// title: { contains: input.search_term, mode: 'insensitive' },
+				title: { contains: input.search_term, mode: 'insensitive' },
 				year: { gt: input.fromYear, lt: input.toYear },
 				language: { contains: input.language },
 				runtime: {
@@ -23,10 +23,10 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 				rating: {
 					gt: input.imdbRating,
 				},
-				// description_full: {
-				// 	contains: input.description,
-				// 	mode: 'insensitive',
-				// },
+				description_full: {
+					contains: input.description,
+					mode: 'insensitive',
+				},
 				torrent: {
 					some: {
 						quality: {

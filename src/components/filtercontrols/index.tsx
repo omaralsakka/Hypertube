@@ -72,14 +72,14 @@ const FilterControls = ({
 							))}
 						</Form.Select>
 					</Form.Group>
-					{/* <Form.Group className="d-flex flex-column mb-4">
+					<Form.Group className="d-flex flex-column mb-4">
 						<Form.Label className="text-white">Description</Form.Label>
 						<Form.Control
 							name="description"
 							onChange={(e) => onFilterChange(e)}
 							value={filterInputs.description}
 						/>
-					</Form.Group> */}
+					</Form.Group>
 					<Form.Group>
 						<Form.Label className="text-white">Language</Form.Label>
 						<Form.Select
