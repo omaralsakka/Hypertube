@@ -17,6 +17,7 @@ const MovieDescription = ({
 	const { t }: i18translateType = useTranslation('common');
 	const [producer, setProducer] = useState('');
 	const [writer, setWriter] = useState('');
+	const [director, setDirector] = useState('');
 
 	useEffect(() => {
 		const getProducer = () => {
@@ -26,12 +27,17 @@ const MovieDescription = ({
 			const second = crew?.find((obj) => {
 				return obj.department === 'Writing';
 			});
-
+			const third = crew?.find((obj) => {
+				return obj.department === 'Directing';
+			});
 			if (second) {
 				setWriter(second.name);
 			}
 			if (first) {
 				setProducer(first.name);
+			}
+			if (third) {
+				setDirector(third.name);
 			}
 		};
 
@@ -76,7 +82,12 @@ const MovieDescription = ({
 							</div>
 							<Card.Title>
 								<span>{t('movieInfo.category')}:</span>
-								{/* <strong>{movie?.genre[0]}</strong> */}
+								<strong>
+									{movie &&
+										movie.genre.map((obj) => (
+											<div key={obj['genreName']}>{obj['genreName']}</div>
+										))}
+								</strong>
 							</Card.Title>
 							<Card.Title>
 								<span>{t('nav.language')}:</span>
@@ -89,7 +100,7 @@ const MovieDescription = ({
 							<Card.Title>
 								<span>{t('movieInfo.director')}</span>
 								&nbsp;
-								{/* <strong>{movie?.Director}</strong> */}
+								<strong>{crew && director}</strong>
 							</Card.Title>
 							<hr />
 							<Card.Title>
@@ -110,7 +121,7 @@ const MovieDescription = ({
 							<Container></Container>
 						</Row>
 						{cast &&
-							cast.map((actor: Cast) => (
+							cast.slice(0, 3).map((actor: Cast) => (
 								<div key={actor.id}>
 									<Row>
 										<Col xs={1}>
@@ -142,59 +153,3 @@ const MovieDescription = ({
 };
 
 export default MovieDescription;
-
-{
-	/*
-
-)}
-
-
- <Collapse in={openDescription}>
-<Row id="description-section">
-	<Col>
-		<Row className="mb-3">
-			<Card.Title className="fs-3">{t('movieInfo.plot')}</Card.Title>
-			<Card.Text style={{ color: '#333' }}>{movieData?.Plot}</Card.Text>
-		</Row>
-		<Row>
-			<div className="d-flex align-items-center mb-1">
-				<Card.Title className="m-0 p-0">Imdb:</Card.Title>
-				<Card.Text className="fs-5 ms-1">
-					{movieData?.imdbRating}
-				</Card.Text>
-			</div>
-			<div className="d-flex align-items-center ">
-				<Card.Title className="m-0 p-0">
-					{t('movieInfo.country')}:
-				</Card.Title>
-				<Card.Text className="fs-5 ms-1">
-					{movieData?.Country}
-				</Card.Text>
-			</div>
-		</Row>
-	</Col>
-	<Col>
-		<Row className="mb-3">
-			<Card.Title>
-				<span>{t('movieInfo.actors')}:</span>
-				<strong>{movieData?.Actors}</strong>
-			</Card.Title>
-			<Card.Title>
-				<span>{t('movieInfo.director')}:</span>
-				<strong>{movieData?.Director}</strong>
-			</Card.Title>
-		</Row>
-		<Row>
-			<Card.Title>
-				<span>{t('movieInfo.category')}:</span>
-				<strong>{movieData?.Genre}</strong>
-			</Card.Title>
-			<Card.Title>
-				<span>{t('nav.language')}:</span>
-				<strong>{movieData?.Language}</strong>
-			</Card.Title>
-		</Row>
-	</Col>
-</Row>
-</Collapse> */
-}

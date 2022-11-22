@@ -12,6 +12,13 @@ const movieMetadata = async (req: NextApiRequest, res: NextApiResponse) => {
 				where: {
 					imdb_code: data.imdb_code as string,
 				},
+				include: {
+					genre: {
+						select: {
+							genreName: true,
+						},
+					},
+				},
 			});
 			console.log(movie);
 			res.status(200).json(movie);

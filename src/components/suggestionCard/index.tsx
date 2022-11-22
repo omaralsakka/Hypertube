@@ -12,7 +12,6 @@ const SuggestionCard = ({
 	style: string;
 	viewType: string;
 }) => {
-	console.log(movie);
 	return (
 		<Link href={`/home/${movie.imdb_code}`}>
 			<a>

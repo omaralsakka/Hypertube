@@ -3,7 +3,6 @@ import { Movie } from '../../types/appTypes';
 import { AiFillStar } from 'react-icons/ai';
 import { movieRate } from '../../utils/helperFunctions';
 import { useEffect, useState } from 'react';
-import { getOmdb } from '../../utils/helperFunctions';
 import { MovieData } from '../../types/appTypes';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
@@ -16,7 +15,7 @@ const SuggestionCardOverlay = ({
 	viewType: string;
 }) => {
 	const { t }: i18translateType = useTranslation('common');
-	console.log(typeof movie.vote_average);
+
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
