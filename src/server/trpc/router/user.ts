@@ -175,14 +175,12 @@ export const userRouter = router({
 			};
 		}),
 
-		getProfile: publicProcedure
-		.input(
-			z.string().min(1).max(30)
-		)
+	getProfile: publicProcedure
+		.input(z.string().min(1).max(30))
 		.query(async ({ input, ctx }) => {
 			const user = await ctx.prisma.user.findUnique({
 				where: {
-					id: input
+					id: input,
 				},
 				select: {
 					id: true,
@@ -195,10 +193,11 @@ export const userRouter = router({
 							type: true,
 						},
 					},
+					firstLogin: true,
 				},
 			});
 			return {
-				user
+				user,
 			};
 		}),
 });

@@ -16,6 +16,7 @@ export type User = {
 	image: string;
 	OAuth: boolean;
 	emailVerified: string;
+	firstLogin: number;
 };
 
 export type Movie = {
@@ -87,8 +88,11 @@ export type Comment = {
 	created_at: string;
 	comment_text: string;
 	user: {
-		id: any; image: string; name: string; created_at: Date 
-};
+		id: any;
+		image: string;
+		name: string;
+		created_at: Date;
+	};
 };
 
 export type Inputs = {

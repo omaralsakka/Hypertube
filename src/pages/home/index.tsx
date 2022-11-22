@@ -8,12 +8,12 @@ import { useSession } from 'next-auth/react';
 import LoadingLogo from '../../components/loadingLogo';
 import { trpc } from '../../utils/trpc';
 import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
+import SignupImage from '../../components/signupImage';
 
 const Home = () => {
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
 	const [search_term, setsearch_ter] = useState('');
-
 	const [filterInputs, setFilterInputs] = useState({
 		orderBy: 'desc',
 		sortBy: 'rating',
@@ -43,7 +43,9 @@ const Home = () => {
 		description: filterInputs.description,
 		genre: filterInputs.genre,
 	});
-
+	const { data: userData } = trpc.user.getProfile.useQuery(
+		!session?.token?.user?.id ? '0' : session?.token?.user?.id
+	);
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
 		setsearch_ter(value);
@@ -58,43 +60,53 @@ const Home = () => {
 			window.location.replace('/');
 		}
 	}, [status]);
+	console.log('this is session data: ', session?.token.user);
 	return (
 		<>
 			{status !== 'authenticated' ? (
 				<></>
 			) : (
 				<>
-					<Container className="d-flex flex-column" fluid>
-						<Container
-							className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
-						>
-							<div className="searchNavBar mb-sm-0 mb-3">
-								<SearchNavBar
-									onSearchChange={onSearchChange}
-									search_term={search_term}
-								/>
-							</div>
-							<div className="p-0 mb-sm-0 mb-3">
-								<FilterControls
-									onFilterChange={onFilterChange}
-									filterInputs={filterInputs}
-								/>
-							</div>
-						</Container>
-						<Container
-							className="d-flex flex-wrap justify-content-center"
-							fluid
-						>
-							{data?.movies.map((movie: Movie) => (
-								<MovieCard
-									key={movie.id}
-									movie={movie}
-									style="homeMovieStyle"
-									viewType="full"
-								/>
-							))}
-						</Container>
-					</Container>
+					{userData?.user?.firstLogin ? (
+						<SignupImage
+							currentImage={session.token.user.image}
+							email={session.token.user.email}
+						/>
+					) : (
+						<>
+							<Container className="d-flex flex-column" fluid>
+								<Container
+									className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
+								>
+									<div className="searchNavBar mb-sm-0 mb-3">
+										<SearchNavBar
+											onSearchChange={onSearchChange}
+											search_term={search_term}
+										/>
+									</div>
+									<div className="p-0 mb-sm-0 mb-3">
+										<FilterControls
+											onFilterChange={onFilterChange}
+											filterInputs={filterInputs}
+										/>
+									</div>
+								</Container>
+								<Container
+									className="d-flex flex-wrap justify-content-center"
+									fluid
+								>
+									{data?.movies.map((movie: Movie) => (
+										<MovieCard
+											key={movie.id}
+											movie={movie}
+											style="homeMovieStyle"
+											viewType="full"
+										/>
+									))}
+								</Container>
+							</Container>
+						</>
+					)}
 				</>
 			)}
 		</>
