@@ -18,7 +18,7 @@ const NavigationBar = () => {
 	const { i18n } = useTranslation('common');
 	const { data: session } = useSession();
 	const [userImg, setUserImg] = useState('/defaultImg2.png');
-	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
+	const { data } = trpc.user.get.useQuery(
 		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id },
 		{
 			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
