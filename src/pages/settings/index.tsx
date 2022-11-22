@@ -23,6 +23,7 @@ const Settings = () => {
 	const [passType, setPassType] = useState('password');
 	const [currentImage, setCurrentImage] = useState('/defaultImg2.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
+	const [success, setSuccess] = useState(0);
 	const { data: session, status } = useSession();
 
 	const { t }: i18translateType = useTranslation('common');
@@ -105,6 +106,7 @@ const Settings = () => {
 									<PhotoUpload
 										currentImage={currentImage}
 										email={session?.user?.email}
+										setSuccess={setSuccess}
 									/>
 									<Container className="text-center fs-3 mb-4">
 										{session?.user?.name}

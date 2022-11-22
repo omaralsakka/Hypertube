@@ -5,9 +5,11 @@ import { ToastContainer, toast } from 'react-toastify';
 const PhotoUpload = ({
 	currentImage,
 	email,
+	setSuccess,
 }: {
 	currentImage: string | null | undefined;
 	email: string | null | undefined;
+	setSuccess: React.Dispatch<React.SetStateAction<number>>;
 }) => {
 	const [photo, setPhoto] = useState('');
 	const [file, setFile] = useState<File | null>();
@@ -41,6 +43,7 @@ const PhotoUpload = ({
 			if (response.status === 201) {
 				const data = await response.json();
 				if (data.filename) setPhoto(`/images/${data.filename}`);
+				setSuccess(1);
 			} else {
 				setFileError(true);
 			}

@@ -60,17 +60,17 @@ const Home = () => {
 			window.location.replace('/');
 		}
 	}, [status]);
-	console.log('this is session data: ', session?.token.user);
 	return (
 		<>
 			{status !== 'authenticated' ? (
 				<></>
 			) : (
 				<>
-					{userData?.user?.firstLogin ? (
+					{userData?.user?.firstLogin === 1 ? (
 						<SignupImage
 							currentImage={session.token.user.image}
 							email={session.token.user.email}
+							userId={session.token.user.id}
 						/>
 					) : (
 						<>

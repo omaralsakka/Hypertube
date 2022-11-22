@@ -5,6 +5,7 @@ import { TRPCError } from '@trpc/server';
 import { hash } from 'argon2';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken } from '../../../utils/promisifyJWT';
+import { BsCartX } from 'react-icons/bs';
 
 // User creation and update
 export const userRouter = router({
@@ -199,5 +200,18 @@ export const userRouter = router({
 			return {
 				user,
 			};
+		}),
+
+	updateFirstLogin: publicProcedure
+		.input(z.string().min(1).max(30))
+		.mutation(async ({ input, ctx }) => {
+			const updatedUser = await ctx.prisma?.user.update({
+				where: {
+					id: input,
+				},
+				data: {
+					firstLogin: 0,
+				},
+			});
 		}),
 });
