@@ -26,7 +26,6 @@ const validateInput = async (email: string | undefined, file: File) => {
 		if (!validEmail || !validFile) return false;
 		return true;
 	} catch (err) {
-		console.error(err)
 		return false;
 	}
 };
@@ -41,10 +40,10 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 			const form = new formidable.IncomingForm();
 			// Parse form and save files
 			form.parse(req, async function (err, fields, files) {
-				if (err) return res.status(400).send('Cannot parse form data');
+				if (err) return res.send('Cannot parse form data');
 				if (typeof files === 'undefined')
-					return res.status(400).send('Missing image');
-				if (!fields.email) return res.status(400).send('Missing email address');
+					return res.send('Missing image');
+				if (!fields.email) return res.send('Missing email address');
 				let file: File | undefined;
 				if (Array.isArray(files.files)) file = files.files[0];
 				else file = files.files as unknown as File;
@@ -54,7 +53,7 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 				else email = fields.email;
 				const isValidated = await validateInput(email, file);
 				if (isValidated === false) {
-					return res.status(400).send('Invalid input variables');
+					return res.send('Invalid input variables');
 				}
 				// Create new filename
 				const filename: string = `${file.newFilename}.${file.mimetype
