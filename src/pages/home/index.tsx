@@ -60,34 +60,43 @@ const Home = () => {
 	}, [status]);
 	return (
 		<>
-			<Container className="d-flex flex-column" fluid>
-				<Container
-					className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
-				>
-					<div className="searchNavBar mb-sm-0 mb-3">
-						<SearchNavBar
-							onSearchChange={onSearchChange}
-							search_term={search_term}
-						/>
-					</div>
-					<div className="p-0 mb-sm-0 mb-3">
-						<FilterControls
-							onFilterChange={onFilterChange}
-							filterInputs={filterInputs}
-						/>
-					</div>
-				</Container>
-				<Container className="d-flex flex-wrap justify-content-center" fluid>
-					{data?.movies.map((movie: Movie) => (
-						<MovieCard
-							key={movie.id}
-							movie={movie}
-							style="homeMovieStyle"
-							viewType="full"
-						/>
-					))}
-				</Container>
-			</Container>
+			{status !== 'authenticated' ? (
+				<></>
+			) : (
+				<>
+					<Container className="d-flex flex-column" fluid>
+						<Container
+							className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
+						>
+							<div className="searchNavBar mb-sm-0 mb-3">
+								<SearchNavBar
+									onSearchChange={onSearchChange}
+									search_term={search_term}
+								/>
+							</div>
+							<div className="p-0 mb-sm-0 mb-3">
+								<FilterControls
+									onFilterChange={onFilterChange}
+									filterInputs={filterInputs}
+								/>
+							</div>
+						</Container>
+						<Container
+							className="d-flex flex-wrap justify-content-center"
+							fluid
+						>
+							{data?.movies.map((movie: Movie) => (
+								<MovieCard
+									key={movie.id}
+									movie={movie}
+									style="homeMovieStyle"
+									viewType="full"
+								/>
+							))}
+						</Container>
+					</Container>
+				</>
+			)}
 		</>
 	);
 };

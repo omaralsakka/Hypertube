@@ -57,7 +57,7 @@ const forgotPassword = () => {
 						) : (
 							<div className={`${flexColCenter} w-75 m-auto`}>
 								<Card.Title className="display-6 text-dark mb-5">
-									<strong>{t('form.forgotPass')}Forgot password</strong>
+									<strong>{t('form.forgotPass')}</strong>
 								</Card.Title>
 								<Card.Title className="mb-5 w-50 text-center">
 									{t('form.forgotPassMsg')}
