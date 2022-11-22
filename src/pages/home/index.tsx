@@ -80,8 +80,7 @@ const Home = () => {
 				<Container className="d-flex flex-wrap justify-content-center" fluid>
 					{data?.movies.map((movie: Movie) => (
 						<MovieCard
-							key={movie.id}
-							movie={movie}
+							key={movie.imdb_code}
 							style="homeMovieStyle"
 							viewType="full"
 						/>

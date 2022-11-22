@@ -18,13 +18,13 @@ const schema = z.object({
 	comment_text: z.string().min(1, {}),
 });
 
-const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
+const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 	const router = useRouter();
 	const context = trpc.useContext();
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
-	const addComment = (imdb_code: number, comment_text: string) => {
+	const addComment = (imdb_code: string, comment_text: string) => {
 		console.log(session);
 		try {
 			mutation.mutate(
@@ -44,7 +44,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 		}
 	};
 	const { data, error } = trpc.comment.getMovieComments.useQuery({
-		imdb_code: parseInt(router.query.movieId as string),
+		imdb_code: imdb_code,
 	});
 	const {
 		watch,
@@ -61,7 +61,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
 		//		event?.preventDefault();
 
-		addComment(imdb_code as number, data.comment_text as string);
+		addComment(imdb_code as string, data.comment_text as string);
 	};
 	return (
 		<>

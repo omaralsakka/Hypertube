@@ -17,17 +17,26 @@ export const getSuggestedMovies = async (movieId: number) => {
 	}
 };
 
-export const getMovie = async (movieId: MovieId) => {
-	try {
-		if (movieId?.length) {
-			const response = await axios.get(
-				`${baseUrl}/movie_details.json?movie_id=${movieId}`
-			);
-			return response.data.data.movie;
-		}
-		return false;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
+// export const getMovie = async (movieId: MovieId) => {
+// 	try {
+// 		if (movieId?.length) {
+// 			const response = await axios.get(
+// 				`${baseUrl}/movie_details.json?movie_id=${movieId}`
+// 			);
+// 			return response.data.data.movie;
+// 		}
+// 		return false;
+// 	} catch (error) {
+// 		console.error(error);
+// 		return false;
+// 	}
+// };
+
+export const getMovie = async (imdb_code: string) => {
+	const response = await axios('/api/movie-metadata', {
+		method: 'GET',
+		data: {
+			imdb_code,
+		},
+	});
 };

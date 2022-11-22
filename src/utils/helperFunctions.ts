@@ -18,11 +18,11 @@ export const movieRate = (rating: string | undefined) => {
 	}
 };
 
-export const getOmdb = async (movie: Movie) => {
-	const baseUrl = `http://www.omdbapi.com/?i=tt3896198&apikey=3412b01c&t=${movie.title_english}&y=${movie.year}`;
-	const resp = await axios.get(baseUrl);
-	return resp.data;
-};
+// export const getOmdb = async (movie: Movie) => {
+// 	const baseUrl = `http://www.omdbapi.com/?i=tt3896198&apikey=3412b01c&t=${movie.title_english}&y=${movie.year}`;
+// 	const resp = await axios.get(baseUrl);
+// 	return resp.data;
+// };
 
 export const setPageLanguage = (i18n: any) => {
 	const selectedLang = localStorage.getItem('selectedLanguage');

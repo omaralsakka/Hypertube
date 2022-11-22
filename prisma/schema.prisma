@@ -73,7 +73,7 @@ model VerificationToken {
 // / 
 model Comment {
   id           Int      @id @unique @default(autoincrement())
-  imdb_code    Int
+  imdb_code    String 
   comment_text String?
   userId       String
   created_at   DateTime @default(now())
@@ -92,7 +92,7 @@ model Movies {
 model Movie {
   id                        Int          @id @unique
   url                       String?
-  imdb_code                 String
+  imdb_code                 String       @unique
   title                     String
   title_english             String?
   title_long                String?
@@ -116,6 +116,7 @@ model Movie {
   date_uploaded_unix        Int?
   torrent                   Torrent[]
   genre                     MovieGenre[]
+  num_of_votes              Int?
 }
 
 model Genre {
@@ -146,18 +147,18 @@ model Torrent {
   date_uploaded_unix String
   movieId            Int
   movie              Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
-  downloaded	Int?
+  downloaded         Int?
 }
 
 model Subtitles {
-	id			  String    @id @default(cuid())
-	imdb_code	String
-	language	String
-	path		String
+  id        String @id @default(cuid())
+  imdb_code String
+  language  String
+  path      String
 }
 
 model WatchedMovies {
-  id			String    @id @default(cuid())
-  user_id String    @unique
+  id      String   @id @default(cuid())
+  user_id String   @unique
   movies  String[]
 }
