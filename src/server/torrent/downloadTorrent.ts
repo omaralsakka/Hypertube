@@ -51,7 +51,6 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 					file.name.endsWith('.mp4') ||
 					file.name.endsWith('.mkv') ||
 					file.name.endsWith('.webm')
-					// I removed '&& movieDbInfo === null' that I saw useless, but just leaving a reminder for now if issues appear.
 				) {
 					file.select();
 					if(movieDbInfo === null) {
@@ -90,17 +89,23 @@ export const downloadTorrent = async (magnetLink: string, imdbCode: string, movi
 		});
 
 		engine.on('idle', async () => {
-			
-			let dbID: string = movieDbInfo === null ? newMovie.id : movieDbInfo.id;
-			
-			await prisma.movies.update({
-				where: {
-					id: dbID,
-				},
-				data: {
-					downloaded: 1,
-				},
-			});
+
+			let dbID: string = movieDbInfo === null ? newMovie?.id : movieDbInfo?.id;
+
+			if(dbID) {
+				try {
+					await prisma.movies.update({
+						where: {
+							id: dbID,
+						},
+						data: {
+							downloaded: 1,
+						},
+					});
+				} catch (error) {
+					console.error(error);
+				}
+			}
 
 			engine.destroy(() => {
 				console.log('All connections to peers destroyed.');

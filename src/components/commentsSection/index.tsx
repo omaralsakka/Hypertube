@@ -25,7 +25,6 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
 	const addComment = (imdb_code: number, comment_text: string) => {
-		console.log(session);
 		try {
 			mutation.mutate(
 				{
@@ -63,6 +62,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: number }) => {
 
 		addComment(imdb_code as number, data.comment_text as string);
 	};
+
 	return (
 		<>
 			<Row className="mb-2">

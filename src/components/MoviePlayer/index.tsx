@@ -10,15 +10,12 @@ interface Subtitles {
 }
 
 const MoviePlayer = ({ movieUrl, subtitles, isMp4 }: { movieUrl: string, subtitles: Subtitles[] | any, isMp4: boolean }) => {
-	
-	const playerRef = useRef(null);
-	
+
+	const playerRef: any = useRef(null);
+
 	const onError = useCallback(() => {
 		if(playerRef.current !== null) {
-			playerRef.current.seekTo(0, 'seconds'); // THINK ABOUT THIS, WORKS AND COMPILES BUT GOOD TO GET RID OF THIS.
-			// if we want we can output some message for the user 
-			// that the movie has not downloaded enough to seek to
-			/// users desired seconds/bytes
+			playerRef.current.seekTo(0, 'seconds');
 		}
 	}, [playerRef.current])
 

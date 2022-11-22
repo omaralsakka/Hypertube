@@ -86,7 +86,9 @@ export type Comment = {
 	userId: string;
 	created_at: string;
 	comment_text: string;
-	user: { image: string; name: string; created_at: Date };
+	user: {
+		id: any; image: string; name: string; created_at: Date 
+};
 };
 
 export type Inputs = {

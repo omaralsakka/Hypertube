@@ -16,6 +16,7 @@ export const commentRouter = router({
 					created_at: true,
 					user: {
 						select: {
+							id: true,
 							name: true,
 							image: true,
 						},

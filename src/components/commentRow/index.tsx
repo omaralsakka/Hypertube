@@ -36,17 +36,17 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 				<Row>
 					<Container className="d-flex">
 						<div className="avatar-big">
-							<Link href={`/profile/${comment.userId}`}>
+							<Link href={`/profile/${comment.user.id}`}>
 								<img
 									style={{ cursor: 'pointer' }}
-									src={comment.user.image}
+									src={'/images/' + comment.user.image}
 									className="avatar-img rounded-circle"
 								/>
 							</Link>
 						</div>
 						<Container className="ms-0">
 							<div className="d-flex">
-								<Link href={`/profile/${comment.userId}`}>
+								<Link href={`/profile/${comment.user.id}`}>
 									<p className="mb-0 me-2">
 										<strong style={{ cursor: 'pointer' }}>
 											{comment.user.name}
