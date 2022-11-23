@@ -37,13 +37,9 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 						},
 					},
 				},
-				// genre: {
-				// 	some: {
-				// 		genreName: {
-				// 			in: input.genre,
-				// 		},
-				// 	},
-				// },
+				genres: {
+					has: input.genre,
+				},
 			},
 			orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
 		});
