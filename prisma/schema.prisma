@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
   // previewFeatures = ["fullTextSearch"]
 }
 
@@ -73,7 +73,7 @@ model VerificationToken {
 // / 
 model Comment {
   id           Int      @id @unique @default(autoincrement())
-  imdb_code    String 
+  imdb_code    String
   comment_text String?
   userId       String
   created_at   DateTime @default(now())
@@ -90,9 +90,9 @@ model Movies {
 }
 
 model Movie {
-  id                        Int          @id @unique
+  id                        Int       @id @unique
   url                       String?
-  imdb_code                 String       @unique
+  imdb_code                 String    @unique
   title                     String
   title_english             String?
   title_long                String?
@@ -115,23 +115,7 @@ model Movie {
   date_uploaded             String?
   date_uploaded_unix        Int?
   torrent                   Torrent[]
-  genre                     MovieGenre[]
-  primary_genre         String?
-  num_of_votes              Int?
-}
-
-model Genre {
-  id    Int          @id @unique @default(autoincrement())
-  name  String       @unique
-  genre MovieGenre[]
-}
-
-model MovieGenre {
-  id        Int    @id @unique @default(autoincrement())
-  genreName String
-  movieId   Int
-  genre     Genre  @relation(fields: [genreName], references: [name], onDelete: Cascade)
-  movie     Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genres                    String[]
 }
 
 model Torrent {
