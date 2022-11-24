@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
 	console.log('PROFILE PAGE WILL GIVE TRPC ERROR !! the next router is not fast enough to give us the users id, but apparently this will be fixed with the build/production mode');
 
-	const [user, setUser] = useState<User>({
+	const [user, setUser] = useState({
 		id: userInfo?.data?.user?.id as string,
 		name: userInfo?.data?.user?.name as string,
 		email: userInfo?.data?.user?.email as string,
@@ -55,7 +55,7 @@ const ProfilePage = () => {
 						</Container>
 						<Container className="text-center fs-5 mb-4">
 						<div>Registered since</div>
-						<div>{userInfo?.data?.user?.emailVerified?.toString()}</div>
+						<div>{userInfo?.data?.user?.emailVerified?.toString().slice(0, 15)}</div>
 						</Container>
 					</Card.Body>
 				</Card>

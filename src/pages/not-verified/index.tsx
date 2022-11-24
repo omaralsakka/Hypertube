@@ -35,7 +35,7 @@ const NotVerified = () => {
 							</>
 						) : (
 							<>
-								{mutation.isSuccess ? (
+								{mutation.isSuccess && mutation.data !== 'No matching user found.' ? (
 									<>
 										<div className={`${flexColCenter} w-75 m-auto`}>
 											<Card.Title className="display-6 text-dark mb-5 ">
@@ -91,15 +91,17 @@ const NotVerified = () => {
 										</Container>
 									</>
 								)}
-								{mutation.isError && (
+								{mutation.data === 'No matching user found.' ? 
 									<>
 										<div className={`${flexColCenter} w-75 m-auto`}>
 											<Card.Title className="display-6 text-dark mb-5 ">
-												<strong>{t('form.errorOccurred')}</strong>
+												<strong>{t('form.emailNotExist')}</strong>
 											</Card.Title>
 										</div>
 									</>
-								)}
+								:
+									<></>
+								}
 							</>
 						)}
 					</Card.Body>

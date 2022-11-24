@@ -7,6 +7,8 @@ import { getOmdb } from '../../utils/helperFunctions';
 import { MovieData } from '../../types/appTypes';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
+import { useSession } from 'next-auth/react';
+import { trpc } from '../../utils/trpc';
 
 const MovieCardOverlay = ({
 	movie,
@@ -18,9 +20,22 @@ const MovieCardOverlay = ({
 	const [movieData, setMovieData] = useState<MovieData>();
 	const { t }: i18translateType = useTranslation('common');
 
+	const { data: session } = useSession();
+	const { data: watchedMovies } = trpc.movies.getWatchedMovies.useQuery(session?.token.user.id);
+	const [watched, setWatched] = useState(false);
+
 	useEffect(() => {
 		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
 	}, []);
+
+	useEffect(() => {
+		if (movie?.id){
+			if (watchedMovies?.movies){
+				watchedMovies.movies.movies.includes(`${movie.id}`) && setWatched(true)
+			}
+		}
+	}, [watchedMovies])
+
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">

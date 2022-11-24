@@ -31,7 +31,7 @@ export const verifyJWT = async (
 	return new Promise((resolve, reject) => {
 		jwt.verify(userToken, serverToken, (err, decoded) => {
 			if (err) {
-				reject(err);
+				resolve('invalid token');
 			} else resolve(decoded);
 		});
 	});
