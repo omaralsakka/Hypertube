@@ -94,7 +94,6 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 						}
 					});
 				}
-
 				return res
 					.status(201)
 					.json({ message: 'Image updated successfully', filename: filename });

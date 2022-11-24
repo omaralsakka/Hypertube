@@ -15,9 +15,13 @@ const VerifyEmail = () => {
 
 	useEffect(() => {
 		const { token } = router.query;
-		mutation.mutate({ token: token as string });
+		if(token !== undefined) {
+			mutation.mutate({ token: token as string });
+		} else {
+			mutation.isError = true;
+		}
 	}, [router.query]);
-
+	
 	useEffect(() => {
 		if (!mutation.isSuccess) return
 		setTimeout(() => {
@@ -39,15 +43,7 @@ const VerifyEmail = () => {
 								</>
 							) : (
 								<>
-									{mutation.isError && (
-										<>
-											<Card.Title className="display-6 text-dark mb-5 ">
-												<strong>{t('form.errorOccurred')}</strong>
-											</Card.Title>
-										</>
-									)}
-									{mutation.isSuccess && (
-										<>
+									{mutation.data === 'Email verified successfully.' ? <>
 											<Card.Title className="display-6 text-dark mb-5">
 												<strong>{t('form.verified')}</strong>
 											</Card.Title>
@@ -61,8 +57,11 @@ const VerifyEmail = () => {
 											>
 												{t('landing.login')}
 											</Button>
-										</>
-									)}
+										</> : <>
+											<Card.Title className="display-6 text-dark mb-5 ">
+												<strong>{t('form.errorOccurred')}</strong>
+											</Card.Title>
+										</>}
 								</>
 							)}
 						</div>

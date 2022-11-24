@@ -57,7 +57,6 @@ export const moviesRouter = router({
 	getAllMovies: publicProcedure
 	.query(async ({ ctx }) => {
 		const movies: any = await ctx.prisma.movies.findMany();
-		console.log(movies);
 		return {
 			movies,
 		};
@@ -71,7 +70,6 @@ export const moviesRouter = router({
 				user_id: input,
 			},
 		});
-		console.log(movies);
 		return {
 			movies,
 		};

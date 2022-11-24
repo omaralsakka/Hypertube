@@ -42,6 +42,7 @@
 		"followLink": "Follow the link in your email to continue.",
 		"requestLink": "If you haven't received the verification email, request a new verification below.",
 		"errorOccurred": "An error occurred...",
+		"emailNotExist": "This email is not registered.",
 		"signupFirst": "You need to sign up first",
 		"verifyingEmail": "Verifying email address...",
 		"verified": "Verified",
