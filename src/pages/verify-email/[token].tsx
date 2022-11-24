@@ -48,6 +48,12 @@ const VerifyEmail = () => {
 		}
 	}, [status]);
 
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
+
 	return (
 		<>
 			{status !== 'unauthenticated' ? (

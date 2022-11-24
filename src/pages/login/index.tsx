@@ -119,6 +119,7 @@ const Login = ({
 									<Card.Title className="display-5 text-dark mb-5">
 										<strong>{t('landing.login')}</strong>
 									</Card.Title>
+
 									<Form onSubmit={handleSubmit(onSubmit)}>
 										<Form.Group className={flexColCenter}>
 											<Container>
@@ -165,18 +166,26 @@ const Login = ({
 														}
 													/>
 												</div>
+
 												{credentialsError && (
-													<p className="text-danger">
-														Invalid username or password
-													</p>
+													<Container className="d-flex justify-content-center mb-4">
+														<p className="text-danger">
+															Invalid username or password
+														</p>
+													</Container>
 												)}
 												{verifiedError && (
-													<p className="text-danger">
-														Your email address hasn't been verified
-													</p>
+													<Container className="d-flex justify-content-center mb-4">
+														<p className="text-danger">
+															Your email address hasn't been verified
+														</p>
+													</Container>
 												)}
 												{success && (
-													<p className="text-success">Logged in successfully</p>
+													// <p className="text-success">Logged in successfully</p>
+													<Container className="d-flex justify-content-center mb-4">
+														<Spinner animation="border" variant="warning" />
+													</Container>
 												)}
 											</Container>
 											<div style={{ minHeight: '5vh' }}>
