@@ -41,6 +41,7 @@ const Signup = ({
 		});
 		if (user) setSuccess(true);
 	};
+
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
 		password: z

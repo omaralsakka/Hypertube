@@ -28,9 +28,7 @@ export const tokenRouter = router({
 			const token = await signEmailToken(input.email);
 			// Send verification email
 			if (await sendEmailVerification(input.email, token))
-				return {
-					message: 'User created successfully',
-				};
+				return ('User created successfully')
 		}),
 	// Verify email
 	verify: publicProcedure

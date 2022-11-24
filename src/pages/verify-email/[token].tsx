@@ -36,6 +36,18 @@ const VerifyEmail = () => {
 		}, 2000);
 	}, [mutation.isSuccess]);
 
+	/* useEffect(() => {
+		if (mutation.data !== 'Email verified successfully.') return
+		setTimeout(() => {
+			signOut({ callbackUrl: 'http://localhost:3000/login' })
+		}, 2000)
+	}, [mutation.data]); */
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
+
 	useEffect(() => {
 		if (status !== 'loading' && status !== 'unauthenticated') {
 			window.location.replace('/home');
