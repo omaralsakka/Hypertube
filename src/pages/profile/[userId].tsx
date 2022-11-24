@@ -11,6 +11,7 @@ const ProfilePage = () => {
 
 	let userInfo;
 	userInfo = trpc.user.getProfile.useQuery(router.query.userId as string);
+	// userInfo = trpc.user.getProfile.useQuery(!router?.query?.userId ? '0' : router?.query?.userId as string);
 	const profileImage = '/images/' + userInfo?.data?.user?.image as string;
 
 	console.log('PROFILE PAGE WILL GIVE TRPC ERROR !! the next router is not fast enough to give us the users id, but apparently this will be fixed with the build/production mode');
