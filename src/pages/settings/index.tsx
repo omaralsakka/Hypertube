@@ -28,10 +28,7 @@ const Settings = () => {
 
 	const { t }: i18translateType = useTranslation('common');
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
-		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id },
-		{
-			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
-		}
+		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id }
 	);
 	const mutation = trpc.user.update.useMutation();
 	const schema = z.object({
@@ -72,13 +69,20 @@ const Settings = () => {
 				password: data.password,
 			});
 			// If email was changed
-			notifyDefault();
 		} catch (err) {
 			console.error(err);
 		}
 	};
+
+	useEffect(() => {
+		if(mutation.data === 'User information updated successfully') {
+			notifyDefault();
+		}
+	}, [mutation.data])
+
 	const notifyDefault = () =>
-		toast.success('Changes saved successfully', { position: 'top-center' });
+	toast.success('Changes saved successfully', { position: 'top-center' });
+
 	const {
 		register,
 		handleSubmit,
@@ -93,6 +97,7 @@ const Settings = () => {
 			window.location.replace('/');
 		}
 	}, [status]);
+
 	return (
 		<>
 			{status !== 'authenticated' ? (
@@ -176,9 +181,9 @@ const Settings = () => {
 															</div>
 														</>
 													) : null}
-													{mutation.isError && (
+													{mutation.data !== 'User information updated successfully' && (
 														<p className="text-danger text-center">
-															{mutation.error.message}
+															{mutation.data}
 														</p>
 													)}
 													{accountType === 'oauth' ? (

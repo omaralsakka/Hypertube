@@ -26,11 +26,8 @@ export const userRouter = router({
 				},
 			});
 			if (checkUser)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'User already exists',
-					cause: input.email,
-				});
+				return ('User already exists')
+
 			// Hash password
 			const hashedPassword = await hash(input.password);
 			// Create token
@@ -50,9 +47,7 @@ export const userRouter = router({
 			console.log(newUser);
 			// Send verification email
 			if (await sendEmailVerification(input.email, token))
-				return {
-					message: 'User created successfully',
-				};
+				return ('User created successfully');
 		}),
 	// Update user for Settings page
 	update: publicProcedure
@@ -91,11 +86,7 @@ export const userRouter = router({
 				},
 			});
 			if (!user)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.id,
-				});
+				return ('No matching user found');
 			// Check if email has changed
 			const verified = input.email === user.email ? user.emailVerified : null;
 			if (!verified) {
@@ -106,11 +97,7 @@ export const userRouter = router({
 					},
 				});
 				if (checkUser && checkUser.email !== user.email)
-					throw new TRPCError({
-						code: 'BAD_REQUEST',
-						message: 'Email address is already in use',
-						cause: input.email,
-					});
+					return ('Email address is already in use')
 				// Create token
 				const token = await signEmailToken(input.email);
 				// Send verification email
@@ -132,14 +119,8 @@ export const userRouter = router({
 				},
 			});
 			if (!updated)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.email,
-				});
-			return {
-				message: 'User information updated successfully',
-			};
+				return ('No matching user found')
+			return ('User information updated successfully');
 		}),
 	// Get user for Settings and Profile pages
 	get: publicProcedure
@@ -165,6 +146,7 @@ export const userRouter = router({
 				},
 			});
 			// if (!user)
+			//	return ('No matching user found')
 			// 	throw new TRPCError({
 			// 		code: 'BAD_REQUEST',
 			// 		message: 'No matching user found',

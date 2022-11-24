@@ -39,6 +39,7 @@ const Signup = ({
 		});
 		if (user) setSuccess(true);
 	};
+
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
 		password: z
@@ -92,6 +93,7 @@ const Signup = ({
 			router.push('/login');
 		}, 2000);
 	}, [mutation.isSuccess]);
+
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-3 mb-4">
@@ -174,10 +176,10 @@ const Signup = ({
 										</div>
 									</Form.Group>
 								</Form>
-								{mutation.isError && (
-									<p className="text-danger">{mutation.error.message}</p>
+								{mutation.data !== 'User created successfully' && (
+									<p className="text-danger">{mutation.data}</p>
 								)}
-								{mutation.isSuccess && (
+								{mutation.data === 'User created successfully' && (
 									<p className="text-success">User created</p>
 								)}
 								<Container className="d-flex flex-column align-items-center justify-content-center p-3">

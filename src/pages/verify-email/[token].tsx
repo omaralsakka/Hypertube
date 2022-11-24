@@ -29,6 +29,13 @@ const VerifyEmail = () => {
 		}, 2000)
 	}, [mutation.isSuccess]);
 
+	/* useEffect(() => {
+		if (mutation.data !== 'Email verified successfully.') return
+		setTimeout(() => {
+			signOut({ callbackUrl: 'http://localhost:3000/login' })
+		}, 2000)
+	}, [mutation.data]); */
+
 	return (
 		<>
 			<Container className="d-flex justify-content-center p-5 mb-4">
