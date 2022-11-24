@@ -20,6 +20,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const Signup = ({
 	providers,
@@ -29,6 +30,7 @@ const Signup = ({
 	const { t }: i18translateType = useTranslation('common');
 	const [success, setSuccess] = useState(false);
 	const router = useRouter();
+	const { status } = useSession();
 
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -92,148 +94,158 @@ const Signup = ({
 			router.push('/login');
 		}, 2000);
 	}, [mutation.isSuccess]);
+
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
 	return (
 		<>
-			<Container className="d-flex justify-content-center p-3 mb-4">
-				<Card className="w-100 glass-background border-0">
-					<Card.Body>
-						<Row style={{ minHeight: '50vh' }}>
-							<Col
-								md="10"
-								lg="6"
-								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
-							>
-								<Card.Title className="display-5 text-dark mb-5">
-									<strong>{t('landing.signup')}</strong>
-								</Card.Title>
-								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className={flexColCenter}>
-										<Container>
-											<div className="d-flex flex-row align-items-center mb-4">
-												<HiUser className="me-2 fs-4" />
+			{status !== 'unauthenticated' ? (
+				<></>
+			) : (
+				<Container className="d-flex justify-content-center p-3 mb-4">
+					<Card className="w-100 glass-background border-0">
+						<Card.Body>
+							<Row style={{ minHeight: '50vh' }}>
+								<Col
+									md="10"
+									lg="6"
+									className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
+								>
+									<Card.Title className="display-5 text-dark mb-5">
+										<strong>{t('landing.signup')}</strong>
+									</Card.Title>
+									<Form onSubmit={handleSubmit(onSubmit)}>
+										<Form.Group className={flexColCenter}>
+											<Container>
+												<div className="d-flex flex-row align-items-center mb-4">
+													<HiUser className="me-2 fs-4" />
 
-												<div className="me-3">
-													<Form.Control
-														id="firstName"
-														className="border-bottom comment-form bg-transparent"
-														placeholder={t('form.name')}
-														type="text"
-														{...register('name')}
-													></Form.Control>
+													<div className="me-3">
+														<Form.Control
+															id="firstName"
+															className="border-bottom comment-form bg-transparent"
+															placeholder={t('form.name')}
+															type="text"
+															{...register('name')}
+														></Form.Control>
+													</div>
 												</div>
-											</div>
-											<div className="d-flex flex-row align-items-center mb-4 ">
-												<MdAlternateEmail className="me-2 fs-4" />
-												<div className="me-3">
-													<Form.Control
-														id="signupEmail"
-														className="border-bottom comment-form bg-transparent"
-														placeholder={t('form.email')}
-														type="email"
-														{...register('email')}
-													></Form.Control>
+												<div className="d-flex flex-row align-items-center mb-4 ">
+													<MdAlternateEmail className="me-2 fs-4" />
+													<div className="me-3">
+														<Form.Control
+															id="signupEmail"
+															className="border-bottom comment-form bg-transparent"
+															placeholder={t('form.email')}
+															type="email"
+															{...register('email')}
+														></Form.Control>
+													</div>
 												</div>
-											</div>
-											<div className="d-flex flex-row align-items-center mb-4 ">
-												<RiLockPasswordFill className="me-2 fs-4" />
-												<div className="me-3">
-													<Form.Control
-														placeholder={t('form.password')}
-														className="border-bottom comment-form bg-transparent"
-														id="signupPassword"
-														type={passType}
-														{...register('password')}
+												<div className="d-flex flex-row align-items-center mb-4 ">
+													<RiLockPasswordFill className="me-2 fs-4" />
+													<div className="me-3">
+														<Form.Control
+															placeholder={t('form.password')}
+															className="border-bottom comment-form bg-transparent"
+															id="signupPassword"
+															type={passType}
+															{...register('password')}
+														/>
+													</div>
+												</div>
+												{errors?.password && getValues('password') && (
+													<p className="text-danger">
+														{errors?.password?.message}
+													</p>
+												)}
+												<div className="mb-4">
+													<FormCheck
+														type="checkbox"
+														label={t('form.showPass')}
+														onClick={() =>
+															passType === 'password'
+																? setPassType('text')
+																: setPassType('password')
+														}
 													/>
 												</div>
+											</Container>
+											<div style={{ minHeight: '5vh' }}>
+												<Button
+													type="submit"
+													variant="outline-warning"
+													disabled={!isValid || !isDirty || mutation.isLoading}
+												>
+													{t('form.register')}
+												</Button>
 											</div>
-											{errors?.password && getValues('password') && (
-												<p className="text-danger">
-													{errors?.password?.message}
-												</p>
-											)}
-											<div className="mb-4">
-												<FormCheck
-													type="checkbox"
-													label={t('form.showPass')}
-													onClick={() =>
-														passType === 'password'
-															? setPassType('text')
-															: setPassType('password')
-													}
-												/>
-											</div>
-										</Container>
-										<div style={{ minHeight: '5vh' }}>
-											<Button
-												type="submit"
-												variant="outline-warning"
-												disabled={!isValid || !isDirty || mutation.isLoading}
-											>
-												{t('form.register')}
-											</Button>
+										</Form.Group>
+									</Form>
+									{mutation.isError && (
+										<p className="text-danger">{mutation.error.message}</p>
+									)}
+									{mutation.isSuccess && (
+										<p className="text-success">User created</p>
+									)}
+									<Container className="d-flex flex-column align-items-center justify-content-center p-3">
+										<div className="d-flex">
+											{providers &&
+												Object.values(providers).map((provider) =>
+													provider.name !== 'Credentials' &&
+													provider.name !== 'Email' ? (
+														<div className="p-1 mb-2" key={provider.name}>
+															<Button
+																className="d-flex align-items-center justify-content-center p-2"
+																variant={
+																	provider.name === '42 School'
+																		? 'primary'
+																		: 'dark'
+																}
+																onClick={() =>
+																	signIn(provider.id, {
+																		callbackUrl: 'http://localhost:3000/home',
+																	})
+																}
+															>
+																<span className="me-2">
+																	{t('form.signupWith')}{' '}
+																</span>
+																{provider.name === 'GitHub' && <BsGithub />}
+																{provider.name === '42 School' && (
+																	<Image
+																		src="/42.png"
+																		style={{ maxWidth: '15px' }}
+																	/>
+																)}
+															</Button>
+														</div>
+													) : null
+												)}
 										</div>
-									</Form.Group>
-								</Form>
-								{mutation.isError && (
-									<p className="text-danger">{mutation.error.message}</p>
-								)}
-								{mutation.isSuccess && (
-									<p className="text-success">User created</p>
-								)}
-								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
-									<div className="d-flex">
-										{providers &&
-											Object.values(providers).map((provider) =>
-												provider.name !== 'Credentials' &&
-												provider.name !== 'Email' ? (
-													<div className="p-1 mb-2" key={provider.name}>
-														<Button
-															className="d-flex align-items-center justify-content-center p-2"
-															variant={
-																provider.name === '42 School'
-																	? 'primary'
-																	: 'dark'
-															}
-															onClick={() =>
-																signIn(provider.id, {
-																	callbackUrl: 'http://localhost:3000/home',
-																})
-															}
-														>
-															<span className="me-2">
-																{t('form.signupWith')}{' '}
-															</span>
-															{provider.name === 'GitHub' && <BsGithub />}
-															{provider.name === '42 School' && (
-																<Image
-																	src="/42.png"
-																	style={{ maxWidth: '15px' }}
-																/>
-															)}
-														</Button>
-													</div>
-												) : null
-											)}
+									</Container>
+									<div>
+										<p className="text-muted">
+											{t('form.haveAccount')}{' '}
+											<Link href="/login">{t('landing.login')}</Link>
+										</p>
 									</div>
-								</Container>
-								<div>
-									<p className="text-muted">
-										{t('form.haveAccount')}{' '}
-										<Link href="/login">{t('landing.login')}</Link>
-									</p>
-								</div>
-							</Col>
-							<Col
-								md="10"
-								lg="6"
-								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
-							>
-								<Card.Img src={LogoPng} className="w-75" />
-							</Col>
-						</Row>
-					</Card.Body>
-				</Card>
-			</Container>
+								</Col>
+								<Col
+									md="10"
+									lg="6"
+									className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
+								>
+									<Card.Img src={LogoPng} className="w-75" />
+								</Col>
+							</Row>
+						</Card.Body>
+					</Card>
+				</Container>
+			)}
 		</>
 	);
 };
