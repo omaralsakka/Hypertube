@@ -186,10 +186,14 @@ const Signup = ({
 										</Form.Group>
 									</Form>
 									{mutation.isError && (
-										<p className="text-danger">{mutation.error.message}</p>
+										<Container className="d-flex justify-content-center mb-4">
+											<p className="text-danger">{mutation.error.message}</p>
+										</Container>
 									)}
 									{mutation.isSuccess && (
-										<p className="text-success">User created</p>
+										<Container className="d-flex justify-content-center mb-4">
+											<p className="text-success">User created</p>
+										</Container>
 									)}
 									<Container className="d-flex flex-column align-items-center justify-content-center p-3">
 										<div className="d-flex">
