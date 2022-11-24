@@ -77,6 +77,7 @@ const Home = () => {
 							<Container className="d-flex flex-column" fluid>
 								<Container
 									className={`sticky-top ${flexColCenter} flex-sm-row bg-transparent shadow-sm rounded mb-4 mt-4 `}
+									style={{ position: 'relative', zIndex: '1' }}
 								>
 									<div className="searchNavBar mb-sm-0 mb-3">
 										<SearchNavBar

@@ -39,7 +39,10 @@ const LanguageMenu = () => {
 				className="border-0"
 				align={{ lg: 'end' }}
 			>
-				<Container className="p-0">
+				<Container
+					className="p-0"
+					style={{ position: 'relative', zIndex: '2' }}
+				>
 					<Dropdown.Item onClick={() => updatePageLanguage('en')}>
 						<Row className="d-flex align-items-center">
 							<Col>
