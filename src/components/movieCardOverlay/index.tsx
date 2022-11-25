@@ -3,7 +3,6 @@ import { Movie } from '../../types/appTypes';
 import { AiFillStar } from 'react-icons/ai';
 import { movieRate } from '../../utils/helperFunctions';
 import { useEffect, useState } from 'react';
-import { getOmdb } from '../../utils/helperFunctions';
 import { MovieData } from '../../types/appTypes';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
@@ -18,7 +17,6 @@ const MovieCardOverlay = ({
 	movie: Movie;
 	viewType: string;
 }) => {
-	const [movieData, setMovieData] = useState<MovieData>();
 	const { t }: i18translateType = useTranslation('common');
 
 	const { data: session } = useSession();
@@ -26,10 +24,6 @@ const MovieCardOverlay = ({
 		session?.token.user.id
 	);
 	const [watched, setWatched] = useState(false);
-
-	useEffect(() => {
-		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
-	}, []);
 
 	useEffect(() => {
 		if (movie?.id) {
@@ -58,7 +52,7 @@ const MovieCardOverlay = ({
 					<Row className="g-1 w-75 mb-3">
 						<Col>
 							<span className="border b-1 px-1 rounded border-dark fs-6">
-								{movieRate(movieData?.Rated)}
+								{movieRate(movie.rating.toString())}
 							</span>
 						</Col>
 						{viewType === 'full' && (
@@ -76,7 +70,8 @@ const MovieCardOverlay = ({
 					{viewType === 'full' && (
 						<Card.Text>
 							{/* <strong>{movie.genres.at(0) ? movie.genres.at(0) : 'N/A'}</strong> */}
-							<strong>{movie.genre[0].genreName}</strong>
+
+							{/* <strong>{movie?.genre[0]['genreName']}</strong> */}
 						</Card.Text>
 					)}
 				</div>

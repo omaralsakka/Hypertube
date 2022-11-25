@@ -5,7 +5,6 @@ import { prisma } from '../../db/client';
 import { MdDescription } from 'react-icons/md';
 
 export const movieRouter = router({
-
 	search: publicProcedure
 		.input(
 			z.object({
@@ -39,10 +38,10 @@ export const movieRouter = router({
 					rating: {
 						gt: input.imdbRating,
 					},
-					description_full: {
-						contains: input.description,
-						mode: 'insensitive',
-					},
+					// description_full: {
+					// 	contains: input.description,
+					// 	mode: 'insensitive',
+					// },
 					torrent: {
 						some: {
 							quality: {
@@ -66,6 +65,7 @@ export const movieRouter = router({
 					genre: true,
 				},
 			});
+			console.log(movies);
 			return {
 				movies,
 			};

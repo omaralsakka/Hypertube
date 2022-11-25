@@ -3,21 +3,26 @@ import { prisma } from '../../server/db/client';
 import https from 'https';
 import fs from 'fs';
 
-const download = async (url: string, dest: string, imdbCode: string, subsData: {attributes: {language: string}}) => {
+const download = async (
+	url: string,
+	dest: string,
+	imdbCode: string,
+	subsData: { attributes: { language: string } }
+) => {
 	if (!fs.existsSync(`./subtitles/${imdbCode}`))
 		fs.mkdirSync(`./subtitles/${imdbCode}`, { recursive: true });
 
-	try {
-		await prisma.subtitles.create({
-			data: {
-				imdb_code: imdbCode,
-				language: subsData.attributes.language,
-				path: dest,
-			},
-		});
-	} catch (error) {
-		console.error(error);
-	}
+	// try {
+	// 	await prisma.subtitles.create({
+	// 		data: {
+	// 			imdb_code: imdbCode,
+	// 			language: subsData.attributes.language,
+	// 			path: dest,
+	// 		},
+	// 	});
+	// } catch (error) {
+	// 	console.error(error);
+	// }
 
 	const file = fs.createWriteStream(dest);
 	const request = https.get(url, (response) => {
@@ -33,37 +38,33 @@ let langObj = {
 	en: 0,
 	fi: 0,
 	fr: 0,
-}
+};
 
 const langParser = (lang: string) => {
-	if(lang === 'en') {
+	if (lang === 'en') {
 		langObj.en += 1;
-		if(langObj.en >= 2)
-			return false
-		return true
-	} else if(lang === 'fi') {
+		if (langObj.en >= 2) return false;
+		return true;
+	} else if (lang === 'fi') {
 		langObj.fi += 1;
-		if(langObj.fi >= 2)
-			return false
-		return true
-	} else if(lang === 'fr') {
+		if (langObj.fi >= 2) return false;
+		return true;
+	} else if (lang === 'fr') {
 		langObj.fr += 1;
-		if(langObj.fr >= 2)
-			return false
-		return true
+		if (langObj.fr >= 2) return false;
+		return true;
 	}
-}
+};
 
 const resetLangObj = () => {
-	return ({
+	return {
 		en: 0,
 		fi: 0,
 		fr: 0,
-	})
-}
+	};
+};
 
 export const downloadSubtitles = async (imdbCode: string) => {
-
 	const optionsSearch = {
 		method: 'GET',
 		headers: {

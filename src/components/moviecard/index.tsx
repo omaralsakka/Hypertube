@@ -17,7 +17,12 @@ const MovieCard = ({
 	}
 	return (
 		<>
-			<Link href={`/home/${movie.id}`}>
+			<Link
+				href={{
+					pathname: `/home/${movie.imdb_code}`,
+					query: { movie: JSON.stringify(movie) },
+				}}
+			>
 				<a>
 					<motion.div
 						initial={{ opacity: 0, scale: 0.5 }}
@@ -31,7 +36,7 @@ const MovieCard = ({
 							className={`m-3 movieCard bg-transparent overflow-hidden ${style}`}
 						>
 							<Card.Img
-								src={movie.medium_cover_image}
+								src={movie && movie?.medium_cover_image}
 								alt="Card image"
 								onError={({ currentTarget }) => {
 									currentTarget.onerror = null;

@@ -32,15 +32,16 @@ const MovieScreen = ({
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
 
-			if(movieInfo.movie_path.includes('YIFY') || movieInfo.movie_path.includes('.mkv')){
+			if (
+				movieInfo.movie_path.includes('YIFY') ||
+				movieInfo.movie_path.includes('.mkv')
+			) {
 				setIsMp4(false);
 			}
-
 		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
@@ -51,24 +52,26 @@ const MovieScreen = ({
 			try {
 				const result = await axios.post('/api/video/', movie);
 				setMovieInfo(result.data.data);
-				const subsArray = await axios.get(`/api/subtitles?imdbCode=${movie.imdb_code}`);
-				if(subsArray) {
+				const subsArray = await axios.get(
+					`/api/subtitles?imdbCode=${movie.imdb_code}`
+				);
+				if (subsArray) {
 					setSubtitles(subsArray.data);
 				} else {
 					setSubtitles([]);
 				}
 				mutationUpdateDate.mutate({
 					imdbCode: result.data.data.imdb_code,
-				})
+				});
 				setIsLoading(true);
 				const userId: string = session?.token.user.id.toString();
-				const movieId: string = movie.id.toString()
+				const movieId: string = movie.id.toString();
 				mutation.mutate({
 					user_id: userId,
 					movie_id: movieId,
 				});
 			} catch (error) {
-				console.error(error)
+				console.error(error);
 			}
 		}
 	};
@@ -86,11 +89,15 @@ const MovieScreen = ({
 									minHeight: '720px',
 									maxHeight: '60vh',
 								}}
-								src={movie.background_image_original}
+								src={movie?.background_image_original}
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer movieUrl={movieUrl} subtitles={subtitles} isMp4={isMp4}/>
+							<MoviePlayer
+								movieUrl={movieUrl}
+								subtitles={subtitles}
+								isMp4={isMp4}
+							/>
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">

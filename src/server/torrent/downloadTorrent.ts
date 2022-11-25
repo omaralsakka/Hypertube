@@ -9,15 +9,18 @@ interface DatabaseInfo {
 	size: number;
 	downloaded: number;
 	date: string;
-};
+}
 
-export const downloadTorrent = async (magnetLink: string, imdbCode: string, movieDbInfo: DatabaseInfo | null) =>
+export const downloadTorrent = async (
+	magnetLink: string,
+	imdbCode: string,
+	movieDbInfo: DatabaseInfo | null
+) =>
 	new Promise((resolve) => {
-		
-		if(movieDbInfo !== null) {
+		if (movieDbInfo !== null) {
 			resolve(movieDbInfo);
 		}
-		
+
 		let newMovie: DatabaseInfo;
 
 		let filePath: string = movieDbInfo !== null ? movieDbInfo.movie_path : '';
