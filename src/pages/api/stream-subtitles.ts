@@ -3,12 +3,17 @@ import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from "./auth/[...nextauth]"
 import fs from "fs";
 import { Session } from 'next-auth';
-import { rejects } from 'assert';
 
-export default function streamSubtitles(
+export const config = {
+	api:{
+		externalResolver: true,
+	},
+}
+
+export default async function streamSubtitles(
 	req: NextApiRequest,
 	res: NextApiResponse
-) { new Promise(async (resolve, reject) => {
+) {
 	const session: Session | null = await unstable_getServerSession(req, res, authOptions)
 	if(session?.token) {
 		const regexPath: RegExp = /subpath=(.*)/;
@@ -27,5 +32,4 @@ export default function streamSubtitles(
 	} else {
 		res.redirect('/')
 	}
- });
 }

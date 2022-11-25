@@ -17,8 +17,8 @@ const NavigationBar = () => {
 	const { t }: i18translateType = useTranslation('common');
 	const { i18n } = useTranslation('common');
 	const { data: session } = useSession();
-	const [userImg, setUserImg] = useState('');
-	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
+	const [userImg, setUserImg] = useState('/defaultImg2.png');
+	const { data } = trpc.user.get.useQuery(
 		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id },
 		{
 			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
@@ -68,10 +68,10 @@ const NavigationBar = () => {
 												whileHover={{ scale: [null, 1.2, 1.2] }}
 												transition={{ duration: 0.3 }}
 											>
-												<img
+												<Image
 													src={userImg}
 													className="avatar-img rounded-circle"
-													alt="user profile image"
+													alt="user image"
 												/>
 											</motion.div>
 										</Nav.Link>

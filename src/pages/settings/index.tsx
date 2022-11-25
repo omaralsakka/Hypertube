@@ -23,14 +23,12 @@ const Settings = () => {
 	const [passType, setPassType] = useState('password');
 	const [currentImage, setCurrentImage] = useState('/defaultImg2.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
+	const [success, setSuccess] = useState(0);
 	const { data: session, status } = useSession();
 
 	const { t }: i18translateType = useTranslation('common');
 	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
-		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id },
-		{
-			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
-		}
+		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id }
 	);
 	const mutation = trpc.user.update.useMutation();
 	const schema = z.object({
@@ -71,13 +69,20 @@ const Settings = () => {
 				password: data.password,
 			});
 			// If email was changed
-			notifyDefault();
 		} catch (err) {
 			console.error(err);
 		}
 	};
+
+	useEffect(() => {
+		if(mutation.data === 'User information updated successfully') {
+			notifyDefault();
+		}
+	}, [mutation.data])
+
 	const notifyDefault = () =>
-		toast.success('Changes saved successfully', { position: 'top-center' });
+	toast.success('Changes saved successfully', { position: 'top-center' });
+
 	const {
 		register,
 		handleSubmit,
@@ -92,123 +97,137 @@ const Settings = () => {
 			window.location.replace('/');
 		}
 	}, [status]);
+
 	return (
 		<>
-			<Container className="d-flex justify-content-center sm-p-3 mb-4 p-2">
-				<div>
-					<Card className="w-100 glass-background border-0 sm-m-0 mt-3">
-						<Card.Body className="d-flex flex-column">
-							<PhotoUpload
-								currentImage={currentImage}
-								email={session?.user?.email}
-							/>
-							<Container className="text-center fs-3 mb-4">
-								{session?.user?.name}
-							</Container>
-							<Container className="d-flex justify-content-center">
-								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className="mb-3 d-flex flex-column">
-										<div>
-											<div className="d-flex align-items-center mb-4 ">
-												<div className="d-flex align-items-center me-4">
-													<HiUser className="me-2 fs-4" />
-													<Form.Control
-														id="name"
-														className="border-bottom comment-form bg-transparent"
-														placeholder="Test name"
-														type="text"
-														{...register('name')}
-													></Form.Control>
-												</div>
-												<Form.Text>{t('settings.changeName')}</Form.Text>
-											</div>
-										</div>
-										<div>
-											{accountType !== 'oauth' ? (
-												<div className="d-flex align-items-center mb-4">
-													<div className="d-flex align-items-center me-4">
-														<MdAlternateEmail className="me-2 fs-4" />
-														<Form.Control
-															id="signupEmail"
-															className="border-bottom comment-form bg-transparent"
-															placeholder="user current email"
-															type="email"
-															{...register('email')}
-														></Form.Control>
-													</div>
-													<Form.Text>{t('settings.changeEmail')}</Form.Text>
-												</div>
-											) : null}
-											{accountType !== 'oauth' ? (
-												<>
+			{status !== 'authenticated' ? (
+				<></>
+			) : (
+				<>
+					<Container className="d-flex justify-content-center sm-p-3 mb-4 p-2">
+						<div>
+							<Card className="w-100 glass-background border-0 sm-m-0 mt-3">
+								<Card.Body className="d-flex flex-column">
+									<PhotoUpload
+										currentImage={currentImage}
+										email={session?.user?.email}
+										setSuccess={setSuccess}
+									/>
+									<Container className="text-center fs-3 mb-4">
+										{session?.user?.name}
+									</Container>
+									<Container className="d-flex justify-content-center">
+										<Form onSubmit={handleSubmit(onSubmit)}>
+											<Form.Group className="mb-3 d-flex flex-column">
+												<div>
 													<div className="d-flex align-items-center mb-4 ">
 														<div className="d-flex align-items-center me-4">
-															<RiLockPasswordFill className="me-2 fs-4" />
-
+															<HiUser className="me-2 fs-4" />
 															<Form.Control
-																placeholder={t('form.newPass')}
+																id="name"
 																className="border-bottom comment-form bg-transparent"
-																id="signupPassword"
-																type={passType}
-																{...register('password')}
-															/>
+																placeholder="Test name"
+																type="text"
+																{...register('name')}
+															></Form.Control>
 														</div>
-														<Form.Text>{t('settings.changePass')}</Form.Text>
+														<Form.Text>{t('settings.changeName')}</Form.Text>
 													</div>
-													<div className="mb-4">
-														<FormCheck
-															type="checkbox"
-															label={t('form.showPass')}
-															onClick={() =>
-																passType === 'password'
-																	? setPassType('text')
-																	: setPassType('password')
-															}
-														/>
-													</div>
-												</>
-											) : null}
-											{mutation.isError && (
-												<p className="text-danger text-center">
-													{mutation.error.message}
-												</p>
-											)}
-											{accountType === 'oauth' ? (
-												<p className="text-center">
-													{t('settings.providerMsg1')}
-													<br />
-													{t('settings.providerMsg2')}
-												</p>
-											) : null}
-										</div>
-										<div
-											className="mb-4 d-flex align-items-center justify-content-center"
-											style={{ minHeight: '5vh' }}
-										>
-											<button
-												type="submit"
-												className="btn btn-outline-warning bigBtn btn-rounded btn-lg"
-												data-mdb-ripple-color="dark"
-												disabled={!isValid || !isDirty || mutation.isLoading}
-											>
-												{t('settings.saveChange')}
-											</button>
-											<button
-												type="submit"
-												className="btn btn-outline-warning smallBtn btn-rounded"
-												data-mdb-ripple-color="dark"
-												disabled={!isValid || !isDirty || mutation.isLoading}
-											>
-												{t('settings.saveChange')}
-											</button>
-										</div>
-									</Form.Group>
-								</Form>
-							</Container>
-						</Card.Body>
-					</Card>
-				</div>
-			</Container>
+												</div>
+												<div>
+													{accountType !== 'oauth' ? (
+														<div className="d-flex align-items-center mb-4">
+															<div className="d-flex align-items-center me-4">
+																<MdAlternateEmail className="me-2 fs-4" />
+																<Form.Control
+																	id="signupEmail"
+																	className="border-bottom comment-form bg-transparent"
+																	placeholder="user current email"
+																	type="email"
+																	{...register('email')}
+																></Form.Control>
+															</div>
+															<Form.Text>{t('settings.changeEmail')}</Form.Text>
+														</div>
+													) : null}
+													{accountType !== 'oauth' ? (
+														<>
+															<div className="d-flex align-items-center mb-4 ">
+																<div className="d-flex align-items-center me-4">
+																	<RiLockPasswordFill className="me-2 fs-4" />
+
+																	<Form.Control
+																		placeholder={t('form.newPass')}
+																		className="border-bottom comment-form bg-transparent"
+																		id="signupPassword"
+																		type={passType}
+																		{...register('password')}
+																	/>
+																</div>
+																<Form.Text>
+																	{t('settings.changePass')}
+																</Form.Text>
+															</div>
+															<div className="mb-4">
+																<FormCheck
+																	type="checkbox"
+																	label={t('form.showPass')}
+																	onClick={() =>
+																		passType === 'password'
+																			? setPassType('text')
+																			: setPassType('password')
+																	}
+																/>
+															</div>
+														</>
+													) : null}
+													{mutation.data !== 'User information updated successfully' && (
+														<p className="text-danger text-center">
+															{mutation.data}
+														</p>
+													)}
+													{accountType === 'oauth' ? (
+														<p className="text-center">
+															{t('settings.providerMsg1')}
+															<br />
+															{t('settings.providerMsg2')}
+														</p>
+													) : null}
+												</div>
+												<div
+													className="mb-4 d-flex align-items-center justify-content-center"
+													style={{ minHeight: '5vh' }}
+												>
+													<button
+														type="submit"
+														className="btn btn-outline-warning bigBtn btn-rounded btn-lg"
+														data-mdb-ripple-color="dark"
+														disabled={
+															!isValid || !isDirty || mutation.isLoading
+														}
+													>
+														{t('settings.saveChange')}
+													</button>
+													<button
+														type="submit"
+														className="btn btn-outline-warning smallBtn btn-rounded"
+														data-mdb-ripple-color="dark"
+														disabled={
+															!isValid || !isDirty || mutation.isLoading
+														}
+													>
+														{t('settings.saveChange')}
+													</button>
+												</div>
+											</Form.Group>
+										</Form>
+									</Container>
+								</Card.Body>
+							</Card>
+						</div>
+					</Container>
+				</>
+			)}
 		</>
 	);
 };

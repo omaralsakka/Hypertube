@@ -21,19 +21,14 @@ export const tokenRouter = router({
 					email: input.email,
 				},
 			});
-			if (!checkUser)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.email,
-				});
+			if (!checkUser){
+				return ('No matching user found.')
+			}
 			// Create token
 			const token = await signEmailToken(input.email);
 			// Send verification email
 			if (await sendEmailVerification(input.email, token))
-				return {
-					message: 'User created successfully',
-				};
+				return ('User created successfully')
 		}),
 	// Verify email
 	verify: publicProcedure
@@ -43,39 +38,28 @@ export const tokenRouter = router({
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
 			const serverToken = process.env.NEXTAUTH_SECRET;
 			if (!serverToken) {
-				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
-				});
+				return ('no server token.')
 			}
 			// Verify email token
 			const payload = await verifyJWT(input.token, serverToken);
-			console.log(payload);
-			if (typeof payload === 'undefined' || typeof payload === 'string')
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'Invalid token',
-					cause: input.token,
+			if (typeof payload === 'undefined' || typeof payload === 'string') {
+				return ('invalid token.')
+			} else {
+				const updated = await ctx.prisma.user.update({
+					data: {
+						emailVerified: new Date(),
+					},
+					where: {
+						email: payload.email,
+					},
 				});
+				if (!updated){
+					return ('No matching user.')
+				}
+				return ('Email verified successfully.');
+			}
 			// Update db
-			const updated = await ctx.prisma.user.update({
-				data: {
-					emailVerified: new Date(),
-				},
-				where: {
-					email: payload.email,
-				},
-			});
-			console.log(updated);
-			if (!updated)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-				});
-			return {
-				message: 'Email verified successfully',
-			};
 		}),
 });

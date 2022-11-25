@@ -11,15 +11,17 @@ interface MovieData {
     downloaded:	number
     date:	string
 }
-// API resolved without sending a response for /api/delete-movie, this may result in stalled requests.
-// "returning" a promise removes the error, however i am not actually resolving or rejecting 
-// if i do 'res' or 'rej' that will produce an error ...
+
+export const config = {
+	api:{
+		externalResolver: true,
+	},
+}
 
 // This endpoint has not been protected. I will do it if necessary. This whole file might be used
 // a different way than I initally tought of.
 
-export default function deleteFiles(){
-    return new Promise(async (reject, resolve) => {
+export default async function deleteFiles(){
         const task = cron.schedule('0 23 * * *', async () => { // '*/1 * * * * *' every second for testing
         console.log('cron is running in the background, will do a check at 23');
         let downloadedMovies: MovieData[] = [];
@@ -51,5 +53,4 @@ export default function deleteFiles(){
         })
     });
     task.start();
-  });
 };

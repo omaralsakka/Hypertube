@@ -7,8 +7,9 @@ import * as z from 'zod';
 import Form from 'react-bootstrap/Form';
 import { signIn, getProviders } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
+import { useSession } from 'next-auth/react';
 
-import { Container, Card, Row, Col, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsGithub } from 'react-icons/bs';
@@ -34,7 +35,7 @@ const Login = ({
 	const [success, setSuccess] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
 	const router = useRouter();
-
+	const { status } = useSession();
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
@@ -96,160 +97,178 @@ const Login = ({
 		}, 2000);
 	}, [verifiedError, router.isReady]);
 
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
 	return (
 		<>
-			<Container className="d-flex justify-content-center p-3 mb-4">
-				<Card className="w-100 glass-background border-0">
-					<Card.Body>
-						<Row style={{ minHeight: '50vh' }}>
-							<Col
-								md="10"
-								lg="6"
-								className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
-							>
-								<Card.Title className="display-5 text-dark mb-5">
-									<strong>{t('landing.login')}</strong>
-								</Card.Title>
-								<Form onSubmit={handleSubmit(onSubmit)}>
-									<Form.Group className={flexColCenter}>
-										<Container>
-											<div className="d-flex flex-row align-items-center mb-4 ">
-												<MdAlternateEmail className="me-2 fs-4" />
-												<div className="me-3">
-													<Form.Control
-														id="loginEmail"
-														className="border-bottom comment-form bg-transparent"
-														placeholder={t('form.email')}
-														type="email"
-														{...register('email')}
-													></Form.Control>
+			{status !== 'unauthenticated' ? (
+				<></>
+			) : (
+				<Container className="d-flex justify-content-center p-3 mb-4">
+					<Card className="w-100 glass-background border-0">
+						<Card.Body>
+							<Row style={{ minHeight: '50vh' }}>
+								<Col
+									md="10"
+									lg="6"
+									className="order-2 order-lg-1 d-flex flex-column align-items-center mb-3 p-5"
+								>
+									<Card.Title className="display-5 text-dark mb-5">
+										<strong>{t('landing.login')}</strong>
+									</Card.Title>
+
+									<Form onSubmit={handleSubmit(onSubmit)}>
+										<Form.Group className={flexColCenter}>
+											<Container>
+												<div className="d-flex flex-row align-items-center mb-4 ">
+													<MdAlternateEmail className="me-2 fs-4" />
+													<div className="me-3">
+														<Form.Control
+															id="loginEmail"
+															className="border-bottom comment-form bg-transparent"
+															placeholder={t('form.email')}
+															type="email"
+															{...register('email')}
+														></Form.Control>
+													</div>
 												</div>
-											</div>
-											{errors.email?.message && (
-												<p>{errors.email?.message as string}</p>
-											)}
-											<div className="d-flex flex-row align-items-center mb-4 ">
-												<RiLockPasswordFill className="me-2 fs-4" />
-												<div className="me-3">
-													<Form.Control
-														placeholder={t('form.password')}
-														className="border-bottom comment-form bg-transparent"
-														id="loginPassword"
-														type={passType}
-														{...register('password')}
-														aria-invalid={errors.password ? 'true' : 'false'}
+												{errors.email?.message && (
+													<p>{errors.email?.message as string}</p>
+												)}
+												<div className="d-flex flex-row align-items-center mb-4 ">
+													<RiLockPasswordFill className="me-2 fs-4" />
+													<div className="me-3">
+														<Form.Control
+															placeholder={t('form.password')}
+															className="border-bottom comment-form bg-transparent"
+															id="loginPassword"
+															type={passType}
+															{...register('password')}
+															aria-invalid={errors.password ? 'true' : 'false'}
+														/>
+													</div>
+												</div>
+
+												{errors.password?.message && (
+													<p>{errors.password?.message as string}</p>
+												)}
+												<div className="mb-4">
+													<FormCheck
+														type="checkbox"
+														label={t('form.showPass')}
+														onClick={() =>
+															passType === 'password'
+																? setPassType('text')
+																: setPassType('password')
+														}
 													/>
 												</div>
-											</div>
 
-											{errors.password?.message && (
-												<p>{errors.password?.message as string}</p>
-											)}
-											<div className="mb-4">
-												<FormCheck
-													type="checkbox"
-													label={t('form.showPass')}
-													onClick={() =>
-														passType === 'password'
-															? setPassType('text')
-															: setPassType('password')
-													}
-												/>
+												{credentialsError && (
+													<Container className="d-flex justify-content-center mb-4">
+														<p className="text-danger">
+															Invalid username or password
+														</p>
+													</Container>
+												)}
+												{verifiedError && (
+													<Container className="d-flex justify-content-center mb-4">
+														<p className="text-danger">
+															Your email address hasn't been verified
+														</p>
+													</Container>
+												)}
+												{success && (
+													// <p className="text-success">Logged in successfully</p>
+													<Container className="d-flex justify-content-center mb-4">
+														<Spinner animation="border" variant="warning" />
+													</Container>
+												)}
+											</Container>
+											<div style={{ minHeight: '5vh' }}>
+												<Button
+													type="submit"
+													variant="outline-warning"
+													disabled={!isValid || !isDirty || isLoading}
+												>
+													{t('landing.login')}
+												</Button>
 											</div>
-											{credentialsError && (
-												<p className="text-danger">
-													Invalid username or password
-												</p>
-											)}
-											{verifiedError && (
-												<p className="text-danger">
-													Your email address hasn't been verified
-												</p>
-											)}
-											{success && (
-												<p className="text-success">Logged in successfully</p>
-											)}
-										</Container>
-										<div style={{ minHeight: '5vh' }}>
+										</Form.Group>
+									</Form>
+									<Container className="d-flex flex-column align-items-center justify-content-center p-3">
+										<div className="d-flex">
+											{providers &&
+												Object.values(providers).map((provider) =>
+													provider.name !== 'Credentials' &&
+													provider.name !== 'Email' ? (
+														<div className="p-1 mb-2" key={provider.name}>
+															<Button
+																className="d-flex align-items-center justify-content-center p-2"
+																variant={
+																	provider.name === '42 School'
+																		? 'primary'
+																		: 'dark'
+																}
+																onClick={() =>
+																	signIn(provider.id, {
+																		callbackUrl: 'http://localhost:3000/home',
+																	})
+																}
+															>
+																<span className="me-2">
+																	{t('form.loginWith')}
+																</span>
+																{provider.name === 'GitHub' && <BsGithub />}
+																{provider.name === '42 School' && (
+																	<Image
+																		src="/42.png"
+																		style={{ maxWidth: '15px' }}
+																	/>
+																)}
+															</Button>
+														</div>
+													) : null
+												)}
+										</div>
+										<div className="p-1 mb-2" key="Email">
 											<Button
-												type="submit"
-												variant="outline-warning"
-												disabled={!isValid || !isDirty || isLoading}
+												variant="light"
+												className="d-flex align-items-center justify-content-center p-2"
+												onClick={onEmailSubmit}
 											>
-												{t('landing.login')}
+												<span className="me-2">{t('form.loginWithEmail')}</span>
+												<AiOutlineMail />
 											</Button>
 										</div>
-									</Form.Group>
-								</Form>
-								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
-									<div className="d-flex">
-										{providers &&
-											Object.values(providers).map((provider) =>
-												provider.name !== 'Credentials' &&
-												provider.name !== 'Email' ? (
-													<div className="p-1 mb-2" key={provider.name}>
-														<Button
-															className="d-flex align-items-center justify-content-center p-2"
-															variant={
-																provider.name === '42 School'
-																	? 'primary'
-																	: 'dark'
-															}
-															onClick={() =>
-																signIn(provider.id, {
-																	callbackUrl: 'http://localhost:3000/home',
-																})
-															}
-														>
-															<span className="me-2">
-																{t('form.loginWith')}
-															</span>
-															{provider.name === 'GitHub' && <BsGithub />}
-															{provider.name === '42 School' && (
-																<Image
-																	src="/42.png"
-																	style={{ maxWidth: '15px' }}
-																/>
-															)}
-														</Button>
-													</div>
-												) : null
-											)}
+									</Container>
+									<Container className="p-3 text-center">
+										<Link href="/forgot-password">
+											<a>{t('form.forgotPass')}</a>
+										</Link>
+									</Container>
+									<div>
+										<p className="text-muted">
+											{t('form.newSign')}{' '}
+											<Link href="/signup">{t('landing.signup')}</Link>
+										</p>
 									</div>
-									<div className="p-1 mb-2" key="Email">
-										<Button
-											variant="light"
-											className="d-flex align-items-center justify-content-center p-2"
-											onClick={onEmailSubmit}
-										>
-											<span className="me-2">{t('form.loginWithEmail')}</span>
-											<AiOutlineMail />
-										</Button>
-									</div>
-								</Container>
-								<Container className="p-3 text-center">
-									<Link href="/forgot-password">
-										<a>{t('form.forgotPass')}</a>
-									</Link>
-								</Container>
-								<div>
-									<p className="text-muted">
-										{t('form.newSign')}{' '}
-										<Link href="/signup">{t('landing.signup')}</Link>
-									</p>
-								</div>
-							</Col>
-							<Col
-								md="10"
-								lg="6"
-								className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
-							>
-								<Card.Img src={LogoPng} className="w-75" />
-							</Col>
-						</Row>
-					</Card.Body>
-				</Card>
-			</Container>
+								</Col>
+								<Col
+									md="10"
+									lg="6"
+									className="order-1 order-lg-2 d-flex align-items-center justify-content-center"
+								>
+									<Card.Img src={LogoPng} className="w-75" />
+								</Col>
+							</Row>
+						</Card.Body>
+					</Card>
+				</Container>
+			)}
 		</>
 	);
 };

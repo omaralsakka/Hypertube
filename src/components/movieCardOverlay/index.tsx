@@ -6,7 +6,9 @@ import { useEffect, useState } from 'react';
 import { MovieData } from '../../types/appTypes';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-import { string } from 'zod';
+import { useSession } from 'next-auth/react';
+import { trpc } from '../../utils/trpc';
+import { TbEyeCheck } from 'react-icons/tb';
 
 const MovieCardOverlay = ({
 	movie,
@@ -17,14 +19,41 @@ const MovieCardOverlay = ({
 }) => {
 	const { t }: i18translateType = useTranslation('common');
 
+	const { data: session } = useSession();
+	const { data: watchedMovies } = trpc.movies.getWatchedMovies.useQuery(
+		session?.token.user.id
+	);
+	const [watched, setWatched] = useState(false);
+
+	useEffect(() => {
+		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
+	}, []);
+
+	useEffect(() => {
+		if (movie?.id) {
+			if (watchedMovies?.movies) {
+				watchedMovies.movies.movies.includes(`${movie.id}`) && setWatched(true);
+			}
+		}
+	}, [watchedMovies]);
+
 	return (
 		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
-				<Card.Title className={`mb-3 ${viewType !== 'full' && 'cut-text'}`}>
+				<Card.Title
+					className={`d-flex align-items-center mb-3 ${
+						viewType !== 'full' && 'cut-text'
+					}`}
+				>
 					{movie.title}
+					{watched && (
+						<span className="ms-3">
+							<TbEyeCheck />
+						</span>
+					)}
 				</Card.Title>
 				<div className="movieOverlay-Info">
-					<Row className="g-0 w-75 mb-3 ">
+					<Row className="g-1 w-75 mb-3">
 						<Col>
 							<span className="border b-1 px-1 rounded border-dark fs-6">
 								{movieRate(movie.rating.toString())}

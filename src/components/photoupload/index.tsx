@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const PhotoUpload = ({
 	currentImage,
 	email,
+	setSuccess,
 }: {
 	currentImage: string | null | undefined;
 	email: string | null | undefined;
+	setSuccess: React.Dispatch<React.SetStateAction<number>>;
 }) => {
 	const [photo, setPhoto] = useState('');
 	const [file, setFile] = useState<File | null>();
@@ -24,9 +26,17 @@ const PhotoUpload = ({
 			setFileAmountError(true);
 			return;
 		}
-		setFileError(false);
-		setFileAmountError(false);
-		setFile(event.target.files[0]);
+		if (event.target.files.length) {
+			if (event.target.files[0]?.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+				setFileError(false);
+				setFileAmountError(false);
+				setFile(event.target.files[0]);
+			}
+		}
+
+		// setFileError(false);
+		// setFileAmountError(false);
+		// setFile(event.target.files[0]);
 	};
 
 	useEffect(() => {
@@ -41,6 +51,7 @@ const PhotoUpload = ({
 			if (response.status === 201) {
 				const data = await response.json();
 				if (data.filename) setPhoto(`/images/${data.filename}`);
+				setSuccess(1);
 			} else {
 				setFileError(true);
 			}
@@ -89,7 +100,7 @@ const PhotoUpload = ({
 						<input
 							className="custom-file-input"
 							type="file"
-							accept=".jpg, .png, .jpeg"
+							accept="image/*"
 							onChange={onChange}
 						/>
 						<AiOutlineCloudUpload className="display-1 iconImage" />

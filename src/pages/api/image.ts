@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { prisma } from '../../server/db/client';
 
 // File requirements
-const MAX_FILE_SIZE = 500000;
+const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 // Validation schemas
@@ -14,7 +14,7 @@ const FileSchema = z
 	.any()
 	.refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
 	.refine(
-		(file) => ACCEPTED_FILE_TYPES.includes(file?.type),
+		(file) => ACCEPTED_FILE_TYPES.includes(file?.mimetype),
 		'Only .jpg, .jpeg, and .png formats are supported.'
 	);
 
@@ -25,7 +25,9 @@ const validateInput = async (email: string | undefined, file: File) => {
 		const validFile = FileSchema.parse(file);
 		if (!validEmail || !validFile) return false;
 		return true;
-	} catch (err) {}
+	} catch (err) {
+		return false;
+	}
 };
 
 // Upload image and delete old if it's saved locally
@@ -38,10 +40,10 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 			const form = new formidable.IncomingForm();
 			// Parse form and save files
 			form.parse(req, async function (err, fields, files) {
-				if (err) return res.status(500).send('Cannot parse form data');
+				if (err) return res.send('Cannot parse form data');
 				if (typeof files === 'undefined')
-					return res.status(400).send('Missing image');
-				if (!fields.email) return res.status(400).send('Missing email address');
+					return res.send('Missing image');
+				if (!fields.email) return res.send('Missing email address');
 				let file: File | undefined;
 				if (Array.isArray(files.files)) file = files.files[0];
 				else file = files.files as unknown as File;
@@ -49,8 +51,10 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 				let email;
 				if (Array.isArray(fields.email)) email = fields.email[0];
 				else email = fields.email;
-				if (!validateInput(email, file))
-					return res.status(400).send('Invalid input variables');
+				const isValidated = await validateInput(email, file);
+				if (isValidated === false) {
+					return res.send('Invalid input variables');
+				}
 				// Create new filename
 				const filename: string = `${file.newFilename}.${file.mimetype
 					?.split('/')
@@ -75,7 +79,7 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 					},
 				});
 				if (!photo)
-					return res.status(500).send('Failed to write filename to database');
+					return res.status(400).send('Failed to write filename to database');
 				if (oldImage?.image === '')
 					return res.status(201).json({ message: 'Image updated successfully', filename: filename });
 				// If old image is local, delete it
@@ -85,12 +89,11 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 						if (err) {
 							console.error(err);
 							return res
-								.status(500)
+								.status(400)
 								.json({ message: 'Could not delete old image' });
 						}
 					});
 				}
-
 				return res
 					.status(201)
 					.json({ message: 'Image updated successfully', filename: filename });
@@ -101,7 +104,7 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 		}
 	} catch (err) {
 		console.error(err);
-		return res.status(500).send('Something went wrong');
+		return res.status(400).send('Something went wrong');
 	}
 }
 
@@ -120,5 +123,6 @@ const saveFile = async (file: File, filename: string) => {
 export const config = {
 	api: {
 		bodyParser: false,
+		externalResolver: true,
 	},
 };

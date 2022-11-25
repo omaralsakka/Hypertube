@@ -16,6 +16,7 @@ export type User = {
 	image: string;
 	OAuth: boolean;
 	emailVerified: string;
+	firstLogin: number;
 };
 //yts data
 export type Movie = {
@@ -116,7 +117,12 @@ export type Comment = {
 	userId: string;
 	created_at: string;
 	comment_text: string;
-	user: { image: string; name: string; created_at: Date };
+	user: {
+		id: any;
+		image: string;
+		name: string;
+		created_at: Date;
+	};
 };
 
 export type Inputs = {
