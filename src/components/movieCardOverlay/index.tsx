@@ -26,10 +26,6 @@ const MovieCardOverlay = ({
 	const [watched, setWatched] = useState(false);
 
 	useEffect(() => {
-		movie?.id && getOmdb(movie).then((resp) => setMovieData(resp));
-	}, []);
-
-	useEffect(() => {
 		if (movie?.id) {
 			if (watchedMovies?.movies) {
 				watchedMovies.movies.movies.includes(`${movie.id}`) && setWatched(true);

@@ -80,7 +80,7 @@ const MovieDescription = ({
 									{movie?.}
 								</Card.Text> */}
 							</div>
-							<Card.Title>
+							{/* <Card.Title>
 								<span>{t('movieInfo.category')}:</span>
 								<strong>
 									{movie &&
@@ -88,7 +88,7 @@ const MovieDescription = ({
 											<div key={obj['genreName']}>{obj['genreName']}</div>
 										))}
 								</strong>
-							</Card.Title>
+							</Card.Title> */}
 							<Card.Title>
 								<span>{t('nav.language')}:</span>
 								<strong>{movie?.language}</strong>

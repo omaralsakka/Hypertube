@@ -114,15 +114,14 @@ const Home = () => {
 
 	return (
 		<>
-			{status !== 'authenticated' ? (
-				<></>
-			) : (
-				<>
-					{userData?.user?.firstLogin === 1 ? (
-						<SignupImage
-							currentImage={session.token.user.image}
-							email={session.token.user.email}
-							userId={session.token.user.id}
+			<Container className="d-flex flex-column" fluid>
+				<Container
+					className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
+				>
+					<div className="searchNavBar mb-sm-0 mb-3">
+						<SearchNavBar
+							onSearchChange={onSearchChange}
+							search_term={search_term}
 						/>
 					</div>
 					<div className="p-0 mb-sm-0 mb-3">
@@ -147,6 +146,12 @@ const Home = () => {
 						))}
 				</Container>
 			</Container>
+		</>
+	);
+};
+
+export default Home;
+/*
 					) : (
 						<>
 							<Container className="d-flex flex-column" fluid>
@@ -183,10 +188,4 @@ const Home = () => {
 							</Container>
 						</>
 					)}
-				</>
-			)}
-		</>
-	);
-};
-
-export default Home;
+					*/
