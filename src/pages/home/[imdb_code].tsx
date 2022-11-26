@@ -14,13 +14,14 @@ import MovieCard from '../../components/moviecard';
 import SuggestionCard from '../../components/suggestionCard';
 import { motion } from 'framer-motion';
 import { trpc } from '../../utils/trpc';
+import { getSuggestedMovies } from '../../services/ytsServices';
 import CommentsSection from '../../components/commentsSection';
 import MovieDescription from '../../components/MovieDescription';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
-import { movieRate } from '../../utils/helperFunctions';
+import { movieRate, getOmdb } from '../../utils/helperFunctions';
 
 const MovieDB = require('moviedb')('99bfb76d8c47a3cb8112f5bf4e6bdd4d');
 
@@ -49,6 +50,8 @@ const MoviePage = () => {
 	const [movieUrl, setMovieUrl] = useState('');
 	const [crew, setCrew] = useState<any>([]);
 	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
+
+
 	const [movieInfo, setMovieInfo] = useState<MoviePostInfo>({
 		imdb_code: '',
 		movie_path: '',
@@ -79,6 +82,14 @@ const MoviePage = () => {
 		};
 		if (movie?.id) {
 			fetchData();
+		}
+	}, [movie]);
+
+	useEffect(() => {
+		if (movie?.id) {
+			getSuggestedMovies(movie.id).then(
+				(resp) => resp && setSuggestedMovies(resp)
+			);
 		}
 	}, [movie]);
 
@@ -160,7 +171,7 @@ const MoviePage = () => {
 													{t('movieInfo.suggested')}
 												</Card.Title>
 												<Container className="d-flex flex-wrap justify-content-center w-75">
-													{/* {suggestedMovies?.map((movie) => (
+													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
 															<MovieCard
 																movie={movie}
@@ -168,8 +179,8 @@ const MoviePage = () => {
 																viewType="small"
 															/>
 														</div>
-													))} */}
-													{recommendMovies &&
+													))}
+													{/* {recommendMovies &&
 														recommendMovies
 															?.filter((item: any, index: any) => index < 6)
 															.map((movie: any) => (
@@ -180,7 +191,7 @@ const MoviePage = () => {
 																		viewType="small"
 																	/>
 																</div>
-															))}
+															))} */}
 												</Container>
 											</Container>
 										</Col>
