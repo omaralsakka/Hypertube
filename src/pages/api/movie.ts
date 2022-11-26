@@ -23,7 +23,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 						lt: input.toRunTime,
 					},
 					genres: {
-						hasSome: input.genre,
+						has: input.genre,
 					},
 					rating: {
 						gt: input.imdbRating,
@@ -32,16 +32,16 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 						contains: input.description,
 						mode: 'insensitive',
 					},
-					// torrent: {
-					// 	some: {
-					// 		quality: {
-					// 			contains: input.quality,
-					// 		},
-					// 		seeds: {
-					// 			gt: input.seeds,
-					// 		},
-					// 	},
-					// },
+					torrent: {
+						some: {
+							quality: {
+								contains: input.quality,
+							},
+							seeds: {
+								gt: input.seeds,
+							},
+						},
+					},
 				},
 				orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
 			});
@@ -64,16 +64,16 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 						contains: input.description,
 						mode: 'insensitive',
 					},
-					// torrent: {
-					// 	some: {
-					// 		quality: {
-					// 			contains: input.quality,
-					// 		},
-					// 		seeds: {
-					// 			gt: input.seeds,
-					// 		},
-					// 	},
-					// },
+					torrent: {
+						some: {
+							quality: {
+								contains: input.quality,
+							},
+							seeds: {
+								gt: input.seeds,
+							},
+						},
+					},
 				},
 				orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
 			});

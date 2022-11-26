@@ -84,9 +84,7 @@ const MovieDescription = ({
 								<span>{t('movieInfo.category')}:</span>
 								<strong>
 									{movie &&
-										movie.genre.map((obj) => (
-											<div key={obj['genreName']}>{obj['genreName']}</div>
-										))}
+										movie.genres.map((obj) => <div key={obj}>{obj}</div>)}
 								</strong>
 							</Card.Title>
 							<Card.Title>

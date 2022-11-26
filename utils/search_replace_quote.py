@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 
 
-df = pd.read_csv('test_movies.tsv', sep='\t')
+df = pd.read_csv('movies_2.tsv', sep='\t')
 # Select column (can be A,B,C,D)
 
 
@@ -16,4 +16,4 @@ df['genres'] = df['genres'].str.replace(r"'", '')
 #with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
 #print(df['genres'])
 #df[column_list].to_csv('genres_array.csv', encoding='utf-8', index=False)
-df.to_csv('test_movies_corrected.tsv', encoding='utf-8', sep="\t")
+df.to_csv('movies_2_corr.tsv', encoding='utf-8', sep="\t")
