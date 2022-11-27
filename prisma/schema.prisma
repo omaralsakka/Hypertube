@@ -60,7 +60,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Comment       Comment[]
-  firstLogin	Int	@default(1)
+  firstLogin    Int       @default(1)
 }
 
 model VerificationToken {

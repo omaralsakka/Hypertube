@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import SearchNavBar from '../../components/searchNavBar';
 import { Movie } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
@@ -18,9 +18,14 @@ const Home = () => {
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
 	const [movies, setMovies] = useState([]);
+	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [search_term, setsearch_ter] = useState('');
 	const controller = new AbortController();
+	const [hasMore, setHasMore] = useState(true);
+	const [loading, setLoading] = useState(false);
+	const hasNextPage = true;
+	const [error, setError] = useState(undefined);
 	const [filterInputs, setFilterInputs] = useState({
 		orderBy: 'desc',
 		sortBy: 'rating',
@@ -38,12 +43,12 @@ const Home = () => {
 		quality: '720p',
 		page,
 	});
+
 	useEffect(() => {
 		const getMovies = async () => {
 			setIsLoading(true);
 			try {
 				const response = await axios('/api/movie', {
-					signal: controller.signal,
 					method: 'POST',
 					data: {
 						search_term,
@@ -59,6 +64,7 @@ const Home = () => {
 						seeds: parseInt(filterInputs.seeds),
 						description: filterInputs.description,
 						genre: filterInputs.genre,
+						page,
 					},
 				});
 				setMovies(response.data);
@@ -67,9 +73,10 @@ const Home = () => {
 			}
 			setIsLoading(false);
 		};
-		if (isLoading) {
-			controller.abort();
-		}
+		// if (isLoading) {
+		// 	controller.abort();
+		//}
+		setPage(page + 1);
 		getMovies();
 	}, [filterInputs]);
 
@@ -92,12 +99,12 @@ const Home = () => {
 				seeds: parseInt(filterInputs.seeds),
 				description: filterInputs.description,
 				genre: filterInputs.genre,
+				page,
 			},
 		});
 		setMovies(response.data);
 		setIsLoading(false);
 	};
-					page,
 
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
@@ -116,183 +123,120 @@ const Home = () => {
 		}
 	}, [status]);
 
+	const getMoviesTwo = async () => {
+		// setError(true);
+		// setLoading(true);
+		const response = await axios('/api/movie', {
+			method: 'POST',
+			data: {
+				search_term,
+				fromYear: parseInt(filterInputs.fromYear),
+				toYear: parseInt(filterInputs.toYear),
+				fromRunTime: parseInt(filterInputs.fromRunTime),
+				toRunTime: parseInt(filterInputs.toRunTime),
+				imdbRating: parseInt(filterInputs.imdbRating),
+				orderBy: filterInputs.orderBy,
+				sortBy: filterInputs.sortBy,
+				quality: filterInputs.quality,
+				seeds: parseInt(filterInputs.seeds),
+				description: filterInputs.description,
+				genre: filterInputs.genre,
 				page,
+			},
+		});
+		setLoading(false);
+		console.log(response.data);
+		// setMovies(response.data);
+
+		if (response.data.length < 50) {
+			setHasMore(false);
+		}
+		movies;
+		setMovies((movies) => [...movies, ...response.data]);
+
+		console.log(movies);
+		setError(undefined);
+		// if (response.status === 201) {
+		// 	const data = await response.json();
+		// 	console.log(data);
+		// 	if (data.filename) setPhoto(`/images/${data.filename}`);
+		// } else {
+		// 	setFileError(true);
+		// }
+	};
+
 	const incrementPage = async () => {
+		console.log('page');
 		setPage(page + 1);
 		getMoviesTwo();
 	};
+
 	const [infiniteRef] = useInfiniteScroll({
 		loading,
-		onLoadMore: incrementPage,
 		hasNextPage,
+		onLoadMore: incrementPage,
+		// When there is an error, we stop infinite loading.
+		// It can be reactivated by setting "error" state as undefined.
 		disabled: !!error,
+		// `rootMargin` is passed to `IntersectionObserver`.
+		// We can use it to trigger 'onLoadMore' when the sentry comes near to become
+		// visible, instead of becoming fully visible on the screen.
 		rootMargin: '0px 0px 400px 0px',
 	});
+
 	const renderLoader = () => <p>Loading</p>;
 	return (
 		<>
 			<Container className="d-flex flex-column" fluid>
-				<Container
-					className={`${flexColCenter} flex-sm-row border border-light rounded mb-4 mt-4`}
-				>
-					<div className="searchNavBar mb-sm-0 mb-3">
+				{/* {loader ? (
+					<LoadingLogo />
+				) : ( */}
+				<>
+					<Container className="mb-4">
 						<SearchNavBar
 							onSearchChange={onSearchChange}
 							search_term={search_term}
 						/>
-					</div>
-					<div className="p-0 mb-sm-0 mb-3">
+					</Container>
+					<Container>
 						<FilterControls
 							onFilterChange={onFilterChange}
 							filterInputs={filterInputs}
 						/>
-					</div>
-				</Container>
-
-				<Container className="d-flex flex-wrap justify-content-center" fluid>
-					{isLoading && <LoadingLogo />}
-					{!isLoading &&
-						movies &&
-						movies?.map((movie: Movie) => (
-							<MovieCard
-								key={movie.id}
-								movie={movie}
-								style="homeMovieStyle"
-								viewType="full"
-							/>
-						))}
-				</Container>
-				)}
-					</Row>
-					<Row>
-				{hasNextPage && (
-						<div ref={infiniteRef}>Loading page: {page}</div>
-				</>
 					</Container>
+
+					<Container className="d-flex flex-wrap justify-content-center" fluid>
+						<>
+							{movies &&
+								movies.map((movie: Movie) => (
+									<MovieCard
+										key={movie.id}
+										movie={movie}
+										style="homeMovieStyle"
+										viewType="full"
+									/>
+								))}
+
+							{/* 
+              As long as we have a "next page", we show "Loading" right under the list.
+              When it becomes visible on the screen, or it comes near, it triggers 'onLoadMore'.
+              This is our "sentry".
+              We can also use another "sentry" which is separated from the "Loading" component like:
+                <div ref={infiniteRef} />
+                {loading && <ListItem>Loading...</ListItem>}
+              and leave "Loading" without this ref.
+          */}
+						</>
+					</Container>
+				</>
+				{hasNextPage && (
+					<Row>
+						<div ref={infiniteRef}>Loading page: {page}</div>
+					</Row>
+				)}
 			</Container>
 		</>
 	);
 };
 
 export default Home;
-/*
-					) : (
-						<>
-							<Container className="d-flex flex-column" fluid>
-								<Container
-									className={`sticky-top ${flexColCenter} flex-sm-row bg-transparent shadow-sm rounded mb-4 mt-4 `}
-									style={{ position: 'sticky', zIndex: '1' }}
-								>
-									<div className="searchNavBar mb-sm-0 mb-3">
-										<SearchNavBar
-											onSearchChange={onSearchChange}
-											search_term={search_term}
-										/>
-									</div>
-									<div className="p-0 mb-sm-0 mb-3">
-										<FilterControls
-											onFilterChange={onFilterChange}
-											filterInputs={filterInputs}
-										/>
-									</div>
-								</Container>
-								<Container
-									className="d-flex flex-wrap justify-content-center"
-									fluid
-								>
-									{data?.movies.map((movie: Movie) => (
-										<MovieCard
-											key={movie.id}
-											movie={movie}
-											style="homeMovieStyle"
-											viewType="full"
-										/>
-									))}
-								</Container>
-							</Container>
-						</>
-					)}
-					*/
-
-// 	movies.map((movie: Movie) => (
-
-// 	));
-// }
-
-// // const [movies, setMoviesState] = useState<Movies>();
-// // const dispatch = useDispatch();
-// const [loader, setLoader] = useState(true);
-// const { data: session, status } = useSession();
-
-// // const getMovies = async () => {
-// // 	try {
-// // 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
-// // 		const {
-// // 			data: { movies },
-// // 		} = await response.json();
-// // 		return movies;
-// // 	} catch (error) {
-// // 		console.error(error);
-// // 		return false;
-// // 	}
-// // };
-
-// // useEffect(() => {
-// // 	getMovies().then((resp) => {
-// // 		if (resp) {
-// // 			setMoviesState(resp);
-// // 			dispatch(setMovies(resp));
-// // 		}
-// // 	});
-// // }, []);
-
-// // useEffect(() => {
-// // 	setTimeout(() => {
-// // 		setLoader(false);
-// // 	}, 3000);
-// // }, []);
-
-// const [search_term, setsearch_ter] = useState('');
-// let moviesData = [];
-
-// const [filterInputs, setFilterInputs] = useState({
-// 	orderBy: 'desc',
-// 	sortBy: 'rating',
-// 	imdbRating: '1',
-// 	genre: 'Horror',
-// 	seeds: '1',
-// 	fromYear: '0',
-// 	toYear: '2021',
-// 	search_term,
-// 	fromRunTime: '0',
-// 	toRunTime: '300',
-// 	limit: '50',
-// 	description: '',
-// 	quality: '720p',
-// });
-
-// const { data, error } = trpc.movie.search.useQuery({
-// 	search_term,
-// 	fromYear: parseInt(filterInputs.fromYear),
-// 	toYear: parseInt(filterInputs.toYear),
-// 	fromRunTime: parseInt(filterInputs.fromRunTime),
-// 	toRunTime: parseInt(filterInputs.toRunTime),
-// 	imdbRating: parseInt(filterInputs.imdbRating),
-// 	orderBy: filterInputs.orderBy,
-// 	sortBy: filterInputs.sortBy,
-// 	quality: filterInputs.quality,
-// 	seeds: parseInt(filterInputs.seeds),
-// 	description: filterInputs.description,
-// 	genre: filterInputs.genre,
-// });
-
-// const onSearchChange = (e: any) => {
-// 	const { name, value } = e.target;
-// 	setsearch_ter(value);
-// 	// console.log(name);
-// 	// console.log(value);
-// };
-
-// const onFilterChange = (e: any) => {
-// 	setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
-// };
