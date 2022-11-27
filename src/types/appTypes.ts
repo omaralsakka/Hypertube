@@ -163,4 +163,5 @@ export type FilterInputs = {
 	toRunTime: string;
 	limit: string;
 	description: string;
+	page: string;
 };

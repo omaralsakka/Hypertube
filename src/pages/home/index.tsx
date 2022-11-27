@@ -44,82 +44,82 @@ const Home = () => {
 		page,
 	});
 
-	// useEffect(() => {
-	// 	const getMovies = async () => {
-	// 		setIsLoading(true);
-	// 		try {
-	// 			const response = await axios('/api/movie', {
-	// 				method: 'POST',
-	// 				data: {
-	// 					search_term,
-	// 					fromYear: parseInt(filterInputs.fromYear),
-	// 					toYear: parseInt(filterInputs.toYear),
-	// 					fromRunTime: parseInt(filterInputs.fromRunTime),
-	// 					toRunTime: parseInt(filterInputs.toRunTime),
-	// 					imdbRating: parseInt(filterInputs.imdbRating),
-	// 					language: filterInputs.language,
-	// 					orderBy: filterInputs.orderBy,
-	// 					sortBy: filterInputs.sortBy,
-	// 					quality: filterInputs.quality,
-	// 					seeds: parseInt(filterInputs.seeds),
-	// 					description: filterInputs.description,
-	// 					genre: filterInputs.genre,
-	// 					page,
-	// 				},
-	// 			});
-	// 			setMovies(response.data);
-	// 		} catch (e) {
-	// 			console.log(e);
-	// 		}
-	// 		setIsLoading(false);
-	// 	};
-	// 	// if (isLoading) {
-	// 	// 	controller.abort();
-	// 	//}
-	// 	setPage(page + 1);
-	// 	getMovies();
-	// }, [filterInputs]);
+	useEffect(() => {
+		const getMovies = async () => {
+			setIsLoading(true);
+			try {
+				const response = await axios('/api/movie', {
+					method: 'POST',
+					data: {
+						search_term,
+						fromYear: parseInt(filterInputs.fromYear),
+						toYear: parseInt(filterInputs.toYear),
+						fromRunTime: parseInt(filterInputs.fromRunTime),
+						toRunTime: parseInt(filterInputs.toRunTime),
+						imdbRating: parseInt(filterInputs.imdbRating),
+						language: filterInputs.language,
+						orderBy: filterInputs.orderBy,
+						sortBy: filterInputs.sortBy,
+						quality: filterInputs.quality,
+						seeds: parseInt(filterInputs.seeds),
+						description: filterInputs.description,
+						genre: filterInputs.genre,
+						page,
+					},
+				});
+				setMovies(response.data);
+			} catch (e) {
+				console.log(e);
+			}
+			setIsLoading(false);
+		};
+		// if (isLoading) {
+		// 	controller.abort();
+		//}
+		setPage(page + 1);
+		getMovies();
+	}, [filterInputs, search_term]);
 
-	const getMovies = async () => {
-		setIsLoading(true);
-		setMovies([]);
-		const response = await axios('/api/movie', {
-			method: 'POST',
-			data: {
-				search_term,
-				fromYear: parseInt(filterInputs.fromYear),
-				toYear: parseInt(filterInputs.toYear),
-				fromRunTime: parseInt(filterInputs.fromRunTime),
-				toRunTime: parseInt(filterInputs.toRunTime),
-				imdbRating: parseInt(filterInputs.imdbRating),
-				orderBy: filterInputs.orderBy,
-				language: filterInputs.language,
-				sortBy: filterInputs.sortBy,
-				quality: filterInputs.quality,
-				seeds: parseInt(filterInputs.seeds),
-				description: filterInputs.description,
-				genre: filterInputs.genre,
-				page,
-			},
-		});
-		setMovies(response.data);
-		setIsLoading(false);
-	};
+	// const getMovies = async () => {
+	// 	setIsLoading(true);
+	// 	setMovies([]);
+	// 	const response = await axios('/api/movie', {
+	// 		method: 'POST',
+	// 		data: {
+	// 			search_term,
+	// 			fromYear: parseInt(filterInputs.fromYear),
+	// 			toYear: parseInt(filterInputs.toYear),
+	// 			fromRunTime: parseInt(filterInputs.fromRunTime),
+	// 			toRunTime: parseInt(filterInputs.toRunTime),
+	// 			imdbRating: parseInt(filterInputs.imdbRating),
+	// 			orderBy: filterInputs.orderBy,
+	// 			language: filterInputs.language,
+	// 			sortBy: filterInputs.sortBy,
+	// 			quality: filterInputs.quality,
+	// 			seeds: parseInt(filterInputs.seeds),
+	// 			description: filterInputs.description,
+	// 			genre: filterInputs.genre,
+	// 			page,
+	// 		},
+	// 	});
+	// 	setMovies(response.data);
+	// 	console.log(response.data);
+	// 	setIsLoading(false);
+	// };
 
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
 		setsearch_ter(value);
 		setPage(0);
-		setMovies([]);
-		getMovies();
+		//getMovies();
+
 		// console.log(name);
 		// console.log(value);
 	};
 	const onFilterChange = (e: any) => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 		setPage(0);
-		setMovies([]);
-		getMovies();
+		// getMovies();
 	};
 
 	useEffect(() => {
@@ -150,16 +150,13 @@ const Home = () => {
 			},
 		});
 		setLoading(false);
-		console.log(response.data);
-		// setMovies(response.data);
-
+		//		console.log(response.data);
 		if (response.data.length < 20) {
 			setHasMore(false);
 		}
 		movies;
 		setMovies((movies) => [...movies, ...response.data]);
-
-		console.log(movies);
+		// console.log(movies);
 		setError(undefined);
 		// if (response.status === 201) {
 		// 	const data = await response.json();
