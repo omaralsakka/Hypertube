@@ -9,6 +9,8 @@ import LoadingLogo from '../../components/loadingLogo';
 import { trpc } from '../../utils/trpc';
 import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
 import axios from 'axios';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
+import React, { lazy, Suspense } from 'react';
 
 const Home = () => {
 	const context = trpc.useContext();
@@ -31,9 +33,10 @@ const Home = () => {
 		search_term,
 		fromRunTime: '0',
 		toRunTime: '300',
-		limit: '50',
+		limit: '5',
 		description: '',
 		quality: '720p',
+		page,
 	});
 	useEffect(() => {
 		const getMovies = async () => {
@@ -94,6 +97,7 @@ const Home = () => {
 		setMovies(response.data);
 		setIsLoading(false);
 	};
+					page,
 
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
@@ -112,6 +116,19 @@ const Home = () => {
 		}
 	}, [status]);
 
+				page,
+	const incrementPage = async () => {
+		setPage(page + 1);
+		getMoviesTwo();
+	};
+	const [infiniteRef] = useInfiniteScroll({
+		loading,
+		onLoadMore: incrementPage,
+		hasNextPage,
+		disabled: !!error,
+		rootMargin: '0px 0px 400px 0px',
+	});
+	const renderLoader = () => <p>Loading</p>;
 	return (
 		<>
 			<Container className="d-flex flex-column" fluid>
@@ -145,6 +162,13 @@ const Home = () => {
 							/>
 						))}
 				</Container>
+				)}
+					</Row>
+					<Row>
+				{hasNextPage && (
+						<div ref={infiniteRef}>Loading page: {page}</div>
+				</>
+					</Container>
 			</Container>
 		</>
 	);
@@ -189,3 +213,86 @@ export default Home;
 						</>
 					)}
 					*/
+
+// 	movies.map((movie: Movie) => (
+
+// 	));
+// }
+
+// // const [movies, setMoviesState] = useState<Movies>();
+// // const dispatch = useDispatch();
+// const [loader, setLoader] = useState(true);
+// const { data: session, status } = useSession();
+
+// // const getMovies = async () => {
+// // 	try {
+// // 		const response = await fetch('https://yts.mx/api/v2/list_movies.json');
+// // 		const {
+// // 			data: { movies },
+// // 		} = await response.json();
+// // 		return movies;
+// // 	} catch (error) {
+// // 		console.error(error);
+// // 		return false;
+// // 	}
+// // };
+
+// // useEffect(() => {
+// // 	getMovies().then((resp) => {
+// // 		if (resp) {
+// // 			setMoviesState(resp);
+// // 			dispatch(setMovies(resp));
+// // 		}
+// // 	});
+// // }, []);
+
+// // useEffect(() => {
+// // 	setTimeout(() => {
+// // 		setLoader(false);
+// // 	}, 3000);
+// // }, []);
+
+// const [search_term, setsearch_ter] = useState('');
+// let moviesData = [];
+
+// const [filterInputs, setFilterInputs] = useState({
+// 	orderBy: 'desc',
+// 	sortBy: 'rating',
+// 	imdbRating: '1',
+// 	genre: 'Horror',
+// 	seeds: '1',
+// 	fromYear: '0',
+// 	toYear: '2021',
+// 	search_term,
+// 	fromRunTime: '0',
+// 	toRunTime: '300',
+// 	limit: '50',
+// 	description: '',
+// 	quality: '720p',
+// });
+
+// const { data, error } = trpc.movie.search.useQuery({
+// 	search_term,
+// 	fromYear: parseInt(filterInputs.fromYear),
+// 	toYear: parseInt(filterInputs.toYear),
+// 	fromRunTime: parseInt(filterInputs.fromRunTime),
+// 	toRunTime: parseInt(filterInputs.toRunTime),
+// 	imdbRating: parseInt(filterInputs.imdbRating),
+// 	orderBy: filterInputs.orderBy,
+// 	sortBy: filterInputs.sortBy,
+// 	quality: filterInputs.quality,
+// 	seeds: parseInt(filterInputs.seeds),
+// 	description: filterInputs.description,
+// 	genre: filterInputs.genre,
+// });
+
+// const onSearchChange = (e: any) => {
+// 	const { name, value } = e.target;
+// 	setsearch_ter(value);
+// 	// console.log(name);
+// 	// console.log(value);
+// };
+
+// const onFilterChange = (e: any) => {
+// 	setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
+// };
