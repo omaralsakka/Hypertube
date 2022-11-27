@@ -40,7 +40,7 @@ const Home = () => {
 		toRunTime: '300',
 		limit: '5',
 		description: '',
-		quality: '720p',
+		quality: '',
 		page,
 	});
 
@@ -111,6 +111,7 @@ const Home = () => {
 		const { name, value } = e.target;
 		setsearch_ter(value);
 		setPage(0);
+		setHasMore(true)
 		//getMovies();
 
 		// console.log(name);
@@ -119,6 +120,7 @@ const Home = () => {
 	const onFilterChange = (e: any) => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 		setPage(0);
+		setHasMore(true)
 		// getMovies();
 	};
 
