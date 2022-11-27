@@ -3,7 +3,7 @@ import { Form, Accordion, Container } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
 import { FilterInputs } from '../../types/appTypes';
 var _ = require('lodash');
-
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import AdvancedSearch from '../advancedSearch';
 
@@ -14,6 +14,8 @@ const FilterControls = ({
 	onFilterChange: EventTarget | any;
 	filterInputs: FilterInputs;
 }) => {
+	const { t }: i18translateType = useTranslation('common');
+
 	const [genres, setGenres] = useState([
 		'',
 		'Adventure',
@@ -59,7 +61,9 @@ const FilterControls = ({
 			<AdvancedSearch>
 				<Form className="bg-transparent">
 					<Form.Group className="d-flex flex-column mb-4 bg-transparent">
-						<Form.Label className="text-white">Genre</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.genre')}
+						</Form.Label>
 						<Form.Select
 							aria-label="Genre"
 							id="genre"
@@ -73,7 +77,9 @@ const FilterControls = ({
 						</Form.Select>
 					</Form.Group>
 					<Form.Group className="d-flex flex-column mb-4">
-						<Form.Label className="text-white">Description</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.description')}
+						</Form.Label>
 						<Form.Control
 							name="description"
 							onChange={(e) => onFilterChange(e)}
@@ -81,7 +87,9 @@ const FilterControls = ({
 						/>
 					</Form.Group>
 					<Form.Group>
-						<Form.Label className="text-white">Language</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.language')}
+						</Form.Label>
 						<Form.Select
 							aria-label="Language"
 							id="language"
@@ -95,7 +103,9 @@ const FilterControls = ({
 						</Form.Select>
 					</Form.Group>
 					<Form.Group className="mb-4">
-						<Form.Label className="text-white">Rating</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.rating')}
+						</Form.Label>
 						<Form.Select
 							aria-label="Imdb rating"
 							// defaultValue={7}
@@ -112,7 +122,9 @@ const FilterControls = ({
 
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">From year</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.fromYear')}
+							</Form.Label>
 							<Form.Select
 								aria-label="From year"
 								// defaultValue={new Date().getFullYear() - 10}
@@ -127,7 +139,9 @@ const FilterControls = ({
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">To year</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.toYear')}
+							</Form.Label>
 							<Form.Select
 								aria-label="To year"
 								// defaultValue={2021}
@@ -145,7 +159,9 @@ const FilterControls = ({
 
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">From runtime</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.fromRunTime')}
+							</Form.Label>
 							<Form.Select
 								aria-label="From runtime"
 								// defaultValue={5}
@@ -164,7 +180,9 @@ const FilterControls = ({
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">To runtime</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.toRunTime')}
+							</Form.Label>
 							<Form.Select
 								aria-label="To runtime"
 								// defaultValue={200}
@@ -186,7 +204,10 @@ const FilterControls = ({
 
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">Order By</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.orderBy')}
+							</Form.Label>
 							<Form.Select
 								aria-label="Order By"
 								// defaultValue="Desc"
@@ -195,12 +216,15 @@ const FilterControls = ({
 								value={filterInputs.orderBy}
 								onChange={(e) => onFilterChange(e)}
 							>
-								<option value="desc">Descending</option>
-								<option value="asc">Ascending</option>
+								<option value="desc"> {t('filterControls.descending')}</option>
+								<option value="asc"> {t('filterControls.ascending')}</option>
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">Sort By</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.sortBy')}
+							</Form.Label>
 							<Form.Select
 								aria-label="Sort By"
 								// defaultValue="rating"
@@ -209,16 +233,19 @@ const FilterControls = ({
 								value={filterInputs.sortBy}
 								onChange={(e) => onFilterChange(e)}
 							>
-								<option value="title">title</option>
-								<option value="year">year</option>
-								<option value="rating">rating</option>
+								<option value="title"> {t('filterControls.title')}</option>
+								<option value="year"> {t('filterControls.year')}</option>
+								<option value="rating"> {t('filterControls.rating')}</option>
 								{/* <option value="seeds">seeds</option> */}
 							</Form.Select>
 						</Container>
 					</Form.Group>
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">Quality</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.quality')}
+							</Form.Label>
 
 							<Form.Select
 								aria-label="Quality"
@@ -236,7 +263,10 @@ const FilterControls = ({
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">Seeds</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.seeds')}
+							</Form.Label>
 							<Form.Select
 								aria-label="Seeds"
 								// defaultValue="1"

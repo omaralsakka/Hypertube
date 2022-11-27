@@ -170,14 +170,14 @@ const Login = ({
 												{credentialsError && (
 													<Container className="d-flex justify-content-center mb-4">
 														<p className="text-danger">
-															Invalid username or password
+															{t('form.invalidUser')}
 														</p>
 													</Container>
 												)}
 												{verifiedError && (
 													<Container className="d-flex justify-content-center mb-4">
 														<p className="text-danger">
-															Your email address hasn't been verified
+															{t('form.notVerified')}
 														</p>
 													</Container>
 												)}

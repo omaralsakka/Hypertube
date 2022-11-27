@@ -46,7 +46,9 @@
 		"signupFirst": "请先登陆",
 		"verifyingEmail": "正在验证您的邮箱地址",
 		"verified": "验证成功",
-		"emailVerified": "邮箱已验证，请继续登陆"
+		"emailVerified": "邮箱已验证，请继续登陆",
+		"invalidUser": "无效的用户名或密码",
+		"notVerified": "您的电子邮件地址尚未经过验证"
 	},
 	"signupImage": {
 		"title": "上传您的图片",
@@ -62,10 +64,77 @@
 		"comments": "评计",
 		"addComment": "添加评价",
 		"cancel": "取消",
-		"readMore": "更多信息"
+		"readMore": "更多信息",
+		"producer": "监制",
+		"writer": "编剧"
 	},
 	"footer": {
 		"developed": "开发者",
 		"project": "项目制作者"
+	},
+	"search": {
+		"searchPlace": "你想看什么",
+		"advancedSearch": "高级搜索"
+	},
+	"filterControls": {
+		"genre": "类型",
+		"description": "描述",
+		"language": "语言",
+		"rating": "等级",
+		"fromYear": "起始年份 ",
+		"toYear": "截止年份",
+		"fromRunTime": "开始运行时间",
+		"toRunTime": "截止运行时间",
+		"orderBy": "归类方式",
+		"sortBy": "排序方式 ",
+		"descending": "降序",
+		"ascending": "升序",
+		"quality": "画质",
+		"seeds": " 种子",
+		"title": "标题 ",
+		"year": "年份",
+		"adventure": "探险",
+		"action": "动作",
+		"comedy": "搞笑",
+		"documentary": "纪录片",
+		"drama": "喜剧",
+		"fantasy": "科幻",
+		"family": "家庭",
+		"film-noir": "黑帮",
+		"horror": "恐怖",
+		"mystery": "悬疑",
+		"romance": "爱情",
+		"sci-fi": "科技",
+		"thriller": "惊悚",
+		"war": "战争",
+		"western": "西方"
+	},
+	"language": {
+		"cn": "中文",
+		"en": "英",
+		"fi": "芬兰",
+		"hi": "印地",
+		"es": "西班牙",
+		"fr": "法",
+		"ar": "阿拉伯",
+		"ja": "日本",
+		"ko": "韩国",
+		"it": "意大利",
+		"de": "德",
+		"bn": "孟加拉",
+		"ru": "俄语",
+		"pt": "葡萄牙",
+		"ro": "罗马尼亚",
+		"hu": "匈牙利"
+	},
+
+	"settings": {
+		"changeName": "Change name",
+		"changeEmail": "Change email",
+		"changePass": "Change password",
+		"saveChange": "Save changes",
+		"providerMsg1": "You're logged in with another service provider.",
+		"providerMsg2": "Change your email and password via your provider.",
+		"changesSaved": "Changes saved successfully"
 	}
 }

@@ -1,15 +1,17 @@
 import { Offcanvas, Button, Container } from 'react-bootstrap';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const AdvancedSearch = ({ children }: { children: React.ReactNode }) => {
 	const [show, setShow] = useState(false);
+	const { t }: i18translateType = useTranslation('common');
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	return (
 		<>
 			<Button variant="warning" onClick={handleShow}>
-				Advanced search
+				{t('search.advancedSearch')}
 			</Button>
 
 			<Offcanvas
@@ -20,7 +22,7 @@ const AdvancedSearch = ({ children }: { children: React.ReactNode }) => {
 			>
 				<Container className="mb-2 bg-warning px-0">
 					<Offcanvas.Header closeButton>
-						<Offcanvas.Title>Advanced Search</Offcanvas.Title>
+						<Offcanvas.Title>{t('search.advancedSearch')}</Offcanvas.Title>
 					</Offcanvas.Header>
 				</Container>
 				<Offcanvas.Body>{children}</Offcanvas.Body>

@@ -102,13 +102,13 @@ const MovieDescription = ({
 							</Card.Title>
 							<hr />
 							<Card.Title>
-								<span>Writer</span>
+								<span>{t('movieInfo.writer')}</span>
 								&nbsp;
 								<strong>{crew && writer}</strong>
 							</Card.Title>
 							<hr />
 							<Card.Title>
-								<span>Producer</span>
+								<span>{t('movieInfo.producer')}</span>
 								&nbsp;
 								<strong>{crew && producer}</strong>
 							</Card.Title>
