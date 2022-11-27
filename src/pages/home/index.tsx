@@ -31,7 +31,7 @@ const Home = () => {
 		sortBy: 'rating',
 		imdbRating: '1',
 		genre: '',
-		seeds: '1',
+		seeds: '0',
 		fromYear: '0',
 		language: '',
 		toYear: '2021',
@@ -140,6 +140,7 @@ const Home = () => {
 				fromRunTime: parseInt(filterInputs.fromRunTime),
 				toRunTime: parseInt(filterInputs.toRunTime),
 				imdbRating: parseInt(filterInputs.imdbRating),
+				language: filterInputs.language,
 				orderBy: filterInputs.orderBy,
 				sortBy: filterInputs.sortBy,
 				quality: filterInputs.quality,
@@ -235,7 +236,7 @@ const Home = () => {
 				</>
 				{hasNextPage && (
 					<Row>
-						<div ref={infiniteRef}>Loading page: {page}</div>
+						<div ref={infiniteRef}>Pages: {page}</div>
 					</Row>
 				)}
 			</Container>

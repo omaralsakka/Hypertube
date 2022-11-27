@@ -16,17 +16,17 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 				take: 20,
 				where: {
 					title: { contains: input.search_term, mode: 'insensitive' },
-					year: { gt: input.fromYear, lt: input.toYear },
+					year: { gte: input.fromYear, lte: input.toYear },
 					language: { contains: input.language },
 					runtime: {
-						gt: input.fromRunTime,
-						lt: input.toRunTime,
+						gte: input.fromRunTime,
+						lte: input.toRunTime,
 					},
 					genres: {
 						has: input.genre,
 					},
 					rating: {
-						gt: input.imdbRating,
+						gte: input.imdbRating,
 					},
 					description_full: {
 						contains: input.description,
@@ -38,7 +38,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 								contains: input.quality,
 							},
 							seeds: {
-								gt: input.seeds,
+								gte: input.seeds,
 							},
 						},
 					},

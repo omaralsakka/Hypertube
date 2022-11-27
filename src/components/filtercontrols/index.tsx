@@ -53,7 +53,7 @@ const FilterControls = ({
 	]);
 	// A Trip to the Moon (1902) is considered the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
-	const [ratings, setRatings] = useState(_.range(1, 10));
+	const [ratings, setRatings] = useState(_.range(0, 10));
 	return (
 		<>
 			<AdvancedSearch>
@@ -228,6 +228,7 @@ const FilterControls = ({
 								value={filterInputs.quality}
 								onChange={(e) => onFilterChange(e)}
 							>
+								<option value=""></option>
 								<option value="SD">SD</option>
 								<option value="720p">720p</option>
 								<option value="1080p">1080p</option>
@@ -244,6 +245,7 @@ const FilterControls = ({
 								value={filterInputs.seeds}
 								onChange={(e) => onFilterChange(e)}
 							>
+								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="5">5</option>
