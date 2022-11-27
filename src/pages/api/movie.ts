@@ -12,7 +12,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 		let movies = [];
 		if (input.genre != '') {
 			movies = await prisma.movie.findMany({
-				skip: 0,
+				skip: input.page * 20,
 				take: 20,
 				where: {
 					title: { contains: input.search_term, mode: 'insensitive' },
@@ -47,7 +47,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		} else {
 			movies = await prisma.movie.findMany({
-				skip: 0,
+				skip: input.page * 20,
 				take: 20,
 				where: {
 					title: { contains: input.search_term, mode: 'insensitive' },

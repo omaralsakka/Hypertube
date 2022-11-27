@@ -44,41 +44,41 @@ const Home = () => {
 		page,
 	});
 
-	useEffect(() => {
-		const getMovies = async () => {
-			setIsLoading(true);
-			try {
-				const response = await axios('/api/movie', {
-					method: 'POST',
-					data: {
-						search_term,
-						fromYear: parseInt(filterInputs.fromYear),
-						toYear: parseInt(filterInputs.toYear),
-						fromRunTime: parseInt(filterInputs.fromRunTime),
-						toRunTime: parseInt(filterInputs.toRunTime),
-						imdbRating: parseInt(filterInputs.imdbRating),
-						language: filterInputs.language,
-						orderBy: filterInputs.orderBy,
-						sortBy: filterInputs.sortBy,
-						quality: filterInputs.quality,
-						seeds: parseInt(filterInputs.seeds),
-						description: filterInputs.description,
-						genre: filterInputs.genre,
-						page,
-					},
-				});
-				setMovies(response.data);
-			} catch (e) {
-				console.log(e);
-			}
-			setIsLoading(false);
-		};
-		// if (isLoading) {
-		// 	controller.abort();
-		//}
-		setPage(page + 1);
-		getMovies();
-	}, [filterInputs]);
+	// useEffect(() => {
+	// 	const getMovies = async () => {
+	// 		setIsLoading(true);
+	// 		try {
+	// 			const response = await axios('/api/movie', {
+	// 				method: 'POST',
+	// 				data: {
+	// 					search_term,
+	// 					fromYear: parseInt(filterInputs.fromYear),
+	// 					toYear: parseInt(filterInputs.toYear),
+	// 					fromRunTime: parseInt(filterInputs.fromRunTime),
+	// 					toRunTime: parseInt(filterInputs.toRunTime),
+	// 					imdbRating: parseInt(filterInputs.imdbRating),
+	// 					language: filterInputs.language,
+	// 					orderBy: filterInputs.orderBy,
+	// 					sortBy: filterInputs.sortBy,
+	// 					quality: filterInputs.quality,
+	// 					seeds: parseInt(filterInputs.seeds),
+	// 					description: filterInputs.description,
+	// 					genre: filterInputs.genre,
+	// 					page,
+	// 				},
+	// 			});
+	// 			setMovies(response.data);
+	// 		} catch (e) {
+	// 			console.log(e);
+	// 		}
+	// 		setIsLoading(false);
+	// 	};
+	// 	// if (isLoading) {
+	// 	// 	controller.abort();
+	// 	//}
+	// 	setPage(page + 1);
+	// 	getMovies();
+	// }, [filterInputs]);
 
 	const getMovies = async () => {
 		setIsLoading(true);
@@ -109,12 +109,17 @@ const Home = () => {
 	const onSearchChange = (e: any) => {
 		const { name, value } = e.target;
 		setsearch_ter(value);
+		setPage(0);
+		setMovies([]);
 		getMovies();
 		// console.log(name);
 		// console.log(value);
 	};
 	const onFilterChange = (e: any) => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
+		setPage(0);
+		setMovies([]);
+		getMovies();
 	};
 
 	useEffect(() => {
@@ -125,7 +130,7 @@ const Home = () => {
 
 	const getMoviesTwo = async () => {
 		// setError(true);
-		// setLoading(true);
+		setLoading(true);
 		const response = await axios('/api/movie', {
 			method: 'POST',
 			data: {
@@ -148,7 +153,7 @@ const Home = () => {
 		console.log(response.data);
 		// setMovies(response.data);
 
-		if (response.data.length < 50) {
+		if (response.data.length < 20) {
 			setHasMore(false);
 		}
 		movies;
@@ -166,9 +171,11 @@ const Home = () => {
 	};
 
 	const incrementPage = async () => {
-		console.log('page');
-		setPage(page + 1);
-		getMoviesTwo();
+		if (!loading && hasMore) {
+			console.log('page');
+			setPage(page + 1);
+			getMoviesTwo();
+		}
 	};
 
 	const [infiniteRef] = useInfiniteScroll({
