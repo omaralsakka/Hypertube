@@ -11,6 +11,7 @@ import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
 import axios from 'axios';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import React, { lazy, Suspense } from 'react';
+import SignupImage from '../../components/signupImage';
 
 const Home = () => {
 	const context = trpc.useContext();
@@ -43,7 +44,9 @@ const Home = () => {
 		quality: '',
 		page,
 	});
-
+	const { data: userData } = trpc.user.getProfile.useQuery(
+		!session?.token?.user?.id ? '0' : session?.token?.user?.id
+	);
 	useEffect(() => {
 		const getMovies = async () => {
 			setIsLoading(true);
@@ -111,7 +114,7 @@ const Home = () => {
 		const { name, value } = e.target;
 		setsearch_ter(value);
 		setPage(0);
-		setHasMore(true)
+		setHasMore(true);
 		//getMovies();
 
 		// console.log(name);
@@ -120,7 +123,7 @@ const Home = () => {
 	const onFilterChange = (e: any) => {
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 		setPage(0);
-		setHasMore(true)
+		setHasMore(true);
 		// getMovies();
 	};
 
@@ -190,41 +193,60 @@ const Home = () => {
 		// visible, instead of becoming fully visible on the screen.
 		rootMargin: '0px 0px 400px 0px',
 	});
-
+	{
+		/* {loader ? (
+					<LoadingLogo />
+				) : ( */
+	}
 	const renderLoader = () => <p>Loading</p>;
 	return (
 		<>
-			<Container className="d-flex flex-column" fluid>
-				{/* {loader ? (
-					<LoadingLogo />
-				) : ( */}
+			{status !== 'authenticated' ? (
+				<></>
+			) : (
 				<>
-					<Container className="mb-4">
-						<SearchNavBar
-							onSearchChange={onSearchChange}
-							search_term={search_term}
+					{userData?.user?.firstLogin === 1 ? (
+						<SignupImage
+							currentImage={session.token.user.image}
+							email={session.token.user.email}
+							userId={session.token.user.id}
 						/>
-					</Container>
-					<Container>
-						<FilterControls
-							onFilterChange={onFilterChange}
-							filterInputs={filterInputs}
-						/>
-					</Container>
-
-					<Container className="d-flex flex-wrap justify-content-center" fluid>
+					) : (
 						<>
-							{movies &&
-								movies.map((movie: Movie) => (
-									<MovieCard
-										key={movie.id}
-										movie={movie}
-										style="homeMovieStyle"
-										viewType="full"
-									/>
-								))}
+							<Container className="d-flex flex-column" fluid>
+								<Container
+									className={`sticky-top ${flexColCenter} flex-sm-row bg-transparent shadow-sm rounded mb-4 mt-4 `}
+									style={{ position: 'sticky', zIndex: '1' }}
+								>
+									<div className="searchNavBar mb-sm-0 mb-3">
+										<SearchNavBar
+											onSearchChange={onSearchChange}
+											search_term={search_term}
+										/>
+									</div>
 
-							{/* 
+									<div className="p-0 mb-sm-0 mb-3">
+										<FilterControls
+											onFilterChange={onFilterChange}
+											filterInputs={filterInputs}
+										/>
+									</div>
+								</Container>
+								<Container
+									className="d-flex flex-wrap justify-content-center"
+									fluid
+								>
+									{movies &&
+										movies.map((movie: Movie) => (
+											<MovieCard
+												key={movie.id}
+												movie={movie}
+												style="homeMovieStyle"
+												viewType="full"
+											/>
+										))}
+
+									{/* 
               As long as we have a "next page", we show "Loading" right under the list.
               When it becomes visible on the screen, or it comes near, it triggers 'onLoadMore'.
               This is our "sentry".
@@ -233,15 +255,18 @@ const Home = () => {
                 {loading && <ListItem>Loading...</ListItem>}
               and leave "Loading" without this ref.
           */}
+								</Container>
+
+								{hasNextPage && (
+									<Row>
+										<div ref={infiniteRef}>Pages: {page}</div>
+									</Row>
+								)}
+							</Container>
 						</>
-					</Container>
+					)}
 				</>
-				{hasNextPage && (
-					<Row>
-						<div ref={infiniteRef}>Pages: {page}</div>
-					</Row>
-				)}
-			</Container>
+			)}
 		</>
 	);
 };

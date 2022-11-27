@@ -72,7 +72,10 @@ const FilterControls = ({
 							onChange={(e) => onFilterChange(e)}
 						>
 							{genres.map((genre) => (
-								<option key={genre + '1'}>{genre}</option>
+								<option key={genre + '1'}>
+									{/* {t('filterControls.' + genre)} */}
+									{genre}
+								</option>
 							))}
 						</Form.Select>
 					</Form.Group>
@@ -98,7 +101,10 @@ const FilterControls = ({
 							onChange={(e) => onFilterChange(e)}
 						>
 							{languages.map((language) => (
-								<option key={language + '1'}>{language}</option>
+								<option key={language + '1'}>
+									{/* {t('language.' + language)} */}
+									{language}
+								</option>
 							))}
 						</Form.Select>
 					</Form.Group>
