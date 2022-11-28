@@ -25,7 +25,6 @@ const MovieScreen = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [subtitles, setSubtitles] = useState([]);
-	const [isMp4, setIsMp4] = useState(true);
 	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
@@ -35,13 +34,6 @@ const MovieScreen = ({
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
-
-			if (
-				movieInfo.movie_path.includes('YIFY') ||
-				movieInfo.movie_path.includes('.mkv')
-			) {
-				setIsMp4(false);
-			}
 		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [movieInfo]);
@@ -96,7 +88,6 @@ const MovieScreen = ({
 							<MoviePlayer
 								movieUrl={movieUrl}
 								subtitles={subtitles}
-								isMp4={isMp4}
 							/>
 						) : (
 							<Card.ImgOverlay>

@@ -9,7 +9,7 @@ interface Subtitles {
 	srcLang: string;
 }
 
-const MoviePlayer = ({ movieUrl, subtitles, isMp4 }: { movieUrl: string, subtitles: Subtitles[] | any, isMp4: boolean }) => {
+const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subtitles[] | any }) => {
 
 	const playerRef: any = useRef(null);
 
@@ -29,7 +29,7 @@ const MoviePlayer = ({ movieUrl, subtitles, isMp4 }: { movieUrl: string, subtitl
 				<ReactPlayer
 					ref={playerRef}
 					url={movieUrl}
-					controls={isMp4}
+					controls={true}
 					playing={true}
 					width="100%"
 					// onError={onError}

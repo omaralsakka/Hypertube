@@ -22,8 +22,8 @@ export default async function deleteFiles(
     req: NextApiRequest,
 	res: NextApiResponse
 ){
-     // '*/1 * * * * *' every second for testing
-        console.log('cron is running in the background');
+        const task = cron.schedule('*/1 * * * * *', async () => { // '*/1 * * * * *' every second for testing
+        console.log('cron is running in the background, will do a check at 23');
         let downloadedMovies: MovieData[] = [];
         let timestamp: number = Date.now();
 
@@ -51,5 +51,7 @@ export default async function deleteFiles(
                 }
             })
         })
+    });
+    task.start();
     res.status(200);
 };
