@@ -55,7 +55,7 @@ export default async function streamVideo(
 			const id: number = data.id;
 			const imdbCode: string = data.imdb_code;
 			const movieTitle: string = data.title_long;
-			console.log(data);
+			// console.log(data);
 			const torrents: any[] = await getTorrents(data.id);
 			//const torrents: torrentDataInter[] = data.torrents;
 			const uri: string = createMagnetLink(torrents, movieTitle);

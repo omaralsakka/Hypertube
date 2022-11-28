@@ -6,9 +6,9 @@ import { Movie } from '../../types/appTypes';
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 		const input = req.body;
-		console.log('bodybody');
-		console.log(req.body);
-		console.log('bodybody');
+		// console.log('bodybody');
+		// console.log(req.body);
+		// console.log('bodybody');
 		let movies = [];
 		if (input.genre != '') {
 			movies = await prisma.movie.findMany({

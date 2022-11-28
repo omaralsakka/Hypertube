@@ -51,7 +51,6 @@ const MoviePage = () => {
 	const [crew, setCrew] = useState<any>([]);
 	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
 
-
 	const [movieInfo, setMovieInfo] = useState<MoviePostInfo>({
 		imdb_code: '',
 		movie_path: '',
@@ -120,7 +119,7 @@ const MoviePage = () => {
 				`/api/subtitles?imdbCode=${movie.imdb_code}`,
 				{}
 			);
-			console.log(subsArray.data);
+			// console.log(subsArray.data);
 			setSubtitles(subsArray.data);
 			setLoading(true);
 		}
