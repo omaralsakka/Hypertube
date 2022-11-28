@@ -47,7 +47,9 @@
 		"signupFirst": "You need to sign up first",
 		"verifyingEmail": "Verifying email address...",
 		"verified": "Verified",
-		"emailVerified": "Email address verified. Login to continue!"
+		"emailVerified": "Email address verified. Login to continue!",
+		"invalidUser": "Invalid user",
+		"notVerified": "Not verified"
 	},
 	"signupImage": {
 		"title": "Upload your picture",

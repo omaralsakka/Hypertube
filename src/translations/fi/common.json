@@ -47,7 +47,9 @@
 		"signupFirst": "Sinun täytyy rekisteröityä ensin",
 		"verifyingEmail": "Vahvistetaan sähköpostiosoitetta...",
 		"verified": "Vahvistettu",
-		"emailVerified": "Sähköpostiosoite vahvistettu. Kirjaudu jatkaaksesi!"
+		"emailVerified": "Sähköpostiosoite vahvistettu. Kirjaudu jatkaaksesi!",
+		"invalidUser": "Virheellinen käyttäjä",
+		"notVerified": "Ei vahvistettu"
 	},
 	"signupImage": {
 		"title": "Lataa kuvasi",

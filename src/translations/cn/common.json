@@ -43,6 +43,7 @@
 		"followLink": "继续在邮箱中按照链接提示操作",
 		"requestLink": "如果您没接手到邮箱验证，请在下方寻求新的验证。",
 		"errorOccurred": "一个错误提示出现",
+		"emailNotExist": "此邮箱未注册.",
 		"signupFirst": "请先登陆",
 		"verifyingEmail": "正在验证您的邮箱地址",
 		"verified": "验证成功",
@@ -54,7 +55,6 @@
 		"title": "上传您的图片",
 		"body": "请选择上传一张图片"
 	},
-
 	"search": {
 		"searchPlace": "你想看什么",
 		"advancedSearch": "高级搜索"
