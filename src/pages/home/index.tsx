@@ -18,7 +18,7 @@ const Home = () => {
 
 	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
-	const [movies, setMovies] = useState([]);
+	const [movies, setMovies] = useState<any[]>([]);
 	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [search_term, setsearch_ter] = useState('');

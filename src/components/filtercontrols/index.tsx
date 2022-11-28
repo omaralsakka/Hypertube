@@ -6,6 +6,7 @@ var _ = require('lodash');
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import AdvancedSearch from '../advancedSearch';
+import { i18translateType } from '../../types/appTypes';
 
 const FilterControls = ({
 	onFilterChange,
