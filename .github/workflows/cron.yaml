@@ -1,0 +1,12 @@
+name: daily-cron
+on:
+  schedule:
+    - cron: '*/1 * * * * *'
+jobs:
+  cron:
+    runs-on: macos-mojave
+    steps:
+      - name: Delete files that are not watched for a month.
+        run: |
+          curl --request GET \
+          --url 'http://localhost:3000/api/delete-movie/'

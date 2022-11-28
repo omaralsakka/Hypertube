@@ -12,17 +12,17 @@ const download = async (
 	if (!fs.existsSync(`./subtitles/${imdbCode}`))
 		fs.mkdirSync(`./subtitles/${imdbCode}`, { recursive: true });
 
-	// try {
-	// 	await prisma.subtitles.create({
-	// 		data: {
-	// 			imdb_code: imdbCode,
-	// 			language: subsData.attributes.language,
-	// 			path: dest,
-	// 		},
-	// 	});
-	// } catch (error) {
-	// 	console.error(error);
-	// }
+	try {
+		await prisma.subtitles.create({
+			data: {
+				imdb_code: imdbCode,
+				language: subsData.attributes.language,
+				path: dest,
+			},
+		});
+	} catch (error) {
+		console.error(error);
+	}
 
 	const file = fs.createWriteStream(dest);
 	const request = https.get(url, (response) => {

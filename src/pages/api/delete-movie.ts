@@ -21,8 +21,11 @@ export const config = {
 // This endpoint has not been protected. I will do it if necessary. This whole file might be used
 // a different way than I initally tought of.
 
-export default async function deleteFiles(){
-        const task = cron.schedule('0 23 * * *', async () => { // '*/1 * * * * *' every second for testing
+export default async function deleteFiles(
+    req: NextApiRequest,
+	res: NextApiResponse
+){
+// '*/1 * * * * *' every second for testing
         console.log('cron is running in the background, will do a check at 23');
         let downloadedMovies: MovieData[] = [];
         let timestamp: number = Date.now();
@@ -36,7 +39,7 @@ export default async function deleteFiles(){
         let moviesToDelete: MovieData[] = [];
 
         downloadedMovies?.filter((movie: MovieData) => {
-            if(Date.parse(movie.date) < timestamp - 2629800000) { // can use 1 instead of 2629800000 (1 month) to test. these are milliseconds
+            if(Date.parse(movie.date) < timestamp - 1) { // can use 1 instead of 2629800000 (1 month) to test. these are milliseconds
                 moviesToDelete.push(movie);
             }
         })
@@ -51,6 +54,6 @@ export default async function deleteFiles(){
                 }
             })
         })
-    });
-    task.start();
+
+    res.status(200);
 };
