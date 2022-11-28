@@ -5,6 +5,7 @@ services:
     image: node
     volumes:
       - './:/app'
+      - '/app/movies'
     working_dir: '/app'
     entrypoint: '/bin/bash -c'
     command:
