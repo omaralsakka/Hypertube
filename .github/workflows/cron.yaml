@@ -1,7 +1,7 @@
 name: daily-cron
 on:
   schedule:
-    - cron: '*/1 * * * * *'
+    - cron: '20 13 * * * *'
 jobs:
   cron:
     runs-on: macos-mojave
