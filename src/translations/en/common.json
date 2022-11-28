@@ -115,7 +115,7 @@
 	},
 	"movieInfo": {
 		"category": "Category",
-		"suggested": "Suggested movies",
+		"suggested": "Suggested Movies",
 		"plot": "Plot",
 		"country": "Country",
 		"actors": "Actors",

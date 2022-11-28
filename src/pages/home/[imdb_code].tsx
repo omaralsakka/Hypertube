@@ -164,9 +164,13 @@ const MoviePage = () => {
 										/>
 										<Col sm={5} className="p-1">
 											<Container className="d-flex flex-column justify-content-center align-items-center">
-												<Card.Title className="fs-2 mb-4 text-dark">
-													{t('movieInfo.suggested')}
-												</Card.Title>
+												<Container className="mb-3 p-1">
+													<div className=" mx-auto p-2 text-center shadow-sm rounded">
+														<Card.Title className="fs-2 text-dark">
+															{t('movieInfo.suggested')}
+														</Card.Title>
+													</div>
+												</Container>
 												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">

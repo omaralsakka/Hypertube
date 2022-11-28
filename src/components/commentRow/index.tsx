@@ -30,6 +30,8 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 			/>
 		);
 	};
+
+	console.log('this is comment: ', comment.created_at.toString());
 	return (
 		<>
 			<Container className="mb-4 p-0" fluid>
@@ -54,7 +56,14 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 									</p>
 								</Link>
 								<span className="text-muted">
-									{comment.created_at.toString() as string}
+									{
+										comment.created_at
+											.toString()
+											.substring(
+												0,
+												comment.created_at.toString().indexOf('G')
+											) as string
+									}
 								</span>
 							</div>
 							<div>
