@@ -34,7 +34,7 @@ const MovieCardOverlay = ({
 	}, [watchedMovies]);
 
 	return (
-		<Card.ImgOverlay className="p-1 d-flex justify-content-center movieCard-OverLay">
+		<Card.ImgOverlay className="p-0 d-flex justify-content-center movieCard-OverLay">
 			<Container fluid className="movieCard-Body mt-auto p-3 text-dark">
 				<Card.Title
 					className={`d-flex align-items-center mb-3 ${
