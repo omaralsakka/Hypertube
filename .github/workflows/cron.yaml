@@ -1,0 +1,13 @@
+name: daily cron job
+on:
+  schedule:
+    - cron: '45 13 * * *'
+     - timezone: 'Finland/Helsinki'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete unwatched movies
+        run: |
+          curl --request GET \
+          --url 'http://localhost:3000/api/delete-movie/'
