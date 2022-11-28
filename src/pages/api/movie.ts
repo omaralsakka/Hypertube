@@ -6,43 +6,79 @@ import { Movie } from '../../types/appTypes';
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 		const input = req.body;
-		console.log('bodybody');
-		console.log(req.body);
-		console.log('bodybody');
-		const movies: any = await prisma.movie.findMany({
-			skip: 0,
-			take: 20,
-			where: {
-				title: { contains: input.search_term, mode: 'insensitive' },
-				year: { gt: input.fromYear, lt: input.toYear },
-				language: { contains: input.language },
-				runtime: {
-					gt: input.fromRunTime,
-					lt: input.toRunTime,
-				},
-				rating: {
-					gt: input.imdbRating,
-				},
-				description_full: {
-					contains: input.description,
-					mode: 'insensitive',
-				},
-				torrent: {
-					some: {
-						quality: {
-							contains: input.quality,
-						},
-						seeds: {
-							gt: input.seeds,
+		// console.log('bodybody');
+		// console.log(req.body);
+		// console.log('bodybody');
+		let movies = [];
+		if (input.genre != '') {
+			movies = await prisma.movie.findMany({
+				skip: input.page * 20,
+				take: 20,
+				where: {
+					title: { contains: input.search_term, mode: 'insensitive' },
+					year: { gte: input.fromYear, lte: input.toYear },
+					language: { contains: input.language },
+					runtime: {
+						gte: input.fromRunTime,
+						lte: input.toRunTime,
+					},
+					genres: {
+						has: input.genre,
+					},
+					rating: {
+						gte: input.imdbRating,
+					},
+					description_full: {
+						contains: input.description,
+						mode: 'insensitive',
+					},
+					torrent: {
+						some: {
+							quality: {
+								contains: input.quality,
+							},
+							seeds: {
+								gte: input.seeds,
+							},
 						},
 					},
 				},
-				// genres: {
-				// 	has: input.genre,
-				// },
-			},
-			orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
-		});
+				orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
+			});
+		} else {
+			movies = await prisma.movie.findMany({
+				skip: input.page * 20,
+				take: 20,
+				where: {
+					title: { contains: input.search_term, mode: 'insensitive' },
+					year: { gt: input.fromYear, lt: input.toYear },
+					language: { contains: input.language },
+					runtime: {
+						gt: input.fromRunTime,
+						lt: input.toRunTime,
+					},
+					rating: {
+						gt: input.imdbRating,
+					},
+					description_full: {
+						contains: input.description,
+						mode: 'insensitive',
+					},
+					torrent: {
+						some: {
+							quality: {
+								contains: input.quality,
+							},
+							seeds: {
+								gt: input.seeds,
+							},
+						},
+					},
+				},
+				orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
+			});
+		}
+
 		// console.log(movies);
 
 		res.status(200).json(movies);

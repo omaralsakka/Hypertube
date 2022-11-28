@@ -3,9 +3,10 @@ import { Form, Accordion, Container } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
 import { FilterInputs } from '../../types/appTypes';
 var _ = require('lodash');
-
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import AdvancedSearch from '../advancedSearch';
+import { i18translateType } from '../../types/appTypes';
 
 const FilterControls = ({
 	onFilterChange,
@@ -14,6 +15,8 @@ const FilterControls = ({
 	onFilterChange: EventTarget | any;
 	filterInputs: FilterInputs;
 }) => {
+	const { t }: i18translateType = useTranslation('common');
+
 	const [genres, setGenres] = useState([
 		'',
 		'Adventure',
@@ -53,13 +56,15 @@ const FilterControls = ({
 	]);
 	// A Trip to the Moon (1902) is considered the first movie released
 	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
-	const [ratings, setRatings] = useState(_.range(1, 10));
+	const [ratings, setRatings] = useState(_.range(0, 10));
 	return (
 		<>
 			<AdvancedSearch>
 				<Form className="bg-transparent">
 					<Form.Group className="d-flex flex-column mb-4 bg-transparent">
-						<Form.Label className="text-white">Genre</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.genre')}
+						</Form.Label>
 						<Form.Select
 							aria-label="Genre"
 							id="genre"
@@ -68,12 +73,17 @@ const FilterControls = ({
 							onChange={(e) => onFilterChange(e)}
 						>
 							{genres.map((genre) => (
-								<option key={genre + '1'}>{genre}</option>
+								<option key={genre + '1'}>
+									{/* {t('filterControls.' + genre)} */}
+									{genre}
+								</option>
 							))}
 						</Form.Select>
 					</Form.Group>
 					<Form.Group className="d-flex flex-column mb-4">
-						<Form.Label className="text-white">Description</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.description')}
+						</Form.Label>
 						<Form.Control
 							name="description"
 							onChange={(e) => onFilterChange(e)}
@@ -81,7 +91,9 @@ const FilterControls = ({
 						/>
 					</Form.Group>
 					<Form.Group>
-						<Form.Label className="text-white">Language</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.language')}
+						</Form.Label>
 						<Form.Select
 							aria-label="Language"
 							id="language"
@@ -90,12 +102,17 @@ const FilterControls = ({
 							onChange={(e) => onFilterChange(e)}
 						>
 							{languages.map((language) => (
-								<option key={language + '1'}>{language}</option>
+								<option key={language + '1'}>
+									{/* {t('language.' + language)} */}
+									{language}
+								</option>
 							))}
 						</Form.Select>
 					</Form.Group>
 					<Form.Group className="mb-4">
-						<Form.Label className="text-white">Rating</Form.Label>
+						<Form.Label className="text-white">
+							{t('filterControls.rating')}
+						</Form.Label>
 						<Form.Select
 							aria-label="Imdb rating"
 							// defaultValue={7}
@@ -112,7 +129,9 @@ const FilterControls = ({
 
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">From year</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.fromYear')}
+							</Form.Label>
 							<Form.Select
 								aria-label="From year"
 								// defaultValue={new Date().getFullYear() - 10}
@@ -127,7 +146,9 @@ const FilterControls = ({
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">To year</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.toYear')}
+							</Form.Label>
 							<Form.Select
 								aria-label="To year"
 								// defaultValue={2021}
@@ -145,7 +166,9 @@ const FilterControls = ({
 
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">From runtime</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.fromRunTime')}
+							</Form.Label>
 							<Form.Select
 								aria-label="From runtime"
 								// defaultValue={5}
@@ -164,7 +187,9 @@ const FilterControls = ({
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">To runtime</Form.Label>
+							<Form.Label className="text-white">
+								{t('filterControls.toRunTime')}
+							</Form.Label>
 							<Form.Select
 								aria-label="To runtime"
 								// defaultValue={200}
@@ -186,7 +211,10 @@ const FilterControls = ({
 
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">Order By</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.orderBy')}
+							</Form.Label>
 							<Form.Select
 								aria-label="Order By"
 								// defaultValue="Desc"
@@ -195,12 +223,15 @@ const FilterControls = ({
 								value={filterInputs.orderBy}
 								onChange={(e) => onFilterChange(e)}
 							>
-								<option value="desc">Descending</option>
-								<option value="asc">Ascending</option>
+								<option value="desc"> {t('filterControls.descending')}</option>
+								<option value="asc"> {t('filterControls.ascending')}</option>
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">Sort By</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.sortBy')}
+							</Form.Label>
 							<Form.Select
 								aria-label="Sort By"
 								// defaultValue="rating"
@@ -209,16 +240,19 @@ const FilterControls = ({
 								value={filterInputs.sortBy}
 								onChange={(e) => onFilterChange(e)}
 							>
-								<option value="title">title</option>
-								<option value="year">year</option>
-								<option value="rating">rating</option>
+								<option value="title"> {t('filterControls.title')}</option>
+								<option value="year"> {t('filterControls.year')}</option>
+								<option value="rating"> {t('filterControls.rating')}</option>
 								{/* <option value="seeds">seeds</option> */}
 							</Form.Select>
 						</Container>
 					</Form.Group>
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
-							<Form.Label className="text-white">Quality</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.quality')}
+							</Form.Label>
 
 							<Form.Select
 								aria-label="Quality"
@@ -228,6 +262,7 @@ const FilterControls = ({
 								value={filterInputs.quality}
 								onChange={(e) => onFilterChange(e)}
 							>
+								<option value=""></option>
 								<option value="SD">SD</option>
 								<option value="720p">720p</option>
 								<option value="1080p">1080p</option>
@@ -235,7 +270,10 @@ const FilterControls = ({
 							</Form.Select>
 						</Container>
 						<Container>
-							<Form.Label className="text-white">Seeds</Form.Label>
+							<Form.Label className="text-white">
+								{' '}
+								{t('filterControls.seeds')}
+							</Form.Label>
 							<Form.Select
 								aria-label="Seeds"
 								// defaultValue="1"
@@ -244,12 +282,31 @@ const FilterControls = ({
 								value={filterInputs.seeds}
 								onChange={(e) => onFilterChange(e)}
 							>
+								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="5">5</option>
 								<option value="10">10</option>
 							</Form.Select>
 						</Container>
+						{/* <Container>
+							<Form.Label className="text-white">Page</Form.Label>
+							<Form.Select
+								aria-label="Page"
+								// defaultValue="1"
+								id="page"
+								name="page"
+								value={filterInputs.page}
+								onChange={(e) => onFilterChange(e)}
+							>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="10">10</option>
+							</Form.Select>
+						</Container> */}
 					</Form.Group>
 				</Form>
 			</AdvancedSearch>
@@ -258,184 +315,3 @@ const FilterControls = ({
 };
 
 export default FilterControls;
-// 								<div>
-// 									<Form.Label className="fs-5">Order By</Form.Label>
-// 									<div>
-// 										<Form.Select
-// 											aria-label="Order By"
-// 											// defaultValue="Desc"
-// 											id="orderBy"
-// 											name="orderBy"
-// 											value={filterInputs.orderBy}
-// 											onChange={(e) => onFilterChange(e)}
-// 										>
-// 											<option value="desc">Descending</option>
-// 											<option value="asc">Ascending</option>
-// 										</Form.Select>
-// 									</div>
-// 								</div>
-// 								<div>
-// 									<Form.Label className="fs-5">Sort By</Form.Label>
-// 									<Form.Select
-// 										aria-label="Sort By"
-// 										// defaultValue="rating"
-// 										id="sortBy"
-// 										name="sortBy"
-// 										value={filterInputs.sortBy}
-// 										onChange={(e) => onFilterChange(e)}
-// 									>
-// 										<option value="title">title</option>
-// 										<option value="year">year</option>
-// 										<option value="rating">rating</option>
-// 										<option value="downloads">downloads</option>
-// 										<option value="seeds">seeds</option>
-// 									</Form.Select>
-// 								</div>
-// 								<div>
-// 									<Form.Label className="fs-5">Quality</Form.Label>
-// 									<div>
-// 										<Form.Select
-// 											aria-label="Quality"
-// 											// defaultValue="720p"
-// 											id="quality"
-// 											name="quality"
-// 											value={filterInputs.quality}
-// 											onChange={(e) => onFilterChange(e)}
-// 										>
-// 											<option value="SD">SD</option>
-// 											<option value="720p">720p</option>
-// 											<option value="1080p">1080p</option>
-// 											<option value="3D">3D</option>
-// 										</Form.Select>
-// 									</div>
-// 								</div>
-// 								<div>
-// 									<Form.Label className="fs-5">Seeds</Form.Label>
-// 									<div>
-// 										<Form.Select
-// 											aria-label="Seeds"
-// 											// defaultValue="1"
-// 											id="seeds"
-// 											name="seeds"
-// 											value={filterInputs.seeds}
-// 											onChange={(e) => onFilterChange(e)}
-// 										>
-// 											<option value="1">1</option>
-// 											<option value="2">2</option>
-// 											<option value="5">5</option>
-// 											<option value="10">10</option>
-// 										</Form.Select>
-// 									</div>
-// 								</div>
-// 								<div>
-// 									<Form.Label className="fs-5">Genre</Form.Label>
-// 									<Form.Select
-// 										aria-label="Genre"
-// 										id="genre"
-// 										name="genre"
-// 										value={filterInputs.genre}
-// 										onChange={(e) => onFilterChange(e)}
-// 									>
-// 										{genres.map((genre) => (
-// 											<option key={genre + '1'}>{genre}</option>
-// 										))}
-// 									</Form.Select>
-// 								</div>
-// 								<div>
-// 									<Form.Label className="fs-5">Language</Form.Label>
-// 									<Form.Select
-// 										aria-label="Language"
-// 										id="language"
-// 										name="language"
-// 										value={filterInputs.language}
-// 										onChange={(e) => onFilterChange(e)}
-// 									>
-// 										{languages.map((language) => (
-// 											<option key={language + '1'}>{language}</option>
-// 										))}
-// 									</Form.Select>
-// 								</div>
-// 								<div>
-// 									<Form.Label className="fs-5">Imdb rating</Form.Label>
-// 									<Form.Select
-// 										aria-label="Imdb rating"
-// 										// defaultValue={7}
-// 										id="imdbRating"
-// 										name="imdbRating"
-// 										value={filterInputs.imdbRating}
-// 										onChange={(e) => onFilterChange(e)}
-// 									>
-// 										{ratings.map((rating: number) => (
-// 											<option key={rating}>{rating}</option>
-// 										))}
-// 									</Form.Select>
-// 								</div>
-// 								{/* <div class="form-check">
-//   <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-//   <label class="form-check-label" for="flexCheckChecked">
-//     Checked checkbox
-//   </label>
-// </div> */}
-// 							</Form.Group>
-// 						</Form>
-// 					</Accordion.Body>
-// 				</Accordion.Item>
-// 			</Accordion>
-// 		</>
-// 	);
-// };
-
-/*Rank
-(2010)	Country	Number of feature films produced1
-2005	2006	2007	2008	2009	2010
-1	India	1,041	1,016	1,164	1,325	1,288	1,274
-2	US	699	673	909	716	734	754
-3	China	260	330	402	406	456	526
-4	Japan	356	417	407	418	448	408
-5	France	240	203	228	240	230	261
-6	Spain	142	150	172	173	186	201
-7	South Korea	87	110	124	113	139	152
-8	Italy	98	116	121	154	131	141
-9	Germany	103	122	122	125	150	119
-9=	UK	131	134	117	111	144	119
-11	Russian Federation	160	200	200	220	101	96
-12	Argentina	60	60	80	90	98	88
-13	Indonesia	50	60	77	85	102	81
-14	Brazil	90	142	117	90	94	76
-15	Philippines	58	56	47	58	70	73
-16	Mexico	53	65	70	70	66	69
-17	Turkey	30	39	43	51	68	65
-18	Hong Kong	55	51	50	53	70	54
-19	Netherlands	24	29	26	32	36	45
-19=	Austria	24	32	32	28	34	45
-21	Sweden	54	51	28	23	41	43
-22	Poland	29	37	31	40	48	42
-23	Taiwan	17	24	30	36	32	38
-23=	Malaysia	20	28	28	28	27	38
-23=	Finland	13	14	17	18	25	38
-26	Czech Republic	20	22	17	38	33	37
-26=	Australia	29	32	30	34	32	37
-28	Belgium	28	30	58	64	51	31
-28=	Denmark	41	20	24	26	28	31
-30	Norway	19	19	22	23	27	27
-31	Switzerland	47	50	76	58	46	25
-31=	Egypt	23	40	42	45	40	25
-31=	Chile	15	16	10	22	24	25
-34	South Africa	11	10	15	14	24	23
-35	Hungary	26	28	41	24	27	22
-35=	Portugal	16	19	15	21	23	22
-37	Ireland	12	12	14	22	20	21
-38	Romania	20	18	11	9	18	19
-39	Greece	16	21	20	23	25	18
-40	Morocco	12	15	10	10	12	17
-41	Israel	12	16	18	15	20	16
-42	Venezuela	5	9	8	16	10	15
-43	Singapore	8	10	11	14	16	14
-44	Croatia	5	8	9	9	13	12
-44=	Colombia	14	14	14	14	10	12
-46	Bulgaria	4	7	13	10	11	11
-47	Iceland	3	4	4	5	12	9
-48	Slovakia	5	3	10	11	18	8
-49	Uruguay	n.a.	n.a.	n.a.	n.a.	9	6
-50	Estonia	4	8	10	5	7	4
-*/

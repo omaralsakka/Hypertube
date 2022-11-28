@@ -1,4 +1,6 @@
 import { Container, Navbar, Form } from 'react-bootstrap';
+import { i18translateType } from '../../types/appTypes';
+import { useTranslation } from 'react-i18next';
 
 const SearchNavBar = ({
 	onSearchChange,
@@ -7,6 +9,8 @@ const SearchNavBar = ({
 	onSearchChange: EventTarget | any;
 	search_term: string;
 }) => {
+	const { t }: i18translateType = useTranslation('common');
+
 	return (
 		<>
 			<Navbar bg="transparent" expand="sm" className="sm-w-75 mx-auto">
@@ -21,7 +25,7 @@ const SearchNavBar = ({
 								onChange={onSearchChange}
 								name="search_term"
 								value={search_term}
-								placeholder="What would you like to watch?"
+								placeholder={t('search.searchPlace')}
 								aria-label="Search"
 							/>
 						</Form>

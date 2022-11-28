@@ -80,15 +80,15 @@ const MovieDescription = ({
 									{movie?.}
 								</Card.Text> */}
 							</div>
-							{/* <Card.Title>
+							<Card.Title>
 								<span>{t('movieInfo.category')}:</span>
 								<strong>
 									{movie &&
-										movie.genre.map((obj) => (
-											<div key={obj['genreName']}>{obj['genreName']}</div>
+										movie.genres.map((obj) => (
+											<div key={obj}>{t('filterControls.' + obj)}</div>
 										))}
 								</strong>
-							</Card.Title> */}
+							</Card.Title>
 							<Card.Title>
 								<span>{t('nav.language')}:</span>
 								<strong>{movie?.language}</strong>
@@ -104,13 +104,13 @@ const MovieDescription = ({
 							</Card.Title>
 							<hr />
 							<Card.Title>
-								<span>Writer</span>
+								<span>{t('movieInfo.writer')}</span>
 								&nbsp;
 								<strong>{crew && writer}</strong>
 							</Card.Title>
 							<hr />
 							<Card.Title>
-								<span>Producer</span>
+								<span>{t('movieInfo.producer')}</span>
 								&nbsp;
 								<strong>{crew && producer}</strong>
 							</Card.Title>
