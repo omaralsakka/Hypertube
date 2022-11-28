@@ -131,12 +131,12 @@
 	},
 
 	"settings": {
-		"changeName": "Change name",
-		"changeEmail": "Change email",
-		"changePass": "Change password",
-		"saveChange": "Save changes",
-		"providerMsg1": "You're logged in with another service provider.",
-		"providerMsg2": "Change your email and password via your provider.",
-		"changesSaved": "Changes saved successfully"
+		"changeName": "用户名更改",
+		"changeEmail": "邮箱更改",
+		"changePass": "密码更改",
+		"saveChange": "保存更改",
+		"providerMsg1": "你将登陆另一个服务器",
+		"providerMsg2": " 用您的服务器更改邮箱及密码",
+		"changesSaved": "保存更改成功"
 	}
 }
