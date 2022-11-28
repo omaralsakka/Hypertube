@@ -102,7 +102,6 @@ const MoviePage = () => {
 		const fetchData = async () => {
 			MovieDB.movieSimilar({ id: movie?.imdb_code }, (err: any, res: any) => {
 				setRecommendMovies(res.results);
-				//console.log(res.results);
 			});
 		};
 		if (movie?.id) {
@@ -119,7 +118,6 @@ const MoviePage = () => {
 				`/api/subtitles?imdbCode=${movie.imdb_code}`,
 				{}
 			);
-			// console.log(subsArray.data);
 			setSubtitles(subsArray.data);
 			setLoading(true);
 		}

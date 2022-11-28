@@ -71,7 +71,7 @@ const MovieCardOverlay = ({
 						<Card.Text>
 							<strong>
 								{t('filterControls.' + movie.genres.at(0))
-									? t('filterControls.' + movie.genres.at(0))
+									? t('filterControls.genre.' + movie.genres.at(0))
 									: 'N/A'}
 							</strong>
 						</Card.Text>
