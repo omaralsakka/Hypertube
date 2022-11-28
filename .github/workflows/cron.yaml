@@ -2,7 +2,6 @@ name: daily cron job
 on:
   schedule:
     - cron: '45 13 * * *'
-    - timezone: 'Finland/Helsinki'
 jobs:
   cron:
     runs-on: ubuntu-latest
