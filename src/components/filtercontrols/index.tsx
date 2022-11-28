@@ -1,5 +1,4 @@
-import { Movie } from '../../types/appTypes';
-import { Form, Accordion, Container } from 'react-bootstrap';
+import { Form, Container } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
 import { FilterInputs } from '../../types/appTypes';
 var _ = require('lodash');
@@ -16,7 +15,6 @@ const FilterControls = ({
 	filterInputs: FilterInputs;
 }) => {
 	const { t }: i18translateType = useTranslation('common');
-
 	const [genres, setGenres] = useState([
 		'',
 		'Adventure',
@@ -63,7 +61,7 @@ const FilterControls = ({
 				<Form className="bg-transparent">
 					<Form.Group className="d-flex flex-column mb-4 bg-transparent">
 						<Form.Label className="text-white">
-							{t('filterControls.genre')}
+							{t('filterControls.genre.title')}
 						</Form.Label>
 						<Form.Select
 							aria-label="Genre"
@@ -72,12 +70,13 @@ const FilterControls = ({
 							value={filterInputs.genre}
 							onChange={(e) => onFilterChange(e)}
 						>
-							{genres.map((genre) => (
-								<option key={genre + '1'}>
-									{/* {t('filterControls.' + genre)} */}
-									{genre}
-								</option>
-							))}
+							{genres.map((genre) => {
+								return (
+									<option key={genre + '1'} value={genre}>
+										{t('filterControls.genre.' + genre)}
+									</option>
+								);
+							})}
 						</Form.Select>
 					</Form.Group>
 					<Form.Group className="d-flex flex-column mb-4">
@@ -90,9 +89,9 @@ const FilterControls = ({
 							value={filterInputs.description}
 						/>
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className="d-flex flex-column mb-4">
 						<Form.Label className="text-white">
-							{t('filterControls.language')}
+							{t('filterControls.language.title')}
 						</Form.Label>
 						<Form.Select
 							aria-label="Language"

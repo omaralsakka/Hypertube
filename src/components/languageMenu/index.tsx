@@ -44,7 +44,7 @@ const LanguageMenu = () => {
 						<Row className="d-flex align-items-center">
 							<Col>
 								<div style={{ maxWidth: '30px' }}>
-									<Image src="/chinese.png" fluid />
+									<Image src="/china.png" fluid />
 								</div>
 							</Col>
 							<Col>

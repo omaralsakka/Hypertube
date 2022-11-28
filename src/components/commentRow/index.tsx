@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import {
 	AiOutlineLike,
@@ -12,6 +12,7 @@ import Link from 'next/link';
 const CommentRow = ({ comment }: { comment: Comment }) => {
 	const [liked, setLiked] = useState(false);
 	const [disliked, setDisliked] = useState(false);
+	const [userImg, setUserImg] = useState('/defaultImg2.png');
 
 	const isLiked = (liked: boolean) => {
 		return liked ? (
@@ -30,6 +31,11 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 			/>
 		);
 	};
+	useEffect(() => {
+		if (comment.user.image) {
+			setUserImg('/images/' + comment.user.image);
+		}
+	}, [comment.user.image]);
 	return (
 		<>
 			<Container className="mb-4 p-0" fluid>
@@ -39,7 +45,7 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 							<Link href={`/profile/${comment.user.id}`}>
 								<img
 									style={{ cursor: 'pointer' }}
-									src={'/images/' + comment.user.image}
+									src={userImg}
 									className="avatar-img rounded-circle"
 								/>
 							</Link>
@@ -54,7 +60,14 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 									</p>
 								</Link>
 								<span className="text-muted">
-									{comment.created_at.toString() as string}
+									{
+										comment.created_at
+											.toString()
+											.substring(
+												0,
+												comment.created_at.toString().indexOf('G')
+											) as string
+									}
 								</span>
 							</div>
 							<div>

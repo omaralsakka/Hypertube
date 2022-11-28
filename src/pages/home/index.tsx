@@ -72,7 +72,7 @@ const Home = () => {
 				});
 				setMovies(response.data);
 			} catch (e) {
-				console.log(e);
+				console.error(e);
 			}
 			setIsLoading(false);
 		};
@@ -106,7 +106,6 @@ const Home = () => {
 	// 		},
 	// 	});
 	// 	setMovies(response.data);
-	// 	console.log(response.data);
 	// 	setIsLoading(false);
 	// };
 
@@ -116,11 +115,12 @@ const Home = () => {
 		setPage(0);
 		setHasMore(true);
 		//getMovies();
-
-		// console.log(name);
-		// console.log(value);
 	};
 	const onFilterChange = (e: any) => {
+		// const genre = e.target.value.substr(
+		// 	e.target.value.indexOf('.') + 1,
+		// 	e.target.value.length
+		// );
 		setFilterInputs({ ...filterInputs, [e.target.name]: e.target.value });
 		setPage(0);
 		setHasMore(true);
@@ -156,17 +156,14 @@ const Home = () => {
 			},
 		});
 		setLoading(false);
-		//		console.log(response.data);
 		if (response.data.length < 20) {
 			setHasMore(false);
 		}
 		movies;
 		setMovies((movies) => [...movies, ...response.data]);
-		// console.log(movies);
 		setError(undefined);
 		// if (response.status === 201) {
 		// 	const data = await response.json();
-		// 	console.log(data);
 		// 	if (data.filename) setPhoto(`/images/${data.filename}`);
 		// } else {
 		// 	setFileError(true);
@@ -175,7 +172,6 @@ const Home = () => {
 
 	const incrementPage = async () => {
 		if (!loading && hasMore) {
-			console.log('page');
 			setPage(page + 1);
 			getMoviesTwo();
 		}
