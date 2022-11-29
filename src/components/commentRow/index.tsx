@@ -72,7 +72,7 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 							</div>
 							<div>
 								<p className="mb-0">{comment.comment_text}</p>
-								<Container className="mt-0 px-0" fluid>
+								{/* <Container className="mt-0 px-0" fluid>
 									<button
 										className="like-button"
 										onClick={() => setLiked(!liked)}
@@ -85,7 +85,7 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 									>
 										{isDisLiked(disliked)}
 									</button>
-								</Container>
+								</Container> */}
 							</div>
 						</Container>
 					</Container>

@@ -50,6 +50,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 		register,
 		handleSubmit,
 		getValues,
+		reset,
 		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
@@ -58,8 +59,8 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 	const { t }: i18translateType = useTranslation('common');
 
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
-		//		event?.preventDefault();
-
+		event?.preventDefault();
+		reset();
 		addComment(imdb_code as string, data.comment_text as string);
 	};
 
