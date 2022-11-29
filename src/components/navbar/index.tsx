@@ -69,10 +69,9 @@ const NavigationBar = () => {
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
 							<Navbar.Collapse id="basic-navbar-nav" className="p-1">
 								<Nav className="me-auto d-flex align-items-center w-100">
-									<Nav.Link className=" mx-md-3" href="/home">
+									<Nav.Link className="mx-md-3" href="/home">
 										{t('nav.home')}
 									</Nav.Link>
-									{/* <Nav.Item className="ms-md-auto me-md-3 mb-md-0 mb-1"> */}
 									<Nav.Item className="ms-lg-auto mb-1">
 										<LanguageMenu />
 									</Nav.Item>
