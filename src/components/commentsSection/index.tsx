@@ -15,7 +15,7 @@ type Inputs = {
 	comment_text: string;
 };
 const schema = z.object({
-	comment_text: z.string().min(1, {}),
+	comment_text: z.string().min(1, {}).max(250),
 });
 
 const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
@@ -76,6 +76,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 						<Form.Control
 							className="border-bottom comment-form bg-transparent"
 							placeholder={t('movieInfo.addComment')}
+							maxlength="250"
 							{...register('comment_text')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>
