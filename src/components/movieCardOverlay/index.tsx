@@ -52,7 +52,7 @@ const MovieCardOverlay = ({
 					<Row className="g-1 w-75 mb-3">
 						<Col>
 							<span className="border b-1 px-1 rounded border-dark fs-6">
-								{movieRate(movie.rating.toString())}
+								{movie?.rating && movieRate(movie.rating?.toString())}
 							</span>
 						</Col>
 						{viewType === 'full' && (
