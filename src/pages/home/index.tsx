@@ -32,7 +32,7 @@ const Home = () => {
 		sortBy: 'rating',
 		imdbRating: '1',
 		genre: '',
-		seeds: '0',
+		seeds: '5',
 		fromYear: '0',
 		language: '',
 		toYear: '2021',

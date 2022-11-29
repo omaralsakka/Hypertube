@@ -12,17 +12,17 @@ const download = async (
 	if (!fs.existsSync(`./subtitles/${imdbCode}`))
 		fs.mkdirSync(`./subtitles/${imdbCode}`, { recursive: true });
 
-	// try {
-	// 	await prisma.subtitles.create({
-	// 		data: {
-	// 			imdb_code: imdbCode,
-	// 			language: subsData.attributes.language,
-	// 			path: dest,
-	// 		},
-	// 	});
-	// } catch (error) {
-	// 	console.error(error);
-	// }
+	try {
+		await prisma.subtitles.create({
+			data: {
+				imdb_code: imdbCode,
+				language: subsData.attributes.language,
+				path: dest,
+			},
+		});
+	} catch (error) {
+		console.error(error);
+	}
 
 	const file = fs.createWriteStream(dest);
 	const request = https.get(url, (response) => {
@@ -81,13 +81,13 @@ export const downloadSubtitles = async (imdbCode: string) => {
 	)
 		.then((response) => response?.json())
 		.then((response) => {
-			if(response?.data) {
+			if (response?.data) {
 				const subtitleID = response.data.filter(
-					(resp: { id: string, attributes: { language: string } }) => {
+					(resp: { id: string; attributes: { language: string } }) => {
 						if (
 							(resp.attributes.language === 'en' ||
-							resp.attributes.language === 'fi' ||
-							resp.attributes.language === 'fr') &&
+								resp.attributes.language === 'fi' ||
+								resp.attributes.language === 'fr') &&
 							langParser(resp.attributes.language) === true
 						) {
 							return resp;
@@ -96,26 +96,38 @@ export const downloadSubtitles = async (imdbCode: string) => {
 				);
 				langObj = resetLangObj();
 				// !! could have check for if (data in response) just in case the OST API did not find any results.
-				if(subtitleID !== null) {
-					subtitleID.forEach((subtitle: {id:string, attributes: { language: string , files:[{file_id:number}]}}) => {
-		
-						const optionsDownload = {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json', 
-								'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
-							},
-							body: `{"file_id":${subtitle.attributes.files[0].file_id},
+				if (subtitleID !== null) {
+					subtitleID.forEach(
+						(subtitle: {
+							id: string;
+							attributes: { language: string; files: [{ file_id: number }] };
+						}) => {
+							const optionsDownload = {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+									'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
+								},
+								body: `{"file_id":${subtitle.attributes.files[0].file_id},
 								"sub_format": "webvtt"}`,
-						};
-		
-						fetch('https://api.opensubtitles.com/api/v1/download', optionsDownload)
-							.then((response) => response.json())
-							.then(response => {
-								download(response.link, `./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`, imdbCode, subtitle)
-							})
-							.catch(err => console.error(err));
-					});
+							};
+
+							fetch(
+								'https://api.opensubtitles.com/api/v1/download',
+								optionsDownload
+							)
+								.then((response) => response.json())
+								.then((response) => {
+									download(
+										response.link,
+										`./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`,
+										imdbCode,
+										subtitle
+									);
+								})
+								.catch((err) => console.error(err));
+						}
+					);
 				}
 			}
 		})

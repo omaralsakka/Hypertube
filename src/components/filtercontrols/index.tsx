@@ -182,7 +182,6 @@ const FilterControls = ({
 								<option value="90">90</option>
 								<option value="120">120</option>
 								<option value="300">300</option>
-								<option value="5100">5100</option>
 							</Form.Select>
 						</Container>
 						<Container>
@@ -203,7 +202,6 @@ const FilterControls = ({
 								<option value="90">90</option>
 								<option value="120">120</option>
 								<option value="300">300</option>
-								<option value="5100">5100</option>
 							</Form.Select>
 						</Container>
 					</Form.Group>
