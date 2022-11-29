@@ -18,6 +18,8 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type Inputs = {
 	email: string;
@@ -77,7 +79,11 @@ const Login = ({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
 	});
+	const verifiedErrorToast = () =>
+		toast.error(t('form.notVerified'), { position: 'top-center' });
 
+	const credentialsErrorToast = () =>
+		toast.error(t('form.invalidUser'), { position: 'top-center' });
 	// redirect: false option skips normal callbackurl so redirection needs to be done manually.
 	// Redirect on success
 	useEffect(() => {
@@ -95,6 +101,7 @@ const Login = ({
 		setTimeout(() => {
 			router.replace('/not-verified');
 		}, 2000);
+		verifiedErrorToast();
 	}, [verifiedError, router.isReady]);
 
 	useEffect(() => {
@@ -102,6 +109,12 @@ const Login = ({
 			window.location.replace('/home');
 		}
 	}, [status]);
+
+	useEffect(() => {
+		if (credentialsError) {
+			credentialsErrorToast();
+		}
+	}, [credentialsError]);
 	return (
 		<>
 			{status !== 'unauthenticated' ? (
@@ -166,21 +179,21 @@ const Login = ({
 														}
 													/>
 												</div>
-
+												{/* 
 												{credentialsError && (
 													<Container className="d-flex justify-content-center mb-4">
 														<p className="text-danger">
 															{t('form.invalidUser')}
 														</p>
 													</Container>
-												)}
-												{verifiedError && (
+												)} */}
+												{/* {verifiedError && (
 													<Container className="d-flex justify-content-center mb-4">
 														<p className="text-danger">
 															{t('form.notVerified')}
 														</p>
 													</Container>
-												)}
+												)} */}
 												{success && (
 													// <p className="text-success">Logged in successfully</p>
 													<Container className="d-flex justify-content-center mb-4">
