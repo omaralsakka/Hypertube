@@ -50,7 +50,7 @@
 		"emailVerified": "Sähköpostiosoite vahvistettu. Kirjaudu jatkaaksesi!",
 		"invalidUser": "Virheellinen käyttäjä",
 		"notVerified": "Ei vahvistettu",
-		"userCreated": "Käyttäjän luominen onnistui"
+		"userCreated": "Käyttäjän luominen onnistui, tarkista sähköpostisi vahvistusta varten."
 	},
 	"signupImage": {
 		"title": "Lataa kuvasi",

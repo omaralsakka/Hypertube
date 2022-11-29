@@ -13,7 +13,6 @@ const movieMetadata = async (req: NextApiRequest, res: NextApiResponse) => {
 					imdb_code: data.imdb_code as string,
 				},
 			});
-			console.log(movie);
 			res.status(200).json(movie);
 		} else {
 			res.send({

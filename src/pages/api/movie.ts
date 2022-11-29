@@ -6,9 +6,7 @@ import { Movie } from '../../types/appTypes';
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 		const input = req.body;
-		// console.log('bodybody');
-		// console.log(req.body);
-		// console.log('bodybody');
+
 		let movies = [];
 		if (input.genre != '') {
 			movies = await prisma.movie.findMany({
@@ -79,8 +77,6 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		}
 
-		// console.log(movies);
-
 		res.status(200).json(movies);
 	}
 };
@@ -107,7 +103,6 @@ search: publicProcedure
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			// console.log(input);
 			
 
 

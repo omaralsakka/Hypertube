@@ -19,7 +19,7 @@ const forgotPassword = () => {
 	const { t }: i18translateType = useTranslation('common');
 	const { status } = useSession();
 
-	const onSubmit: SubmitHandler<EmailInput> = (data) => console.log(data);
+	const onSubmit: SubmitHandler<EmailInput> = (data) => {};
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 	});

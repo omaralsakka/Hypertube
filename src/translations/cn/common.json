@@ -50,7 +50,7 @@
 		"emailVerified": "邮箱已验证，请继续登陆",
 		"invalidUser": "无效的用户名或密码",
 		"notVerified": "您的电子邮件地址尚未经过验证",
-		"userCreated": "用户创建成功"
+		"userCreated": "用户创建成功, 检查您的电子邮件以进行验证"
 	},
 	"signupImage": {
 		"title": "上传您的图片",

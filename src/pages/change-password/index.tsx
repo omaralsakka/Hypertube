@@ -20,7 +20,7 @@ const changePassword = () => {
 	const { t }: i18translateType = useTranslation('common');
 	const { status } = useSession();
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const onSubmit: SubmitHandler<Inputs> = (data) => {};
 
 	const schema = z.object({
 		password: z.string().min(1, { message: 'Required' }),

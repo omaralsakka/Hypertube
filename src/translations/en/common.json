@@ -50,7 +50,7 @@
 		"emailVerified": "Email address verified. Login to continue!",
 		"invalidUser": "Invalid user",
 		"notVerified": "Not verified",
-		"userCreated": "User created successfully"
+		"userCreated": "User created successfully, check your email for verification."
 	},
 	"signupImage": {
 		"title": "Upload your picture",
