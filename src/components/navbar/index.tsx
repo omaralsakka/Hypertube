@@ -29,9 +29,16 @@ const NavigationBar = () => {
 	}, []);
 	useEffect(() => {
 		if (data?.user) {
-			data?.user?.image !== null
-				? setUserImg(`/images/${data?.user?.image}`)
-				: setUserImg('/defaultImg2.png');
+			if (data?.user?.image) {
+				data?.user?.image.includes('http')
+					? setUserImg(data?.user?.image)
+					: setUserImg(`/images/${data?.user?.image}`);
+			} else {
+				setUserImg('/defaultImg2.png');
+			}
+			// data?.user?.image !== null
+			// 	? setUserImg(`/images/${data?.user?.image}`)
+			// 	: setUserImg('/defaultImg2.png');
 		}
 	}, [data]);
 

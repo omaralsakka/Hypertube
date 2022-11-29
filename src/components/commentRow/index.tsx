@@ -33,7 +33,9 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 	};
 	useEffect(() => {
 		if (comment.user.image) {
-			setUserImg('/images/' + comment.user.image);
+			comment.user.image.includes('http')
+				? setUserImg(comment.user.image)
+				: setUserImg('/images/' + comment.user.image);
 		}
 	}, [comment.user.image]);
 	return (
