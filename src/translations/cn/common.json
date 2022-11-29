@@ -49,7 +49,8 @@
 		"verified": "验证成功",
 		"emailVerified": "邮箱已验证，请继续登陆",
 		"invalidUser": "无效的用户名或密码",
-		"notVerified": "您的电子邮件地址尚未经过验证"
+		"notVerified": "您的电子邮件地址尚未经过验证",
+		"userCreated": "用户创建成功"
 	},
 	"signupImage": {
 		"title": "上传您的图片",
