@@ -64,6 +64,8 @@
 			"": "",
 			"title": "Genre",
 			"Adventure": "Adventure",
+			"Animation": "Animation",
+			"Biography": "Biography",
 			"Action": "Action",
 			"Comedy": "Comedy",
 			"Crime": "Crime",

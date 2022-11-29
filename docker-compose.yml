@@ -18,7 +18,7 @@ services:
 
   db:
     container_name: 'hypertube_db'
-    image: postgres
+    image: ramazanpolat/postgres_cron:11
     restart: always
     ports:
       - 5432:5432
