@@ -7,28 +7,29 @@ import { z } from 'zod';
 const schema = z.object({
 	search_term: z.string().max(50),
 	genre: z.string().max(10),
-	fromYear: z.number().max(4),
-	toYear: z.number().max(4),
-	fromRunTime: z.number().max(3),
-	toRunTime: z.number().max(3),
-	imdbRating: z.number().max(1),
-	orderBy: z.string().max(3),
-	sortBy: z.string().max(4),
-	quality: z.string().max(5),
-	seeds: z.number().max(2),
+	fromYear: z.string().max(10),
+	toYear: z.string().max(10),
+	fromRunTime: z.string().max(10),
+	toRunTime: z.string().max(10),
+	imdbRating: z.string().max(10),
+	orderBy: z.string().max(10),
+	sortBy: z.string().max(10),
+	quality: z.string().max(10),
+	seeds: z.string().max(10),
 	description: z.string().max(50),
 	page: z.number().max(10),
 });
 
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
-		try {
-			const data = schema.parse(req.body.input);
-		} catch (e) {
-			return res.status(400).send({
-				message: `Yo, bad payload!`,
-			});
-		}
+		// try {
+		// 	const data = schema.parse(req.body.input);
+		// } catch (e) {
+		// 	console.log(req.body);
+		// 	return res.status(400).send({
+		// 		message: `Yo, bad payload!`,
+		// 	});
+		// }
 
 		const input = req.body;
 		// console.log('bodybody');
@@ -111,30 +112,3 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default filterSearch;
-
-/*
-search: publicProcedure
-		.input(
-			z.object({
-				search_term: z.string(),
-				genre: z.string(),
-				fromYear: z.number(),
-				toYear: z.number(),
-				fromRunTime: z.number(),
-				toRunTime: z.number(),
-				imdbRating: z.number(),
-				orderBy: z.string(),
-				sortBy: z.string(),
-				quality: z.string(),
-				seeds: z.number(),
-				description: z.string(),
-				// limit: z.number(),
-			})
-		)
-		.query(async ({ input, ctx }) => {
-			// console.log(input);
-			
-
-
-    // src/pages/api/examples.ts 
-    */
