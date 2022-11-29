@@ -15,8 +15,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -47,9 +45,9 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  password      String?
+  name          String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  password      String?   @db.VarChar(255)
   emailToken    String?
   emailVerified DateTime?
   image         String?

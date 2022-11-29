@@ -43,7 +43,7 @@ const Signup = ({
 	};
 
 	const schema = z.object({
-		name: z.string().min(1, { message: 'Required' }),
+		name: z.string().min(1, { message: 'Required' }).max(255),
 		password: z
 			.string()
 			.regex(new RegExp('.*[A-Z].*'), {
@@ -59,7 +59,7 @@ const Signup = ({
 			.max(255, {
 				message: "The password can't be more than 255 characters in length",
 			}),
-		email: z.string().email().min(1, { message: 'Required' }),
+		email: z.string().email().min(1, { message: 'Required' }).max(255),
 	});
 
 	const notifyDefault = () => toast.success('Activation email sent');
