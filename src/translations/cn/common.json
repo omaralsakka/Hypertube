@@ -12,7 +12,7 @@
 		"logout": "退出"
 	},
 	"landing": {
-		"slogan": "尽享所有你想要看的电影和电视节目",
+		"slogan": "尽享所有你想要看的电影",
 		"login": "登陆",
 		"signup": "注册"
 	},
@@ -150,6 +150,7 @@
 		"genre": {
 			"Adventure": "探险",
 			"Action": "动作",
+			"Crime": "犯罪",
 			"Comedy": "搞笑",
 			"Documentary": "纪录片",
 			"Drama": "喜剧",
