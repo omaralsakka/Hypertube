@@ -19,7 +19,7 @@
 	"form": {
 		"email": "Email",
 		"password": "Password",
-		"showPass": "show password",
+		"showPass": "Show password",
 		"loginWith": "Login with",
 		"loginWithEmail": "Login with link",
 		"signupWith": "Signup with",

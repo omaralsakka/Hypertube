@@ -101,9 +101,9 @@ const FilterControls = ({
 							onChange={(e) => onFilterChange(e)}
 						>
 							{languages.map((language) => (
-								<option key={language + '1'}>
-									{/* {t('language.' + language)} */}
-									{language}
+								<option key={language + '1'} value={language}>
+									{t('filterControls.language.' + language)}
+									{/* {language} */}
 								</option>
 							))}
 						</Form.Select>
