@@ -59,10 +59,12 @@ if (numOfMovies is not currentMovieCount):
 	with open('new_torrents.json', 'w') as json_file:
 			json.dump(torrents, json_file)
 	with open('new_torrents.json', encoding='utf-8') as inputfile:
-			df = pd.read_json(inputfile)
+				df = pd.read_json(inputfile)
 	df.to_csv('new_torrents.tsv', encoding='utf-8', index=False, sep='\t')
 	df = pd.read_csv('new_movies.tsv', sep='\t')
 	df['genres'] = df['genres'].str.replace(r"'", '')
 	df['genres'] = df['genres'].str.replace(r"[", '{')
 	df['genres'] = df['genres'].str.replace(r"]", '}')
+	df = df.drop(columns=['torrents'])
+
 	df.to_csv('new_movies_corr.tsv', encoding='utf-8', index=False, sep='\t')

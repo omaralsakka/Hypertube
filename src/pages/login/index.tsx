@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import { signIn, getProviders } from 'next-auth/react';
 import { InferGetServerSidePropsType } from 'next';
 import { useSession } from 'next-auth/react';
-
 import { Container, Card, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
