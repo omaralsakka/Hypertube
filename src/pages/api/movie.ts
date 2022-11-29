@@ -2,9 +2,34 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
 import axios from 'axios';
 import { Movie } from '../../types/appTypes';
+import { z } from 'zod';
+
+const schema = z.object({
+	search_term: z.string().max(50),
+	genre: z.string().max(10),
+	fromYear: z.number().max(4),
+	toYear: z.number().max(4),
+	fromRunTime: z.number().max(3),
+	toRunTime: z.number().max(3),
+	imdbRating: z.number().max(1),
+	orderBy: z.string().max(3),
+	sortBy: z.string().max(4),
+	quality: z.string().max(5),
+	seeds: z.number().max(2),
+	description: z.string().max(50),
+	page: z.number().max(10),
+});
 
 const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
+		try {
+			const data = schema.parse(req.body.input);
+		} catch (e) {
+			return res.status(400).send({
+				message: `Yo, bad payload!`,
+			});
+		}
+
 		const input = req.body;
 		// console.log('bodybody');
 		// console.log(req.body);

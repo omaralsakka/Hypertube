@@ -27,6 +27,8 @@ const SearchNavBar = ({
 								value={search_term}
 								placeholder={t('search.searchPlace')}
 								aria-label="Search"
+								type="text"
+								maxLength={50}
 							/>
 						</Form>
 					</Navbar.Collapse>

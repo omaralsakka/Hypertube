@@ -87,6 +87,8 @@ const FilterControls = ({
 							name="description"
 							onChange={(e) => onFilterChange(e)}
 							value={filterInputs.description}
+							type="text"
+							maxLength={50}
 						/>
 					</Form.Group>
 					<Form.Group className="d-flex flex-column mb-4">
