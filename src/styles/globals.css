@@ -208,6 +208,10 @@ input[type='file'] {
 	height: 40px;
 }
 
+.logout-btn-mobile {
+	display: none;
+}
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -239,6 +243,12 @@ input[type='file'] {
 }
 
 @media only screen and (min-width: 460px) and (max-width: 1280px) {
+	.logout-btn-mobile {
+		display: block;
+	}
+	.logout-btn-default {
+		display: none;
+	}
 	.movieOverlay-Info {
 		display: none;
 	}
@@ -259,6 +269,13 @@ input[type='file'] {
 }
 
 @media only screen and (max-width: 450px) {
+	.logout-btn-mobile {
+		display: block;
+	}
+	.logout-btn-default {
+		display: none;
+	}
+
 	.homeMovieStyle {
 		max-width: 30vw;
 		min-width: 20vw;
