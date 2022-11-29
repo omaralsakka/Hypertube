@@ -17,21 +17,23 @@ const forgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [emailSent, setEmailSent] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
-	const { status } = useSession();
+	const { status, data } = useSession();
 
 	const onSubmit: SubmitHandler<EmailInput> = (data) => console.log(data);
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 	});
+
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
 		const user = await signIn('email', {
 			email: email,
-			callbackUrl: 'http://localhost:3000/change-password',
+			callbackUrl: 'http://localhost:3000/settings',
 		});
 		setEmailSent(true);
 	};
+	
 	const {
 		watch,
 		register,
@@ -44,6 +46,8 @@ const forgotPassword = () => {
 	});
 
 	useEffect(() => {
+		console.log('THIS IS STATUS : ', status);
+		console.log('THIS IS DATA : ', data);
 		if (status !== 'loading' && status !== 'unauthenticated') {
 			window.location.replace('/home');
 		}

@@ -78,11 +78,9 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 				orderBy: [{ [input.sortBy]: input.orderBy }, { title: 'asc' }],
 			});
 		}
-
-		// console.log(movies);
-
 		res.status(200).json(movies);
 	}
+
 };
 
 export default filterSearch;
