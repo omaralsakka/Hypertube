@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+# Install curlt 
+RUN apk add --no-cache curl
+
+# Copy Scripts to Docker Image
+COPY reminders.sh /usr/local/bin/reminders.sh
+COPY feeds.sh /usr/local/bin/feeds.sh
+
+# Add the cron job
+
+RUN echo ' *  *  *  *  * /usr/local/bin/feeds.sh' >> /etc/crontabs/root
+RUN echo ' */5  *  *  *  * /usr/local/bin/reminders.sh' >> /etc/crontabs/root
+
+# Run crond  -f for Foreground 
+CMD ["/usr/sbin/crond", "-f"]

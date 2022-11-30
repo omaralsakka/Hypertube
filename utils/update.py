@@ -42,7 +42,7 @@ if (movieNum > currentMovieCount):
 				df = pd.read_json(inputfile)
 	df = df.drop_duplicates()
 	df = df[df['movieId'] > currentMovieCount]
-	df.to_csv('new_torrents.tsv', encoding='utf-8', index=False, sep='\t')
+	df.to_csv('../new-torrents/new_torrents.tsv', encoding='utf-8', index=False, sep='\t')
 	df = pd.read_csv('new_movies.tsv', sep='\t')
 	df['genres'] = df['genres'].str.replace(r"'", '')
 	df['genres'] = df['genres'].str.replace(r"[", '{')
@@ -51,4 +51,4 @@ if (movieNum > currentMovieCount):
 	df = df.drop_duplicates()
 	df = df[df['id'] > currentMovieCount]
 
-	df.to_csv('new_movies.tsv', encoding='utf-8', index=False, sep='\t')
+	df.to_csv('../new-torrents/new_movies.tsv', encoding='utf-8', index=False, sep='\t')

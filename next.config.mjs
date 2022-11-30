@@ -37,4 +37,11 @@ export default defineNextConfig({
 		defaultLocale: 'en',
 	},
 	output: 'standalone',
+	// webpack: {
+	// 	config => {
+	// 		config.node = {
+	// 			child_process: 'empty',
+
+	// 		},
+	// },
 });
