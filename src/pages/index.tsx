@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../types/appTypes';
 import { useEffect, useState } from 'react';
 import LoadingLogo from '../components/loadingLogo';
+import axios from 'axios';
 
 export function Component() {
 	const { data: session } = useSession();

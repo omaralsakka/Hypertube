@@ -105,6 +105,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		res.status(200).json(movies);
 	}
+
 };
 
 export default filterSearch;

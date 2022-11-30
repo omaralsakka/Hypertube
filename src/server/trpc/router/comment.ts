@@ -38,7 +38,7 @@ export const commentRouter = router({
 		.input(
 			z.object({
 				imdb_code: z.string().min(1),
-				comment_text: z.string().min(1).max(250),
+				comment_text: z.string().min(1).max(100),
 				user_id: z.string().min(1),
 			})
 		)
