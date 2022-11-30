@@ -8,8 +8,8 @@ import { trpc } from '../../utils/trpc';
 const ProfilePage = () => {
 	const router = useRouter();
 	const { status } = useSession();
-	let userInfo: any;
-	userInfo = trpc.user.getProfile.useQuery(
+	// let userInfo: any;
+	const userInfo: any = trpc.user.getProfile.useQuery(
 		!router?.query?.userId ? '0' : (router?.query?.userId as string)
 	);
 	const profileImage = userInfo?.data?.user?.image as string;

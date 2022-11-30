@@ -61,7 +61,7 @@ const PhotoUpload = ({
 	}, [file]);
 
 	useEffect(() => {
-		let filepath: string = '';
+		let filepath = '';
 		if (
 			!currentImage ||
 			currentImage.length < 1 ||

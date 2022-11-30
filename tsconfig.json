@@ -4,7 +4,7 @@
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
-		"strict": true,
+		"strict": false,
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": true,
 		"esModuleInterop": true,
@@ -14,7 +14,14 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
-		"noUncheckedIndexedAccess": true
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false
+		
+	},
+	"rules": {
+		"no-unused-vars": "off",
+		
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
 	"exclude": ["node_modules"]

@@ -27,7 +27,7 @@ const job = new CronJob(
       log:
         env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
     });
-  
+    
     let downloadedMovies = [];
         let timestamp = Date.now();
 
