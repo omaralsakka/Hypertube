@@ -44,10 +44,10 @@ yarn-error.log*
 package-lock.json
 
 #movie files
-/movies/*
+#/movies/*
 
 #subtitles
-/subtitles/*
+#/subtitles/*
 
 /config/secrets
 
