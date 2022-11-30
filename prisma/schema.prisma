@@ -108,7 +108,7 @@ model Movie {
   large_cover_image         String?
   state                     String?
   date_uploaded             String?
-  date_uploaded_unix        Int?
+  date_uploaded_unix        String?
   torrent                   Torrent[]
   genres                    String[]
 }
