@@ -12,7 +12,7 @@ import { CronJob } from 'cron';
  */
 
 var job = new CronJob(
-	'* * * * *',
+	'* * 4 * *',
 	function () {
 		console.log('You will see this message every minute');
 	},

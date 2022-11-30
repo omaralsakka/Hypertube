@@ -4,19 +4,16 @@ var { spawn } = require('child_process');
 const path = require('path');
 
 const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
-	console.log('hi');
-	//const pythonProcess = spawn('python3', ['hello.py']);
+// 	const result = await prisma.$queryRaw(
+// 		Prisma.sql`COPY"Movie"(id ,url,imdb_code,title,title_english,title_long,slug,year,rating,runtime,genres,summary,description_full,synopsis,yt_trailer_code,language,mpa_rating,background_image,background_image_original,small_cover_image,medium_cover_image,large_cover_image,state,date_uploaded,date_uploaded_unix)
+// 		FROM'/new_movies_uniq.tsv'
+// 		DELIMITERS  E'\t' CSV header;`
+// 	);
 
-	function runScript() {
-		return spawn('python3', ['-u', path.join(__dirname, 'hello.py')]);
-	}
-	let dataToSend = '';
-	const subprocess = runScript();
-	subprocess.stdout.on('data', (data) => {
-		console.log(`data:${data}`);
-		dataToSend += data.toString();
-	});
-
-	return res.status(200).json({ message: dataToSend });
-};
+// 	const result = await prisma.$queryRaw(`
+// 	COPY"Torrent"(url,hash,quality,type,seeds,peers,size,size_bytes,date_uploaded,date_uploaded_unix,"movieId")
+// FROM '/new_torrents.tsv'
+// DELIMITERS E'\t' CSV header;`);
+// 	return res.status(200).json({ message: dataToSend });
+// };
 export default updateMovie;
