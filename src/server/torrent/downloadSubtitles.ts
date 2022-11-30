@@ -28,7 +28,6 @@ const download = async (
 	const request = https.get(url, (response) => {
 		response.pipe(file);
 		file.on('finish', function () {
-			console.log('SUBTITLE FILE DOWNLOAD FINISHED');
 			file.close();
 		});
 	});
@@ -81,13 +80,13 @@ export const downloadSubtitles = async (imdbCode: string) => {
 	)
 		.then((response) => response?.json())
 		.then((response) => {
-			if(response?.data) {
+			if (response?.data) {
 				const subtitleID = response.data.filter(
-					(resp: { id: string, attributes: { language: string } }) => {
+					(resp: { id: string; attributes: { language: string } }) => {
 						if (
 							(resp.attributes.language === 'en' ||
-							resp.attributes.language === 'fi' ||
-							resp.attributes.language === 'fr') &&
+								resp.attributes.language === 'fi' ||
+								resp.attributes.language === 'fr') &&
 							langParser(resp.attributes.language) === true
 						) {
 							return resp;
@@ -106,15 +105,24 @@ export const downloadSubtitles = async (imdbCode: string) => {
 							},
 							body: `{"file_id":${subtitle.attributes.files[0].file_id},
 								"sub_format": "webvtt"}`,
-						};
-		
-						fetch('https://api.opensubtitles.com/api/v1/download', optionsDownload)
-							.then((response) => response.json())
-							.then(response => {
-								download(response.link, `./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`, imdbCode, subtitle)
-							})
-							.catch(err => console.error(err));
-					});
+							};
+
+							fetch(
+								'https://api.opensubtitles.com/api/v1/download',
+								optionsDownload
+							)
+								.then((response) => response.json())
+								.then((response) => {
+									download(
+										response.link,
+										`./subtitles/${imdbCode}/${imdbCode}-${subtitle.id}.vtt`,
+										imdbCode,
+										subtitle
+									);
+								})
+								.catch((err) => console.error(err));
+						}
+					);
 				}
 			}
 		})

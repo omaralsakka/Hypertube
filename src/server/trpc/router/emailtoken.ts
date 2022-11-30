@@ -14,7 +14,6 @@ export const tokenRouter = router({
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
 			// Check if exists
 			const checkUser = await ctx.prisma.user.findUnique({
 				where: {

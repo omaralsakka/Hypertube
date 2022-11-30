@@ -102,7 +102,6 @@ const MoviePage = () => {
 		const fetchData = async () => {
 			MovieDB.movieSimilar({ id: movie?.imdb_code }, (err: any, res: any) => {
 				setRecommendMovies(res.results);
-				//console.log(res.results);
 			});
 		};
 		if (movie?.id) {
@@ -119,7 +118,6 @@ const MoviePage = () => {
 				`/api/subtitles?imdbCode=${movie.imdb_code}`,
 				{}
 			);
-			// console.log(subsArray.data);
 			setSubtitles(subsArray.data);
 			setLoading(true);
 		}
@@ -166,9 +164,13 @@ const MoviePage = () => {
 										/>
 										<Col sm={5} className="p-1">
 											<Container className="d-flex flex-column justify-content-center align-items-center">
-												<Card.Title className="fs-2 mb-4 text-dark">
-													{t('movieInfo.suggested')}
-												</Card.Title>
+												<Container className="mb-3 p-1">
+													<div className=" mx-auto p-2 text-center shadow-sm rounded">
+														<Card.Title className="fs-2 text-dark">
+															{t('movieInfo.suggested')}
+														</Card.Title>
+													</div>
+												</Container>
 												<Container className="d-flex flex-wrap justify-content-center w-75">
 													{suggestedMovies?.map((movie) => (
 														<div key={movie.id} className="fadeInAnimated">
@@ -206,7 +208,8 @@ const MoviePage = () => {
 												<Card.Title className="mb-4 fs-5 d-flex align-items-center p-0">
 													{movie?.year}
 													<span className="mx-3 border b-1 p-1 rounded border-dark fs-6">
-														{movieRate(movie?.rating.toString())}
+														{movie?.rating &&
+															movieRate(movie?.rating.toString())}
 													</span>
 													<span>{movie?.runtime}</span>
 												</Card.Title>
@@ -214,8 +217,8 @@ const MoviePage = () => {
 										</Row>
 										<MovieDescription
 											movie={movie}
-											crew={crew.crew as Array<Crew>}
-											cast={crew.cast as Array<Cast>}
+											crew={crew?.crew as Array<Crew>}
+											cast={crew?.cast as Array<Cast>}
 										/>
 										<hr />
 										{

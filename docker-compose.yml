@@ -6,12 +6,16 @@ services:
     volumes:
       - './:/app'
       - '/app/movies'
+      - '/app/subtitles'
     working_dir: '/app'
     entrypoint: '/bin/bash -c'
     command:
       - 'npm run dev'
     ports:
       - '3000:3000'
+    environment:
+      TZ: 'Europe/Helsinki'
+
   db:
     container_name: 'hypertube_db'
     image: postgres
@@ -26,6 +30,9 @@ services:
       POSTGRES_USER: root
       POSTGRES_DB: hypertube
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      TZ: 'Europe/Helsinki'
+      PGTZ: 'Europe/Helsinki'
+      DOCKER_BUILDKIT: 1 docker build .
 
   adminer:
     image: adminer

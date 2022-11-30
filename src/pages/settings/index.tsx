@@ -75,13 +75,13 @@ const Settings = () => {
 	};
 
 	useEffect(() => {
-		if(mutation.data === 'User information updated successfully') {
+		if (mutation.data === 'User information updated successfully') {
 			notifyDefault();
 		}
-	}, [mutation.data])
+	}, [mutation.data]);
 
 	const notifyDefault = () =>
-	toast.success('Changes saved successfully', { position: 'top-center' });
+		toast.success('Changes saved successfully', { position: 'top-center' });
 
 	const {
 		register,
@@ -126,7 +126,7 @@ const Settings = () => {
 															<Form.Control
 																id="name"
 																className="border-bottom comment-form bg-transparent"
-																placeholder="Test name"
+																placeholder={t('form.name')}
 																type="text"
 																{...register('name')}
 															></Form.Control>
@@ -142,7 +142,7 @@ const Settings = () => {
 																<Form.Control
 																	id="signupEmail"
 																	className="border-bottom comment-form bg-transparent"
-																	placeholder="user current email"
+																	placeholder={t('form.email')}
 																	type="email"
 																	{...register('email')}
 																></Form.Control>
@@ -181,7 +181,8 @@ const Settings = () => {
 															</div>
 														</>
 													) : null}
-													{mutation.data !== 'User information updated successfully' && (
+													{mutation.data !==
+														'User information updated successfully' && (
 														<p className="text-danger text-center">
 															{mutation.data}
 														</p>

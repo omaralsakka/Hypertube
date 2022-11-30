@@ -29,9 +29,16 @@ const NavigationBar = () => {
 	}, []);
 	useEffect(() => {
 		if (data?.user) {
-			data?.user?.image !== null
-				? setUserImg(`/images/${data?.user?.image}`)
-				: setUserImg('/defaultImg2.png');
+			if (data?.user?.image) {
+				data?.user?.image.includes('http')
+					? setUserImg(data?.user?.image)
+					: setUserImg(`/images/${data?.user?.image}`);
+			} else {
+				setUserImg('/defaultImg2.png');
+			}
+			// data?.user?.image !== null
+			// 	? setUserImg(`/images/${data?.user?.image}`)
+			// 	: setUserImg('/defaultImg2.png');
 		}
 	}, [data]);
 
@@ -52,16 +59,30 @@ const NavigationBar = () => {
 									className="d-inline-block align-top"
 								/>
 							</Navbar.Brand>
+							<Nav.Item className="logout-btn-mobile ms-auto me-3">
+								<motion.div
+									className="box"
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.9 }}
+									transition={{
+										type: 'spring',
+										stiffness: 400,
+										damping: 17,
+									}}
+								>
+									<LogoutBtn t={t} />
+								</motion.div>
+							</Nav.Item>
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
-							<Navbar.Collapse id="basic-navbar-nav">
+							<Navbar.Collapse id="basic-navbar-nav" className="p-1">
 								<Nav className="me-auto d-flex align-items-center w-100">
-									<Nav.Link className=" mx-md-3" href="/home">
+									<Nav.Link className="mx-md-3" href="/home">
 										{t('nav.home')}
 									</Nav.Link>
-									<Nav.Item className="ms-md-auto me-md-3 mb-md-0 mb-1">
+									<Nav.Item className="ms-lg-auto mb-1">
 										<LanguageMenu />
 									</Nav.Item>
-									<Nav.Item className="me-md-3 mb-md-0 mb-3">
+									<Nav.Item className="me-md-3">
 										<Nav.Link href="/settings" className="p-0 m-0">
 											<motion.div
 												className="nav-user-img_container"
@@ -76,7 +97,7 @@ const NavigationBar = () => {
 											</motion.div>
 										</Nav.Link>
 									</Nav.Item>
-									<Nav.Item>
+									<Nav.Item className="logout-btn-default">
 										<motion.div
 											className="box"
 											whileHover={{ scale: 1.2 }}

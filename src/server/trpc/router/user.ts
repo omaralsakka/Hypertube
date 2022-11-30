@@ -11,9 +11,9 @@ export const userRouter = router({
 	create: publicProcedure
 		.input(
 			z.object({
-				name: z.string().min(1),
-				email: z.string().email(),
-				password: z.string().min(1).max(32),
+				name: z.string().min(1).max(255),
+				email: z.string().email().max(255),
+				password: z.string().min(1).max(255),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
@@ -23,8 +23,7 @@ export const userRouter = router({
 					email: input.email,
 				},
 			});
-			if (checkUser)
-				return ('User already exists')
+			if (checkUser) return 'User already exists';
 
 			// Hash password
 			const hashedPassword = await hash(input.password);
@@ -42,17 +41,16 @@ export const userRouter = router({
 					password: hashedPassword,
 				} as Prisma.UserCreateInput,
 			});
-			console.log(newUser);
 			// Send verification email
 			if (await sendEmailVerification(input.email, token))
-				return ('User created successfully');
+				return 'User created successfully';
 		}),
 	// Update user for Settings page
 	update: protectedProcedure
 		.input(
 			z.object({
 				id: z.string().min(1),
-				email: z.string().email(),
+				email: z.string().email().max(255),
 				password: z
 					.string()
 					.regex(new RegExp('^$|.*[A-Z].*'), {
@@ -68,7 +66,7 @@ export const userRouter = router({
 					.max(255, {
 						message: "The password can't be more than 255 characters in length",
 					}),
-				name: z.string().min(1).max(30),
+				name: z.string().min(1).max(255),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
@@ -83,8 +81,7 @@ export const userRouter = router({
 					emailVerified: true,
 				},
 			});
-			if (!user)
-				return ('No matching user found');
+			if (!user) return 'No matching user found';
 			// Check if email has changed
 			const verified = input.email === user.email ? user.emailVerified : null;
 			if (!verified) {
@@ -95,7 +92,7 @@ export const userRouter = router({
 					},
 				});
 				if (checkUser && checkUser.email !== user.email)
-					return ('Email address is already in use')
+					return 'Email address is already in use';
 				// Create token
 				const token = await signEmailToken(input.email);
 				// Send verification email
@@ -116,9 +113,8 @@ export const userRouter = router({
 					id: input.id,
 				},
 			});
-			if (!updated)
-				return ('No matching user found')
-			return ('User information updated successfully');
+			if (!updated) return 'No matching user found';
+			return 'User information updated successfully';
 		}),
 	// Get user for Settings and Profile pages
 	get: protectedProcedure

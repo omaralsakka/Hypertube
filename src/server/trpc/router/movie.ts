@@ -8,24 +8,23 @@ export const movieRouter = router({
 	search: publicProcedure
 		.input(
 			z.object({
-				search_term: z.string(),
-				genre: z.string(),
-				fromYear: z.number(),
-				toYear: z.number(),
-				fromRunTime: z.number(),
-				toRunTime: z.number(),
-				imdbRating: z.number(),
-				orderBy: z.string(),
-				sortBy: z.string(),
-				quality: z.string(),
-				seeds: z.number(),
-				description: z.string(),
-				page: z.number(),
+				search_term: z.string().max(50),
+				genre: z.string().max(10),
+				fromYear: z.number().max(4),
+				toYear: z.number().max(4),
+				fromRunTime: z.number().max(3),
+				toRunTime: z.number().max(3),
+				imdbRating: z.number().max(1),
+				orderBy: z.string().max(3),
+				sortBy: z.string().max(4),
+				quality: z.string().max(5),
+				seeds: z.number().max(2),
+				description: z.string().max(50),
+				page: z.number().max(10),
 				// limit: z.number(),
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			// console.log(input);
 			const movies: any = await ctx.prisma.movie.findMany({
 				skip: 0,
 				take: 0,
@@ -66,7 +65,6 @@ export const movieRouter = router({
 					genre: true,
 				},
 			});
-			console.log(movies);
 			return {
 				movies,
 			};

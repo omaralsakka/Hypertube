@@ -6,7 +6,6 @@ export const commentRouter = router({
 	getMovieComments: publicProcedure
 		.input(z.object({ imdb_code: z.string().min(1) }))
 		.query(async ({ input, ctx }) => {
-			console.log(input);
 			const comments: any = await ctx.prisma.comment.findMany({
 				where: { imdb_code: input.imdb_code as string },
 				select: {
@@ -39,7 +38,7 @@ export const commentRouter = router({
 		.input(
 			z.object({
 				imdb_code: z.string().min(1),
-				comment_text: z.string().min(1),
+				comment_text: z.string().min(1).max(250),
 				user_id: z.string().min(1),
 			})
 		)
@@ -51,7 +50,6 @@ export const commentRouter = router({
 					userId: input.user_id,
 				},
 			});
-			//console.log(newComment);
 			return {
 				message: 'Comment inserted into table successfully',
 				newComment,

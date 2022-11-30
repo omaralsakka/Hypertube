@@ -118,11 +118,8 @@ export default async function image(req: NextApiRequest, res: NextApiResponse) {
 
 // Save file to disk
 const saveFile = async (file: File, filename: string) => {
-	console.log('Trying to save the file', file);
 	const data = fs.readFileSync(file.filepath);
-	console.log('File read successfully');
 	fs.writeFileSync(`./public/images/${filename}`, data);
-	console.log('File written successfully');
 	fs.unlinkSync(file.filepath);
 	return;
 };

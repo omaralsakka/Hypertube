@@ -1,5 +1,4 @@
-import { Movie } from '../../types/appTypes';
-import { Form, Accordion, Container } from 'react-bootstrap';
+import { Form, Container } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
 import { FilterInputs } from '../../types/appTypes';
 var _ = require('lodash');
@@ -16,7 +15,6 @@ const FilterControls = ({
 	filterInputs: FilterInputs;
 }) => {
 	const { t }: i18translateType = useTranslation('common');
-
 	const [genres, setGenres] = useState([
 		'',
 		'Adventure',
@@ -55,7 +53,9 @@ const FilterControls = ({
 		'hu',
 	]);
 	// A Trip to the Moon (1902) is considered the first movie released
-	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
+	const [years, setYears] = useState(
+		_.range(1902 - 1, new Date().getFullYear() + 2)
+	);
 	const [ratings, setRatings] = useState(_.range(0, 10));
 	return (
 		<>
@@ -63,7 +63,7 @@ const FilterControls = ({
 				<Form className="bg-transparent">
 					<Form.Group className="d-flex flex-column mb-4 bg-transparent">
 						<Form.Label className="text-white">
-							{t('filterControls.genre')}
+							{t('filterControls.genre.title')}
 						</Form.Label>
 						<Form.Select
 							aria-label="Genre"
@@ -72,12 +72,13 @@ const FilterControls = ({
 							value={filterInputs.genre}
 							onChange={(e) => onFilterChange(e)}
 						>
-							{genres.map((genre) => (
-								<option key={genre + '1'}>
-									{/* {t('filterControls.' + genre)} */}
-									{genre}
-								</option>
-							))}
+							{genres.map((genre) => {
+								return (
+									<option key={genre + '1'} value={genre}>
+										{t('filterControls.genre.' + genre)}
+									</option>
+								);
+							})}
 						</Form.Select>
 					</Form.Group>
 					<Form.Group className="d-flex flex-column mb-4">
@@ -88,11 +89,13 @@ const FilterControls = ({
 							name="description"
 							onChange={(e) => onFilterChange(e)}
 							value={filterInputs.description}
+							type="text"
+							maxLength={50}
 						/>
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className="d-flex flex-column mb-4">
 						<Form.Label className="text-white">
-							{t('filterControls.language')}
+							{t('filterControls.language.title')}
 						</Form.Label>
 						<Form.Select
 							aria-label="Language"
@@ -102,9 +105,9 @@ const FilterControls = ({
 							onChange={(e) => onFilterChange(e)}
 						>
 							{languages.map((language) => (
-								<option key={language + '1'}>
-									{/* {t('language.' + language)} */}
-									{language}
+								<option key={language + '1'} value={language}>
+									{t('filterControls.language.' + language)}
+									{/* {language} */}
 								</option>
 							))}
 						</Form.Select>
@@ -183,7 +186,6 @@ const FilterControls = ({
 								<option value="90">90</option>
 								<option value="120">120</option>
 								<option value="300">300</option>
-								<option value="5100">5100</option>
 							</Form.Select>
 						</Container>
 						<Container>
@@ -204,7 +206,6 @@ const FilterControls = ({
 								<option value="90">90</option>
 								<option value="120">120</option>
 								<option value="300">300</option>
-								<option value="5100">5100</option>
 							</Form.Select>
 						</Container>
 					</Form.Group>
@@ -212,7 +213,6 @@ const FilterControls = ({
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.orderBy')}
 							</Form.Label>
 							<Form.Select
@@ -229,7 +229,6 @@ const FilterControls = ({
 						</Container>
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.sortBy')}
 							</Form.Label>
 							<Form.Select
@@ -243,6 +242,9 @@ const FilterControls = ({
 								<option value="title"> {t('filterControls.title')}</option>
 								<option value="year"> {t('filterControls.year')}</option>
 								<option value="rating"> {t('filterControls.rating')}</option>
+								{/* <option value="dateUploaded">
+									{t('filterControls.dateUploaded')}
+								</option> */}
 								{/* <option value="seeds">seeds</option> */}
 							</Form.Select>
 						</Container>
@@ -250,7 +252,6 @@ const FilterControls = ({
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.quality')}
 							</Form.Label>
 
@@ -271,7 +272,6 @@ const FilterControls = ({
 						</Container>
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.seeds')}
 							</Form.Label>
 							<Form.Select

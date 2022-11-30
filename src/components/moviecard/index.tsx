@@ -20,7 +20,7 @@ const MovieCard = ({
 			<Link
 				href={{
 					pathname: `/home/${movie.imdb_code}`,
-					query: { movie: JSON.stringify(movie) },
+					// query: { movie: JSON.stringify(movie) },
 				}}
 			>
 				<a>

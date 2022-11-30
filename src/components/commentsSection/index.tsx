@@ -15,7 +15,7 @@ type Inputs = {
 	comment_text: string;
 };
 const schema = z.object({
-	comment_text: z.string().min(1, {}),
+	comment_text: z.string().min(1, {}).max(250),
 });
 
 const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
@@ -50,6 +50,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 		register,
 		handleSubmit,
 		getValues,
+		reset,
 		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
@@ -58,8 +59,8 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 	const { t }: i18translateType = useTranslation('common');
 
 	const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
-		//		event?.preventDefault();
-
+		event?.preventDefault();
+		reset();
 		addComment(imdb_code as string, data.comment_text as string);
 	};
 
@@ -76,6 +77,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 						<Form.Control
 							className="border-bottom comment-form bg-transparent"
 							placeholder={t('movieInfo.addComment')}
+							maxlength="250"
 							{...register('comment_text')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>

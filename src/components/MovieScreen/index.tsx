@@ -28,7 +28,6 @@ const MovieScreen = ({
 	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
-
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMovieUrl(
@@ -81,7 +80,11 @@ const MovieScreen = ({
 									minHeight: '720px',
 									maxHeight: '60vh',
 								}}
-								src={movie?.background_image_original}
+								src={
+									movie?.background_image_original
+										? movie?.background_image_original
+										: '/movieDefaultBackground.png'
+								}
 							/>
 						)}
 						{isLoading ? (
