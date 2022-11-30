@@ -84,7 +84,6 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 					return res.status(201).json({ message: 'Image updated successfully', filename: filename });
 				// If old image is local, delete it
 				if (oldImage?.image?.search('http') !== 0) {
-					console.log('Deleting old image', oldImage);
 					unlink(`./public/images/${oldImage?.image}`, (err) => {
 						if (err) {
 							console.error(err);
@@ -110,11 +109,8 @@ export default function image(req: NextApiRequest, res: NextApiResponse) {
 
 // Save file to disk
 const saveFile = async (file: File, filename: string) => {
-	console.log('Trying to save the file', file);
 	const data = fs.readFileSync(file.filepath);
-	console.log('File read successfully');
 	fs.writeFileSync(`./public/images/${filename}`, data);
-	console.log('File written successfully');
 	fs.unlinkSync(file.filepath);
 	return;
 };

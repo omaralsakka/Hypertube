@@ -28,7 +28,6 @@ const download = async (
 	const request = https.get(url, (response) => {
 		response.pipe(file);
 		file.on('finish', function () {
-			console.log('SUBTITLE FILE DOWNLOAD FINISHED');
 			file.close();
 		});
 	});

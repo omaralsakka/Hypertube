@@ -43,7 +43,6 @@ export const userRouter = router({
 					password: hashedPassword,
 				} as Prisma.UserCreateInput,
 			});
-			console.log(newUser);
 			// Send verification email
 			if (await sendEmailVerification(input.email, token))
 				return 'User created successfully';

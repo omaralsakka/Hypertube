@@ -44,9 +44,7 @@ export const downloadTorrent = async (
 			torrentStreamOptions
 		);
 
-		engine.on('ready', () => {
-			console.log('Engine is ready! This is the url passed: ', magnetLink);
-		});
+		engine.on('ready', () => {});
 
 		engine.on('torrent', () => {
 			engine.files.forEach(async (file: TorrentStream.TorrentFile) => {
@@ -56,7 +54,7 @@ export const downloadTorrent = async (
 					file.name.endsWith('.webm')
 				) {
 					file.select();
-					if(movieDbInfo === null) {
+					if (movieDbInfo === null) {
 						let timestamp: Date | string = new Date();
 						timestamp = timestamp.toString();
 						try {
@@ -79,23 +77,20 @@ export const downloadTorrent = async (
 		});
 
 		engine.on('download', () => {
-			console.log('Piece downloaded!');
 			if (fs.existsSync(`./movies/${imdbCode}/${filePath}`)) {
 				if (
 					fs.statSync(`./movies/${imdbCode}/${filePath}`).size / (1024 * 1024) >
 					25
 				) {
-					console.log('RESOLVED RESOLVED RESOLVED RESOLVED');
 					resolve(newMovie);
 				}
 			}
 		});
 
 		engine.on('idle', async () => {
-
 			let dbID: string = movieDbInfo === null ? newMovie?.id : movieDbInfo?.id;
 
-			if(dbID) {
+			if (dbID) {
 				try {
 					await prisma.movies.update({
 						where: {
@@ -110,8 +105,6 @@ export const downloadTorrent = async (
 				}
 			}
 
-			engine.destroy(() => {
-				console.log('All connections to peers destroyed.');
-			});
+			engine.destroy(() => {});
 		});
 	});

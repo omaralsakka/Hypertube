@@ -62,7 +62,8 @@ const Signup = ({
 		email: z.string().email().min(1, { message: 'Required' }).max(255),
 	});
 
-	const notifyDefault = () => toast.success('Activation email sent');
+	const userCreatedToast = () =>
+		toast.success(t('form.userCreated'), { position: 'top-center' });
 
 	const {
 		watch,
@@ -94,6 +95,7 @@ const Signup = ({
 		setTimeout(() => {
 			router.push('/login');
 		}, 2000);
+		userCreatedToast();
 	}, [mutation.isSuccess]);
 
 	useEffect(() => {
@@ -191,11 +193,11 @@ const Signup = ({
 											<p className="text-danger">{mutation.error.message}</p>
 										</Container>
 									)}
-									{mutation.isSuccess && (
+									{/* {mutation.isSuccess && (
 										<Container className="d-flex justify-content-center mb-4">
 											<p className="text-success">User created</p>
 										</Container>
-									)}
+									)} */}
 									<Container className="d-flex flex-column align-items-center justify-content-center p-3">
 										<div className="d-flex">
 											{providers &&

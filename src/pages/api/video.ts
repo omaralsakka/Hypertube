@@ -55,7 +55,6 @@ export default async function streamVideo(
 			const id: number = data.id;
 			const imdbCode: string = data.imdb_code;
 			const movieTitle: string = data.title_long;
-			// console.log(data);
 			const torrents: any[] = await getTorrents(data.id);
 			//const torrents: torrentDataInter[] = data.torrents;
 			const uri: string = createMagnetLink(torrents, movieTitle);
@@ -75,7 +74,6 @@ export default async function streamVideo(
 					console.error(error);
 				}
 			} else {
-				console.log('Movie has been already downloaded'); // this can be removed when everything is ready
 			}
 			if (movieInfo !== false)
 				res

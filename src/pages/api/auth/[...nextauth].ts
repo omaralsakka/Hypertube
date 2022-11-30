@@ -42,12 +42,12 @@ export const authOptions: NextAuthOptions = {
 				// Check password validity
 				const validPassword = await verify(user.password, credentials.password);
 				if (!validPassword) return null;
-				console.log('Password valid. Returning', {
-					id: user.id,
-					email: user.email,
-					name: user.name,
-					emailVerified: user.emailVerified,
-				});
+				// console.log('Password valid. Returning', {
+				// 	id: user.id,
+				// 	email: user.email,
+				// 	name: user.name,
+				// 	emailVerified: user.emailVerified,
+				// });
 				return {
 					id: user.id,
 					email: user.email,
@@ -112,9 +112,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		// This callback defines login logic. We can approve or deny login depending on user and account data, and redirect to user to appropriate page when denied login. This is not necessary, if we're ok with standard logic.
 		async signIn({ user, account, profile }) {
-			console.log('user in signin callback', user);
 			// Check if user's email has been verified
-			console.log('account in signin callback', account);
 			// This is necessary trick to avoid type errors when accessing user properties
 			const adapterUser = user as AdapterUser;
 			// OAuth providers are trusted by default. Other OAuth providers should be added here too.

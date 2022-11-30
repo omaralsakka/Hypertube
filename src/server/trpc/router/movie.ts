@@ -25,7 +25,6 @@ export const movieRouter = router({
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			// console.log(input);
 			const movies: any = await ctx.prisma.movie.findMany({
 				skip: 0,
 				take: 0,
@@ -66,7 +65,6 @@ export const movieRouter = router({
 					genre: true,
 				},
 			});
-			console.log(movies);
 			return {
 				movies,
 			};
