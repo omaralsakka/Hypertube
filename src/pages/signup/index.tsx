@@ -20,6 +20,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const Signup = ({
 	providers,
@@ -29,6 +30,7 @@ const Signup = ({
 	const { t }: i18translateType = useTranslation('common');
 	const [success, setSuccess] = useState(false);
 	const router = useRouter();
+	const { status } = useSession();
 
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -96,8 +98,17 @@ const Signup = ({
 		userCreatedToast();
 	}, [mutation.isSuccess]);
 
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
+
 	return (
 		<>
+			{status !== 'unauthenticated' ? (
+				<></>
+			) : (
 			<Container className="d-flex justify-content-center p-3 mb-4">
 				<Card className="w-100 glass-background border-0">
 					<Card.Body>
@@ -238,6 +249,7 @@ const Signup = ({
 					</Card.Body>
 				</Card>
 			</Container>
+			)}
 		</>
 	);
 };
