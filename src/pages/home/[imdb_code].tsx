@@ -217,8 +217,8 @@ const MoviePage = () => {
 										</Row>
 										<MovieDescription
 											movie={movie}
-											crew={crew.crew as Array<Crew>}
-											cast={crew.cast as Array<Cast>}
+											crew={crew?.crew as Array<Crew>}
+											cast={crew?.cast as Array<Cast>}
 										/>
 										<hr />
 										{

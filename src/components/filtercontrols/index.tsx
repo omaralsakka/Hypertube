@@ -53,7 +53,9 @@ const FilterControls = ({
 		'hu',
 	]);
 	// A Trip to the Moon (1902) is considered the first movie released
-	const [years, setYears] = useState(_.range(1902, new Date().getFullYear()));
+	const [years, setYears] = useState(
+		_.range(1902 - 1, new Date().getFullYear() + 2)
+	);
 	const [ratings, setRatings] = useState(_.range(0, 10));
 	return (
 		<>
@@ -211,7 +213,6 @@ const FilterControls = ({
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.orderBy')}
 							</Form.Label>
 							<Form.Select
@@ -228,7 +229,6 @@ const FilterControls = ({
 						</Container>
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.sortBy')}
 							</Form.Label>
 							<Form.Select
@@ -242,6 +242,9 @@ const FilterControls = ({
 								<option value="title"> {t('filterControls.title')}</option>
 								<option value="year"> {t('filterControls.year')}</option>
 								<option value="rating"> {t('filterControls.rating')}</option>
+								{/* <option value="dateUploaded">
+									{t('filterControls.dateUploaded')}
+								</option> */}
 								{/* <option value="seeds">seeds</option> */}
 							</Form.Select>
 						</Container>
@@ -249,7 +252,6 @@ const FilterControls = ({
 					<Form.Group className="d-flex align-items-center mb-4">
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.quality')}
 							</Form.Label>
 
@@ -270,7 +272,6 @@ const FilterControls = ({
 						</Container>
 						<Container>
 							<Form.Label className="text-white">
-								{' '}
 								{t('filterControls.seeds')}
 							</Form.Label>
 							<Form.Select
