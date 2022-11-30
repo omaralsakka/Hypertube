@@ -95,7 +95,6 @@ export const downloadSubtitles = async (imdbCode: string) => {
 					}
 				);
 				langObj = resetLangObj();
-				// !! could have check for if (data in response) just in case the OST API did not find any results.
 				if(subtitleID !== null) {
 					subtitleID.forEach((subtitle: {id:string, attributes: { language: string , files:[{file_id:number}]}}) => {
 		

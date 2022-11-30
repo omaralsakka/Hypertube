@@ -1,11 +1,9 @@
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import { Prisma } from '@prisma/client';
-import { TRPCError } from '@trpc/server';
 import { hash } from 'argon2';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken } from '../../../utils/promisifyJWT';
-import { BsCartX } from 'react-icons/bs';
 
 // User creation and update
 export const userRouter = router({
@@ -50,7 +48,7 @@ export const userRouter = router({
 				return ('User created successfully');
 		}),
 	// Update user for Settings page
-	update: publicProcedure
+	update: protectedProcedure
 		.input(
 			z.object({
 				id: z.string().min(1),
@@ -123,7 +121,7 @@ export const userRouter = router({
 			return ('User information updated successfully');
 		}),
 	// Get user for Settings and Profile pages
-	get: publicProcedure
+	get: protectedProcedure
 		.input(
 			z.object({
 				id: z.string().min(1).max(30),
@@ -158,7 +156,7 @@ export const userRouter = router({
 			};
 		}),
 
-	getProfile: publicProcedure
+	getProfile: protectedProcedure
 		.input(z.string().min(1).max(30))
 		.query(async ({ input, ctx }) => {
 			const user = await ctx.prisma.user.findUnique({
@@ -184,7 +182,7 @@ export const userRouter = router({
 			};
 		}),
 
-	updateFirstLogin: publicProcedure
+	updateFirstLogin: protectedProcedure
 		.input(z.string().min(1).max(30))
 		.mutation(async ({ input, ctx }) => {
 			const updatedUser = await ctx.prisma?.user.update({
