@@ -15,12 +15,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -51,9 +45,9 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  password      String?
+  name          String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  password      String?   @db.VarChar(255)
   emailToken    String?
   emailVerified DateTime?
   image         String?
@@ -75,7 +69,7 @@ model VerificationToken {
 model Comment {
   id           Int      @id @unique @default(autoincrement())
   imdb_code    String
-  comment_text String?
+  comment_text String?  @db.VarChar(250)
   userId       String
   created_at   DateTime @default(now())
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -114,7 +108,7 @@ model Movie {
   large_cover_image         String?
   state                     String?
   date_uploaded             String?
-  date_uploaded_unix        Int?
+  date_uploaded_unix        String?
   torrent                   Torrent[]
   genres                    String[]
 }

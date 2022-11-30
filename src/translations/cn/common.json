@@ -12,7 +12,7 @@
 		"logout": "退出"
 	},
 	"landing": {
-		"slogan": "尽享所有你想要看的电影和电视节目",
+		"slogan": "尽享所有你想要看的电影",
 		"login": "登陆",
 		"signup": "注册"
 	},
@@ -142,5 +142,83 @@
 	"footer": {
 		"developed": "开发者",
 		"project": "项目制作者"
+	},
+	"search": {
+		"searchPlace": "你想看什么",
+		"advancedSearch": "高级搜索"
+	},
+	"filterControls": {
+		"genre": {
+			"Adventure": "探险",
+			"Action": "动作",
+			"Crime": "犯罪",
+			"Comedy": "搞笑",
+			"Documentary": "纪录片",
+			"Drama": "喜剧",
+			"Fantasy": "科 幻",
+			"Family": "家庭",
+			"Film-Noir": "黑帮",
+			"Horror": "恐怖",
+			"Mystery": "悬疑",
+			"Romance": "爱情",
+			"Sci-Fi": "科技",
+			"Thriller": "惊悚",
+			"War": "战争",
+			"Western": "西方",
+			"title": "类型",
+			"undefined": "",
+			"Music": "音乐",
+			"Musical": "音乐",
+			"Biography": "传",
+			"Animation": "动画",
+			"Sport": "运动",
+			"History": "历史",
+			"": ""
+		},
+
+		"description": "描述",
+		"rating": "等级",
+		"fromYear": "起始年份 ",
+		"toYear": "截止年份",
+		"fromRunTime": "开始运行时间",
+		"toRunTime": "截止运行时间",
+		"orderBy": "归类方式",
+		"sortBy": "排序方式 ",
+		"descending": "降序",
+		"ascending": "升序",
+		"quality": "画质",
+		"seeds": "下载量",
+		"title": "标题 ",
+		"year": "年份",
+		"language": {
+			"cn": "中文",
+			"en": "英",
+			"fi": "芬兰",
+			"hi": "印地",
+			"es": "西班牙",
+			"fr": "法",
+			"ar": "阿拉伯",
+			"ja": "日本",
+			"ko": "韩国",
+			"it": "意大利",
+			"de": "德",
+			"bn": "孟加拉",
+			"ru": "俄语",
+			"pt": "葡萄牙",
+			"ro": "罗马尼亚",
+			"hu": "匈牙利",
+			"title": "语言",
+			"": ""
+		}
+	},
+
+	"settings": {
+		"changeName": "用户名更改",
+		"changeEmail": "邮箱更改",
+		"changePass": "密码更改",
+		"saveChange": "保存更改",
+		"providerMsg1": "你将登陆另一个服务器",
+		"providerMsg2": " 用您的服务器更改邮箱及密码",
+		"changesSaved": "保存更改成功"
 	}
 }

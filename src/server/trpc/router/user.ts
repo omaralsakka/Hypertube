@@ -13,9 +13,9 @@ export const userRouter = router({
 	create: publicProcedure
 		.input(
 			z.object({
-				name: z.string().min(1),
-				email: z.string().email(),
-				password: z.string().min(1).max(32),
+				name: z.string().min(1).max(255),
+				email: z.string().email().max(255),
+				password: z.string().min(1).max(255),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
@@ -52,7 +52,7 @@ export const userRouter = router({
 		.input(
 			z.object({
 				id: z.string().min(1),
-				email: z.string().email(),
+				email: z.string().email().max(255),
 				password: z
 					.string()
 					.regex(new RegExp('^$|.*[A-Z].*'), {
@@ -68,7 +68,7 @@ export const userRouter = router({
 					.max(255, {
 						message: "The password can't be more than 255 characters in length",
 					}),
-				name: z.string().min(1).max(30),
+				name: z.string().min(1).max(255),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {

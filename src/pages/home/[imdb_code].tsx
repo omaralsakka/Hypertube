@@ -208,7 +208,8 @@ const MoviePage = () => {
 												<Card.Title className="mb-4 fs-5 d-flex align-items-center p-0">
 													{movie?.year}
 													<span className="mx-3 border b-1 p-1 rounded border-dark fs-6">
-														{movieRate(movie?.rating.toString())}
+														{movie?.rating &&
+															movieRate(movie?.rating.toString())}
 													</span>
 													<span>{movie?.runtime}</span>
 												</Card.Title>
@@ -216,8 +217,8 @@ const MoviePage = () => {
 										</Row>
 										<MovieDescription
 											movie={movie}
-											crew={crew.crew as Array<Crew>}
-											cast={crew.cast as Array<Cast>}
+											crew={crew?.crew as Array<Crew>}
+											cast={crew?.cast as Array<Cast>}
 										/>
 										<hr />
 										{

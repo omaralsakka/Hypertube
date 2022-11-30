@@ -101,7 +101,10 @@ const MovieDescription = ({
 									{t('nav.language')}:
 								</Card.Title>
 								<Card.Text className="fs-5 ms-1">
-									<strong>{movie?.language}</strong>
+									{/* <strong>{movie?.language}</strong> */}
+									<strong>
+										{t('filterControls.language.' + movie?.language)}
+									</strong>
 								</Card.Text>
 							</div>
 						</Row>

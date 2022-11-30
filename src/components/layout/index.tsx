@@ -5,6 +5,7 @@ import NavigationBar from '../navbar';
 import Footer from '../footer';
 import { ToastContainer } from 'react-toastify';
 import { PageLayout } from '../../types/appTypes';
+import SSRProvider from 'react-bootstrap/SSRProvider';
 
 const Layout = ({ children }: PageLayout) => {
 	const loggedUser = useSelector((state: RootReducer) => state.userReducer);
@@ -12,27 +13,31 @@ const Layout = ({ children }: PageLayout) => {
 	if (loggedUser.userEmail) {
 		return (
 			<>
-				<div className="app blobs-background">
-					<Container className="p-0 m-0 " fluid>
-						<ToastContainer />
+				<SSRProvider>
+					<div className="app blobs-background">
+						<Container className="p-0 m-0 " fluid>
+							<ToastContainer />
 
-						<NavigationBar />
-						<main>{children}</main>
-					</Container>
-				</div>
-				<Footer />
+							<NavigationBar />
+							<main>{children}</main>
+						</Container>
+					</div>
+					<Footer />
+				</SSRProvider>
 			</>
 		);
 	}
 	return (
 		<>
-			<div className="app blobs-background">
-				<Container className="p-0 m-0" fluid>
-					<NavigationBar />
-					<main>{children}</main>
-				</Container>
-			</div>
-			<Footer />
+			<SSRProvider>
+				<div className="app blobs-background">
+					<Container className="p-0 m-0" fluid>
+						<NavigationBar />
+						<main>{children}</main>
+					</Container>
+				</div>
+				<Footer />
+			</SSRProvider>
 		</>
 	);
 };
