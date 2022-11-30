@@ -44,12 +44,12 @@ services:
       ADMINER_DESIGN: pepa-linha
   downloader:
     container_name: 'hypertube_downloader'
-  build:
-    context: .
-    dockerfile: centos.dockerfile
+    build:
+      dockerfile: Dockerfile_downloader
+      context: .
     volumes:
-      - './new-torrents:/app'
-      - ./centos-crontab-example.txt:/etc/crontab
+      - './new-torrents:/new_torrents'
+      - './utils:/app'
 secrets:
   db_password:
     file: ./config/secrets/db_password.secret
