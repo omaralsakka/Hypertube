@@ -1,6 +1,16 @@
 
-FROM alpine:latest
-RUN apk add --no-cache python3
-RUN echo ' *  *  *  *  * python3 /app/update.py' >> /etc/crontabs/root
+FROM python:3.7.6-buster
+RUN apt-get update && apt-get -y install cron
+WORKDIR /app
+RUN pip install pandas
+RUN touch /var/log/cron.log
+RUN pip install requests
+#RUN echo '*  *  *  *  * python3 /app/update.py' >>  /etc/cron.d/crontab
+#RUN echo '*  *  *  *  * python3 /app/hello.py' >>  /etc/cron.d/crontab
+COPY ./utils/crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+RUN /usr/bin/crontab /etc/cron.d/crontab
+
+#COPY crontab /etc/cron.d/crontab
 # Run crond  -f for Foreground 
-CMD ["/usr/sbin/crond", "-f"]
+CMD /etc/init.d/cron start && tail -f /var/log/cron.log

@@ -48,7 +48,7 @@ services:
       dockerfile: Dockerfile_downloader
       context: .
     volumes:
-      - './new-torrents:/new_torrents'
+      - './new-torrents:/new- torrents'
       - './utils:/app'
 secrets:
   db_password:
