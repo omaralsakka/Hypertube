@@ -77,7 +77,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 						<Form.Control
 							className="border-bottom comment-form bg-transparent"
 							placeholder={t('movieInfo.addComment')}
-							maxlength="250"
+							maxLength={100}
 							{...register('comment_text')}
 							onFocus={() => setAddCommentBtn(false)}
 						></Form.Control>

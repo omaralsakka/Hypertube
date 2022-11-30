@@ -1,4 +1,4 @@
-import { router, publicProcedure, protectedProcedure } from '../trpc';
+import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { Prisma } from '@prisma/client';
 import { hash } from 'argon2';
@@ -46,7 +46,7 @@ export const userRouter = router({
 				return 'User created successfully';
 		}),
 	// Update user for Settings page
-	update: protectedProcedure
+	update: publicProcedure
 		.input(
 			z.object({
 				id: z.string().min(1),
@@ -117,7 +117,7 @@ export const userRouter = router({
 			return 'User information updated successfully';
 		}),
 	// Get user for Settings and Profile pages
-	get: protectedProcedure
+	get: publicProcedure
 		.input(
 			z.object({
 				id: z.string().min(1).max(30),
@@ -152,7 +152,7 @@ export const userRouter = router({
 			};
 		}),
 
-	getProfile: protectedProcedure
+	getProfile: publicProcedure
 		.input(z.string().min(1).max(30))
 		.query(async ({ input, ctx }) => {
 			const user = await ctx.prisma.user.findUnique({
@@ -178,7 +178,7 @@ export const userRouter = router({
 			};
 		}),
 
-	updateFirstLogin: protectedProcedure
+	updateFirstLogin: publicProcedure
 		.input(z.string().min(1).max(30))
 		.mutation(async ({ input, ctx }) => {
 			const updatedUser = await ctx.prisma?.user.update({
