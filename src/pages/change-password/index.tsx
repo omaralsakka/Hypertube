@@ -16,9 +16,10 @@ type Inputs = {
 };
 
 const changePassword = () => {
+	// THIS FUNCTION AND PAGE SUPPOSED TO BE DELETED BUT LEAVE EVERYTHING FOR NOW!!!!!!!!!!!!!!!!!
 	const [passType, setPassType] = useState('password');
 	const { t }: i18translateType = useTranslation('common');
-	const { status } = useSession();
+	const { status, data } = useSession();
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {};
 
@@ -37,16 +38,19 @@ const changePassword = () => {
 	});
 
 	useEffect(() => {
-		if (status !== 'loading' && status !== 'unauthenticated') {
-			window.location.replace('/home');
-		}
+		 if (status !== 'loading' && status !== 'unauthenticated') {
+		 	window.location.replace('/settings');
+		 } else {
+			window.location.replace('/');
+		 }
 	}, [status]);
+
 	return (
 		<>
-			{status !== 'unauthenticated' ? (
+			{/* {status !== 'unauthenticated' ? (
 				<></>
-			) : (
-				<Container className="d-flex justify-content-center p-3 mb-4">
+			) : ( */}
+				{/* <Container className="d-flex justify-content-center p-3 mb-4">
 					<Card className="w-75 glass-background">
 						<Card.Body>
 							<div className={`${flexColCenter} w-75 m-auto`}>
@@ -105,8 +109,8 @@ const changePassword = () => {
 							</div>
 						</Card.Body>
 					</Card>
-				</Container>
-			)}
+				</Container> */}
+			{/* )} */}
 		</>
 	);
 };

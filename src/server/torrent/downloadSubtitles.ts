@@ -94,20 +94,16 @@ export const downloadSubtitles = async (imdbCode: string) => {
 					}
 				);
 				langObj = resetLangObj();
-				// !! could have check for if (data in response) just in case the OST API did not find any results.
-				if (subtitleID !== null) {
-					subtitleID.forEach(
-						(subtitle: {
-							id: string;
-							attributes: { language: string; files: [{ file_id: number }] };
-						}) => {
-							const optionsDownload = {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
-								},
-								body: `{"file_id":${subtitle.attributes.files[0].file_id},
+				if(subtitleID !== null) {
+					subtitleID.forEach((subtitle: {id:string, attributes: { language: string , files:[{file_id:number}]}}) => {
+		
+						const optionsDownload = {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json', 
+								'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
+							},
+							body: `{"file_id":${subtitle.attributes.files[0].file_id},
 								"sub_format": "webvtt"}`,
 							};
 

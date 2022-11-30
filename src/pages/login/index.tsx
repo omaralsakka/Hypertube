@@ -227,7 +227,7 @@ const Login = ({
 																}
 																onClick={() =>
 																	signIn(provider.id, {
-																		callbackUrl: 'http://localhost:3000/home',
+																		callbackUrl: 'http://localhost:3000/',
 																	})
 																}
 															>
