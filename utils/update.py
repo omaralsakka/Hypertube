@@ -10,7 +10,9 @@ data = requests.get(URL)
 dataJson = json.loads(data.content)
 movieNum = dataJson['data']['movies'][0]['id']
 maxLimit=50
-currentMovieCount = 46423
+with open('/new-torrents/latest') as f:
+    first_line = f.readline().strip('\n')
+currentMovieCount = int(first_line)
 if (movieNum > currentMovieCount):
 	numOfFetches = ((movieNum - currentMovieCount)//maxLimit)
 	while (page <= numOfFetches + 1):
@@ -42,7 +44,7 @@ if (movieNum > currentMovieCount):
 				df = pd.read_json(inputfile)
 	df = df.drop_duplicates()
 	df = df[df['movieId'] > currentMovieCount]
-	df.to_csv('new_torrents.tsv', encoding='utf-8', index=False, sep='\t')
+	df.to_csv('/new-torrents/new_torrents.tsv', encoding='utf-8', index=False, sep='\t')
 	df = pd.read_csv('new_movies.tsv', sep='\t')
 	df['genres'] = df['genres'].str.replace(r"'", '')
 	df['genres'] = df['genres'].str.replace(r"[", '{')
@@ -51,4 +53,14 @@ if (movieNum > currentMovieCount):
 	df = df.drop_duplicates()
 	df = df[df['id'] > currentMovieCount]
 
-	df.to_csv('new_movies.tsv', encoding='utf-8', index=False, sep='\t')
+	df.to_csv('/new-torrents/new_movies.tsv', encoding='utf-8', index=False, sep='\t')
+else:
+	with open('/new-torrents/new_torrents.tsv', 'r') as fin:
+		data = fin.read().splitlines(True)
+	with open('/new-torrents/new_torrents.tsv', 'w') as fout:
+		fout.writelines(data[:1])
+	with open('/new-torrents/new_movies.tsv', 'r') as fin:
+		data = fin.read().splitlines(True)
+	with open('/new-torrents/new_movies.tsv', 'w') as fout:
+		fout.writelines(data[:1])
+

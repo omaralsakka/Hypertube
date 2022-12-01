@@ -1,9 +1,7 @@
-// @ts-check
 import { env } from './src/env/server.mjs';
 import { PrismaClient } from '@prisma/client';
 import { CronJob } from 'cron';
-import fs from 'fs';
-
+import axios from 'axios';
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -13,15 +11,17 @@ import fs from 'fs';
  * @constraint {{import('next').NextConfig}}
  */
 
-var job2 = new CronJob(
-	'* * * * *',
+var updateMovies = new CronJob(
+	'0 4 * * *',
 	function () {
-		console.log('You will see this message every minute');
+		console.log('updating movies');
+		fetch(`http://localhost:3000/api/update-movie`);
 	},
 	null,
 	true,
 	'Europe/Helsinki'
 );
+
 function defineNextConfig(config) {
 	return config;
 }
