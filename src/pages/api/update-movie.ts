@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
-var fs = require('fs');
+import fs from 'fs';
 
 const getLatestMovie = async () => {
 	const latest = await prisma.movie.findMany({

@@ -149,6 +149,7 @@ export const userRouter = router({
 			// 		cause: input.id,
 			// 	});
 			return {
+				user: user,
 				message: 'User information updated successfully',
 			};
 		}),

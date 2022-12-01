@@ -11,16 +11,14 @@ const PhotoUploadSignup = () => {
 	const [success, setSuccess] = useState(false);
 	const formData = new FormData();
 	const { data: session } = useSession();
-	const mutation = trpc.user.firstLogin.useMutation();
+	const mutation = trpc.user.updateFirstLogin.useMutation();
 
 	// Change firstLogin value to false
 	useEffect(() => {
 		const id = session?.token?.user?.id;
 		if (!success || !id) return;
 		// Write success to db
-		mutation.mutate({
-			id: id,
-		});
+		mutation.mutate(id);
 	}, [success]);
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
