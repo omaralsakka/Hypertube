@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/ban-types */
 import torrentStream from 'torrent-stream';
 import { prisma } from '../../server/db/client';
 import fs from 'fs';

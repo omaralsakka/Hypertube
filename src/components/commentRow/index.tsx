@@ -1,36 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
-import {
-	AiOutlineLike,
-	AiFillLike,
-	AiFillDislike,
-	AiOutlineDislike,
-} from 'react-icons/ai';
+// import {
+// 	AiOutlineLike,
+// 	AiFillLike,
+// 	AiFillDislike,
+// 	AiOutlineDislike,
+// } from 'react-icons/ai';
 import { Comment } from '../../types/appTypes';
 import Link from 'next/link';
 
 const CommentRow = ({ comment }: { comment: Comment }) => {
-	const [liked, setLiked] = useState(false);
-	const [disliked, setDisliked] = useState(false);
+	// const [liked, setLiked] = useState(false);
+	// const [disliked, setDisliked] = useState(false);
 	const [userImg, setUserImg] = useState('/defaultImg2.png');
 
-	const isLiked = (liked: boolean) => {
-		return liked ? (
-			<AiFillLike className="fs-5" />
-		) : (
-			<AiOutlineLike className="fs-5" />
-		);
-	};
-	const isDisLiked = (disliked: boolean) => {
-		return disliked ? (
-			<AiFillDislike className="fs-5" style={{ transform: 'scale(-1, 1)' }} />
-		) : (
-			<AiOutlineDislike
-				className="fs-5"
-				style={{ transform: 'scale(-1, 1)' }}
-			/>
-		);
-	};
+	// const isLiked = (liked: boolean) => {
+	// 	return liked ? (
+	// 		<AiFillLike className="fs-5" />
+	// 	) : (
+	// 		<AiOutlineLike className="fs-5" />
+	// 	);
+	// };
+	// const isDisLiked = (disliked: boolean) => {
+	// 	return disliked ? (
+	// 		<AiFillDislike className="fs-5" style={{ transform: 'scale(-1, 1)' }} />
+	// 	) : (
+	// 		<AiOutlineDislike
+	// 			className="fs-5"
+	// 			style={{ transform: 'scale(-1, 1)' }}
+	// 		/>
+	// 	);
+	// };
 	useEffect(() => {
 		if (comment.user.image) {
 			comment.user.image.includes('http')

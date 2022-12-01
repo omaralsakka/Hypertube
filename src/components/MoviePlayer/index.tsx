@@ -32,7 +32,7 @@ const MoviePlayer = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subt
 					controls={true}
 					playing={true}
 					width="100%"
-					// onError={onError}
+					onError={onError}
 					style={{
 						objectFit: 'cover',
 						minHeight: '720px',

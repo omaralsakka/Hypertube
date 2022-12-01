@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { WatchedMoviesUpsert } from '../../../types/appTypes';

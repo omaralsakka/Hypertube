@@ -17,13 +17,13 @@ const MovieCard = ({
 	}
 	return (
 		<>
-			<Link
+			{/* <Link
 				href={{
 					pathname: `/home/${movie.imdb_code}`,
 					// query: { movie: JSON.stringify(movie) },
 				}}
-			>
-				<a>
+			> */}
+				<a href={`/home/${movie.imdb_code}`}>
 					<motion.div
 						initial={{ opacity: 0, scale: 0.5 }}
 						animate={{ opacity: 1, scale: 1 }}
@@ -47,7 +47,7 @@ const MovieCard = ({
 						</Card>
 					</motion.div>
 				</a>
-			</Link>
+			{/* </Link> */}
 		</>
 	);
 };

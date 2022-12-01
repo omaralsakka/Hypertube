@@ -35,14 +35,14 @@ const Settings = () => {
 		name: z.string().min(1, { message: 'Required' }),
 		password: z
 			.string()
-			.regex(new RegExp('^$|.*[A-Z].*'), {
+			.regex(new RegExp('.*[A-Z].*'), {
 				message: 'One uppercase character required',
 			})
-			.regex(new RegExp('^$|.*[a-z].*'), {
+			.regex(new RegExp('.*[a-z].*'), {
 				message: 'One lowercase character required',
 			})
-			.regex(new RegExp('^$|.*\\d.*'), { message: 'One number required' })
-			.regex(new RegExp('^$|(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+			.regex(new RegExp('.*\\d.*'), { message: 'One number required' })
+			.min(8, {
 				message: 'The password must be more than 8 characters in length',
 			})
 			.max(255, {
@@ -68,7 +68,6 @@ const Settings = () => {
 				email: data.email,
 				password: data.password,
 			});
-			// If email was changed
 		} catch (err) {
 			console.error(err);
 		}
@@ -114,7 +113,7 @@ const Settings = () => {
 										setSuccess={setSuccess}
 									/>
 									<Container className="text-center fs-3 mb-4">
-										{session?.user?.name}
+										{data?.user?.name}
 									</Container>
 									<Container className="d-flex justify-content-center">
 										<Form onSubmit={handleSubmit(onSubmit)}>
@@ -195,6 +194,7 @@ const Settings = () => {
 														</p>
 													) : null}
 												</div>
+												<p className="mb-4 d-flex align-items-center justify-content-center">{t('settings.givePassword')}</p>
 												<div
 													className="mb-4 d-flex align-items-center justify-content-center"
 													style={{ minHeight: '5vh' }}
