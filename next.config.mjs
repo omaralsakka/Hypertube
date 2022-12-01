@@ -1,6 +1,6 @@
 // @ts-check
-import { env } from "./src/env/server.mjs";
-import { PrismaClient } from "@prisma/client";
+import { env } from './src/env/server.mjs';
+import { PrismaClient } from '@prisma/client';
 import { CronJob } from 'cron';
 import fs from 'fs';
 
@@ -13,7 +13,7 @@ import fs from 'fs';
  * @constraint {{import('next').NextConfig}}
  */
 
-var job = new CronJob(
+var job2 = new CronJob(
 	'* * * * *',
 	function () {
 		console.log('You will see this message every minute');
@@ -30,41 +30,48 @@ const job = new CronJob(
 	'0 23 * * *',
 	async function () {
 		console.log('You will see this message every second');
-    
-    const prisma =
-    global.prisma ||
-    new PrismaClient({
-      log:
-        env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-    });
-  
-    let downloadedMovies = [];
-        let timestamp = Date.now();
 
-        try {
-            downloadedMovies = await prisma?.movies.findMany();
-        } catch (error) {
-            console.error(error);
-        }
+		const prisma =
+			global.prisma ||
+			new PrismaClient({
+				log:
+					env.NODE_ENV === 'development'
+						? ['query', 'error', 'warn']
+						: ['error'],
+			});
 
-        let moviesToDelete = [];
+		let downloadedMovies = [];
+		let timestamp = Date.now();
 
-        downloadedMovies?.filter((movie) => {
-            if(Date.parse(movie.date) < timestamp - 2629800000) { // can use 1 instead of 2629800000 (1 month) to test. these are milliseconds
-                moviesToDelete.push(movie);
-            }
-        })
+		try {
+			downloadedMovies = await prisma?.movies.findMany();
+		} catch (error) {
+			console.error(error);
+		}
 
-        moviesToDelete.map(async (movie) => {
-            if (fs.existsSync(`./movies/${movie.imdb_code}`)) { // make sure this works properly
-                fs.rmSync(`./movies/${movie.imdb_code}`, { recursive: true, force: true });
-            }
-            await prisma?.movies.delete({
-                where: {
-                    imdb_code: movie.imdb_code
-                }
-            })
-        })
+		let moviesToDelete = [];
+
+		downloadedMovies?.filter((movie) => {
+			if (Date.parse(movie.date) < timestamp - 2629800000) {
+				// can use 1 instead of 2629800000 (1 month) to test. these are milliseconds
+				moviesToDelete.push(movie);
+			}
+		});
+
+		moviesToDelete.map(async (movie) => {
+			if (fs.existsSync(`./movies/${movie.imdb_code}`)) {
+				// make sure this works properly
+				fs.rmSync(`./movies/${movie.imdb_code}`, {
+					recursive: true,
+					force: true,
+				});
+			}
+			await prisma?.movies.delete({
+				where: {
+					imdb_code: movie.imdb_code,
+				},
+			});
+		});
 	},
 	null,
 	true,
