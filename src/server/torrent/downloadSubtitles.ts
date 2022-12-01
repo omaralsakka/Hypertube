@@ -72,6 +72,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 		},
 	};
 	const regex = /\D/g;
+	// eslint-disable-next-line prefer-const
 	let newImdbCode = Number(imdbCode.replace(regex, ''));
 
 	fetch(

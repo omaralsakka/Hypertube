@@ -1,6 +1,7 @@
 import { Form, Container } from 'react-bootstrap';
 // import ListGroup from 'react-bootstrap/ListGroup';
 import { FilterInputs } from '../../types/appTypes';
+// eslint-disable-next-line @typescript-eslint/no-var-requires, no-var
 var _ = require('lodash');
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';

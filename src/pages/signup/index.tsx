@@ -95,7 +95,7 @@ const Signup = ({
 		setTimeout(() => {
 			router.push('/login');
 		}, 2000);
-		userCreatedToast();
+		if(mutation.data === 'User created successfully') userCreatedToast();
 	}, [mutation.isSuccess]);
 
 	useEffect(() => {

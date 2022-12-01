@@ -8,8 +8,8 @@ import { trpc } from '../../utils/trpc';
 const ProfilePage = () => {
 	const router = useRouter();
 	const { status } = useSession();
-	let userInfo: any;
-	userInfo = trpc.user.getProfile.useQuery(
+	// let userInfo: any;
+	const userInfo: any = trpc.user.getProfile.useQuery(
 		!router?.query?.userId ? '0' : (router?.query?.userId as string)
 	);
 	const profileImage = userInfo?.data?.user?.image as string;
@@ -31,7 +31,14 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		if (userInfo?.data?.user?.id) {
-			let image = profileImage ? `/images/${profileImage}` : '/defaultImg2.png';
+			let image;
+			if (profileImage) {
+				profileImage.includes('http')
+					? image = profileImage
+					: image = `/images/${profileImage}`;
+			} else {
+				image = '/defaultImg2.png';
+			}
 			setUser({
 				id: userInfo?.data?.user?.id as string,
 				name: userInfo?.data?.user?.name as string,
@@ -68,7 +75,9 @@ const ProfilePage = () => {
 						<Container className="text-center fs-5 mb-4">
 							<div>Registered since</div>
 							<div>
-								{userInfo?.data?.user?.emailVerified?.toString().slice(0, 15)}
+								<p>
+									{userInfo?.data?.user?.emailVerified ? userInfo?.data?.user?.emailVerified?.toString().slice(0, 15) : 'N/A'}
+								</p>
 							</div>
 						</Container>
 					</Card.Body>

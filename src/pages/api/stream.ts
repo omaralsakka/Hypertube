@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { NextApiRequest, NextApiResponse } from 'next';
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import { unstable_getServerSession } from 'next-auth/next';
@@ -19,7 +23,7 @@ export default async function createStream(
 ) {
 	const session = await unstable_getServerSession(req, res, authOptions);
 
-	if (session?.token) {
+	if (session?.token && req.url.length > 35) {
 		const regexPath: RegExp = /path=(.*)&/;
 		const regexImdb: RegExp = /imdbCode=(.*?)&/;
 		const regexSize: RegExp = /size=(.*)/;
@@ -40,6 +44,7 @@ export default async function createStream(
 		}
 
 		if (!range && fullSize && imdbCode && videoPath) {
+			// eslint-disable-next-line @typescript-eslint/ban-types
 			const head: {} = {
 				'Content-Length': fullSize[1],
 				'Content-Type': 'video/mp4',
@@ -91,7 +96,6 @@ export default async function createStream(
 			} else {
 				res.writeHead(206, headers);
 			}
-
 			const videoStream: fs.ReadStream = fs.createReadStream(videoPath, {
 				start,
 				end,
