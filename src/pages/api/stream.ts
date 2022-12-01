@@ -23,7 +23,7 @@ export default async function createStream(
 ) {
 	const session = await unstable_getServerSession(req, res, authOptions);
 
-	if (session?.token) {
+	if (session?.token && req.url.length > 35) {
 		const regexPath: RegExp = /path=(.*)&/;
 		const regexImdb: RegExp = /imdbCode=(.*?)&/;
 		const regexSize: RegExp = /size=(.*)/;
