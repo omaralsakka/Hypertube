@@ -61,11 +61,9 @@ const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
       '/new-torrents/new_torrents.tsv' DELIMITERS E'\t' CSV header;`;
 
 	const latest = await getLatestMovie();
-	console.log(latest);
 
 	fs.writeFile('/new-torrents/latest', latest?.toString(), function (err: any) {
 		if (err) throw err;
-		console.log('File is created successfully.');
 	});
 
 	return res.status(200).json({ message: 'update complete' });

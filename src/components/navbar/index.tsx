@@ -32,7 +32,7 @@ const NavigationBar = () => {
 			if (data?.user?.image) {
 				data?.user?.image.includes('http')
 					? setUserImg(data?.user?.image)
-					: setUserImg(`/images/${data?.user?.image}`);
+					: setUserImg(`/api/userimages/${data?.user?.image}`);
 			} else {
 				setUserImg('/defaultImg2.png');
 			}

@@ -8,7 +8,6 @@ const Checkyit = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const response = await axios.get(`/api/latest-movie`);
-			console.log(response.data);
 			setNumOfMovies(response.data);
 		};
 		fetchData();

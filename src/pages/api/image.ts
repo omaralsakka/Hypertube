@@ -87,7 +87,6 @@ export default async function image(req: NextApiRequest, res: NextApiResponse) {
 						return res.status(201).json({ message: 'Image updated successfully', filename: filename });
 					// If old image is local, delete it
 					if (oldImage?.image?.search('http') !== 0) {
-						console.log('Deleting old image', oldImage);
 						unlink(`./public/images/${oldImage?.image}`, (err) => {
 							if (err) {
 								console.error(err);

@@ -47,8 +47,6 @@ const ForgotPassword = () => {
 	});
 
 	useEffect(() => {
-		console.log('THIS IS STATUS : ', status);
-		console.log('THIS IS DATA : ', data);
 		if (status !== 'loading' && status !== 'unauthenticated') {
 			window.location.replace('/home');
 		}
