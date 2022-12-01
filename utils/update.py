@@ -10,7 +10,9 @@ data = requests.get(URL)
 dataJson = json.loads(data.content)
 movieNum = dataJson['data']['movies'][0]['id']
 maxLimit=50
-currentMovieCount = 46423
+with open('/new-torrents/latest') as f:
+    first_line = f.readline().strip('\n')
+currentMovieCount = int(first_line)
 if (movieNum > currentMovieCount):
 	numOfFetches = ((movieNum - currentMovieCount)//maxLimit)
 	while (page <= numOfFetches + 1):

@@ -2,6 +2,7 @@
 import { env } from './src/env/server.mjs';
 import { PrismaClient } from '@prisma/client';
 import { CronJob } from 'cron';
+import axios from 'axios';
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -11,10 +12,11 @@ import { CronJob } from 'cron';
  * @constraint {{import('next').NextConfig}}
  */
 
-var job = new CronJob(
-	'* * 4 * *',
+var updateMovies = new CronJob(
+	'0 5 * * *',
 	function () {
-		console.log('You will see this message every minute');
+		console.log('updating movies');
+		axios.get(`/api/update-movie`);
 	},
 	null,
 	true,

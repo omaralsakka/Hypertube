@@ -48,8 +48,10 @@ services:
       dockerfile: Dockerfile_downloader
       context: .
     volumes:
-      - './new-torrents:/new- torrents'
+      - './new-torrents:/new-torrents'
       - './utils:/app'
+    environment:
+      TZ: 'Europe/Helsinki'
 secrets:
   db_password:
     file: ./config/secrets/db_password.secret
