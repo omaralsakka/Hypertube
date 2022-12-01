@@ -1,0 +1,8 @@
+services:
+  app:
+    command:
+      - "npm start"
+    restart: always
+  
+  db:
+    restart: always
