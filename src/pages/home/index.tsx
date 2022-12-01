@@ -152,6 +152,7 @@ const Home = () => {
 				seeds: parseInt(filterInputs.seeds),
 				description: filterInputs.description,
 				genre: filterInputs.genre,
+				// dateUploaded: filterInputs.dateUploaded,
 				page,
 			},
 		});

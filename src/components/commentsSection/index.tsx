@@ -9,7 +9,7 @@ import * as z from 'zod';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 type Inputs = {
 	comment_text: string;
@@ -19,12 +19,12 @@ const schema = z.object({
 });
 
 const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
-	const router = useRouter();
+	// const router = useRouter();
 	const context = trpc.useContext();
 	const { data: session } = useSession();
 	const [addCommentBtn, setAddCommentBtn] = useState(true);
 	const mutation = trpc.comment.createComment.useMutation();
-	const addComment = (imdb_code: number, comment_text: string) => {
+	const addComment = (imdb_code: string, comment_text: string) => {
 		try {
 			mutation.mutate(
 				{
@@ -42,7 +42,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 			console.error(err);
 		}
 	};
-	const { data, error } = trpc.comment.getMovieComments.useQuery({
+	const { data } = trpc.comment.getMovieComments.useQuery({
 		imdb_code: imdb_code,
 	});
 	const {

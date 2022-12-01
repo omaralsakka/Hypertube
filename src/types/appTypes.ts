@@ -5,6 +5,7 @@ import { rootReducer } from '../store/store';
 export type i18translateType = {
 	t: (
 		key: string | TemplateStringsArray | (string | TemplateStringsArray)[],
+		// eslint-disable-next-line @typescript-eslint/ban-types
 		options?: string | TOptions<String> | undefined
 	) => string;
 };

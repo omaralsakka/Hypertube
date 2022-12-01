@@ -6,6 +6,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Users are redirected to this site if they try to login before verifying their email
 const NotVerified = () => {

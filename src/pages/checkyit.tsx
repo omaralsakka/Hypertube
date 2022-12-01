@@ -2,7 +2,7 @@ import { Container, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const checkyit = () => {
+const Checkyit = () => {
 	const [numOfMovies, setNumOfMovies] = useState(0);
 
 	useEffect(() => {
@@ -21,4 +21,4 @@ const checkyit = () => {
 	);
 };
 
-export default checkyit;
+export default Checkyit;

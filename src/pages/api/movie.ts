@@ -75,14 +75,14 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 				take: 20,
 				where: {
 					title: { contains: input.search_term, mode: 'insensitive' },
-					year: { gt: input.fromYear, lt: input.toYear },
+					year: { gte: input.fromYear, lte: input.toYear + 1 },
 					language: { contains: input.language },
 					runtime: {
-						gt: input.fromRunTime,
-						lt: input.toRunTime,
+						gte: input.fromRunTime,
+						lte: input.toRunTime,
 					},
 					rating: {
-						gt: input.imdbRating,
+						gte: input.imdbRating,
 					},
 					description_full: {
 						contains: input.description,
@@ -94,7 +94,7 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 								contains: input.quality,
 							},
 							seeds: {
-								gt: input.seeds,
+								gte: input.seeds,
 							},
 						},
 					},
@@ -105,7 +105,6 @@ const filterSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		res.status(200).json(movies);
 	}
-
 };
 
 export default filterSearch;

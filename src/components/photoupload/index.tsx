@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PhotoUpload = ({
 	currentImage,
@@ -60,7 +61,7 @@ const PhotoUpload = ({
 	}, [file]);
 
 	useEffect(() => {
-		let filepath: string = '';
+		let filepath = '';
 		if (
 			!currentImage ||
 			currentImage.length < 1 ||
