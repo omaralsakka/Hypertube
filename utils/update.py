@@ -54,3 +54,13 @@ if (movieNum > currentMovieCount):
 	df = df[df['id'] > currentMovieCount]
 
 	df.to_csv('/new-torrents/new_movies.tsv', encoding='utf-8', index=False, sep='\t')
+else:
+	with open('/new-torrents/new_torrents.tsv', 'r') as fin:
+		data = fin.read().splitlines(True)
+	with open('/new-torrents/new_torrents.tsv', 'w') as fout:
+		fout.writelines(data[:1])
+	with open('/new-torrents/new_movies.tsv', 'r') as fin:
+		data = fin.read().splitlines(True)
+	with open('/new-torrents/new_movies.tsv', 'w') as fout:
+		fout.writelines(data[:1])
+

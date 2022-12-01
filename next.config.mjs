@@ -1,4 +1,3 @@
-// @ts-check
 import { env } from './src/env/server.mjs';
 import { PrismaClient } from '@prisma/client';
 import { CronJob } from 'cron';
@@ -13,15 +12,16 @@ import axios from 'axios';
  */
 
 var updateMovies = new CronJob(
-	'0 5 * * *',
+	'0 4 * * *',
 	function () {
 		console.log('updating movies');
-		axios.get(`/api/update-movie`);
+		fetch(`http://localhost:3000/api/update-movie`);
 	},
 	null,
 	true,
 	'Europe/Helsinki'
 );
+
 function defineNextConfig(config) {
 	return config;
 }
@@ -39,11 +39,4 @@ export default defineNextConfig({
 		defaultLocale: 'en',
 	},
 	output: 'standalone',
-	// webpack: {
-	// 	config => {
-	// 		config.node = {
-	// 			child_process: 'empty',
-
-	// 		},
-	// },
 });
