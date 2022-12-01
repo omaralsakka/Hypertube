@@ -23,6 +23,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { movieRate, getOmdb } from '../../utils/helperFunctions';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MovieDB = require('moviedb')('99bfb76d8c47a3cb8112f5bf4e6bdd4d');
 
 const streamMovie = (movie: Movie | undefined) => {

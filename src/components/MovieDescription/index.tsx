@@ -75,7 +75,7 @@ const MovieDescription = ({
 									<strong>{movie?.rating}</strong>
 								</Card.Text>
 							</div>
-							<div className="d-flex align-items-center ">
+							<div className="d-flex align-items-center">
 								{/* <Card.Title className="m-0 p-0">
 									{t('movieInfo.country')}:
 								</Card.Title>
@@ -83,18 +83,18 @@ const MovieDescription = ({
 									{movie?.}
 								</Card.Text> */}
 							</div>
-							<div className="d-flex align-items-center mb-1">
+							<div className="d-flex mb-1 align-items-center">
 								<Card.Title className="m-0 p-0">
 									{t('movieInfo.category')}:
 								</Card.Title>
-								<Card.Text className="fs-5 ms-1">
-									{movie &&
+								<div className='d-flex flex-wrap align-items-center'>
+										{movie &&
 										movie.genres.map((obj) => (
-											<span className="me-2" key={obj}>
+											<span className="fs-5 ms-2 p-0" key={obj}>
 												<strong>{t('filterControls.genre.' + obj)}</strong>
 											</span>
 										))}
-								</Card.Text>
+								</div>
 							</div>
 							<div className="d-flex align-items-center mb-1">
 								<Card.Title className="m-0 p-0">
@@ -143,7 +143,7 @@ const MovieDescription = ({
 											>
 												<a target="_blank">
 													<Row className="mb-3">
-														<Col xs={3} sm={1}>
+														<Col xs={3} md={3} lg={1}>
 															{actor.profile_path && (
 																<img
 																	src={

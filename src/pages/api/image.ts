@@ -58,6 +58,7 @@ export default async function image(req: NextApiRequest, res: NextApiResponse) {
 						return res.send('Invalid input variables');
 					}
 					// Create new filename
+					// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 					const filename: string = `${file.newFilename}.${file.mimetype
 						?.split('/')
 						.pop()}`;

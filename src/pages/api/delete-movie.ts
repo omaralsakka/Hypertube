@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { NextApiRequest, NextApiResponse } from 'next';
 import cron from 'node-cron';
 import { prisma } from '../../server/db/client';
@@ -52,4 +53,4 @@ export default async function deleteFiles(){
         })
     });
     task.start();
-};
+}

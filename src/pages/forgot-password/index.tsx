@@ -13,12 +13,13 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
 
-const forgotPassword = () => {
+const ForgotPassword = () => {
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [emailSent, setEmailSent] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
 	const { status, data } = useSession();
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	const onSubmit: SubmitHandler<EmailInput> = (data) => {};
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
@@ -124,4 +125,4 @@ const forgotPassword = () => {
 	);
 };
 
-export default forgotPassword;
+export default ForgotPassword;

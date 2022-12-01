@@ -28,6 +28,7 @@ const MovieScreen = ({
 	const { data: session } = useSession();
 	const mutation = trpc.movies.setMovieAsWatched.useMutation();
 	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
+	
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMovieUrl(

@@ -139,7 +139,9 @@
 		"saveChange": "Save changes",
 		"providerMsg1": "You're logged in with another service provider.",
 		"providerMsg2": "Change your email and password via your provider.",
-		"changesSaved": "Changes saved successfully"
+		"changesSaved": "Changes saved successfully",
+		"givePassword": "Give your old or new password to save changes."
+
 	},
 	"footer": {
 		"developed": "Developed by",

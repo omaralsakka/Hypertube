@@ -52,6 +52,8 @@ export const movieRouter = router({
 							},
 						},
 					},
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
 					genre: {
 						some: {
 							genreName: {
@@ -62,6 +64,8 @@ export const movieRouter = router({
 				},
 				orderBy: { [input.sortBy]: input.orderBy },
 				include: {
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
 					genre: true,
 				},
 			});
