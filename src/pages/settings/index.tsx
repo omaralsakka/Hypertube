@@ -35,14 +35,14 @@ const Settings = () => {
 		name: z.string().min(1, { message: 'Required' }),
 		password: z
 			.string()
-			.regex(new RegExp('^$|.*[A-Z].*'), {
+			.regex(new RegExp('.*[A-Z].*'), {
 				message: 'One uppercase character required',
 			})
-			.regex(new RegExp('^$|.*[a-z].*'), {
+			.regex(new RegExp('.*[a-z].*'), {
 				message: 'One lowercase character required',
 			})
-			.regex(new RegExp('^$|.*\\d.*'), { message: 'One number required' })
-			.regex(new RegExp('^$|(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8}'), {
+			.regex(new RegExp('.*\\d.*'), { message: 'One number required' })
+			.min(8, {
 				message: 'The password must be more than 8 characters in length',
 			})
 			.max(255, {
@@ -68,7 +68,6 @@ const Settings = () => {
 				email: data.email,
 				password: data.password,
 			});
-			// If email was changed
 		} catch (err) {
 			console.error(err);
 		}

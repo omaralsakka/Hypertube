@@ -58,7 +58,7 @@ const job = new CronJob(
 	},
 	null,
 	true,
-	'America/Los_Angeles'
+	'Europe/Helsinki'
 );
 
 export default defineNextConfig({
