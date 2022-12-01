@@ -37,18 +37,17 @@ export const authOptions: NextAuthOptions = {
 				const user = await prisma.user.findFirst({
 					where: { email: credentials.email },
 				});
-				console.log('user from db', user);
 				// User is unauthorized and login is prevented if no user is found or there's no password or user id. If user exists, but there's no password, it means user has signed up with OAuth provider instead of credentials. We can't return anything other than null, though, so it's just generic error in client.
 				if (!user || !user.password || user.id.length < 1) return null;
 				// Check password validity
 				const validPassword = await verify(user.password, credentials.password);
 				if (!validPassword) return null;
-				console.log('Password valid. Returning', {
-					id: user.id,
-					email: user.email,
-					name: user.name,
-					emailVerified: user.emailVerified,
-				});
+				// console.log('Password valid. Returning', {
+				// 	id: user.id,
+				// 	email: user.email,
+				// 	name: user.name,
+				// 	emailVerified: user.emailVerified,
+				// });
 				return {
 					id: user.id,
 					email: user.email,
@@ -113,9 +112,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		// This callback defines login logic. We can approve or deny login depending on user and account data, and redirect to user to appropriate page when denied login. This is not necessary, if we're ok with standard logic.
 		async signIn({ user, account, profile }) {
-			console.log('user in signin callback', user);
 			// Check if user's email has been verified
-			console.log('account in signin callback', account);
 			// This is necessary trick to avoid type errors when accessing user properties
 			const adapterUser = user as AdapterUser;
 			// OAuth providers are trusted by default. Other OAuth providers should be added here too.
@@ -134,35 +131,35 @@ export const authOptions: NextAuthOptions = {
 			if (account?.provider === 'credentials' && adapterUser.emailVerified)
 				return true;
 			// return '/not-verified';
-			return false
+			return false;
 			// Return false to display a default error message
 			// Or you can return a URL to redirect to:
 			// return '/unauthorized'
 		},
 	},
 	// events: {
-		// async signIn(message) { /* on successful sign in */ },
-		// async signOut(message) { /* on signout */ },
-		// async createUser(message) { /* user created */ },
-		// async updateUser(message) {
-		// 	/* user updated - e.g. their email was verified */
-		// 	console.log('User updated event:', message);
-		// },
-		// async linkAccount(message) {
-		// 	// Adding emailVerified time for OAuth users so they don't have to verify email separately
-		// 	console.log('link account event:', message);
-		// 	if (message.account.type === 'oauth' && message.user.email) {
-		// 		await prisma.user.update({
-		// 			data: {
-		// 				emailVerified: new Date(),
-		// 			},
-		// 			where: {
-		// 				email: message.user.email,
-		// 			},
-		// 		});
-		// 	}
-		// },
-		// async session(message) { /* session is active */ },
+	// async signIn(message) { /* on successful sign in */ },
+	// async signOut(message) { /* on signout */ },
+	// async createUser(message) { /* user created */ },
+	// async updateUser(message) {
+	// 	/* user updated - e.g. their email was verified */
+	// 	console.log('User updated event:', message);
+	// },
+	// async linkAccount(message) {
+	// 	// Adding emailVerified time for OAuth users so they don't have to verify email separately
+	// 	console.log('link account event:', message);
+	// 	if (message.account.type === 'oauth' && message.user.email) {
+	// 		await prisma.user.update({
+	// 			data: {
+	// 				emailVerified: new Date(),
+	// 			},
+	// 			where: {
+	// 				email: message.user.email,
+	// 			},
+	// 		});
+	// 	}
+	// },
+	// async session(message) { /* session is active */ },
 	// },
 	// Turn on for debugging
 	debug: true,

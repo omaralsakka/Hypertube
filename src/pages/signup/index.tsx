@@ -20,6 +20,7 @@ import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const Signup = ({
 	providers,
@@ -29,20 +30,20 @@ const Signup = ({
 	const { t }: i18translateType = useTranslation('common');
 	const [success, setSuccess] = useState(false);
 	const router = useRouter();
+	const { status } = useSession();
 
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
-		console.log(email);
 		const user = await signIn('email', {
 			email: email,
 			callbackUrl: 'http://localhost:3000/home',
 		});
 		if (user) setSuccess(true);
-		console.log(user);
 	};
+
 	const schema = z.object({
-		name: z.string().min(1, { message: 'Required' }),
+		name: z.string().min(1, { message: 'Required' }).max(255),
 		password: z
 			.string()
 			.regex(new RegExp('.*[A-Z].*'), {
@@ -58,10 +59,11 @@ const Signup = ({
 			.max(255, {
 				message: "The password can't be more than 255 characters in length",
 			}),
-		email: z.string().email().min(1, { message: 'Required' }),
+		email: z.string().email().min(1, { message: 'Required' }).max(255),
 	});
 
-	const notifyDefault = () => toast.success('Activation email sent');
+	const userCreatedToast = () =>
+		toast.success(t('form.userCreated'), { position: 'top-center' });
 
 	const {
 		watch,
@@ -78,15 +80,13 @@ const Signup = ({
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
-			console.log(data);
 			const response = mutation.mutate({
 				name: data.name,
 				email: data.email,
 				password: data.password,
 			});
-			console.log(response);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
@@ -95,9 +95,20 @@ const Signup = ({
 		setTimeout(() => {
 			router.push('/login');
 		}, 2000);
+		userCreatedToast();
 	}, [mutation.isSuccess]);
+
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
+
 	return (
 		<>
+			{status !== 'unauthenticated' ? (
+				<></>
+			) : (
 			<Container className="d-flex justify-content-center p-3 mb-4">
 				<Card className="w-100 glass-background border-0">
 					<Card.Body>
@@ -178,10 +189,10 @@ const Signup = ({
 										</div>
 									</Form.Group>
 								</Form>
-								{mutation.isError && (
-									<p className="text-danger">{mutation.error.message}</p>
+								{mutation.data !== 'User created successfully' && (
+									<p className="text-danger">{mutation.data}</p>
 								)}
-								{mutation.isSuccess && (
+								{mutation.data === 'User created successfully' && (
 									<p className="text-success">User created</p>
 								)}
 								<Container className="d-flex flex-column align-items-center justify-content-center p-3">
@@ -238,6 +249,7 @@ const Signup = ({
 					</Card.Body>
 				</Card>
 			</Container>
+			)}
 		</>
 	);
 };

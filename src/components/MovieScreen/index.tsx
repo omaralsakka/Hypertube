@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Movie, MoviePostInfo } from '../../types/appTypes';
 import { motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
+import { trpc } from '../../utils/trpc';
+import { RiContactsBookLine } from 'react-icons/ri';
+
 const MovieScreen = ({
 	movie,
 	movieInfo,
@@ -20,21 +24,47 @@ const MovieScreen = ({
 }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinner, setIsSpinner] = useState(false);
-
+	const [subtitles, setSubtitles] = useState([]);
+	const { data: session } = useSession();
+	const mutation = trpc.movies.setMovieAsWatched.useMutation();
+	const mutationUpdateDate = trpc.movies.updateMovieDate.useMutation();
 	useEffect(() => {
-		if (movieInfo.imdb_code.length) {
+		const timeout = setTimeout(() => {
 			setMovieUrl(
 				`/api/stream?imdbCode=${movieInfo.imdb_code}&path=${movieInfo.movie_path}&size=${movieInfo.size}`
 			);
-		}
-	}, [isLoading]);
+		}, 1000);
+		return () => clearTimeout(timeout);
+	}, [movieInfo]);
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		setIsSpinner(true);
-		axios.post('/api/video/', movie).then((resp) => {
-			setMovieInfo(resp.data.data);
-			setIsLoading(true);
-		});
+		if (movie) {
+			try {
+				const result = await axios.post('/api/video/', movie);
+				setMovieInfo(result.data.data);
+				const subsArray = await axios.get(
+					`/api/subtitles?imdbCode=${movie.imdb_code}`
+				);
+				if (subsArray) {
+					setSubtitles(subsArray.data);
+				} else {
+					setSubtitles([]);
+				}
+				mutationUpdateDate.mutate({
+					imdbCode: result.data.data.imdb_code,
+				});
+				setIsLoading(true);
+				const userId: string = session?.token.user.id.toString();
+				const movieId: string = movie.id.toString();
+				mutation.mutate({
+					user_id: userId,
+					movie_id: movieId,
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
 	};
 
 	return (
@@ -50,11 +80,18 @@ const MovieScreen = ({
 									minHeight: '720px',
 									maxHeight: '60vh',
 								}}
-								src={movie.background_image_original}
+								src={
+									movie?.background_image_original
+										? movie?.background_image_original
+										: '/movieDefaultBackground.png'
+								}
 							/>
 						)}
 						{isLoading ? (
-							<MoviePlayer movieUrl={movieUrl} />
+							<MoviePlayer
+								movieUrl={movieUrl}
+								subtitles={subtitles}
+							/>
 						) : (
 							<Card.ImgOverlay>
 								<Container className="d-flex justify-content-center align-items-center h-100">

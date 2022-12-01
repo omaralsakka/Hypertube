@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  // previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -12,12 +13,6 @@ datasource db {
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
-}
-
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -50,9 +45,9 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String
-  email         String   @unique
-  password      String?
+  name          String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  password      String?   @db.VarChar(255)
   emailToken    String?
   emailVerified DateTime?
   image         String?
@@ -60,6 +55,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Comment       Comment[]
+  firstLogin    Int       @default(1)
 }
 
 model VerificationToken {
@@ -73,16 +69,77 @@ model VerificationToken {
 // / 
 model Comment {
   id           Int      @id @unique @default(autoincrement())
-  imdb_code    Int
-  comment_text String?
+  imdb_code    String
+  comment_text String?  @db.VarChar(250)
   userId       String
   created_at   DateTime @default(now())
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Movies {
-  id            String    @id @default(cuid())
-  imdb_code 	String
-  movie_path 	String
-  size			Int
+  id         String @id @default(cuid())
+  imdb_code  String @unique
+  movie_path String
+  size       Int
+  downloaded Int
+  date       String
+}
+
+model Movie {
+  id                        Int       @id @unique
+  url                       String?
+  imdb_code                 String    @unique
+  title                     String
+  title_english             String?
+  title_long                String?
+  slug                      String?
+  year                      Int?
+  rating                    Float?
+  runtime                   Float?
+  summary                   String?
+  description_full          String?
+  synopsis                  String?
+  yt_trailer_code           String?
+  language                  String?
+  mpa_rating                String?
+  background_image          String?
+  background_image_original String?
+  small_cover_image         String?
+  medium_cover_image        String?
+  large_cover_image         String?
+  state                     String?
+  date_uploaded             String?
+  date_uploaded_unix        String?
+  torrent                   Torrent[]
+  genres                    String[]
+}
+
+model Torrent {
+  id                 Int     @id @unique @default(autoincrement())
+  url                String
+  hash               String
+  quality            String
+  type               String?
+  seeds              Int
+  peers              Int
+  size_bytes         BigInt
+  size               String
+  date_uploaded      String
+  date_uploaded_unix String
+  movieId            Int
+  movie              Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  downloaded         Int?
+}
+
+model Subtitles {
+  id        String @id @default(cuid())
+  imdb_code String
+  language  String
+  path      String
+}
+
+model WatchedMovies {
+  id      String   @id @default(cuid())
+  user_id String   @unique
+  movies  String[]
 }

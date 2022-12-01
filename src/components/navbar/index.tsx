@@ -6,20 +6,42 @@ import { motion } from 'framer-motion';
 import LanguageMenu from '../languageMenu';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setPageLanguage } from '../../utils/helperFunctions';
 import LogoutBtn from '../logoutBtn';
+import { trpc } from '../../utils/trpc';
 
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
 	const userInStore = useSelector((state: RootReducer) => state.userReducer);
-	const { data: session } = useSession();
 	const { t }: i18translateType = useTranslation('common');
 	const { i18n } = useTranslation('common');
-
+	const { data: session } = useSession();
+	const [userImg, setUserImg] = useState('/defaultImg2.png');
+	const { data } = trpc.user.get.useQuery(
+		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id },
+		{
+			placeholderData: { id: '', name: 'Name', email: 'Email', password: '' },
+		}
+	);
 	useEffect(() => {
 		setPageLanguage(i18n);
 	}, []);
+	useEffect(() => {
+		if (data?.user) {
+			if (data?.user?.image) {
+				data?.user?.image.includes('http')
+					? setUserImg(data?.user?.image)
+					: setUserImg(`/images/${data?.user?.image}`);
+			} else {
+				setUserImg('/defaultImg2.png');
+			}
+			// data?.user?.image !== null
+			// 	? setUserImg(`/images/${data?.user?.image}`)
+			// 	: setUserImg('/defaultImg2.png');
+		}
+	}, [data]);
+
 	return (
 		<>
 			<Navbar
@@ -37,25 +59,45 @@ const NavigationBar = () => {
 									className="d-inline-block align-top"
 								/>
 							</Navbar.Brand>
+							<Nav.Item className="logout-btn-mobile ms-auto me-3">
+								<motion.div
+									className="box"
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.9 }}
+									transition={{
+										type: 'spring',
+										stiffness: 400,
+										damping: 17,
+									}}
+								>
+									<LogoutBtn t={t} />
+								</motion.div>
+							</Nav.Item>
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
-							<Navbar.Collapse id="basic-navbar-nav">
+							<Navbar.Collapse id="basic-navbar-nav" className="p-1">
 								<Nav className="me-auto d-flex align-items-center w-100">
-									<Nav.Link className=" mx-md-3" href="/home">
+									<Nav.Link className="mx-md-3" href="/home">
 										{t('nav.home')}
 									</Nav.Link>
-
-									<Nav.Link className="mx-md-3" href="/settings">
-										{t('nav.settings')}
-									</Nav.Link>
-									<Nav.Item className="ms-md-auto me-md-3 mb-md-0 mb-1">
+									<Nav.Item className="ms-lg-auto mb-1">
 										<LanguageMenu />
 									</Nav.Item>
-									<Nav.Item className="me-md-3 mb-md-0 mb-3">
-										<Navbar.Text className="fs-5">
-											{session?.user?.name}
-										</Navbar.Text>
+									<Nav.Item className="me-md-3">
+										<Nav.Link href="/settings" className="p-0 m-0">
+											<motion.div
+												className="nav-user-img_container"
+												whileHover={{ scale: [null, 1.2, 1.2] }}
+												transition={{ duration: 0.3 }}
+											>
+												<Image
+													src={userImg}
+													className="avatar-img rounded-circle"
+													alt="user image"
+												/>
+											</motion.div>
+										</Nav.Link>
 									</Nav.Item>
-									<Nav.Item>
+									<Nav.Item className="logout-btn-default">
 										<motion.div
 											className="box"
 											whileHover={{ scale: 1.2 }}

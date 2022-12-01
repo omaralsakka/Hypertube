@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../types/appTypes';
 import { useEffect, useState } from 'react';
 import LoadingLogo from '../components/loadingLogo';
+import axios from 'axios';
 
 export function Component() {
 	const { data: session } = useSession();
@@ -31,7 +32,7 @@ const Home: NextPage = () => {
 	const logoPng = '/logo-hypertube/logo-no-background.png';
 	const { t }: i18translateType = useTranslation('common');
 	const [loader, setLoader] = useState(true);
-
+	const { data: session, status } = useSession();
 	const container = {
 		hidden: { opacity: 1, scale: 0 },
 		visible: {
@@ -63,6 +64,12 @@ const Home: NextPage = () => {
 			setLoader(false);
 		}, 2000);
 	}, []);
+
+	useEffect(() => {
+		if (status !== 'loading' && status !== 'unauthenticated') {
+			window.location.replace('/home');
+		}
+	}, [status]);
 	return (
 		<>
 			<Container

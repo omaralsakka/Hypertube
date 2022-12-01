@@ -17,7 +17,9 @@ export type User = {
 	OAuth: boolean;
 	firstLogin: boolean;
 	emailVerified: string;
+	firstLogin: number;
 };
+//yts data
 export type Movie = {
 	background_image: string;
 	background_image_original: string;
@@ -25,6 +27,8 @@ export type Movie = {
 	date_uploaded_unix: number;
 	description_full: string;
 	genres: [];
+	genreName: string;
+	genre: [];
 	id: number;
 	imdb_code: string;
 	language: string;
@@ -46,7 +50,7 @@ export type Movie = {
 	year: number;
 	yt_trailer_code: string;
 };
-
+//omdb data
 export type MovieData = {
 	Title: string;
 	Year: string;
@@ -75,6 +79,34 @@ export type MovieData = {
 	Response: string;
 };
 
+export type Cast = {
+	adult: string;
+	cast_id: string;
+	character: string;
+	credit_id: string;
+	gender: string;
+	id: string;
+	known_for_department: string;
+	name: string;
+	order: string;
+	original_name: string;
+	popularity: string;
+	profile_path: string;
+};
+
+export type Crew = {
+	adult: string;
+	credit_id: string;
+	department: string;
+	gender: string;
+	id: string;
+	job: string;
+	name: string;
+	original_name: string;
+	popularity: string;
+	profile_path: string;
+};
+
 export type MovieId = string | string[] | undefined;
 
 export type Movies = Movie[] | [];
@@ -86,7 +118,12 @@ export type Comment = {
 	userId: string;
 	created_at: string;
 	comment_text: string;
-	user: { image: string; name: string; created_at: Date };
+	user: {
+		id: any;
+		image: string;
+		name: string;
+		created_at: Date;
+	};
 };
 
 export type Inputs = {
@@ -105,4 +142,27 @@ export type MoviePostInfo = {
 	imdb_code: '';
 	movie_path: '';
 	size: 0;
+};
+
+export type WatchedMoviesUpsert = {
+	id?: string;
+	user_id: string;
+	movies: string;
+};
+
+export type FilterInputs = {
+	fromYear: string;
+	toYear: string;
+	genre: string;
+	imdbRating: string;
+	orderBy: string;
+	sortBy: string;
+	quality: string;
+	seeds: string;
+	fromRunTime: string;
+	language: string;
+	toRunTime: string;
+	limit: string;
+	description: string;
+	page: number;
 };

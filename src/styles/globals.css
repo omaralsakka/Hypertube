@@ -22,6 +22,10 @@ body {
 	height: auto;
 }
 
+.searchNavBar {
+	width: 75%;
+}
+
 .glass-background {
 	background: #ffffff33;
 	border-radius: 10px;
@@ -54,7 +58,7 @@ a {
 
 .movieCard-OverLay:hover {
 	background: #ffffff33;
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	box-shadow: 0 4px 30px #0000001a;
 	background-color: rgba(0, 0, 0, 0.185);
 	/* backdrop-filter: blur(5px);
@@ -69,7 +73,7 @@ a {
 .movieCard:hover .movieCard-Body {
 	opacity: 1;
 	background: #ffffff9a;
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	box-shadow: 0 4px 30px #0000001a;
 	backdrop-filter: blur(5px);
 	-webkit-backdrop-filter: blur(10px);
@@ -199,6 +203,15 @@ input[type='file'] {
 	max-height: 140px;
 }
 
+.nav-user-img_container {
+	width: 40px;
+	height: 40px;
+}
+
+.logout-btn-mobile {
+	display: none;
+}
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -230,6 +243,12 @@ input[type='file'] {
 }
 
 @media only screen and (min-width: 460px) and (max-width: 1280px) {
+	.logout-btn-mobile {
+		display: block;
+	}
+	.logout-btn-default {
+		display: none;
+	}
 	.movieOverlay-Info {
 		display: none;
 	}
@@ -250,10 +269,20 @@ input[type='file'] {
 }
 
 @media only screen and (max-width: 450px) {
+	.logout-btn-mobile {
+		display: block;
+	}
+	.logout-btn-default {
+		display: none;
+	}
+
 	.homeMovieStyle {
 		max-width: 30vw;
 		min-width: 20vw;
 		max-height: 30vh;
+	}
+	.searchNavBar {
+		width: 100%;
 	}
 	.bigBtn {
 		display: none;

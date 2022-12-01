@@ -1,7 +1,6 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { Prisma } from '@prisma/client';
-import { TRPCError } from '@trpc/server';
 import { hash } from 'argon2';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken } from '../../../utils/promisifyJWT';
@@ -12,25 +11,20 @@ export const userRouter = router({
 	create: publicProcedure
 		.input(
 			z.object({
-				name: z.string().min(1),
-				email: z.string().email(),
-				password: z.string().min(1).max(32),
+				name: z.string().min(1).max(255),
+				email: z.string().email().max(255),
+				password: z.string().min(1).max(255),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
 			// Check if exists
 			const checkUser = await ctx.prisma.user.findUnique({
 				where: {
 					email: input.email,
 				},
 			});
-			if (checkUser)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'User already exists',
-					cause: input.email,
-				});
+			if (checkUser) return 'User already exists';
+
 			// Hash password
 			const hashedPassword = await hash(input.password);
 			// Create token
@@ -47,19 +41,16 @@ export const userRouter = router({
 					password: hashedPassword,
 				} as Prisma.UserCreateInput,
 			});
-			console.log(newUser);
 			// Send verification email
 			if (await sendEmailVerification(input.email, token))
-				return {
-					message: 'User created successfully',
-				};
+				return 'User created successfully';
 		}),
 	// Update user for Settings page
 	update: publicProcedure
 		.input(
 			z.object({
 				id: z.string().min(1),
-				email: z.string().email(),
+				email: z.string().email().max(255),
 				password: z
 					.string()
 					.regex(new RegExp('^$|.*[A-Z].*'), {
@@ -75,11 +66,10 @@ export const userRouter = router({
 					.max(255, {
 						message: "The password can't be more than 255 characters in length",
 					}),
-				name: z.string().min(1).max(30),
+				name: z.string().min(1).max(255),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
-			console.log(input);
 			const user = await ctx.prisma.user.findUnique({
 				where: {
 					id: input.id,
@@ -91,12 +81,7 @@ export const userRouter = router({
 					emailVerified: true,
 				},
 			});
-			if (!user)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.id,
-				});
+			if (!user) return 'No matching user found';
 			// Check if email has changed
 			const verified = input.email === user.email ? user.emailVerified : null;
 			if (!verified) {
@@ -107,11 +92,7 @@ export const userRouter = router({
 					},
 				});
 				if (checkUser && checkUser.email !== user.email)
-					throw new TRPCError({
-						code: 'BAD_REQUEST',
-						message: 'Email address is already in use',
-						cause: input.email,
-					});
+					return 'Email address is already in use';
 				// Create token
 				const token = await signEmailToken(input.email);
 				// Send verification email
@@ -132,15 +113,8 @@ export const userRouter = router({
 					id: input.id,
 				},
 			});
-			if (!updated)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.email,
-				});
-			return {
-				message: 'User information updated successfully',
-			};
+			if (!updated) return 'No matching user found';
+			return 'User information updated successfully';
 		}),
 	// Get user for Settings and Profile pages
 	get: publicProcedure
@@ -150,7 +124,6 @@ export const userRouter = router({
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			console.log(input);
 			const user = await ctx.prisma.user.findUnique({
 				where: {
 					id: input.id,
@@ -169,42 +142,53 @@ export const userRouter = router({
 				},
 			});
 			// if (!user)
+			//	return ('No matching user found')
 			// 	throw new TRPCError({
 			// 		code: 'BAD_REQUEST',
 			// 		message: 'No matching user found',
 			// 		cause: input.id,
 			// 	});
 			return {
-				message: 'User information retrieved successfully',
-				user: user,
-			};
-		}),
-	// Set firstLogin false
-	firstLogin: publicProcedure
-		.input(
-			z.object({
-				id: z.string().min(1).max(30),
-			})
-		)
-		.mutation(async ({ input, ctx }) => {
-			console.log(input);
-			// Update firstLogin
-			const updated = await ctx.prisma.user.update({
-				data: {
-					firstLogin: false,
-				},
-				where: {
-					id: input.id,
-				},
-			});
-			if (!updated)
-				throw new TRPCError({
-					code: 'BAD_REQUEST',
-					message: 'No matching user found',
-					cause: input.id,
-				});
-			return {
 				message: 'User information updated successfully',
 			};
+		}),
+
+	getProfile: publicProcedure
+		.input(z.string().min(1).max(30))
+		.query(async ({ input, ctx }) => {
+			const user = await ctx.prisma.user.findUnique({
+				where: {
+					id: input,
+				},
+				select: {
+					id: true,
+					name: true,
+					email: true,
+					image: true,
+					emailVerified: true,
+					accounts: {
+						select: {
+							type: true,
+						},
+					},
+					firstLogin: true,
+				},
+			});
+			return {
+				user,
+			};
+		}),
+
+	updateFirstLogin: publicProcedure
+		.input(z.string().min(1).max(30))
+		.mutation(async ({ input, ctx }) => {
+			const updatedUser = await ctx.prisma?.user.update({
+				where: {
+					id: input,
+				},
+				data: {
+					firstLogin: 0,
+				},
+			});
 		}),
 });

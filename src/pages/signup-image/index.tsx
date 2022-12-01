@@ -2,7 +2,8 @@ import { Container, Card } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-import PhotoUploadSignup from '../../components/photouploadsignup';
+import PhotoUpload from '../../components/photoupload';
+import LoadingLogo from '../../components/loadingLogo';
 
 const SignupImage = () => {
 	const { t }: i18translateType = useTranslation('common');
@@ -16,7 +17,7 @@ const SignupImage = () => {
 							<Card.Title className="display-6 text-dark mb-5">
 								<strong>{t('signupImage.title')}</strong>
 							</Card.Title>
-							<PhotoUploadSignup />
+
 							<Card.Title className="mb-5 w-50 text-center">
 								{t('signupImage.body')}
 							</Card.Title>

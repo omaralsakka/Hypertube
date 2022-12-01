@@ -37,9 +37,21 @@ const LanguageMenu = () => {
 				id="dropdown-basic-button"
 				title={t(`nav.${selectedLang}`)}
 				className="border-0"
-				align="end"
+				align={{ lg: 'end' }}
 			>
 				<Container className="p-0">
+					<Dropdown.Item onClick={() => updatePageLanguage('cn')}>
+						<Row className="d-flex align-items-center">
+							<Col>
+								<div style={{ maxWidth: '30px' }}>
+									<Image src="/china.png" fluid />
+								</div>
+							</Col>
+							<Col>
+								<span>{t('nav.cn')}</span>
+							</Col>
+						</Row>
+					</Dropdown.Item>
 					<Dropdown.Item onClick={() => updatePageLanguage('en')}>
 						<Row className="d-flex align-items-center">
 							<Col>

@@ -46,4 +46,10 @@ package-lock.json
 #movie files
 /movies/*
 
+#subtitles
+/subtitles/*
+
 /config/secrets
+
+#uploaded Images
+/public/images/*.jpeg
