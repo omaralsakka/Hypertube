@@ -137,7 +137,8 @@
 		"saveChange": "Tallenna",
 		"providerMsg1": "Olet kirjautunut sisään toisen palveluntarjoajan kanssa.",
 		"providerMsg2": "Vaihda sähköpostiosoitteesi ja salasanasi palveluntarjoajan kautta.",
-		"changesSaved": "Muutokset tallennettu onnistuneesti"
+		"changesSaved": "Muutokset tallennettu onnistuneesti",
+		"givePassword": "Tallenna muutokset antamalla vanha tai uusi salasana."
 	},
 	"footer": {
 		"developed": "Kehittäjät",

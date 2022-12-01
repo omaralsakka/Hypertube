@@ -113,7 +113,7 @@ const Settings = () => {
 										setSuccess={setSuccess}
 									/>
 									<Container className="text-center fs-3 mb-4">
-										{session?.user?.name}
+										{data?.user?.name}
 									</Container>
 									<Container className="d-flex justify-content-center">
 										<Form onSubmit={handleSubmit(onSubmit)}>
@@ -194,6 +194,7 @@ const Settings = () => {
 														</p>
 													) : null}
 												</div>
+												<p className="mb-4 d-flex align-items-center justify-content-center">{t('settings.givePassword')}</p>
 												<div
 													className="mb-4 d-flex align-items-center justify-content-center"
 													style={{ minHeight: '5vh' }}
