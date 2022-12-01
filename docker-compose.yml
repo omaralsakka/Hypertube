@@ -1,0 +1,70 @@
+version: '3.9'
+services:
+  app:
+    container_name: 'hypertube_app'
+    image: node
+    volumes:
+      - './:/app'
+      - '/app/movies'
+      - '/app/subtitles'
+    working_dir: '/app'
+    entrypoint: '/bin/bash -c'
+    command:
+      - 'npm run dev'
+    ports:
+      - '3000:3000'
+    environment:
+      TZ: 'Europe/Helsinki'
+
+  db:
+    container_name: 'hypertube_db'
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - './new-torrents:/new-torrents'
+    secrets:
+      - db_password
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_DB: hypertube
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      TZ: 'Europe/Helsinki'
+      PGTZ: 'Europe/Helsinki'
+      DOCKER_BUILDKIT: 1 docker build .
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      ADMINER_DESIGN: pepa-linha
+  downloader:
+    container_name: 'hypertube_downloader'
+    build:
+      dockerfile: Dockerfile_downloader
+      context: .
+    volumes:
+      - './new-torrents:/new-torrents'
+      - './utils:/app'
+    environment:
+      TZ: 'Europe/Helsinki'
+secrets:
+  db_password:
+    file: ./config/secrets/db_password.secret
+  server_token:
+    file: ./config/secrets/server_token.secret
+  refresh_token:
+    file: ./config/secrets/refresh_token.secret
+  email_password:
+    file: ./config/secrets/email_password.secret
+volumes:
+  db-data:
+    name: hypertube-data
+# Create secrets with:
+# printf "%s" "$(openssl rand -base64 20)" > db_password.secret
+# printf "%s" "$(openssl rand -base64 10)" > server_token.secret
+# printf "%s" "$(openssl rand -base64 10)" > refresh_token.secret
