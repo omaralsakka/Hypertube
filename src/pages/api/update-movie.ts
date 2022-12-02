@@ -67,6 +67,14 @@ const updateMovie = async (_req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
+	fs.writeFile(
+		'/app/new-torrents/latest',
+		latest?.toString(),
+		function (err: any) {
+			if (err) throw err;
+		}
+	);
+
 	return res.status(200).json({ message: 'update complete' });
 };
 export default updateMovie;
