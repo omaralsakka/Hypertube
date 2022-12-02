@@ -111,7 +111,7 @@ export const authOptions: NextAuthOptions = {
 			return session;
 		},
 		// This callback defines login logic. We can approve or deny login depending on user and account data, and redirect to user to appropriate page when denied login. This is not necessary, if we're ok with standard logic.
-		async signIn({ user, account, profile }) {
+		async signIn({ user, account }) {
 			// Check if user's email has been verified
 			// This is necessary trick to avoid type errors when accessing user properties
 			const adapterUser = user as AdapterUser;

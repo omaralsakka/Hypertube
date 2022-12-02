@@ -12,8 +12,8 @@ const getLatestMovie = async () => {
 	return latest[0]?.id;
 };
 
-const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
-	const movies = await prisma.$queryRaw`COPY "Movie"(
+const updateMovie = async (_req: NextApiRequest, res: NextApiResponse) => {
+	await prisma.$queryRaw`COPY "Movie"(
       id,
       url,
       imdb_code,
@@ -44,7 +44,7 @@ const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
       '/new-torrents/new_movies.tsv' DELIMITERS E'\t' CSV header;
     `;
 
-	const torrents = await prisma.$queryRaw`COPY "Torrent"(
+	await prisma.$queryRaw`COPY "Torrent"(
       url,
       hash,
       quality,
@@ -61,6 +61,11 @@ const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
       '/new-torrents/new_torrents.tsv' DELIMITERS E'\t' CSV header;`;
 
 	const latest = await getLatestMovie();
+  if (latest) {
+    fs.writeFile('/new-torrents/latest', latest.toString(), function (err: any) {
+      if (err) throw err;
+    });
+  }
 
 	fs.writeFile(
 		'/app/new-torrents/latest',

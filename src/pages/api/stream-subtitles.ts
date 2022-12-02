@@ -16,10 +16,8 @@ export default async function streamSubtitles(
 ) {
 	const session: Session | null = await unstable_getServerSession(req, res, authOptions)
 	if(session?.token) {
-		// eslint-disable-next-line @typescript-eslint/no-inferrable-types
-		const regexPath: RegExp = /subpath=(.*)/;
-		// eslint-disable-next-line prefer-const
-		let subPath: any = req.url?.match(regexPath);
+		const regexPath = /subpath=(.*)/;
+		const subPath: any = req.url?.match(regexPath);
 		if(subPath) {
 			fs.readFile(subPath[1], (err, data) => {
 				if (err) {
