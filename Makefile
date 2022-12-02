@@ -52,10 +52,12 @@ reset-db:
 
 fclean: clean reset-db
 
-prisma-push:
-		docker-compose run --rm app "npx prisma db push && npm i"
+postinstall:
+	docker-compose run --rm app "npm run postinstall"
 
+prisma-push:
+	docker-compose run --rm app "npx prisma db push && npm i"
 prisma-format:
-		docker-compose run --rm app "npx prisma format"
+	docker-compose run --rm app "npx prisma format"
 prisma-migrate:
-		docker-compose run --rm app "npx prisma migrate dev"
+	docker-compose run --rm app "npx prisma migrate dev"
