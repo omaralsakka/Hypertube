@@ -35,7 +35,7 @@ const CommentRow = ({ comment }: { comment: Comment }) => {
 		if (comment.user.image) {
 			comment.user.image.includes('http')
 				? setUserImg(comment.user.image)
-				: setUserImg('/images/' + comment.user.image);
+				: setUserImg('/api/images/' + comment.user.image);
 		}
 	}, [comment.user.image]);
 	return (

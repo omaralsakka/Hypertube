@@ -48,7 +48,7 @@ const PhotoUpload = ({
 			});
 			if (response.status === 201) {
 				const data = await response.json();
-				if (data.filename) setPhoto(`/images/${data.filename}`);
+				if (data.filename) setPhoto(`/api/images/${data.filename}`);
 				setSuccess(1);
 			} else {
 				setFileError(true);
@@ -67,7 +67,7 @@ const PhotoUpload = ({
 			filepath = '/defaultImg2.png';
 		else if (currentImage && currentImage.search('http') > -1)
 			filepath = currentImage;
-		else filepath = `/images/${currentImage}`;
+		else filepath = `/api/images/${currentImage}`;
 		setPhoto(filepath);
 	}, [currentImage]);
 
@@ -104,7 +104,7 @@ const PhotoUpload = ({
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
 					<img
-						src={`${photo}`}
+						src={photo}
 						alt="user profile image"
 						className="avatar-img rounded-circle"
 						onError={({ currentTarget }) => {
