@@ -4,7 +4,8 @@ create-app:
 create-db:
 	docker-compose up -d --force-recreate db
 
-create: create-app create-db
+create:
+	docker-compose up -d --force-recreate
 
 up:
 	docker-compose up
@@ -57,7 +58,11 @@ postinstall:
 
 prisma-push:
 	docker-compose run --rm app "npx prisma db push && npm i"
+
 prisma-format:
 	docker-compose run --rm app "npx prisma format"
+
 prisma-migrate:
 	docker-compose run --rm app "npx prisma migrate dev"
+
+eval: create install build prisma-push up-production
