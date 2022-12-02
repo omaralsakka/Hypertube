@@ -1,5 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from "./auth/[...nextauth]"
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -26,7 +24,7 @@ export default async function subtitles(
 ) {
 	const session = await unstable_getServerSession(req, res, authOptions)
 	if(session?.token) {
-		const regexImdb: RegExp = /imdbCode=(.*)/;
+		const regexImdb = /imdbCode=(.*)/;
 		const imdbCode: RegExpMatchArray | string | null | undefined = req.url?.match(regexImdb);
 	
 		if(imdbCode) {
@@ -36,7 +34,7 @@ export default async function subtitles(
 				},
 			});
 		
-			let subtitleTracks: SubtitlesObj[] = [];
+			const subtitleTracks: SubtitlesObj[] = [];
 		
 			subs?.forEach((sub: SubtitlesDbObj) => { 
 				subtitleTracks.push({
