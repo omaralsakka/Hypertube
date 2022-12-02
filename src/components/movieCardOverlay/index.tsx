@@ -3,7 +3,6 @@ import { Movie } from '../../types/appTypes';
 import { AiFillStar } from 'react-icons/ai';
 import { movieRate } from '../../utils/helperFunctions';
 import { useEffect, useState } from 'react';
-import { MovieData } from '../../types/appTypes';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
@@ -21,7 +20,7 @@ const MovieCardOverlay = ({
 
 	const { data: session } = useSession();
 	const { data: watchedMovies } = trpc.movies.getWatchedMovies.useQuery(
-		session?.token.user.id
+		session?.token.user.id || '0'
 	);
 	const [watched, setWatched] = useState(false);
 

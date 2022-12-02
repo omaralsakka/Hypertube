@@ -1,8 +1,8 @@
 import { Card } from 'react-bootstrap';
-import { Movie } from '../../types/appTypes';
 import Link from 'next/link';
 import SuggestionCardOverlay from '../suggestionCardOverlay';
 import { motion } from 'framer-motion';
+
 const SuggestionCard = ({
 	movie,
 	style,

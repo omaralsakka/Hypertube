@@ -1,10 +1,7 @@
 import { Form, Container } from 'react-bootstrap';
-// import ListGroup from 'react-bootstrap/ListGroup';
 import { FilterInputs } from '../../types/appTypes';
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-var
-var _ = require('lodash');
+import { range } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import AdvancedSearch from '../advancedSearch';
 import { i18translateType } from '../../types/appTypes';
 
@@ -16,7 +13,7 @@ const FilterControls = ({
 	filterInputs: FilterInputs;
 }) => {
 	const { t }: i18translateType = useTranslation('common');
-	const [genres, setGenres] = useState([
+	const genres = [
 		'',
 		'Adventure',
 		'Action',
@@ -33,8 +30,8 @@ const FilterControls = ({
 		'Thriller',
 		'War',
 		'Western',
-	]);
-	const [languages, setLanguages] = useState([
+	];
+	const languages = [
 		'',
 		'en',
 		'fi',
@@ -52,12 +49,10 @@ const FilterControls = ({
 		'pt',
 		'ro',
 		'hu',
-	]);
+	];
 	// A Trip to the Moon (1902) is considered the first movie released
-	const [years, setYears] = useState(
-		_.range(1902 - 1, new Date().getFullYear() + 2)
-	);
-	const [ratings, setRatings] = useState(_.range(0, 10));
+	const years = range(1902 - 1, new Date().getFullYear() + 2);
+	const ratings = range(0, 10);
 	return (
 		<>
 			<AdvancedSearch>

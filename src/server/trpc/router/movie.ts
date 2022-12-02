@@ -1,8 +1,5 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
-import { prisma } from '../../db/client';
-import { MdDescription } from 'react-icons/md';
 
 export const movieRouter = router({
 	search: publicProcedure

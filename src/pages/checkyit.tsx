@@ -1,4 +1,4 @@
-import { Container, Card } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 

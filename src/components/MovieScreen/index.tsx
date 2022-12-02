@@ -7,7 +7,6 @@ import { Movie, MoviePostInfo } from '../../types/appTypes';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { trpc } from '../../utils/trpc';
-import { RiContactsBookLine } from 'react-icons/ri';
 
 const MovieScreen = ({
 	movie,
@@ -56,8 +55,9 @@ const MovieScreen = ({
 					imdbCode: result.data.data.imdb_code,
 				});
 				setIsLoading(true);
-				const userId: string = session?.token.user.id.toString();
+				const userId: string | undefined = session?.token.user.id.toString();
 				const movieId: string = movie.id.toString();
+				if (!userId || !movieId) return
 				mutation.mutate({
 					user_id: userId,
 					movie_id: movieId,

@@ -26,6 +26,7 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 	const mutation = trpc.comment.createComment.useMutation();
 	const addComment = (imdb_code: string, comment_text: string) => {
 		try {
+			if (!session?.token.user.id) return
 			mutation.mutate(
 				{
 					imdb_code,
@@ -46,12 +47,9 @@ const CommentsSection = ({ imdb_code }: { imdb_code: string }) => {
 		imdb_code: imdb_code,
 	});
 	const {
-		watch,
 		register,
 		handleSubmit,
-		getValues,
 		reset,
-		formState: { errors, isSubmitting, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),

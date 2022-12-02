@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router';
 import { Container, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { User } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
 import { trpc } from '../../utils/trpc';
 
 const ProfilePage = () => {
 	const router = useRouter();
 	const { status } = useSession();
-	// let userInfo: any;
 	const userInfo: any = trpc.user.getProfile.useQuery(
 		!router?.query?.userId ? '0' : (router?.query?.userId as string)
 	);

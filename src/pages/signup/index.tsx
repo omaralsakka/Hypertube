@@ -1,21 +1,20 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, FormCheck } from 'react-bootstrap';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { trpc } from '../../utils/trpc';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Inputs } from '../../types/appTypes';
 import { Container, Card, Form, Row, Col, Image } from 'react-bootstrap';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { HiUser } from 'react-icons/hi';
-import { AiOutlineMail } from 'react-icons/ai';
 import { BsGithub } from 'react-icons/bs';
 import { InferGetServerSidePropsType } from 'next';
-import { signIn, getProviders, signOut } from 'next-auth/react';
+import { signIn, getProviders } from 'next-auth/react';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
@@ -28,19 +27,8 @@ const Signup = ({
 	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [passType, setPassType] = useState('password');
 	const { t }: i18translateType = useTranslation('common');
-	const [success, setSuccess] = useState(false);
 	const router = useRouter();
 	const { status } = useSession();
-
-	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		const email = getValues('email');
-		const user = await signIn('email', {
-			email: email,
-			callbackUrl: 'http://localhost:3000/home',
-		});
-		if (user) setSuccess(true);
-	};
 
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }).max(255),
@@ -66,11 +54,10 @@ const Signup = ({
 		toast.success(t('form.userCreated'), { position: 'top-center' });
 
 	const {
-		watch,
 		register,
 		handleSubmit,
 		getValues,
-		formState: { errors, isSubmitting, isDirty, isValid },
+		formState: { errors, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
@@ -80,7 +67,7 @@ const Signup = ({
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
-			const response = mutation.mutate({
+			mutation.mutate({
 				name: data.name,
 				email: data.email,
 				password: data.password,

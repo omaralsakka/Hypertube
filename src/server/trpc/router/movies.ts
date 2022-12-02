@@ -19,7 +19,7 @@ export const moviesRouter = router({
 				isWatched = true;
 			}
 			if(isWatched === false){
-				const watchedMovie = await ctx.prisma.watchedMovies.upsert({
+				await ctx.prisma.watchedMovies.upsert({
 					where: {
 						user_id: input.user_id,
 					  },
@@ -45,7 +45,7 @@ export const moviesRouter = router({
 	).mutation(async ({input, ctx}) => {
 		let timestamp: Date | string = new Date();
 		timestamp = timestamp.toString();
-		const newDate = await ctx.prisma.movies.update({
+		await ctx.prisma.movies.update({
 			where: {
 				imdb_code: input.imdbCode,
 			  },
@@ -79,7 +79,7 @@ export const moviesRouter = router({
 	deleteMovie: publicProcedure
 	.input(z.string())
 	.query(async ({input, ctx}) => {
-		const deletedMovies: any = await ctx.prisma.movies.delete({
+		await ctx.prisma.movies.delete({
 			where: {
 				imdb_code: input
 			}

@@ -25,6 +25,7 @@ const PhotoUpload = ({
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (!event.target.files || event.target.files.length !== 1) {
 			setFileAmountError(true);
+			selectImgError();
 			return;
 		}
 		if (event.target.files.length) {
@@ -34,10 +35,6 @@ const PhotoUpload = ({
 				setFile(event.target.files[0]);
 			}
 		}
-
-		// setFileError(false);
-		// setFileAmountError(false);
-		// setFile(event.target.files[0]);
 	};
 
 	useEffect(() => {
@@ -106,7 +103,6 @@ const PhotoUpload = ({
 						/>
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
-					{/* <div className="settingsImg"> */}
 					<img
 						src={`${photo}`}
 						alt="user profile image"

@@ -2,8 +2,6 @@ import { Container, Card } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
-import PhotoUpload from '../../components/photoupload';
-import LoadingLogo from '../../components/loadingLogo';
 
 const SignupImage = () => {
 	const { t }: i18translateType = useTranslation('common');

@@ -1,8 +1,7 @@
-import { MouseEvent, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Container, Card, Form, Button } from 'react-bootstrap';
@@ -14,21 +13,17 @@ import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
 
 const ForgotPassword = () => {
-	const LogoPng = 'logo-hypertube/logo-no-background.png';
 	const [emailSent, setEmailSent] = useState(false);
 	const { t }: i18translateType = useTranslation('common');
-	const { status, data } = useSession();
+	const { status } = useSession();
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	const onSubmit: SubmitHandler<EmailInput> = (data) => {};
 	const schema = z.object({
 		email: z.string().min(1, { message: 'Required' }),
 	});
 
-	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
+	const onSubmit = async () => {
 		const email = getValues('email');
-		const user = await signIn('email', {
+		await signIn('email', {
 			email: email,
 			callbackUrl: 'http://localhost:3000/settings',
 		});
@@ -36,11 +31,10 @@ const ForgotPassword = () => {
 	};
 	
 	const {
-		watch,
 		register,
 		handleSubmit,
 		getValues,
-		formState: { errors, isSubmitting, isDirty, isValid },
+		formState: { isDirty, isValid },
 	} = useForm<EmailInput>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
@@ -98,7 +92,6 @@ const ForgotPassword = () => {
 														type="submit"
 														variant="outline-warning"
 														size="lg"
-														onClick={onEmailSubmit}
 														disabled={!isValid || !isDirty}
 													>
 														{t('form.submit')}

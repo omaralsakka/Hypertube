@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import store from '../store/store';
 import Head from 'next/head';
 import Layout from '../components/layout';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,

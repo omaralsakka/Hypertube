@@ -40,7 +40,7 @@ const Login = ({
 	const onEmailSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		const email = getValues('email');
-		const user = await signIn('email', {
+		await signIn('email', {
 			email: email,
 			callbackUrl: 'http://localhost:3000/home',
 		});
@@ -69,11 +69,10 @@ const Login = ({
 	});
 
 	const {
-		watch,
 		register,
 		handleSubmit,
 		getValues,
-		formState: { errors, isSubmitting, isDirty, isValid },
+		formState: { errors, isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
