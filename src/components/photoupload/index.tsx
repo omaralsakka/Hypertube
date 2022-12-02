@@ -48,7 +48,8 @@ const PhotoUpload = ({
 			});
 			if (response.status === 201) {
 				const data = await response.json();
-				if (data.filename) setPhoto(`/api/images/${data.filename}`);
+				if (data.filename) setPhoto(`/api/userimages/${data.filename}`);
+				console.log('uploaded filename', data.filename)
 				setSuccess(1);
 			} else {
 				setFileError(true);
@@ -67,7 +68,8 @@ const PhotoUpload = ({
 			filepath = '/defaultImg2.png';
 		else if (currentImage && currentImage.search('http') > -1)
 			filepath = currentImage;
-		else filepath = `/api/images/${currentImage}`;
+		else filepath = `/api/userimages/${currentImage}`;
+		console.log('setting filepath to', filepath)
 		setPhoto(filepath);
 	}, [currentImage]);
 

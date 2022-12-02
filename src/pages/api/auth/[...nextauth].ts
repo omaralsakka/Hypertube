@@ -4,8 +4,6 @@ import GitHubProvider from 'next-auth/providers/github';
 import FortyTwoProvider from 'next-auth/providers/42-school';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import EmailProvider from 'next-auth/providers/email';
-
-// Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../server/db/client';
 import { verify } from 'argon2';
@@ -162,7 +160,7 @@ export const authOptions: NextAuthOptions = {
 	// async session(message) { /* session is active */ },
 	// },
 	// Turn on for debugging
-	debug: true,
+	// debug: true,
 };
 
 export default NextAuth(authOptions);

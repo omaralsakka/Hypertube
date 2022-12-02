@@ -27,7 +27,7 @@ services:
       - './new-torrents:/new-torrents'
       - './utils/movies_1.tsv:/movies_1.tsv'
       - './utils/movies_2.tsv:/movies_2.tsv'
-      - './utils/torrents.csv:/torrents.csv'
+      - './utils/torrents.tsv:/torrents.tsv'
     secrets:
       - db_password
     environment:
