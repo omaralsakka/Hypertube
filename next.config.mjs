@@ -12,7 +12,7 @@ import { CronJob } from 'cron';
  */
 
 var updateMovies = new CronJob(
-	'0 4 * * *',
+	'0 5 * * *',
 	function () {
 		fetch(`http://localhost:3000/api/update-movie`);
 	},
@@ -28,7 +28,6 @@ function defineNextConfig(config) {
 const job = new CronJob(
 	'0 23 * * *',
 	async function () {
-
 		const prisma =
 			global.prisma ||
 			new PrismaClient({

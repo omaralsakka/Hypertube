@@ -62,9 +62,13 @@ const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const latest = await getLatestMovie();
 
-	fs.writeFile('/new-torrents/latest', latest?.toString(), function (err: any) {
-		if (err) throw err;
-	});
+	fs.writeFile(
+		'/app/new-torrents/latest',
+		latest?.toString(),
+		function (err: any) {
+			if (err) throw err;
+		}
+	);
 
 	return res.status(200).json({ message: 'update complete' });
 };
