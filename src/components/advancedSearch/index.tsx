@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
+
 const AdvancedSearch = ({ children }: { children: React.ReactNode }) => {
 	const [show, setShow] = useState(false);
 	const { t }: i18translateType = useTranslation('common');

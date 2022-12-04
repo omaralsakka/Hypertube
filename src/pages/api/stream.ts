@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { NextApiRequest, NextApiResponse } from 'next';
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import { unstable_getServerSession } from 'next-auth/next';
