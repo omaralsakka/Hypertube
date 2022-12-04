@@ -27,7 +27,8 @@ const MovieCardOverlay = ({
 	useEffect(() => {
 		if (movie?.id) {
 			if (watchedMovies?.movies) {
-				watchedMovies.movies.movies.includes(`${movie.id}`) && setWatched(true);
+				watchedMovies.movies.user_movies.includes(`${movie.id}`) &&
+					setWatched(true);
 			}
 		}
 	}, [watchedMovies]);

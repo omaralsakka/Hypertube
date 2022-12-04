@@ -138,7 +138,7 @@ model Subtitles {
 }
 
 model WatchedMovies {
-  id      String   @id @default(cuid())
+  id      String   @id @default(cuid()) @unique
   user_id String   @unique
-  movies  String[]
+  user_movies  String[]
 }
