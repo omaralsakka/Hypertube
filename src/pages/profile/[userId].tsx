@@ -33,7 +33,7 @@ const ProfilePage = () => {
 			if (profileImage) {
 				profileImage.includes('http')
 					? image = profileImage
-					: image = `/images/${profileImage}`;
+					: image = `/api/userimages/${profileImage}`;
 			} else {
 				image = '/defaultImg2.png';
 			}
