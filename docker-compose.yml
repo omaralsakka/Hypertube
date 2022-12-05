@@ -24,6 +24,10 @@ services:
       - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
+      - './new-torrents:/new-torrents'
+      - './utils/movies_1.tsv:/movies_1.tsv'
+      - './utils/movies_2.tsv:/movies_2.tsv'
+      - './utils/torrents.tsv:/torrents.tsv'
     secrets:
       - db_password
     environment:

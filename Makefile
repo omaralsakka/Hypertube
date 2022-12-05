@@ -59,3 +59,5 @@ prisma-format:
 		docker-compose run --rm app "npx prisma format"
 prisma-migrate:
 		docker-compose run --rm app "npx prisma migrate dev"
+
+eval: create install build prisma-push up-production

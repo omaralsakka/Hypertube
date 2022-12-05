@@ -36,7 +36,7 @@ const download = async (
 let langObj = {
 	en: 0,
 	fi: 0,
-	fr: 0,
+	cn: 0,
 };
 
 const langParser = (lang: string) => {
@@ -48,9 +48,9 @@ const langParser = (lang: string) => {
 		langObj.fi += 1;
 		if (langObj.fi >= 2) return false;
 		return true;
-	} else if (lang === 'fr') {
-		langObj.fr += 1;
-		if (langObj.fr >= 2) return false;
+	} else if (lang === 'cn') {
+		langObj.cn += 1;
+		if (langObj.cn >= 2) return false;
 		return true;
 	}
 };
@@ -59,7 +59,7 @@ const resetLangObj = () => {
 	return {
 		en: 0,
 		fi: 0,
-		fr: 0,
+		cn: 0,
 	};
 };
 
@@ -87,7 +87,7 @@ export const downloadSubtitles = async (imdbCode: string) => {
 						if (
 							(resp.attributes.language === 'en' ||
 								resp.attributes.language === 'fi' ||
-								resp.attributes.language === 'fr') &&
+								resp.attributes.language === 'cn') &&
 							langParser(resp.attributes.language) === true
 						) {
 							return resp;
