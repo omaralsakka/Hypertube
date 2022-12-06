@@ -72,7 +72,7 @@ The used torrent APIs are NOT LEGAL, so stream the movies at your own risk. This
 
 ## Contributors
 
-* [Omar Alsakka](https://github.com/omaralsakka): Front-end, Visual design
-* [Luke Lönnroth](https://github.com/Microsmosis): Streaming, Back-end, API
-* [Ville Niemi](https://github.com/vilniemi): Backend, API
-* Jukka Ylimaula: DevOps, Login/Signup system, Backend, API
+* [Omar Alsakka](https://github.com/omaralsakka): Front end and visual design
+* [Luke Lönnroth](https://github.com/Microsmosis): Streaming, back end and API
+* [Ville Niemi](https://github.com/vilniemi): Back end and API
+* Jukka Ylimaula: DevOps, login/signup system, back end, API
