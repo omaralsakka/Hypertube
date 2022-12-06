@@ -1,5 +1,5 @@
 # Hypertube 
-![Hypertube](https://img.shields.io/github/languages/top/Jukkay/hypertube)
+![Hypertube](https://img.shields.io/github/languages/Jukkay/hypertube)
 
 ## Description
 
