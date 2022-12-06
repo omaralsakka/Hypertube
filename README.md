@@ -3,18 +3,16 @@
 
 ## Description
 
-Hypertube is the last project of Hive Helsiki's web branch. It's a streaming app similar to Netflix, but it downloads and caches bittorrents to server and then streams them to the user.
+Hypertube is the last project of Hive Helsinki's web branch. It's a streaming app similar to Netflix, but it downloads and caches bittorrents to server and then streams them to the user.
 
 ## Features
 
 * Authentication using Next-Auth
-* Authorization with JWT
 * OAuth login and sign up
 * Credentials login and signup
 * Login using email verification
 * Movie search
 * Movie streaming
-* Movie player
 * Subtitles
 * Movie information from IMDB
 * Caching of movies for 30 days
