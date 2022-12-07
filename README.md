@@ -77,4 +77,4 @@ This is also why we won't be providing a deployed version of the app.
 * [Omar Alsakka](https://github.com/omaralsakka): Front end and visual design
 * [Luke Lönnroth](https://github.com/Microsmosis): Streaming, back end and API
 * [Ville Niemi](https://github.com/vilniemi): Front end and external API integration
-* Jukka Ylimaula: DevOps, login/signup system, back end and API
+* [Jukka Ylimaula](https://github.com/Jukkay): DevOps, login/signup system, back end and API
