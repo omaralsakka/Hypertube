@@ -68,11 +68,13 @@ DELIMITERS E'\t' CSV header;
 
 ## Disclaimer
 
-The used torrent APIs are NOT LEGAL, so stream the movies at your own risk. This is also why we won't be providing a deployed version of the app.
+This project is purely for educational purposes and we do not advocate or condone piracy in any way. 
+:warning: WARNING! The used torrent APIs are NOT LEGAL, so stream the movies at your own risk. :warning:
+This is also why we won't be providing a deployed version of the app.
 
 ## Contributors
 
 * [Omar Alsakka](https://github.com/omaralsakka): Front end and visual design
 * [Luke Lönnroth](https://github.com/Microsmosis): Streaming, back end and API
-* [Ville Niemi](https://github.com/vilniemi): Back end and API
-* Jukka Ylimaula: DevOps, login/signup system, back end, API
+* [Ville Niemi](https://github.com/vilniemi): Front end and external API integration
+* Jukka Ylimaula: DevOps, login/signup system, back end and API
