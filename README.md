@@ -66,10 +66,9 @@ DELIMITERS E'\t' CSV header;
 ```
 10. Browse to [http://localhost:3000](http://localhost:3000) and sign up.
 
-## Disclaimer
+## :warning: WARNING
 
-This project is purely for educational purposes and we do not advocate or condone piracy in any way. 
-:warning: WARNING! The used torrent APIs include copyrighted material so downloading / streaming them might NOT BE LEGAL. Browsing the titles isn't against the law but stream the movies at your own risk. :warning:
+This project is purely for educational purposes and we do not advocate or condone piracy in any way. The used torrent API includes copyrighted material so downloading / streaming them might NOT BE LEGAL. Browsing the titles isn't against the law but stream the movies at your own risk. Pressing the play button initiates download. :warning:
 This is also why we won't be providing a deployed version of the app.
 
 ## Contributors
