@@ -69,7 +69,7 @@ DELIMITERS E'\t' CSV header;
 ## Disclaimer
 
 This project is purely for educational purposes and we do not advocate or condone piracy in any way. 
-:warning: WARNING! The used torrent APIs are NOT LEGAL, so stream the movies at your own risk. :warning:
+:warning: WARNING! The used torrent APIs include copyrighted material so downloading / streaming them might NOT BE LEGAL. Browsing the titles isn't against the law but stream the movies at your own risk. :warning:
 This is also why we won't be providing a deployed version of the app.
 
 ## Contributors
