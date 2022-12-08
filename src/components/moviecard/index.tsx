@@ -1,8 +1,8 @@
 import { Card } from 'react-bootstrap';
 import { Movie } from '../../types/appTypes';
-import Link from 'next/link';
 import MovieCardOverlay from '../movieCardOverlay';
-import { motion } from 'framer-motion';
+import { LazyMotion, m } from 'framer-motion';
+
 const MovieCard = ({
 	movie,
 	style,
@@ -12,19 +12,16 @@ const MovieCard = ({
 	style: string;
 	viewType: string;
 }) => {
+	const loadFeatures = () => import('./features.js').then((res) => res.default);
+
 	if (!movie) {
 		return <></>;
 	}
 	return (
 		<>
-			{/* <Link
-				href={{
-					pathname: `/home/${movie.imdb_code}`,
-					// query: { movie: JSON.stringify(movie) },
-				}}
-			> */}
-				<a href={`/home/${movie.imdb_code}`}>
-					<motion.div
+			<a href={`/home/${movie.imdb_code}`}>
+				<LazyMotion features={loadFeatures} strict>
+					<m.div
 						initial={{ opacity: 0, scale: 0.5 }}
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{
@@ -45,8 +42,9 @@ const MovieCard = ({
 							/>
 							<MovieCardOverlay movie={movie} viewType={viewType} />
 						</Card>
-					</motion.div>
-				</a>
+					</m.div>
+				</LazyMotion>
+			</a>
 			{/* </Link> */}
 		</>
 	);

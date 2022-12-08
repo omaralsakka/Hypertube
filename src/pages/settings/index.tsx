@@ -1,6 +1,4 @@
 import { Container, Card, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootReducer } from '../../types/appTypes';
 import { useEffect, useState } from 'react';
 import * as z from 'zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -9,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormCheck } from 'react-bootstrap';
 import PhotoUpload from '../../components/photoupload';
 import { MdAlternateEmail } from 'react-icons/md';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { HiUser } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
@@ -19,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 
 const Settings = () => {
-	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const [passType, setPassType] = useState('password');
 	const [currentImage, setCurrentImage] = useState('/defaultImg2.png');
 	const [accountType, setAccountType] = useState<string | undefined>('');
@@ -27,9 +24,9 @@ const Settings = () => {
 	const { data: session, status } = useSession();
 
 	const { t }: i18translateType = useTranslation('common');
-	const { isLoading, isError, data, error, isSuccess } = trpc.user.get.useQuery(
-		{ id: !session?.token?.user?.id ? '0' : session?.token?.user?.id }
-	);
+	const { data } = trpc.user.get.useQuery({
+		id: !session?.token?.user?.id ? '0' : session?.token?.user?.id,
+	});
 	const mutation = trpc.user.update.useMutation();
 	const schema = z.object({
 		name: z.string().min(1, { message: 'Required' }),
@@ -60,10 +57,16 @@ const Settings = () => {
 		}
 	}, [data]);
 
+	useEffect(() => {
+		if (success === 1) {
+			notifyUpload();
+		}
+	}, [success]);
+
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		try {
 			mutation.mutate({
-				id: session?.token?.user?.id,
+				id: session?.token?.user?.id || '0',
 				name: data.name,
 				email: data.email,
 				password: data.password,
@@ -82,11 +85,14 @@ const Settings = () => {
 	const notifyDefault = () =>
 		toast.success('Changes saved successfully', { position: 'top-center' });
 
+	const notifyUpload = () =>
+		toast.success('Picture uploaded successfully', { position: 'top-center' });
+
 	const {
 		register,
 		handleSubmit,
 		setValue,
-		formState: { errors, isSubmitting, isDirty, isValid },
+		formState: { isDirty, isValid },
 	} = useForm<Inputs>({
 		mode: 'onChange',
 		resolver: zodResolver(schema),
@@ -194,7 +200,9 @@ const Settings = () => {
 														</p>
 													) : null}
 												</div>
-												<p className="mb-4 d-flex align-items-center justify-content-center">{t('settings.givePassword')}</p>
+												<p className="mb-4 d-flex align-items-center justify-content-center">
+													{t('settings.givePassword')}
+												</p>
 												<div
 													className="mb-4 d-flex align-items-center justify-content-center"
 													style={{ minHeight: '5vh' }}

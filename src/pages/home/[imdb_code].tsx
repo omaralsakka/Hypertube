@@ -5,15 +5,12 @@ import { useState } from 'react';
 import {
 	Movies,
 	Movie,
-	MovieData,
 	MoviePostInfo,
 	Cast,
 	Crew,
 } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
-import SuggestionCard from '../../components/suggestionCard';
 import { motion } from 'framer-motion';
-import { trpc } from '../../utils/trpc';
 import { getSuggestedMovies } from '../../services/ytsServices';
 import CommentsSection from '../../components/commentsSection';
 import MovieDescription from '../../components/MovieDescription';
@@ -21,18 +18,18 @@ import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
-import { movieRate, getOmdb } from '../../utils/helperFunctions';
+import { movieRate } from '../../utils/helperFunctions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const MovieDB = require('moviedb')('99bfb76d8c47a3cb8112f5bf4e6bdd4d');
 
-const streamMovie = (movie: Movie | undefined) => {
-	// THIS CHANGE IS IMPORTANT
-	const response = fetch('/api/video/', {
-		method: 'POST',
-		body: JSON.stringify(movie),
-	});
-};
+// const streamMovie = (movie: Movie | undefined) => {
+// 	// THIS CHANGE IS IMPORTANT
+// 	const response = fetch('/api/video/', {
+// 		method: 'POST',
+// 		body: JSON.stringify(movie),
+// 	});
+// };
 
 import MovieScreen from '../../components/MovieScreen';
 import LoadingLogo from '../../components/loadingLogo';
@@ -46,11 +43,9 @@ const MoviePage = () => {
 
 	// const [movieData, setMovieData] = useState<Movie>();
 	const [suggestedMovies, setSuggestedMovies] = useState<Movies>();
-	const [recommendMovies, setRecommendMovies] = useState<any>([]);
-	const [loading, setLoading] = useState(false);
+	// const [recommendMovies, setRecommendMovies] = useState<any>([]);
 	const [movieUrl, setMovieUrl] = useState('');
 	const [crew, setCrew] = useState<any>([]);
-	const [subtitles, setSubtitles] = useState([]); // type this bad bwoe
 
 	const [movieInfo, setMovieInfo] = useState<MoviePostInfo>({
 		imdb_code: '',
@@ -76,7 +71,7 @@ const MoviePage = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			MovieDB.movieCredits({ id: movie?.imdb_code }, (err: any, res: any) => {
+			MovieDB.movieCredits({ id: movie?.imdb_code }, (_err: any, res: any) => {
 				setCrew(res);
 			});
 		};
@@ -99,30 +94,30 @@ const MoviePage = () => {
 		}
 	}, [status]);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			MovieDB.movieSimilar({ id: movie?.imdb_code }, (err: any, res: any) => {
-				setRecommendMovies(res.results);
-			});
-		};
-		if (movie?.id) {
-			fetchData();
-		}
-	}, [movie]);
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		MovieDB.movieSimilar({ id: movie?.imdb_code }, (err: any, res: any) => {
+	// 			setRecommendMovies(res.results);
+	// 		});
+	// 	};
+	// 	if (movie?.id) {
+	// 		fetchData();
+	// 	}
+	// }, [movie]);
 
-	const handleClick = async () => {
-		// THESE CHANGES ARE IMPORTANT
-		const result = await axios.post('/api/video/', movie);
-		setMovieInfo(result.data.data);
-		if (movie) {
-			const subsArray = await axios.get(
-				`/api/subtitles?imdbCode=${movie.imdb_code}`,
-				{}
-			);
-			setSubtitles(subsArray.data);
-			setLoading(true);
-		}
-	};
+	// const handleClick = async () => {
+	// 	// THESE CHANGES ARE IMPORTANT
+	// 	const result = await axios.post('/api/video/', movie);
+	// 	setMovieInfo(result.data.data);
+	// 	if (movie) {
+	// 		const subsArray = await axios.get(
+	// 			`/api/subtitles?imdbCode=${movie.imdb_code}`,
+	// 			{}
+	// 		);
+	// 		setSubtitles(subsArray.data);
+	// 		setLoading(true);
+	// 	}
+	// };
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {

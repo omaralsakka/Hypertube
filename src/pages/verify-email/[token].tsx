@@ -2,7 +2,7 @@ import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
-import { Container, Card, Form, Button } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import { flexColCenter } from '../../styles/styleVariables';
 import { useTranslation } from 'react-i18next';
 import { i18translateType } from '../../types/appTypes';

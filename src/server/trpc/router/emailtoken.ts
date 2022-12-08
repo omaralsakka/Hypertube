@@ -1,6 +1,5 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
 import { sendEmailVerification } from '../../../utils/sendEmailVerification';
 import { signEmailToken, verifyJWT } from '../../../utils/promisifyJWT';
 

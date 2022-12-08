@@ -5,24 +5,20 @@ import { Movie } from '../../types/appTypes';
 import MovieCard from '../../components/moviecard';
 import FilterControls from '../../components/filtercontrols';
 import { useSession } from 'next-auth/react';
-import LoadingLogo from '../../components/loadingLogo';
 import { trpc } from '../../utils/trpc';
-import { flexColCenter, flexRowCenter } from '../../styles/styleVariables';
+import { flexColCenter } from '../../styles/styleVariables';
 import axios from 'axios';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import SignupImage from '../../components/signupImage';
 
 const Home = () => {
-	const context = trpc.useContext();
-
-	const [loader, setLoader] = useState(true);
 	const { data: session, status } = useSession();
 	const [movies, setMovies] = useState<any[]>([]);
 	const [page, setPage] = useState(0);
-	const [isLoading, setIsLoading] = useState(false);
+	// const [isLoading, setIsLoading] = useState(false);
 	const [search_term, setsearch_ter] = useState('');
-	const controller = new AbortController();
+	// const controller = new AbortController();
 	const [hasMore, setHasMore] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const hasNextPage = true;
@@ -49,7 +45,7 @@ const Home = () => {
 	);
 	useEffect(() => {
 		const getMovies = async () => {
-			setIsLoading(true);
+			// setIsLoading(true);
 			try {
 				const response = await axios('/api/movie', {
 					method: 'POST',
@@ -74,7 +70,7 @@ const Home = () => {
 			} catch (e) {
 				console.error(e);
 			}
-			setIsLoading(false);
+			// setIsLoading(false);
 		};
 		// if (isLoading) {
 		// 	controller.abort();
@@ -110,7 +106,7 @@ const Home = () => {
 	// };
 
 	const onSearchChange = (e: any) => {
-		const { name, value } = e.target;
+		const { value } = e.target;
 		setsearch_ter(value);
 		setPage(0);
 		setHasMore(true);
@@ -195,7 +191,7 @@ const Home = () => {
 					<LoadingLogo />
 				) : ( */
 	}
-	const renderLoader = () => <p>Loading</p>;
+	// const renderLoader = () => <p>Loading</p>;
 	return (
 		<>
 			{status !== 'authenticated' ? (

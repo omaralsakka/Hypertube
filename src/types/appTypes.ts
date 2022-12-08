@@ -1,5 +1,4 @@
 import { TOptions } from 'i18next';
-import { date } from 'zod';
 import { rootReducer } from '../store/store';
 
 export type i18translateType = {

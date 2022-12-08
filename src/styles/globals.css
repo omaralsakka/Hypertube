@@ -305,4 +305,8 @@ input[type='file'] {
 	.cinemaImage {
 		width: 180vw;
 	}
+	.photo-upload {
+		max-width: 120px;
+		max-height: 120px;
+	}
 }

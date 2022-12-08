@@ -30,7 +30,7 @@ export const userRouter = router({
 			// Create token
 			const token = await signEmailToken(input.email);
 			// Create new user if not exists
-			const newUser = await ctx.prisma.user.upsert({
+			await ctx.prisma.user.upsert({
 				where: {
 					email: input.email,
 				},
@@ -132,6 +132,8 @@ export const userRouter = router({
 					name: true,
 					email: true,
 					image: true,
+					emailVerified: true,
+					firstLogin: true,
 					accounts: {
 						select: {
 							type: true,
@@ -147,8 +149,8 @@ export const userRouter = router({
 			// 		cause: input.id,
 			// 	});
 			return {
-				message: 'User information retrieved successfully',
 				user: user,
+				message: 'User information updated successfully',
 			};
 		}),
 
@@ -181,7 +183,7 @@ export const userRouter = router({
 	updateFirstLogin: publicProcedure
 		.input(z.string().min(1).max(30))
 		.mutation(async ({ input, ctx }) => {
-			const updatedUser = await ctx.prisma?.user.update({
+			await ctx.prisma?.user.update({
 				where: {
 					id: input,
 				},

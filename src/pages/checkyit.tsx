@@ -1,4 +1,4 @@
-import { Container, Card } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -8,7 +8,6 @@ const Checkyit = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const response = await axios.get(`/api/latest-movie`);
-			console.log(response.data);
 			setNumOfMovies(response.data);
 		};
 		fetchData();

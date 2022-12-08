@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 
 interface Subtitles {
 	kind: string;

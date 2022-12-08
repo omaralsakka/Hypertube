@@ -79,7 +79,14 @@
 			"Sci-Fi": "Sci-Fi",
 			"Thriller": "Trilleri",
 			"War": "Sota",
-			"Western": "Western"
+			"Western": "Western",
+			"undefined": "",
+			"Music": "Musikaali",
+			"Musical": "Musikaali",
+			"Biography": "Biografia",
+			"Animation": "Animaatio",
+			"Sport": "Urheilu",
+			"History": "Historia"
 		},
 		"description": "Kuvaus",
 		"language": {

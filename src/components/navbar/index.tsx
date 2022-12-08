@@ -1,7 +1,5 @@
 import { useSession } from 'next-auth/react';
 import { Container, Navbar, Image, Nav } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootReducer } from '../../types/appTypes';
 import { motion } from 'framer-motion';
 import LanguageMenu from '../languageMenu';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +11,6 @@ import { trpc } from '../../utils/trpc';
 
 const NavigationBar = () => {
 	const LogoPng = '/logo-hypertube/logo-no-background.png';
-	const userInStore = useSelector((state: RootReducer) => state.userReducer);
 	const { t }: i18translateType = useTranslation('common');
 	const { i18n } = useTranslation('common');
 	const { data: session } = useSession();
@@ -32,13 +29,10 @@ const NavigationBar = () => {
 			if (data?.user?.image) {
 				data?.user?.image.includes('http')
 					? setUserImg(data?.user?.image)
-					: setUserImg(`/images/${data?.user?.image}`);
+					: setUserImg(`/api/userimages/${data?.user?.image}`);
 			} else {
 				setUserImg('/defaultImg2.png');
 			}
-			// data?.user?.image !== null
-			// 	? setUserImg(`/images/${data?.user?.image}`)
-			// 	: setUserImg('/defaultImg2.png');
 		}
 	}, [data]);
 

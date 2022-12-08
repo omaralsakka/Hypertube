@@ -52,7 +52,6 @@ export default async function streamVideo(
 			let movieInfo: any = false;
 			let isMovieDownloaded: any;
 			const data = req.body;
-			const id: number = data.id;
 			const imdbCode: string = data.imdb_code;
 			const movieTitle: string = data.title_long;
 			const torrents: any[] = await getTorrents(data.id);

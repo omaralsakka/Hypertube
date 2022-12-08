@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../server/db/client';
-var fs = require('fs');
+import fs from 'fs';
 
 const getLatestMovie = async () => {
 	const latest = await prisma.movie.findMany({
@@ -12,8 +12,8 @@ const getLatestMovie = async () => {
 	return latest[0]?.id;
 };
 
-const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
-	const movies = await prisma.$queryRaw`COPY "Movie"(
+const updateMovie = async (_req: NextApiRequest, res: NextApiResponse) => {
+	await prisma.$queryRaw`COPY "Movie"(
       id,
       url,
       imdb_code,
@@ -44,7 +44,7 @@ const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
       '/new-torrents/new_movies.tsv' DELIMITERS E'\t' CSV header;
     `;
 
-	const torrents = await prisma.$queryRaw`COPY "Torrent"(
+	await prisma.$queryRaw`COPY "Torrent"(
       url,
       hash,
       quality,
@@ -61,12 +61,11 @@ const updateMovie = async (req: NextApiRequest, res: NextApiResponse) => {
       '/new-torrents/new_torrents.tsv' DELIMITERS E'\t' CSV header;`;
 
 	const latest = await getLatestMovie();
-	console.log(latest);
-
-	fs.writeFile('/new-torrents/latest', latest?.toString(), function (err: any) {
-		if (err) throw err;
-		console.log('File is created successfully.');
-	});
+  if (latest) {
+    fs.writeFile('/app/new-torrents/latest', latest.toString(), function (err: any) {
+      if (err) throw err;
+    });
+  }
 
 	return res.status(200).json({ message: 'update complete' });
 };

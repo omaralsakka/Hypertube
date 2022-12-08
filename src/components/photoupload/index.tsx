@@ -25,6 +25,7 @@ const PhotoUpload = ({
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (!event.target.files || event.target.files.length !== 1) {
 			setFileAmountError(true);
+			selectImgError();
 			return;
 		}
 		if (event.target.files.length) {
@@ -34,10 +35,6 @@ const PhotoUpload = ({
 				setFile(event.target.files[0]);
 			}
 		}
-
-		// setFileError(false);
-		// setFileAmountError(false);
-		// setFile(event.target.files[0]);
 	};
 
 	useEffect(() => {
@@ -51,7 +48,8 @@ const PhotoUpload = ({
 			});
 			if (response.status === 201) {
 				const data = await response.json();
-				if (data.filename) setPhoto(`/images/${data.filename}`);
+				if (data.filename) setPhoto(`/api/userimages/${data.filename}`);
+				console.log('uploaded filename', data.filename)
 				setSuccess(1);
 			} else {
 				setFileError(true);
@@ -70,7 +68,8 @@ const PhotoUpload = ({
 			filepath = '/defaultImg2.png';
 		else if (currentImage && currentImage.search('http') > -1)
 			filepath = currentImage;
-		else filepath = `/images/${currentImage}`;
+		else filepath = `/api/userimages/${currentImage}`;
+		console.log('setting filepath to', filepath)
 		setPhoto(filepath);
 	}, [currentImage]);
 
@@ -107,7 +106,7 @@ const PhotoUpload = ({
 						<AiOutlineCloudUpload className="display-1 iconImage" />
 					</label>
 					<img
-						src={`${photo}`}
+						src={photo}
 						alt="user profile image"
 						className="avatar-img rounded-circle"
 						onError={({ currentTarget }) => {

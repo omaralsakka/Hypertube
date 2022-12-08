@@ -4,8 +4,6 @@ import GitHubProvider from 'next-auth/providers/github';
 import FortyTwoProvider from 'next-auth/providers/42-school';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import EmailProvider from 'next-auth/providers/email';
-
-// Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../server/db/client';
 import { verify } from 'argon2';
@@ -111,7 +109,7 @@ export const authOptions: NextAuthOptions = {
 			return session;
 		},
 		// This callback defines login logic. We can approve or deny login depending on user and account data, and redirect to user to appropriate page when denied login. This is not necessary, if we're ok with standard logic.
-		async signIn({ user, account, profile }) {
+		async signIn({ user, account }) {
 			// Check if user's email has been verified
 			// This is necessary trick to avoid type errors when accessing user properties
 			const adapterUser = user as AdapterUser;
@@ -162,7 +160,7 @@ export const authOptions: NextAuthOptions = {
 	// async session(message) { /* session is active */ },
 	// },
 	// Turn on for debugging
-	debug: true,
+	// debug: true,
 };
 
 export default NextAuth(authOptions);

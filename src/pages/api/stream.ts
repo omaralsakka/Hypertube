@@ -8,6 +8,7 @@ import { unstable_getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
+import { OutgoingHttpHeaders } from 'http';
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
@@ -23,11 +24,11 @@ export default async function createStream(
 ) {
 	const session = await unstable_getServerSession(req, res, authOptions);
 
-	if (session?.token && req.url.length > 35) {
-		const regexPath: RegExp = /path=(.*)&/;
-		const regexImdb: RegExp = /imdbCode=(.*?)&/;
-		const regexSize: RegExp = /size=(.*)/;
-		const regexRange: RegExp = /bytes=(.*)-/;
+	if (session?.token && req?.url && req.url.length > 35) {
+		const regexPath = /path=(.*)&/;
+		const regexImdb = /imdbCode=(.*?)&/;
+		const regexSize = /size=(.*)/;
+		const regexRange = /bytes=(.*)-/;
 
 		let moviePath: RegExpMatchArray | string | null | undefined =
 			req.url?.match(regexPath);
@@ -59,7 +60,7 @@ export default async function createStream(
 				parsedRange = Number(parsedRange[1]);
 			}
 
-			let isMp4: boolean = false;
+			let isMp4 = false;
 			if (videoPath.endsWith('mp4') && videoPath.includes('YTS')) {
 				isMp4 = true;
 			} else if (
@@ -69,16 +70,16 @@ export default async function createStream(
 				isMp4 = true;
 			}
 
-			const videoSize: number = Number(fullSize[1]);
-			const CHUNK_SIZE: number = 20e6;
-			let start: number = Number(range.replace(/\D/g, ''));
+			const videoSize = Number(fullSize[1]);
+			const CHUNK_SIZE = 20e6;
+			const start = Number(range.replace(/\D/g, ''));
 
 			const end: number = isMp4
 				? Math.min(start + CHUNK_SIZE, videoSize - 1)
 				: videoSize - 1;
 
 			const contentLength: number = end - start + 1;
-			const headers: {} = isMp4
+			const headers: OutgoingHttpHeaders = isMp4
 				? {
 						'Content-Range': `bytes ${start}-${end}/${videoSize}`,
 						'Accept-Ranges': 'bytes',
@@ -106,7 +107,7 @@ export default async function createStream(
 				ffmpeg(videoPath)
 					.toFormat('webm')
 					.videoBitrate('512k')
-					.on('error', (err) => {})
+					// .on('error', (err) => {})
 					.pipe(res);
 			}
 		} else {

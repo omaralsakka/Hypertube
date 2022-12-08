@@ -1,7 +1,7 @@
 import { Card } from 'react-bootstrap';
 import { User } from '../../types/appTypes';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+
 const UserCard = ({ user }: { user: User }) => {
 	if (!user) {
 		return <></>;

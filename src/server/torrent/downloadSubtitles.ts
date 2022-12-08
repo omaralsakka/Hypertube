@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { prisma } from '../../server/db/client';
 import https from 'https';
 import fs from 'fs';
@@ -25,7 +24,7 @@ const download = async (
 	}
 
 	const file = fs.createWriteStream(dest);
-	const request = https.get(url, (response) => {
+	https.get(url, (response) => {
 		response.pipe(file);
 		file.on('finish', function () {
 			file.close();
@@ -71,9 +70,9 @@ export const downloadSubtitles = async (imdbCode: string) => {
 			'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
 		},
 	};
-	const regex = /\D/g;
-	// eslint-disable-next-line prefer-const
-	let newImdbCode = Number(imdbCode.replace(regex, ''));
+	// const regex = /\D/g;
+	// // eslint-disable-next-line prefer-const
+	// let newImdbCode = Number(imdbCode.replace(regex, ''));
 
 	fetch(
 		`https://api.opensubtitles.com/api/v1/subtitles?imdb_id=${imdbCode}`,
